@@ -13,9 +13,9 @@ import java.util.*;
 
 public class TestDataProvider extends BaseTest {
 
-    private static Logger logger = Logger.getLogger(TestDataProvider.class);
+    private static final Logger logger = Logger.getLogger(TestDataProvider.class);
 
-    private static List<String> testDescription = new ArrayList<>();
+    private static final List<String> testDescription = new ArrayList<>();
 
     private static String testDataFilePath;
 

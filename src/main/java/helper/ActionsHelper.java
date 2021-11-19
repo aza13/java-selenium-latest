@@ -7,7 +7,7 @@ import org.openqa.selenium.interactions.Actions;
 
 public class ActionsHelper {
 
-    private static Logger logger = Logger.getLogger(ActionsHelper.class);
+    private static final Logger logger = Logger.getLogger(ActionsHelper.class);
 
     private ActionsHelper(){
 

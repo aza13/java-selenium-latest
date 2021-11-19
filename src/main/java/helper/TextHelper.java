@@ -9,7 +9,7 @@ import org.openqa.selenium.WebElement;
 
 public class TextHelper {
 
-    private static Logger logger = Logger.getLogger(TextHelper.class);
+    private static final Logger logger = Logger.getLogger(TextHelper.class);
     
     private TextHelper(){
         
@@ -42,11 +42,17 @@ public class TextHelper {
         }
     }
 
-    public static String getText(WebDriver driver, By elementLocator) {
+    public static String getText(WebDriver driver, By elementLocator, String parameter) {
 
         logger.info("Getting the text from the given element "+elementLocator+" :: getText: ");
         try {
-            return driver.findElement(elementLocator).getText();
+            if (parameter.equals("text")) {
+                return driver.findElement(elementLocator).getText();
+            }else if(parameter.equals("value")){
+                return driver.findElement(elementLocator).getAttribute("value");
+            }else{
+                return null;
+            }
         } catch (Exception e) {
             logger.error("Failed to get the text from the element " + elementLocator+" :: getText");
             throw (e);

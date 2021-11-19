@@ -37,7 +37,7 @@ public class BaseTest {
     protected static ExtentTest testLogger;
     private static int index = 0;
 
-    private static Logger logger = Logger.getLogger(BaseTest.class);
+    private static final Logger logger = Logger.getLogger(BaseTest.class);
 
     @BeforeSuite(alwaysRun = true)
     public static void configSetUpMethod() {
@@ -72,14 +72,14 @@ public class BaseTest {
     @BeforeMethod(alwaysRun = true)
     public static void beforeMethodSetUp(Method method, ITestContext context) throws MalformedURLException {
         logger.info("Initialisation the browser  DriverManager.getDriver()::beforeMethodSetUp");
-        List<String> list = TestDataProvider.getTestDescription();
+        /*List<String> list = TestDataProvider.getTestDescription();
         testLogger = classLogger.createNode(method.getName() + "_" + list.get(index));
-        index++;
+        index++;*/
+        testLogger = classLogger.createNode(method.getName());
         DriverManager.getDriver().manage().deleteAllCookies();
         DriverManager.getDriver().manage().window().maximize();
         DriverManager.getDriver().navigate().to(appUrl);
         DriverManager.getDriver().manage().timeouts().pageLoadTimeout(15, TimeUnit.SECONDS);
-//        DriverManager.getDriver().manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
     }
 
 
