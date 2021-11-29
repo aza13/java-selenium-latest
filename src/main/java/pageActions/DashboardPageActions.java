@@ -1,9 +1,11 @@
 package pageActions;
 
 import base.BaseTest;
+import base.PageObjectManager;
 import helper.ClickHelper;
 import helper.DropdownHelper;
 import helper.TextHelper;
+import helper.WaitHelper;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -29,13 +31,18 @@ public class DashboardPageActions extends BaseTest {
     }
 
     public void clickProfileSettings(WebDriver driver){
-
+        WaitHelper.waitForElementVisibility(driver, newQuoteButton);
+        WaitHelper.waitForElementClickable(driver, profileSettings);
         ClickHelper.clickElement(driver, profileSettings);
     }
 
-    public void enterBrokerId(WebDriver driver, String brokerId){
+    public void enterBrokerId(WebDriver driver, String brokerId) throws InterruptedException {
 
         TextHelper.enterText(driver, brokerIdField, brokerId);
+        /*Actions action = new Actions(driver);
+        action.sendKeys(Keys.TAB).build().perform();*/
+        // tem wait
+        Thread.sleep(6000);
     }
 
     public void enterAgencyId(WebDriver driver, String agencyId) throws InterruptedException {
@@ -99,7 +106,7 @@ public class DashboardPageActions extends BaseTest {
 
     public List<WebElement> getSubmissionsList(WebDriver driver) {
         try {
-            return driver.findElements(submissionsList);
+            return driver.findElements(quotesList);
         } catch (Exception e) {
             testLogger.fail("failed to verify the my quote tab :: getSubmissionsList" + e.getMessage());
             logger.error("failed to verify the my quote tab :: getSubmissionsList");
@@ -107,12 +114,10 @@ public class DashboardPageActions extends BaseTest {
         }
     }
 
-    public void verifySubmissionListLabels(WebDriver driver) {
+    public List<WebElement> getQuoteTableLabels(WebDriver driver) {
         try {
-            List<WebElement> labels = driver.findElements(submissionListLabels);
-            for (WebElement label : labels) {
-                System.out.println(label.getText());
-            }
+            List<WebElement> labels = driver.findElements(quotesListLabels);
+            return labels;
         } catch (Exception e) {
             testLogger.fail("failed to verify the my quote tab :: myPoliciesTabTitle" + e.getMessage());
             logger.error("failed to verify the my quote tab :: myPoliciesTabTitle");
@@ -132,9 +137,12 @@ public class DashboardPageActions extends BaseTest {
         TextHelper.enterText(driver, websiteField, website);
     }
 
-    public void clickContinueButton(WebDriver driver){
+    public InsuredPageActions clickContinueButton(WebDriver driver) throws InterruptedException {
 
         ClickHelper.clickElement(driver, continueButton);
+        Thread.sleep(5000);
+//        WaitHelper.waitForElementVisibility(driver, InsuredPageObjects.newInsuredButton);
+        return PageObjectManager.getInsuredPageActions();
     }
 
     public void clickCancelButton(WebDriver driver){
@@ -177,7 +185,69 @@ public class DashboardPageActions extends BaseTest {
         return driver.findElement(websiteRequiredText);
     }
 
+    public void validateQuoteStatusColorCoding(WebDriver driver){
 
+        List<WebElement> quoteStatusList = driver.findElements(quoteStatus);
 
+        int count = quoteStatusList.size();
+
+        if (count > 0){
+            for (WebElement statusElement : quoteStatusList) {
+                String status = statusElement.getText();
+                String color = statusElement.getAttribute("style").split(":")[1].replace(";", "").trim();
+                switch (status) {
+                    case "Active":
+                        assert color.equals("blue");
+                        break;
+                    case "Renewed":
+                        assert color.equals("black");
+                        break;
+                    case "Expired":
+                        assert color.equals("grey");
+                        break;
+                    case "Declined":
+                        assert color.equals("red");
+                        break;
+                }
+            }
+        }
+
+     }
+
+    public void validatePolicyStatusColorCoding(WebDriver driver){
+
+        List<WebElement> policyStatusList = driver.findElements(policyStatus);
+
+        int count = policyStatusList.size();
+
+        if (count > 0){
+            for (WebElement statusElement : policyStatusList) {
+                String status = statusElement.getText();
+                String color = statusElement.getCssValue("color");
+                switch (status) {
+                    case "Active":
+                        assert color.equals("blue");
+                        break;
+                    case "Renewed":
+                        assert color.equals("black");
+                        break;
+                    case "Expired":
+                        assert color.equals("grey");
+                        break;
+                    case "Declined":
+                        assert color.equals("red");
+                        break;
+                }
+            }
+        }
+
+    }
+
+    public LoginPageActions logoutApp(WebDriver driver){
+        logger.info("logging out from the application");
+        clickProfileSettings(driver);
+        signOutLink(driver).click();
+        return PageObjectManager.getLoginPageActions();
+    }
 
 }

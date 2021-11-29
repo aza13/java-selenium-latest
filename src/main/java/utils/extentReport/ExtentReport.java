@@ -11,7 +11,7 @@ import java.util.Date;
 
 public class ExtentReport {
 
-    private static Logger logger = Logger.getLogger(ExtentReport.class);
+    private static final Logger logger = Logger.getLogger(ExtentReport.class);
 
     private ExtentReport(){
 
@@ -24,7 +24,7 @@ public class ExtentReport {
         DateFormat dateFormat = new SimpleDateFormat("ddMMyyyy_HHmmss");
         Date date = new Date();
 
-        String reportPath = System.getProperty("user.dir")+"\\reports\\"+dateFormat.format(date)+"Snap.html";
+        String reportPath = System.getProperty("user.dir")+"\\reports\\"+dateFormat.format(date)+"_bp_ui.html";
 
         logger.info("Report path is - "+reportPath);
 
@@ -35,7 +35,7 @@ public class ExtentReport {
         extent.attachReporter(sparkReporter);
 
         //Report Config
-        sparkReporter.config().setDocumentTitle("Snap Automation Results Report");
+        sparkReporter.config().setDocumentTitle("Broker Portal UI Automation Results Report");
         sparkReporter.config().setReportName("Regression Test Results Report");
         sparkReporter.config().setTheme(Theme.DARK);
 

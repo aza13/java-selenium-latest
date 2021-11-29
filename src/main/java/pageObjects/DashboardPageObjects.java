@@ -14,19 +14,21 @@ public class DashboardPageObjects {
 
     public static final By signOutLink = By.id("action_item_signout");
 
-    public static final By brokerIdField = By.xpath("(//input[@id='filled-basic'])[1]");
+    public static final By brokerIdField = By.id("txt-brokerid");
 
-    public static final By agencyIdField = By.xpath("(//input[@id='filled-basic'])[2]");
+    public static final By agencyIdField = By.id("txt-AgencyOfficeId");
 
     public static final By myQuotesTab = By.id("simple-tab-0");
 
     public static final By myPoliciesTab = By.id("simple-tab-1");
 
-    public static final By submissionsList = By.xpath("//div[@id='listGridHeader']/following-sibling::div");
+    public static final By quotesList = By.xpath("//div[@id='listGridHeader']/following-sibling::div");
 
-    public static final By submissionListLabels = By.xpath("(//div[@id='listGridHeader']/following-sibling::div/div)[1]/div");
+    public static final By quotesListLabels = By.xpath("(//div[@id='listGridHeader']/following-sibling::div/div)[1]/div/div/div");
 
-    public static final By submission_ref_label = By.xpath("//div[text()='Reference']");
+    public static final By quotesRefLabel = By.xpath("//div[text()='Reference']");
+
+    public static final By quoteStatus = By.xpath("//div[text()='Status']/following-sibling::p");
 
     public static final By newQuoteButton = By.xpath("//button[text()='New Quote']/span");
 
@@ -47,6 +49,8 @@ public class DashboardPageObjects {
     public static final By nameRequiredText = By.xpath("//p[text()='Name is required']");
 
     public static final By websiteRequiredText = By.xpath("//p[text()='Name is required']");
+
+    public static final By policyStatus = By.xpath("//div[@data-qa='status']");
 
 
 

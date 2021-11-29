@@ -27,11 +27,11 @@ public class ExtentManager {
 
         String reportPath = System.getProperty("user.dir") + "\\reports\\" + "results_report.html";
 
-        //String reportPath = System.getProperty("user.dir") + "\\Reports\\" + dateFormat.format(date) + "_Parallel_ResultsReport.html";
+        /* String reportPath = System.getProperty("user.dir") + "\\Reports\\" + dateFormat.format(date) + "_Parallel_ResultsReport.html"; */
 
         ExtentSparkReporter sparkReporter  = new ExtentSparkReporter(reportPath);
 
-//        ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(reportPath);
+        /* ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(reportPath); */
 
         extent = new ExtentReports();
 

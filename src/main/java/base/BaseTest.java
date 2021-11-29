@@ -36,6 +36,8 @@ public class BaseTest {
     protected static ExtentTest classLogger;
     protected static ExtentTest testLogger;
     private static int index = 0;
+    private static String userId;
+    private static String password;
 
     private static final Logger logger = Logger.getLogger(BaseTest.class);
 
@@ -62,6 +64,10 @@ public class BaseTest {
 
         appUrl = prop.getProperty("appUrl");
 
+        userId = prop.getProperty("userId");
+
+        password = prop.getProperty("password");
+
         logger.info("Given application URL is: " + appUrl);
 
         logger.info("Initialising extent report");
@@ -80,6 +86,7 @@ public class BaseTest {
         DriverManager.getDriver().manage().window().maximize();
         DriverManager.getDriver().navigate().to(appUrl);
         DriverManager.getDriver().manage().timeouts().pageLoadTimeout(15, TimeUnit.SECONDS);
+        PageObjectManager.getLoginPageActions().loginApp(DriverManager.getDriver(), userId, password);
     }
 
 
@@ -95,7 +102,6 @@ public class BaseTest {
 
         try {
             screenShotPath = System.getProperty("user.dir") + "\\reports\\screenshots\\" + testName + "_screenshot.png";
-            //screenShotPath = System.getProperty("user.dir") + "\\Public\\Public Pictures\\Report\\" + testName + "_screenshot.png";
 
             logger.info("The screenshot is saved at " + screenShotPath);
 

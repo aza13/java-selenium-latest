@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class ExtentTestManager {
 
-    private static Logger logger = Logger.getLogger(ExtentTestManager.class);
+    private static final Logger logger = Logger.getLogger(ExtentTestManager.class);
 
     private static Map<Integer, ExtentTest> extentTestMap = new HashMap<Integer, ExtentTest>();
 
