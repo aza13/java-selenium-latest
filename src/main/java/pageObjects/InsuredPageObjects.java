@@ -6,9 +6,36 @@ public class InsuredPageObjects {
 
     }
 
-    public static final By newInsuredButton = By.xpath("//button[text()=' New Insured']");
-    public static final By modifySearchButton = By.xpath("//button[text()='Modify Search']");
+    public static final By newInsuredButton = By.id("btn-new-insured");
+    public static final By searchResults = By.xpath("//p[contains(text(), 'Search Results')]");
+    public static final By modifySearchNameField = By.id("txt-modify-search-name");
+    public static final By modifySearchWebsiteField = By.id("txt-modify-search-website");
+    public static final By searchAgainButton = By.id("btn-search-again");
     public static final By selectInsuredButton = By.xpath("//button[text()='Select']");
-    public static final By cancelButton = By.xpath("//button[text()='Cancel']");
-    public static final By continueButton = By.xpath("//button[text()='Continue']");
+    public static final By cancelInsuredSearchButton = By.id("btn-search-cancel");
+    public static final By continueInsuredSearchButton = By.id("btn-insured-continue");
+    public static final By modifySearchButton = By.xpath("//button[text()='Modify Search']");
+    public static final By insuredNameField = By.id("insured_name");
+    public static final By insuredWebsiteField = By.id("insured_website");
+    public static final By insuredFormEmailField = By.id("insured_form_email");
+    public static final By insuredPhysicalAddField = By.id("insured_p_address");
+    public static final By insuredPhysicalCityField = By.id("insured_p_city");
+    public static final By insuredPhysicalZipCode = By.id("insured_p_code");
+    public static final By emailRequiredText = By.id("insured_form_email-helper-text");
+    public static final By physicalAddressReqText = By.id("insured_p_address-helper-text");
+    public static final By physicalCityReqText = By.id("insured_p_city-helper-text");
+    public static final By physicalStateReText = By.id("insured_p_state-helper-text");
+    public static final By physicalZipcodeReqText = By.id("insured_p_code-helper-text");
+    public static final By mailingAddressReqText = By.id("insured_m_address-helper-text");
+    public static final By mailingCityReqText = By.id("insured_m_city-helper-text");
+    public static final By mailingStateReText = By.id("insured_p_state-helper-text");
+    public static final By mailingZipcodeReqText = By.id("insured_m_code-helper-text");
+    public static final By physicalStateDropdown = By.id("insured_p_state");
+    public static final By physicalStateOptions = By.xpath("//ul/li[contains(@id, 'insured_p_state-option')]");
+    public static final By sameAsPhyAddressCheckbox = By.xpath("//input[@type='checkbox']");
+    public static final By cancelInsuredFormButton = By.id("btn-insured-form-cancel");
+    public static final By continueInsuredFormButton = By.id("btn-insured-form-create");
+    public static final By clearInsuredNameButton = By.xpath("//button[@aria-label='Insured Name']");
+    public static final By clearInsuredWebsiteButton = By.xpath("//button[@aria-label='Website']");
+
 }

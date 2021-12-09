@@ -10,32 +10,44 @@ public class FakeDataHelper {
 
     private static final Logger logger = Logger.getLogger(FakeDataHelper.class);
 
-    Faker faker;
+    static Faker faker = new Faker(new Locale("en-US"));
 
-    public FakeDataHelper(){
 
-        faker = new Faker(new Locale("en-IND"));
-    }
-
-    public String firstName(){
+    public static String firstName() {
 
         return faker.name().firstName();
     }
 
-    public String lastName(){
+    public static String lastName() {
 
         return faker.name().lastName();
     }
 
-    public String phoneNumber(){
+    public static String phoneNumber() {
 
         return faker.phoneNumber().phoneNumber();
     }
 
-    public String email(){
+    public static String email() {
 
         return faker.internet().emailAddress();
     }
+
+    public static String address() {
+
+        return faker.address().fullAddress();
+    }
+
+    public static String zipcode() {
+
+        return faker.address().zipCodeByState("CA");
+    }
+
+    public static String city() {
+
+        return faker.address().city();
+    }
+
 
     public int randomInt(int digits) {
         int minimum = (int) Math.pow(10, digits - 1); // minimum value with 2 digits is 10 (10^1)

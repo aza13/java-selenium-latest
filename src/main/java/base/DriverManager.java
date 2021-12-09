@@ -8,11 +8,12 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.opera.OperaDriver;
 
 
 public class DriverManager {
 
-    private static Logger logger = Logger.getLogger(DriverManager.class);
+    private static final Logger logger = Logger.getLogger(DriverManager.class);
 
     private static String browserType;
 
@@ -38,17 +39,7 @@ public class DriverManager {
 
             switch (browser) {
                 case CHROME:
-
-                  /*  DesiredCapabilities caps = new DesiredCapabilities();
-                    caps.setPlatform(Platform.LINUX);
-                    caps.setBrowserName(org.openqa.selenium.remote.BrowserType.CHROME);
-                    try {
-
-                        driver = new RemoteWebDriver(new URL("http://localhost:32768/wd/hub"),caps);
-
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    }*/
+                    logger.info("Initialising the chrome browser");
                     WebDriverManager.chromedriver().setup();
                     ChromeOptions options = new ChromeOptions();
                     options.addArguments("--incognito");
@@ -56,13 +47,21 @@ public class DriverManager {
                     threadDriver.set(driver);
                     break;
                 case FIREFOX:
+                    logger.info("Initialising the firefox browser");
                     WebDriverManager.firefoxdriver().setup();
                     driver = new FirefoxDriver();
                     threadDriver.set(driver);
                     break;
                 case IE:
+                    logger.info("Initialising the ie browser");
                     WebDriverManager.iedriver().setup();
                     driver = new InternetExplorerDriver();
+                    threadDriver.set(driver);
+                    break;
+                case OPERA:
+                    logger.info("Initialising the opera browser");
+                    WebDriverManager.operadriver().setup();
+                    driver = new OperaDriver();
                     threadDriver.set(driver);
                     break;
             }

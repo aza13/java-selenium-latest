@@ -16,16 +16,16 @@ public class LoginPageActions extends BaseTest {
     private static final Logger logger = Logger.getLogger(LoginPageActions.class);
 
     public String getWelcomeText(WebDriver driver){
-
+        WaitHelper.waitForElementVisibility(driver, welcomeText);
         return TextHelper.getText(driver, welcomeText, "text");
     }
 
-    public void loginApp(WebDriver driver, String email_id, String password){
+    public DashboardPageActions loginApp(WebDriver driver, String email_id, String password){
 
         TextHelper.enterText(driver, emailTextField, email_id);
         TextHelper.enterText(driver, passwordTextField, password);
-        ClickHelper.clickElement(driver, signInButton);
-        /* return PageObjectManager.getDashboardPageActions(); */
+        ClickHelper.clickElement(driver, logInButton);
+         return PageObjectManager.getDashboardPageActions();
     }
 
     public WebElement pleaseProvideEmailPasswordText(WebDriver driver){

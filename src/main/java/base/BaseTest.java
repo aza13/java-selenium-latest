@@ -43,11 +43,6 @@ public class BaseTest {
 
     @BeforeSuite(alwaysRun = true)
     public static void configSetUpMethod() {
-
-       // System.setProperty("hudson.model.DirectoryBrowserSupport.CSP", "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; img-src 'self'; style-src 'self' 'unsafe-inline'; font-src *");
-
-       // System.setProperty("hudson.model.DirectoryBrowserSupport.CSP", "default-src 'self'; img-src 'self' data: *; style-src 'self' 'unsafe-inline'; child-src 'self'; frame-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; frame-ancestors 'self'");
-
         logger.info("Executing the @BeforeSuite - configSetUpMethod() in BaseTest ");
 
         Properties prop;
