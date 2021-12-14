@@ -36,16 +36,13 @@ public class BaseTest {
     protected static ExtentTest classLogger;
     protected static ExtentTest testLogger;
     private static int index = 0;
+    private static String userId;
+    private static String password;
 
     private static final Logger logger = Logger.getLogger(BaseTest.class);
 
     @BeforeSuite(alwaysRun = true)
     public static void configSetUpMethod() {
-
-       // System.setProperty("hudson.model.DirectoryBrowserSupport.CSP", "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; img-src 'self'; style-src 'self' 'unsafe-inline'; font-src *");
-
-       // System.setProperty("hudson.model.DirectoryBrowserSupport.CSP", "default-src 'self'; img-src 'self' data: *; style-src 'self' 'unsafe-inline'; child-src 'self'; frame-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; frame-ancestors 'self'");
-
         logger.info("Executing the @BeforeSuite - configSetUpMethod() in BaseTest ");
 
         Properties prop;
@@ -61,6 +58,10 @@ public class BaseTest {
         DriverManager.setBrowserType(browserName);
 
         appUrl = prop.getProperty("appUrl");
+
+        userId = prop.getProperty("userId");
+
+        password = prop.getProperty("password");
 
         logger.info("Given application URL is: " + appUrl);
 
@@ -80,6 +81,7 @@ public class BaseTest {
         DriverManager.getDriver().manage().window().maximize();
         DriverManager.getDriver().navigate().to(appUrl);
         DriverManager.getDriver().manage().timeouts().pageLoadTimeout(15, TimeUnit.SECONDS);
+        PageObjectManager.getLoginPageActions().loginApp(DriverManager.getDriver(), userId, password);
     }
 
 
@@ -95,7 +97,6 @@ public class BaseTest {
 
         try {
             screenShotPath = System.getProperty("user.dir") + "\\reports\\screenshots\\" + testName + "_screenshot.png";
-            //screenShotPath = System.getProperty("user.dir") + "\\Public\\Public Pictures\\Report\\" + testName + "_screenshot.png";
 
             logger.info("The screenshot is saved at " + screenShotPath);
 

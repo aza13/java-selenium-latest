@@ -14,19 +14,33 @@ public class DashboardPageObjects {
 
     public static final By signOutLink = By.id("action_item_signout");
 
-    public static final By brokerIdField = By.xpath("(//input[@id='filled-basic'])[1]");
+    public static final By brokerIdField = By.id("filled-basic");
 
-    public static final By agencyIdField = By.xpath("(//input[@id='filled-basic'])[2]");
+    public static final By agencyOfficeIdField = By.id("txt-AgencyOfficeId");
+
+    public static final By agencyIdField = By.id("txt-AgencyId");
 
     public static final By myQuotesTab = By.id("simple-tab-0");
 
     public static final By myPoliciesTab = By.id("simple-tab-1");
 
-    public static final By submissionsList = By.xpath("//div[@id='listGridHeader']/following-sibling::div");
+    public static final By quotesList = By.xpath("//div[@id='listGridHeader']/following-sibling::div");
 
-    public static final By submissionListLabels = By.xpath("(//div[@id='listGridHeader']/following-sibling::div/div)[1]/div");
+    public static final By quoteCard = By.xpath("//div[@data-qa='quote_card']");
 
-    public static final By submission_ref_label = By.xpath("//div[text()='Reference']");
+    public static final By noQuoteFoundText = By.xpath("//p[text()='No quotes found.']");
+
+    public static final By quotesListLabels = By.xpath("(//div[@id='listGridHeader']/following-sibling::div/div)[1]/div/div/div");
+
+    public static final By policyListLabels = By.xpath("(//div[@class='policy_card'])[1]//div[@data-qa]/preceding-sibling::div");
+
+    public static final By policyCard = By.className("policy_card");
+
+    public static final By noPolicyFoundText = By.xpath("//p[text()='No Policy Found']");
+
+    public static final By quotesRefLabel = By.xpath("//div[text()='Reference']");
+
+    public static final By quoteStatus = By.xpath("//div[text()='Status']/following-sibling::p");
 
     public static final By newQuoteButton = By.xpath("//button[text()='New Quote']/span");
 
@@ -47,6 +61,22 @@ public class DashboardPageObjects {
     public static final By nameRequiredText = By.xpath("//p[text()='Name is required']");
 
     public static final By websiteRequiredText = By.xpath("//p[text()='Name is required']");
+
+    public static final By policyStatus = By.xpath("//div[@data-qa='status']");
+
+    public static final By filterList = By.id("listGridFilter");
+
+    public static final By filterByProductName = By.id("panel-header-1");
+
+    public static final By filterByStatus = By.id("panel-header-2");
+
+    public static final By filterByEffective = By.id("panel-header-3");
+
+    public static final By allProductsDropdown = By.id("demo-simple-select");
+
+    public static final By productOptions = By.xpath("//ul/li[contains(@data-qa, 'menuItem')]");
+
+
 
 
 
