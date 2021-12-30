@@ -158,5 +158,48 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.clickFilterList(DriverManager.getDriver());
     }
 
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    public void testBrokerSearchRelatedRecords(Map<String, String> map) throws InterruptedException {
+        /**
+         * this test verifies search results for related Records
+         story - N2020-28288
+         **/
+        logger.info("verifying broker can search for related records :: testBrokerSearchRelatedRecords");
+        dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
+        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
+        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
+        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
+        dashboardPageActions.clickSearchForRecords(DriverManager.getDriver());
+
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("referenceNumber"));
+        String searchReferenceIdResult = dashboardPageActions.getSearchResultByReferenceId(DriverManager.getDriver());
+        assert searchReferenceIdResult.contentEquals(map.get("referenceNumber"));
+
+        dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("quoteName"));
+        String searchQuoteResult = dashboardPageActions.getSearchResultByQuoteName(DriverManager.getDriver());
+        assert searchQuoteResult.contentEquals(map.get("quoteName"));
+
+        dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("policyName"));
+        dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
+        String searchPolicyResult = dashboardPageActions.getSearchResultByPolicyName(DriverManager.getDriver());
+        assert searchPolicyResult.contentEquals(map.get("policyName"));
+
+        dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("policyNumber"));
+        dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
+        String searchResultByPolicyNumber = dashboardPageActions.getSearchResultByPolicyNumber(DriverManager.getDriver());
+        assert searchResultByPolicyNumber.contentEquals(map.get("policyNumber"));
+
+        dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("noSuchARecord"));
+        String searchForNoResult = dashboardPageActions.getSearchForNoResult(DriverManager.getDriver());
+        assert searchForNoResult.contentEquals(map.get("expForNoSuchARecord"));
+
+
+
+    }
+
 
 }
