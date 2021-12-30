@@ -169,7 +169,6 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
         dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
         dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
-        dashboardPageActions.clickSearchForRecords(DriverManager.getDriver());
 
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("referenceNumber"));
         String searchReferenceIdResult = dashboardPageActions.getSearchResultByReferenceId(DriverManager.getDriver());

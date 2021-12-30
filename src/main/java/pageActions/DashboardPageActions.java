@@ -154,10 +154,6 @@ public class DashboardPageActions extends BaseTest {
         ClickHelper.clickElement(driver, newQuoteButton);
         WaitHelper.pause(2000);
     }
-    public void clickSearchForRecords (WebDriver driver) throws InterruptedException {
-        ClickHelper.clickElement(driver, searchInputFiled);
-        WaitHelper.pause(2000);
-    }
 
     public void CreateNewQuote(WebDriver driver, String product, String applicantName, String website) throws InterruptedException {
 
