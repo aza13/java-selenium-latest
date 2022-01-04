@@ -78,17 +78,13 @@ public class DashboardPageObjects {
 
     public static final By searchInputFiled = By.id("global_search");
 
-    public static final By searchResultsByQuoteName = By.xpath("//p[contains(text(),'12824964')]/parent::div/parent::div/parent::div/div/div");
-
     public static final By clearSearchInputFiled = By.xpath("//header/div[1]/button[1]/*[1]");
 
-    public static final By searchResultByPolicyName = By.xpath("//div[contains(text(),'Kelley Buick GMC')]");
-
-    public static final By searchResultByReferenceId = By.xpath("//p[contains(text(),'12825076')]");
+    public static final By getFirstAvailableReferenceId = By.xpath("//p[@class='sc-ezbkAF fLaTpy MuiTypography-root MuiTypography-body1']/div[1]/div/div[2]/div/p");
 
     public static final By searchForNoResult = By.xpath("//p[contains(text(),'Your search has no results')]");
 
-    public static final By searchResultByPolicyNumber = By.xpath("//p[contains(text(),'H20NPP70603-00')]");
+    public static final By getFirstAvailableLegalName = By.xpath("//p[@class='sc-ezbkAF fLaTpy MuiTypography-root MuiTypography-body1']/div[1]/div/div[1]/div[1]");
 
 
 

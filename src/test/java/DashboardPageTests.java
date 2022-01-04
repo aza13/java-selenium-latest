@@ -170,26 +170,29 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
         dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
 
-        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("referenceNumber"));
-        String searchReferenceIdResult = dashboardPageActions.getSearchResultByReferenceId(DriverManager.getDriver());
-        assert searchReferenceIdResult.contentEquals(map.get("referenceNumber"));
+        String actualReferenceId = dashboardPageActions.getFirstAvailableReferenceId(DriverManager.getDriver());
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(),actualReferenceId );
+        String expectedReferenceId = dashboardPageActions.getFirstAvailableReferenceId(DriverManager.getDriver());
+        assert actualReferenceId.equals(expectedReferenceId);
 
         dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
-        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("quoteName"));
-        String searchQuoteResult = dashboardPageActions.getSearchResultByQuoteName(DriverManager.getDriver());
-        assert searchQuoteResult.contentEquals(map.get("quoteName"));
+        String actualQuoteName = dashboardPageActions.getFirstAvailableLegalName(DriverManager.getDriver());
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), actualQuoteName);
+        String expectedQuoteName = dashboardPageActions.getFirstAvailableLegalName(DriverManager.getDriver());
+        assert actualQuoteName.equals(expectedQuoteName);
 
         dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
-        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("policyName"));
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
-        String searchPolicyResult = dashboardPageActions.getSearchResultByPolicyName(DriverManager.getDriver());
-        assert searchPolicyResult.contentEquals(map.get("policyName"));
+        String actualPolicyName = dashboardPageActions.getFirstAvailableLegalName(DriverManager.getDriver());
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), actualPolicyName);
+        String expectedPolicyName = dashboardPageActions.getFirstAvailableLegalName(DriverManager.getDriver());
+        assert actualPolicyName.equals(expectedPolicyName);
 
         dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
-        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("policyNumber"));
-        dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
-        String searchResultByPolicyNumber = dashboardPageActions.getSearchResultByPolicyNumber(DriverManager.getDriver());
-        assert searchResultByPolicyNumber.contentEquals(map.get("policyNumber"));
+        String actualPolicyNumber = dashboardPageActions.getFirstAvailableReferenceId(DriverManager.getDriver());
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), actualPolicyNumber);
+        String expectedPolicyNumber = dashboardPageActions.getFirstAvailableReferenceId(DriverManager.getDriver());
+        assert actualPolicyNumber.equals(expectedPolicyNumber);
 
         dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("noSuchARecord"));

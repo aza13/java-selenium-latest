@@ -324,34 +324,21 @@ public class DashboardPageActions extends BaseTest {
         return driver.findElement(noQuoteFoundText);
     }
 
-    public String getSearchResultByQuoteName(WebDriver driver) {
-
-        return TextHelper.getText(driver, searchResultsByQuoteName, "text");
-
-    }
-
     public String getSearchForNoResult(WebDriver driver) {
 
         return TextHelper.getText(driver, searchForNoResult, "text");
 
     }
 
-    public String getSearchResultByPolicyName(WebDriver driver) {
+    public String getFirstAvailableReferenceId(WebDriver driver) {
 
-        return TextHelper.getText(driver, searchResultByPolicyName, "text");
-
-    }
-
-    public String getSearchResultByReferenceId(WebDriver driver) {
-
-        return TextHelper.getText(driver, searchResultByReferenceId, "text");
+        return TextHelper.getText(driver, getFirstAvailableReferenceId, "text");
 
     }
 
-    public String getSearchResultByPolicyNumber(WebDriver driver) {
+    public String getFirstAvailableLegalName(WebDriver driver) {
 
-        return TextHelper.getText(driver, searchResultByPolicyNumber, "text");
-
+        return TextHelper.getText(driver, getFirstAvailableLegalName, "text");
     }
 
 
