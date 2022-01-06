@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.Wait;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,7 +100,8 @@ public class DropdownHelper {
         logger.info("selecting given value from the dropdown:: selectValueFromBootstrapDropdown " + dropdown);
         try {
             driver.findElement(dropdown).click();
-            Thread.sleep(3000);
+//            Thread.sleep(3000);
+            WaitHelper.waitForElementVisibility(driver, option);
             List<WebElement> options = driver.findElements(option);
             for (WebElement opt : options) {
 

@@ -1,11 +1,13 @@
 package pageActions;
 
 import base.BaseTest;
+import base.PageObjectManager;
 import helper.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.w3c.dom.Text;
+
+import java.util.List;
 
 import static pageObjects.InsuredPageObjects.*;
 
@@ -27,7 +29,7 @@ public class InsuredPageActions extends BaseTest {
     }
 
     public WebElement continueInsuredSearch(WebDriver driver) {
-
+        WaitHelper.waitForElementVisibility(driver, continueInsuredSearchButton);
         return driver.findElement(continueInsuredSearchButton);
     }
 
@@ -182,6 +184,40 @@ public class InsuredPageActions extends BaseTest {
     public void clickSearchAgainButton(WebDriver driver) throws InterruptedException {
         ClickHelper.clickElement(driver, searchAgainButton);
         WaitHelper.pause(3000);
+    }
+
+    public boolean duplicateSubmissionDialog(WebDriver driver){
+
+        WaitHelper.waitForElementVisibility(driver, duplicateSubmissionDialog);
+        return driver.findElement(duplicateSubmissionDialog).isDisplayed();
+    }
+
+    public String duplicateSubmissionDialogDescription(WebDriver driver){
+
+        WaitHelper.waitForElementVisibility(driver, duplicateSubDialogDescription);
+        return TextHelper.getText(driver, duplicateSubDialogDescription, "text");
+    }
+
+    public DashboardPageActions clickDuplicateCancelButton(WebDriver driver){
+
+        ClickHelper.clickElement(driver, duplicateDialogCancelButton);
+        return PageObjectManager.getDashboardPageActions();
+    }
+
+    public void selectInsuredCard(WebDriver driver, String insuredName){
+        List<WebElement> insuredNames = driver.findElements(insuredNameInCard);
+        int cardsCount = 0;
+        if (insuredNames.size() > 0){
+            for (WebElement insured:insuredNames) {
+                cardsCount++;
+                if (insured.getText().contentEquals(insuredName)){
+                    break;
+                }
+            }
+            String selectButtonXpath = "(//button[@data-qa='insured_select'])["+cardsCount+"]";
+            driver.findElement(By.xpath(selectButtonXpath)).click();
+        }
+
     }
 
 

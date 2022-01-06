@@ -37,5 +37,9 @@ public class InsuredPageObjects {
     public static final By continueInsuredFormButton = By.id("btn-insured-form-create");
     public static final By clearInsuredNameButton = By.xpath("//button[@aria-label='Insured Name']");
     public static final By clearInsuredWebsiteButton = By.xpath("//button[@aria-label='Website']");
+    public static final By duplicateSubmissionDialog = By.id("alert-dialog-title");
+    public static final By duplicateSubDialogDescription = By.id("alert-dialog-description");
+    public static final By duplicateDialogCancelButton = By.xpath("//button[text()='CANCEL']/span");
+    public static final By insuredNameInCard = By.xpath("//div[@data-qa='insured_name']");
 
 }

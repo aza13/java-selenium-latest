@@ -9,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -51,7 +52,7 @@ public class DashboardPageActions extends BaseTest {
         Actions action = new Actions(driver);
         action.sendKeys(Keys.ESCAPE).build().perform();
         // temp wait
-        Thread.sleep(3000);
+        Thread.sleep(5000);
     }
 
     public WebElement profileLink(WebDriver driver) {
@@ -127,13 +128,35 @@ public class DashboardPageActions extends BaseTest {
 
     public List<WebElement> getQuoteTableLabels(WebDriver driver) {
         try {
-            List<WebElement> labels = driver.findElements(quotesListLabels);
-            return labels;
+            return driver.findElements(quotesListLabels);
         } catch (Exception e) {
             testLogger.fail("failed to verify the my quote tab :: myPoliciesTabTitle" + e.getMessage());
             logger.error("failed to verify the my quote tab :: myPoliciesTabTitle");
             throw (e);
         }
+    }
+
+    public List<String> getAllQuotesStatus(WebDriver driver) {
+
+        List<String> status = new ArrayList<>();
+
+        for (WebElement element : driver.findElements(quoteStatus)) {
+            status.add(element.getText());
+        }
+        return status;
+
+    }
+
+    public List<String> getAllQuotesProductName(WebDriver driver) {
+
+        List<String> names = new ArrayList<>();
+
+        List<WebElement> quoteNameElements = driver.findElements(quoteProductName);
+
+        for (WebElement element : quoteNameElements) {
+            names.add(element.getText());
+        }
+        return names;
     }
 
     public void clickNewQuote(WebDriver driver) throws InterruptedException {
@@ -270,23 +293,23 @@ public class DashboardPageActions extends BaseTest {
     }
 
     public void clickFilterList(WebDriver driver) {
-
+        WaitHelper.waitForElementClickable(driver, filterList);
         ClickHelper.clickElement(driver, filterList);
     }
 
     public void clickFilterByProductName(WebDriver driver) {
-
+        WaitHelper.waitForElementVisibility(driver, filterByProductName);
         ClickHelper.clickElement(driver, filterByProductName);
     }
 
-    public void clickFilterByStatus(WebDriver driver) {
-
-        ClickHelper.clickElement(driver, filterByStatus);
+    public void clickSubmissionFilterByStatus(WebDriver driver) {
+        WaitHelper.waitForElementClickable(driver, submissionFilterByStatus);
+        ClickHelper.clickElement(driver, submissionFilterByStatus);
     }
 
-    public void clickFilterByEffective(WebDriver driver) {
-
-        ClickHelper.clickElement(driver, filterByEffective);
+    public void clickSubmissionFilterByDateRange(WebDriver driver) {
+        WaitHelper.waitForElementClickable(driver, submissionFilterByDateRange);
+        ClickHelper.clickElement(driver, submissionFilterByDateRange);
     }
 
     public List<WebElement> getPolicyTableLabels(WebDriver driver) {
@@ -325,15 +348,15 @@ public class DashboardPageActions extends BaseTest {
                 String status = statusElement.getText();
                 actualStatus.add(status);
             }
-            Set<String> expectedStatus = new HashSet<String >();
+            Set<String> expectedStatus = new HashSet<String>();
             expectedStatus.add("Active");
             expectedStatus.add("In Review");
             expectedStatus.add("Approved");
             expectedStatus.add("Cancelled");
             expectedStatus.add("Declined");
-            for(String status : actualStatus){
-                if (expectedStatus.contains(status)){
-                }else{
+            for (String status : actualStatus) {
+                if (expectedStatus.contains(status)) {
+                } else {
                     logger.info("table contains quote with status not specified, pls check specified status once");
                     result = false;
                     break;
@@ -341,6 +364,69 @@ public class DashboardPageActions extends BaseTest {
             }
         }
         return result;
+    }
+
+    public void selectProductInFilter(WebDriver driver, String product) throws InterruptedException {
+        WaitHelper.waitForElementVisibility(driver, allProductsDropdown);
+        DropdownHelper.selectValueFromBootstrapDropdown(driver, allProductsDropdown, productOptions, product);
+    }
+
+    public void clickApplyFiltersButton(WebDriver driver) throws InterruptedException {
+
+        ClickHelper.clickElement(driver, applyFiltersButton);
+        WaitHelper.pause(3000);
+    }
+
+    public void selectStatusInFilter(WebDriver driver, String status) throws InterruptedException {
+        WaitHelper.waitForElementVisibility(driver, allStatusDropdown);
+        DropdownHelper.selectValueFromBootstrapDropdown(driver, allStatusDropdown, statusOptions, status);
+    }
+
+    public void selectPolicyStatusInFilter(WebDriver driver, String status) throws InterruptedException {
+        WaitHelper.waitForElementVisibility(driver, policyAllStatusDropdown);
+        DropdownHelper.selectValueFromBootstrapDropdown(driver, policyAllStatusDropdown, statusOptions, status);
+    }
+
+    public void clickPolicyFilterByStatus(WebDriver driver) {
+        WaitHelper.waitForElementClickable(driver, policyFilterByStatus);
+        ClickHelper.clickElement(driver, policyFilterByStatus);
+    }
+
+    public void enterCreateStartDate(WebDriver driver){
+        WaitHelper.waitForElementVisibility(driver, createdStartDateField);
+        TextHelper.enterText(driver, createdStartDateField, "12/01/2021");
+    }
+
+    public void enterCreateEndDate(WebDriver driver){
+        TextHelper.enterText(driver, createdEndDateField, "12/30/2021");
+    }
+
+    public List<String> getQuoteCreatedDates(WebDriver driver){
+        WaitHelper.waitForElementVisibility(driver, quoteCreatedDateGeneric);
+        List<WebElement> createdDates = driver.findElements(quoteCreatedDateGeneric);
+        if (createdDates.size()>0){
+            List<String> dates = new ArrayList<>();
+            for (WebElement ele : createdDates) {
+                System.out.println("\n actual Date --"+ele.getText());
+                dates.add(ele.getText());
+            }
+            return dates;
+        }
+        return null;
+    }
+
+    public List<String> getPolicyExpirationDates(WebDriver driver){
+        WaitHelper.waitForElementVisibility(driver, policyExpirationDateGeneric);
+        List<WebElement> createdDates = driver.findElements(policyExpirationDateGeneric);
+        if (createdDates.size()>0){
+            List<String> dates = new ArrayList<>();
+            for (WebElement ele : createdDates) {
+                System.out.println("\n actual Date --"+ele.getText());
+                dates.add(ele.getText());
+            }
+            return dates;
+        }
+        return null;
     }
 
 

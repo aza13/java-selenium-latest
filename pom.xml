@@ -120,6 +120,15 @@
             <version>4.4.0</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.22</version>
+            <scope>provided</scope>
+        </dependency>
+
+
 
     </dependencies>
 
@@ -151,7 +160,7 @@
                     <version>3.0.0-M3</version>
                     <configuration>
                         <suiteXmlFiles>
-                            <suiteXmlFile>login.xml</suiteXmlFile>
+                            <suiteXmlFile>testng.xml</suiteXmlFile>
 <!--                            <suiteXmlFile>${xmlFile}</suiteXmlFile>-->
 <!--                            <suiteXmlFile>premiumValidations.xml</suiteXmlFile>-->
                         </suiteXmlFiles>
@@ -161,8 +170,8 @@
                                 <value>2</value>
                             </property>
                         </properties>-->
-                        <parallel>methods</parallel>
-                        <threadCount>3</threadCount>
+<!--                        <parallel>methods</parallel>-->
+<!--                        <threadCount>3</threadCount>-->
                     </configuration>
                 </plugin>
                 <plugin>
