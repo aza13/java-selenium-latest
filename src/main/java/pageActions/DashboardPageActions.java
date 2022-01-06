@@ -46,6 +46,19 @@ public class DashboardPageActions extends BaseTest {
         TextHelper.enterText(driver, agencyIdField, agencyId);
     }
 
+
+    public void enterTextToSearchBox(WebDriver driver, String textInput) throws InterruptedException {
+
+        TextHelper.enterText(driver, searchInputFiled, textInput);
+        WaitHelper.pause(3000);
+
+    }
+
+    public void clickClearSearchButton(WebDriver driver) {
+
+        ClickHelper.clickElement(driver, clearSearchInputFiled);
+    }
+
     public void enterAgencyOfficeId(WebDriver driver, String agencyId) throws InterruptedException {
 
         TextHelper.enterText(driver, agencyOfficeIdField, agencyId);
@@ -322,6 +335,8 @@ public class DashboardPageActions extends BaseTest {
         }
     }
 
+
+
     public WebElement noPolicyFound(WebDriver driver) {
 
         return driver.findElement(noPolicyFoundText);
@@ -331,6 +346,25 @@ public class DashboardPageActions extends BaseTest {
 
         return driver.findElement(noQuoteFoundText);
     }
+
+    public String getSearchForNoResult(WebDriver driver) {
+
+        return TextHelper.getText(driver, searchForNoResult, "text");
+
+    }
+
+    public String getFirstAvailableReferenceId(WebDriver driver) {
+
+        return TextHelper.getText(driver, getFirstAvailableReferenceId, "text");
+
+    }
+
+    public String getFirstAvailableLegalName(WebDriver driver) {
+
+        return TextHelper.getText(driver, getFirstAvailableLegalName, "text");
+    }
+
+
 
     public boolean verifyQuoteStatusInTable(WebDriver driver) {
 
@@ -428,6 +462,8 @@ public class DashboardPageActions extends BaseTest {
         }
         return null;
     }
+
+
 
 
 }

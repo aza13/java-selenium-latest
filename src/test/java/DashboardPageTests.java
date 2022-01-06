@@ -307,5 +307,50 @@ public class DashboardPageTests extends BaseTest {
 
     }
 
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    public void testBrokerSearchRelatedRecords(Map<String, String> map) throws InterruptedException {
+        /**
+         * this test verifies search results for related Records
+         story - N2020-28288
+         **/
+        logger.info("verifying broker can search for related records :: testBrokerSearchRelatedRecords");
+        dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
+        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
+        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
+        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
+
+        String actualReferenceId = dashboardPageActions.getFirstAvailableReferenceId(DriverManager.getDriver());
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(),actualReferenceId );
+        String expectedReferenceId = dashboardPageActions.getFirstAvailableReferenceId(DriverManager.getDriver());
+        assert actualReferenceId.equals(expectedReferenceId);
+
+        dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
+        String actualQuoteName = dashboardPageActions.getFirstAvailableLegalName(DriverManager.getDriver());
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), actualQuoteName);
+        String expectedQuoteName = dashboardPageActions.getFirstAvailableLegalName(DriverManager.getDriver());
+        assert actualQuoteName.equals(expectedQuoteName);
+
+        dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
+        dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
+        String actualPolicyName = dashboardPageActions.getFirstAvailableLegalName(DriverManager.getDriver());
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), actualPolicyName);
+        String expectedPolicyName = dashboardPageActions.getFirstAvailableLegalName(DriverManager.getDriver());
+        assert actualPolicyName.equals(expectedPolicyName);
+
+        dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
+        String actualPolicyNumber = dashboardPageActions.getFirstAvailableReferenceId(DriverManager.getDriver());
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), actualPolicyNumber);
+        String expectedPolicyNumber = dashboardPageActions.getFirstAvailableReferenceId(DriverManager.getDriver());
+        assert actualPolicyNumber.equals(expectedPolicyNumber);
+
+        dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("noSuchARecord"));
+        String searchForNoResult = dashboardPageActions.getSearchForNoResult(DriverManager.getDriver());
+        assert searchForNoResult.contentEquals(map.get("expForNoSuchARecord"));
+
+
+
+    }
+
 
 }

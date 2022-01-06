@@ -78,6 +78,18 @@ public class DashboardPageObjects {
 
     public static final By productOptions = By.xpath("//ul/li[contains(@data-qa, 'menuItem')]");
 
+    public static final By searchInputFiled = By.id("global_search");
+
+    public static final By clearSearchInputFiled = By.xpath("//header/div[1]/button[1]/*[1]");
+
+    public static final By getFirstAvailableReferenceId = By.xpath("//p[@class='sc-ezbkAF fLaTpy MuiTypography-root MuiTypography-body1']/div[1]/div/div[2]/div/p");
+
+    public static final By searchForNoResult = By.xpath("//p[contains(text(),'Your search has no results')]");
+
+    public static final By getFirstAvailableLegalName = By.xpath("//p[@class='sc-ezbkAF fLaTpy MuiTypography-root MuiTypography-body1']/div[1]/div/div[1]/div[1]");
+
+
+
     public static final By applyFiltersButton = By.id("applyFilters");
 
     public static final By allStatusDropdown = By.xpath("//div[@data-qa='quoteStatusSection']//div[@id='demo-simple-select']");
