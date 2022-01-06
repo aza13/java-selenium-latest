@@ -57,15 +57,17 @@ public class DashboardPageTests extends BaseTest {
             assert dashboardPageActions.noQuoteFound(DriverManager.getDriver()).isDisplayed();
         }
         List<WebElement> labels = dashboardPageActions.getQuoteTableLabels(DriverManager.getDriver());
-        assert labels.get(0).getText().equals(map.get("submissionLabel"));
-        assert labels.get(1).getText().equals(map.get("dateLabel"));
-        assert labels.get(2).getText().equals(map.get("startDateLabel"));
-        assert labels.get(3).getText().equals(map.get("endDateLabel"));
-        assert labels.get(4).getText().equals(map.get("statusLabel"));
-        logger.info("verify quote status color");
-        dashboardPageActions.validateQuoteStatusColorCoding(DriverManager.getDriver());
-        logger.info("verify quote correct status displayed");
-        assert dashboardPageActions.verifyQuoteStatusInTable(DriverManager.getDriver());
+        if (labels.size()>0){
+            assert labels.get(0).getText().equals(map.get("submissionLabel"));
+            assert labels.get(1).getText().equals(map.get("dateLabel"));
+            assert labels.get(2).getText().equals(map.get("startDateLabel"));
+            assert labels.get(3).getText().equals(map.get("endDateLabel"));
+            assert labels.get(4).getText().equals(map.get("statusLabel"));
+            logger.info("verify quote status color");
+            dashboardPageActions.validateQuoteStatusColorCoding(DriverManager.getDriver());
+            logger.info("verify quote correct status displayed");
+            assert dashboardPageActions.verifyQuoteStatusInTable(DriverManager.getDriver());
+        }
         logger.info("verify logout functionality");
         LoginPageActions loginPageActions = dashboardPageActions.logoutApp(DriverManager.getDriver());
         String text = loginPageActions.getWelcomeText(DriverManager.getDriver());
