@@ -13,9 +13,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jre.level>1.8</jre.level>
-        <jdk.level>1.8</jdk.level>
-<!--        <xmlFile>${xmlFile}</xmlFile>-->
     </properties>
 
     <dependencies>
