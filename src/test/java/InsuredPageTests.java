@@ -92,8 +92,28 @@ public class InsuredPageTests extends BaseTest {
         assert insuredPageActions.validateSearchAgainButtonWithInsuredWebsite(DriverManager.getDriver(), map.get("secondWebsite"));
         insuredPageActions.clickSearchAgainButton(DriverManager.getDriver());
         assert insuredPageActions.verifyInsuredSearchResult(DriverManager.getDriver(), map.get("secondApplicant"), map.get("secondWebsite"));
+    }
 
-
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "InsuredPageData")
+    public void testCheckDuplicateSubmission(Map<String, String> map) throws InterruptedException {
+        /***
+         this test verifies creation of new insured
+         story - N2020-29053
+         **/
+        logger.info("verifying duplicate submissions :: testCheckDuplicateSubmission");
+        dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
+        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
+        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
+        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
+        dashboardPageActions.clickNewQuote(DriverManager.getDriver());
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), map.get("applicantName"), map.get("website"));
+        InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
+        insuredPageActions.selectInsuredCard(DriverManager.getDriver(), map.get("applicantName"));
+        assert insuredPageActions.duplicateSubmissionDialog(DriverManager.getDriver());
+        String actualText = insuredPageActions.duplicateSubmissionDialogDescription(DriverManager.getDriver());
+        assert actualText.contains(map.get("dialogText"));
+        insuredPageActions.clickDuplicateCancelButton(DriverManager.getDriver());
+        dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
     }
 
 }

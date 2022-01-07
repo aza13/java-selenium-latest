@@ -13,9 +13,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jre.level>1.8</jre.level>
-        <jdk.level>1.8</jdk.level>
-<!--        <xmlFile>${xmlFile}</xmlFile>-->
     </properties>
 
     <dependencies>
@@ -120,6 +117,15 @@
             <version>4.4.0</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.22</version>
+            <scope>provided</scope>
+        </dependency>
+
+
 
     </dependencies>
 
@@ -141,8 +147,8 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.8.0</version>
                     <configuration>
-                        <source>${jdk.level}</source>
-                        <target>${jdk.level}</target>
+                        <source>1.8</source>
+                        <target>1.8</target>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -150,19 +156,10 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>3.0.0-M3</version>
                     <configuration>
+                        <reportsDirectory>src/test-output/reports</reportsDirectory>
                         <suiteXmlFiles>
-                            <suiteXmlFile>login.xml</suiteXmlFile>
-<!--                            <suiteXmlFile>${xmlFile}</suiteXmlFile>-->
-<!--                            <suiteXmlFile>premiumValidations.xml</suiteXmlFile>-->
+                            <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
                         </suiteXmlFiles>
-                        <!--<properties>
-                            <property>
-                                <name>suitethreadpoolsize</name>
-                                <value>2</value>
-                            </property>
-                        </properties>-->
-                        <parallel>methods</parallel>
-                        <threadCount>3</threadCount>
                     </configuration>
                 </plugin>
                 <plugin>

@@ -30,9 +30,9 @@ public class DashboardPageObjects {
 
     public static final By noQuoteFoundText = By.xpath("//p[text()='No quotes found.']");
 
-    public static final By quotesListLabels = By.xpath("(//div[@id='listGridHeader']/following-sibling::div/div)[1]/div/div/div");
+    public static final By quotesListLabels = By.xpath("(//div[@data-qa='quote_card'])[1]//p/preceding-sibling::div");
 
-    public static final By policyListLabels = By.xpath("(//div[@class='policy_card'])[1]//div[@data-qa]/preceding-sibling::div");
+    public static final By policyListLabels = By.xpath("(//div[contains(@class,'policy_card')])[1]//p/preceding-sibling::div");
 
     public static final By policyCard = By.className("policy_card");
 
@@ -40,7 +40,9 @@ public class DashboardPageObjects {
 
     public static final By quotesRefLabel = By.xpath("//div[text()='Reference']");
 
-    public static final By quoteStatus = By.xpath("//div[text()='Status']/following-sibling::p");
+    public static final By quoteStatus = By.xpath("//div[@data-qa='quote_card']//p[@data-qa='status']");
+
+    public static final By quoteProductName = By.xpath("//p[@data-qa='name']");
 
     public static final By newQuoteButton = By.xpath("//button[text()='New Quote']/span");
 
@@ -68,9 +70,9 @@ public class DashboardPageObjects {
 
     public static final By filterByProductName = By.id("panel-header-1");
 
-    public static final By filterByStatus = By.id("panel-header-2");
+    public static final By submissionFilterByStatus = By.id("panel-header-2");
 
-    public static final By filterByEffective = By.id("panel-header-3");
+    public static final By submissionFilterByDateRange = By.xpath("//p[text()='Date Range']");
 
     public static final By allProductsDropdown = By.id("demo-simple-select");
 
@@ -88,6 +90,27 @@ public class DashboardPageObjects {
 
 
 
+    public static final By applyFiltersButton = By.id("applyFilters");
+
+    public static final By allStatusDropdown = By.xpath("//div[@data-qa='quoteStatusSection']//div[@id='demo-simple-select']");
+
+    public static final By statusOptions = By.xpath("//ul/li[contains(@data-qa, 'menuItem')]");
+
+    public static final By quoteCardGenericContinueButton = By.xpath("//div[@data-qa='quote_card']/div/div[last()]//button");
+
+    public static final By policyAllStatusDropdown = By.xpath("//div[@data-qa='policyStatusSection']//div[@id='demo-simple-select']");
+
+    public static final By policyFilterByStatus = By.id("panel-header-1");
+
+    public static final By policyFilterByEffective = By.id("panel-header-2");
+
+    public static final By createdStartDateField = By.id("startdate");
+
+    public static final By createdEndDateField = By.id("enddate");
+
+    public static final By quoteCreatedDateGeneric = By.xpath("//p[@data-qa='created']");
+
+    public static final By policyExpirationDateGeneric = By.xpath("//p[@data-qa='expDate']");
 
 
 
