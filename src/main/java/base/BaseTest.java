@@ -1,8 +1,5 @@
 package base;
 
-import utils.dataProvider.TestDataProvider;
-import utils.extentReport.ExtentReport;
-import utils.fileReader.ConfigDataReader;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
@@ -19,12 +16,13 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
+import utils.extentReport.ExtentReport;
+import utils.fileReader.ConfigDataReader;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
-import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
@@ -35,7 +33,6 @@ public class BaseTest {
     protected static ExtentReports extentReport;
     protected static ExtentTest classLogger;
     protected static ExtentTest testLogger;
-    private static int index = 0;
     private static String userId;
     private static String password;
 
@@ -73,9 +70,6 @@ public class BaseTest {
     @BeforeMethod(alwaysRun = true)
     public static void beforeMethodSetUp(Method method, ITestContext context) throws MalformedURLException {
         logger.info("Initialisation the browser  DriverManager.getDriver()::beforeMethodSetUp");
-        /*List<String> list = TestDataProvider.getTestDescription();
-        testLogger = classLogger.createNode(method.getName() + "_" + list.get(index));
-        index++;*/
         testLogger = classLogger.createNode(method.getName());
         DriverManager.getDriver().manage().deleteAllCookies();
         DriverManager.getDriver().manage().window().maximize();
