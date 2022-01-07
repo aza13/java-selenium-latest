@@ -159,19 +159,10 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>3.0.0-M3</version>
                     <configuration>
+                        <reportsDirectory>src/test-output/reports</reportsDirectory>
                         <suiteXmlFiles>
-                            <suiteXmlFile>testng.xml</suiteXmlFile>
-<!--                            <suiteXmlFile>${xmlFile}</suiteXmlFile>-->
-<!--                            <suiteXmlFile>premiumValidations.xml</suiteXmlFile>-->
+                            <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
                         </suiteXmlFiles>
-                        <!--<properties>
-                            <property>
-                                <name>suitethreadpoolsize</name>
-                                <value>2</value>
-                            </property>
-                        </properties>-->
-<!--                        <parallel>methods</parallel>-->
-<!--                        <threadCount>3</threadCount>-->
                     </configuration>
                 </plugin>
                 <plugin>
