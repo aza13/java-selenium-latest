@@ -28,7 +28,10 @@ public class TestDataProvider extends BaseTest {
 
         logger.info("Test Data Path : " + testDataFilePath);
 
+        System.out.println("Test data file path::"+testDataFilePath);
+
         String testCaseName = method.getName();
+        System.out.println("Test method name :: "+testCaseName);
 
         logger.info("Test script to be executed is::" + testCaseName);
 
@@ -37,6 +40,8 @@ public class TestDataProvider extends BaseTest {
         String dataSheetName = testAnnotation.description();
 
         logger.info("TestDataProvider Invoked for test-" + testCaseName + " and sheet-" + dataSheetName);
+
+        System.out.println("TestDataProvider Invoked for test-" + testCaseName + " and sheet-" + dataSheetName);
 
         Object[][] data = null;
         try {
