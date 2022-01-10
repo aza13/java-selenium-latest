@@ -120,19 +120,6 @@ public class InsuredPageTests extends BaseTest {
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
     }
 
-    @AfterMethod(alwaysRun = true)
-    public static synchronized void updateTestStatus(ITestResult result) {
-        System.out.println("In After Method :: "+result.getName());
-        System.out.println("In After Method :: "+result.getStatus());
 
-        logger.info("updating result of test script " + result.getName() + " to report :: updateTestStatus");
-        try {
-            logTestStatusToReport(DriverManager.getDriver(), result);
-        } catch (IOException e) {
-            logger.error("Failed to update the status of the test case:: updateTestStatus" + e);
-        }
-        DriverManager.quitDriver();
-        testLogger.log(Status.PASS, "Closed the browser successfully");
-    }
 
 }

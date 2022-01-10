@@ -56,10 +56,6 @@ public class BaseTest {
 
         appUrl = prop.getProperty("appUrl");
 
-        userId = prop.getProperty("userId");
-
-        password = prop.getProperty("password");
-
         logger.info("Given application URL is: " + appUrl);
 
         logger.info("Initialising extent report");
@@ -136,6 +132,21 @@ public class BaseTest {
             testLogger.log(Status.SKIP,
                     MarkupHelper.createLabel(result.getName() + " - Test Case SKIPPED", ExtentColor.BLUE));
 
+        }
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public static synchronized void updateTestStatus(ITestResult result) {
+
+        if (result != null){
+            logger.info("updating result of test script " + result.getName() + " to report :: updateTestStatus");
+            try {
+                logTestStatusToReport(DriverManager.getDriver(), result);
+            } catch (IOException e) {
+                logger.error("Failed to update the status of the test case:: updateTestStatus" + e);
+            }
+            DriverManager.quitDriver();
+            testLogger.log(Status.PASS, "Closed the browser successfully");
         }
     }
 
