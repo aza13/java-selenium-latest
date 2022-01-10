@@ -43,6 +43,7 @@ public class DriverManager {
                     logger.info("Initialising the chrome browser");
                     WebDriverManager.chromedriver().setup();
                     ChromeOptions options = new ChromeOptions();
+                    options. addArguments("--headless");
                     options.addArguments("--incognito");
                     driver = new ChromeDriver(options);
                     threadDriver.set(driver);
