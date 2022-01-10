@@ -71,6 +71,7 @@ public class BaseTest {
     public static void beforeMethodSetUp(Method method, ITestContext context) throws MalformedURLException {
         logger.info("Initialisation the browser  DriverManager.getDriver()::beforeMethodSetUp");
         testLogger = classLogger.createNode(method.getName());
+        System.out.println("Test Method Name :: BeforeMethod -- "+method.getName());
         DriverManager.getDriver().manage().deleteAllCookies();
         DriverManager.getDriver().manage().window().maximize();
         DriverManager.getDriver().navigate().to(appUrl);

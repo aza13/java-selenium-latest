@@ -25,8 +25,6 @@ public class TestDataProvider extends BaseTest {
 
         logger.info("Executing dataProvider method");
 
-//        testDataFilePath = ConfigDataReader.ConfigPropInit().getProperty("testDataFilePath");
-
         testDataFilePath = ConstantVariable.TEST_DATA_FILE_PATH;
 
         logger.info("Test Data Path : " + testDataFilePath);
