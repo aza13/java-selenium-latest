@@ -67,7 +67,7 @@ public class BaseTest {
         extentReport = ExtentReport.ExtentReportInit();
     }
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeMethod()
     public static void beforeMethodSetUp(Method method, ITestContext context) throws MalformedURLException {
         logger.info("Initialisation the browser  DriverManager.getDriver()::beforeMethodSetUp");
         testLogger = classLogger.createNode(method.getName());
