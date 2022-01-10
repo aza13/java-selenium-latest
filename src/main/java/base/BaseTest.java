@@ -35,6 +35,7 @@ public class BaseTest {
     protected static ExtentTest testLogger;
     private static String userId;
     private static String password;
+    private static String browserName;
 
     private static final Logger logger = Logger.getLogger(BaseTest.class);
 
@@ -49,7 +50,7 @@ public class BaseTest {
 
         logger.info("Config Properties Initialised");
 
-        String browserName = prop.getProperty("browserType");
+        browserName = prop.getProperty("browserType");
 
         logger.info("Selected browserType is: " + browserName);
 
@@ -60,6 +61,8 @@ public class BaseTest {
         appUrl = prop.getProperty("appUrl");
 
         logger.info("Given application URL is: " + appUrl);
+
+        System.out.println("App url Name :: "+appUrl);
 
         userId = prop.getProperty("userId");
 
