@@ -73,6 +73,7 @@ public class BaseTest {
         System.out.println("Test Method Name :: BeforeMethod -- "+method.getName());
         logger.info("Initialisation the browser  DriverManager.getDriver()::beforeMethodSetUp");
         testLogger = classLogger.createNode(method.getName());
+        System.out.println("WebDriver :: "+DriverManager.getDriver());
         DriverManager.getDriver().manage().deleteAllCookies();
         DriverManager.getDriver().manage().window().maximize();
         DriverManager.getDriver().navigate().to(appUrl);
