@@ -24,6 +24,8 @@ public class ConfigDataReader {
 
         logger.info("Loading the properties file in :: ConfigPropInit ");
 
+        System.out.println("Loading the properties file in :: ConfigPropInit");
+
         File file = new File(ConstantVariable.CONFIG_PROP_FILEPATH);
 
         if(prop == null){
@@ -39,6 +41,7 @@ public class ConfigDataReader {
                 logger.error("Failed to load the properties file in :: ConfigPropInit ");
             }
         }
+        System.out.println("Returning config prp");
         return prop;
     }
 }
