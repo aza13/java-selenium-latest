@@ -135,7 +135,7 @@ public class BaseTest {
         }
     }
 
-    @AfterMethod(alwaysRun = true)
+    /*@AfterMethod(alwaysRun = true)
     public static synchronized void updateTestStatus(ITestResult result) {
 
         if (result != null){
@@ -148,7 +148,7 @@ public class BaseTest {
             DriverManager.quitDriver();
             testLogger.log(Status.PASS, "Closed the browser successfully");
         }
-    }
+    }*/
 
 
 
