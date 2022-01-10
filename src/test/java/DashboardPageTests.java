@@ -3,6 +3,7 @@ import base.DriverManager;
 import base.PageObjectManager;
 import com.sun.xml.bind.v2.runtime.reflect.opt.Const;
 import enums.ConstantVariable;
+import helper.ClickHelper;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -20,6 +21,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+
 
 public class DashboardPageTests extends BaseTest {
 
@@ -349,10 +352,22 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("noSuchARecord"));
         String searchForNoResult = dashboardPageActions.getSearchForNoResult(DriverManager.getDriver());
         assert searchForNoResult.contentEquals(map.get("expForNoSuchARecord"));
-
-
-
     }
 
 
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    public void testSubmissionRenewal(Map<String, String> map) throws InterruptedException, ParseException {
+        /***
+         this test submission renewal
+         story - N2020-28481
+         **/
+        logger.info("verifying submission renewal ::  testSubmissionRenewal");
+        dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
+        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
+        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
+        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
+        dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
+        dashboardPageActions.clickRenewButton(DriverManager.getDriver());
+
+    }
 }

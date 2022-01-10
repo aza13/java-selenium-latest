@@ -1,7 +1,9 @@
 package pageActions;
 
 import base.BaseTest;
+import base.DriverManager;
 import base.PageObjectManager;
+import enums.ConstantVariable;
 import helper.*;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Keys;
@@ -9,12 +11,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import static pageObjects.DashboardPageObjects.*;
+import static pageObjects.DashboardPageObjects.firstAvailableStatus;
+
 
 public class DashboardPageActions extends BaseTest {
 
@@ -462,6 +466,39 @@ public class DashboardPageActions extends BaseTest {
         }
         return null;
     }
+
+    public void clickRenewButton (WebDriver driver) throws ParseException {
+
+        List<String> dates = getPolicyExpirationDates(DriverManager.getDriver());
+        Date actualDate, givenDate;
+        String timeStamp = new SimpleDateFormat("MM/dd/yyyy").format(Calendar.getInstance().getTime());
+        DateFormat df = new SimpleDateFormat(ConstantVariable.DATE_FORMAT);
+        String actualStatus = TextHelper.getText(driver, firstAvailableStatus,"text");
+        givenDate = df.parse(timeStamp);
+        String expStatus = "Renewal Started";
+        for (String date: dates) {
+            try {
+                actualDate = df.parse(date);
+                if (!actualStatus.equalsIgnoreCase(expStatus) && getDifferenceInExpirationDateInDays(actualDate,givenDate) <=67) {
+                    ClickHelper.clickElement(driver,firstAvailableRenewButton);
+                    ClickHelper.clickElement(driver, submitSubmissionRenewal);
+
+                }else {
+                    assert expStatus.equals(actualStatus);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+    }
+    public long getDifferenceInExpirationDateInDays (Date expirationDate, Date currentDate) throws ParseException {
+        long difference = (expirationDate.getTime()-currentDate.getTime())/8640000;
+        return Math.abs(difference);
+    }
+
+
 
 
 

@@ -112,7 +112,11 @@ public class DashboardPageObjects {
 
     public static final By policyExpirationDateGeneric = By.xpath("//p[@data-qa='expDate']");
 
+    public static final By firstAvailableRenewButton = By.xpath("//p[@class='sc-ezbkAF fLaTpy MuiTypography-root MuiTypography-body1']/div[1]/div/div[7]/div/button");
 
+    public static final By firstAvailableStatus = By.xpath("//p[@class='sc-ezbkAF fLaTpy MuiTypography-root MuiTypography-body1']/div[1]/div/div[6]/div/div[2]");
+
+    public static final By submitSubmissionRenewal = By.xpath("//button[normalize-space()='SUBMIT']");
 
 
 
