@@ -41,7 +41,7 @@ public class BaseTest {
 
     @BeforeSuite(alwaysRun = true)
     public static void configSetUpMethod() {
-        System.out.println("In :: BeforeSuite -- ");
+        System.out.println("In BeforeSuite :: configSetUpMethod");
         logger.info("Executing the @BeforeSuite - configSetUpMethod() in BaseTest ");
 
         Properties prop;
