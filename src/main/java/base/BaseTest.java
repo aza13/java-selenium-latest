@@ -53,6 +53,8 @@ public class BaseTest {
 
         logger.info("Selected browserType is: " + browserName);
 
+        System.out.println("Browser Name :: "+browserName);
+
         DriverManager.setBrowserType(browserName);
 
         appUrl = prop.getProperty("appUrl");
