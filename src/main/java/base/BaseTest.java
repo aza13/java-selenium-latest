@@ -59,6 +59,10 @@ public class BaseTest {
 
         logger.info("Given application URL is: " + appUrl);
 
+        userId = prop.getProperty("userId");
+
+        password = prop.getProperty("password");
+
         logger.info("Initialising extent report");
 
         extentReport = ExtentReport.ExtentReportInit();
