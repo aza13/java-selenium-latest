@@ -139,7 +139,7 @@ public class BaseTest {
         }
     }
 
-    @AfterMethod(alwaysRun = true)
+    @AfterMethod()
     public static synchronized void updateTestStatus(ITestResult result) {
         System.out.println("In After Method :: "+result.getName());
         System.out.println("In After Method :: "+result.getStatus());
