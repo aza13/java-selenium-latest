@@ -1,7 +1,6 @@
 import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
-import com.sun.xml.bind.v2.runtime.reflect.opt.Const;
 import enums.ConstantVariable;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
@@ -18,7 +17,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 public class DashboardPageTests extends BaseTest {
