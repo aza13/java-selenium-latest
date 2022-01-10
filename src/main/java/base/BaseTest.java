@@ -35,13 +35,12 @@ public class BaseTest {
     protected static ExtentTest testLogger;
     private static String userId;
     private static String password;
-    private static String browserName;
 
     private static final Logger logger = Logger.getLogger(BaseTest.class);
 
     @BeforeSuite(alwaysRun = true)
     public static void configSetUpMethod() {
-        System.out.println("In BeforeSuite :: configSetUpMethod");
+
         logger.info("Executing the @BeforeSuite - configSetUpMethod() in BaseTest ");
 
         Properties prop;
@@ -50,11 +49,11 @@ public class BaseTest {
 
         logger.info("Config Properties Initialised");
 
-        browserName = prop.getProperty("browserType");
+        String browserName = prop.getProperty("browserType");
 
         logger.info("Selected browserType is: " + browserName);
 
-        System.out.println("Browser Name :: "+browserName);
+        System.out.println("Browser Name :: "+ browserName);
 
         DriverManager.setBrowserType(browserName);
 
@@ -75,10 +74,8 @@ public class BaseTest {
 
     @BeforeMethod(alwaysRun = true)
     public static void beforeMethodSetUp(Method method, ITestContext context) throws MalformedURLException {
-        System.out.println("Test Method Name :: BeforeMethod -- "+method.getName());
         logger.info("Initialisation the browser  DriverManager.getDriver()::beforeMethodSetUp");
         testLogger = classLogger.createNode(method.getName());
-        System.out.println("WebDriver :: "+DriverManager.getDriver());
         DriverManager.getDriver().manage().deleteAllCookies();
         DriverManager.getDriver().manage().window().maximize();
         DriverManager.getDriver().navigate().to(appUrl);
@@ -113,7 +110,6 @@ public class BaseTest {
     }
 
     protected static synchronized void logTestStatusToReport(WebDriver driver, ITestResult result) throws IOException {
-        System.out.println("In :: logTestStatusToReport -- ");
 
         logger.info("Executing logTestStatusToReport() method");
 
@@ -149,7 +145,6 @@ public class BaseTest {
 
     @AfterMethod(alwaysRun = true)
     public static synchronized void updateTestStatus(ITestResult result) {
-        System.out.println("In AfterMethod :: updateTestStatus");
 
         if (result != null){
             logger.info("updating result of test script " + result.getName() + " to report :: updateTestStatus");

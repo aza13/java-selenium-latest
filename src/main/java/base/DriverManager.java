@@ -39,7 +39,6 @@ public class DriverManager {
 
             switch (browser) {
                 case CHROME:
-                    System.out.println("Initialising the chrome browser");
                     logger.info("Initialising the chrome browser");
                     WebDriverManager.chromedriver().setup();
                     ChromeOptions options = new ChromeOptions();
@@ -61,7 +60,6 @@ public class DriverManager {
                     threadDriver.set(driver);
                     break;
                 case OPERA:
-                    System.out.println("Initialising the chrome browser");
                     logger.info("Initialising the opera browser");
                     WebDriverManager.operadriver().setup();
                     driver = new OperaDriver();
