@@ -6,6 +6,8 @@ public class ConstantVariable {
 
     }
 
+    public static final String TEST_DATA_FILE_PATH = ".//src//main//resources//TestData.xlsx";
+
     public static final String CONFIG_PROP_FILEPATH = ".\\src\\main\\resources\\Configuration.properties";
     public static final String CANCELLED_STRING = "Cancelled";
     public static final String DECLINED_STRING = "Declined";
