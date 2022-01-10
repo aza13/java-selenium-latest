@@ -141,6 +141,8 @@ public class BaseTest {
 
     @AfterMethod(alwaysRun = true)
     public static synchronized void updateTestStatus(ITestResult result) {
+        System.out.println("In After Method :: "+result.getName());
+        System.out.println("In After Method :: "+result.getStatus());
 
         logger.info("updating result of test script " + result.getName() + " to report :: updateTestStatus");
         try {
