@@ -105,7 +105,7 @@ public class BaseTest {
         return screenShotPath;
     }
 
-    private static synchronized void logTestStatusToReport(WebDriver driver, ITestResult result) throws IOException {
+    protected static synchronized void logTestStatusToReport(WebDriver driver, ITestResult result) throws IOException {
 
         logger.info("Executing logTestStatusToReport() method");
 
@@ -139,20 +139,7 @@ public class BaseTest {
         }
     }
 
-    @AfterMethod(alwaysRun = true)
-    public static synchronized void updateTestStatus(ITestResult result) {
-        System.out.println("In After Method :: "+result.getName());
-        System.out.println("In After Method :: "+result.getStatus());
 
-        logger.info("updating result of test script " + result.getName() + " to report :: updateTestStatus");
-        try {
-            logTestStatusToReport(DriverManager.getDriver(), result);
-        } catch (IOException e) {
-            logger.error("Failed to update the status of the test case:: updateTestStatus" + e);
-        }
-        DriverManager.quitDriver();
-        testLogger.log(Status.PASS, "Closed the browser successfully");
-    }
 
 
     @AfterSuite(alwaysRun = true)

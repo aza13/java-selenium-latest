@@ -1,13 +1,17 @@
 import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
+import com.aventstack.extentreports.Status;
 import org.apache.log4j.Logger;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageActions.DashboardPageActions;
 import pageActions.InsuredPageActions;
 import utils.dataProvider.TestDataProvider;
 
+import java.io.IOException;
 import java.util.Map;
 
 public class InsuredPageTests extends BaseTest {
@@ -114,6 +118,21 @@ public class InsuredPageTests extends BaseTest {
         assert actualText.contains(map.get("dialogText"));
         insuredPageActions.clickDuplicateCancelButton(DriverManager.getDriver());
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public static synchronized void updateTestStatus(ITestResult result) {
+        System.out.println("In After Method :: "+result.getName());
+        System.out.println("In After Method :: "+result.getStatus());
+
+        logger.info("updating result of test script " + result.getName() + " to report :: updateTestStatus");
+        try {
+            logTestStatusToReport(DriverManager.getDriver(), result);
+        } catch (IOException e) {
+            logger.error("Failed to update the status of the test case:: updateTestStatus" + e);
+        }
+        DriverManager.quitDriver();
+        testLogger.log(Status.PASS, "Closed the browser successfully");
     }
 
 }

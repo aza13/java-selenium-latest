@@ -69,7 +69,7 @@ public class DriverManager {
         return driver;
     }
 
-    static void quitDriver() {
+    public static void quitDriver() {
         getDriver().quit();
         DriverManager.threadDriver.set(null);
     }

@@ -1,14 +1,18 @@
 import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
+import com.aventstack.extentreports.Status;
 import helper.WaitHelper;
 import org.apache.log4j.Logger;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageActions.DashboardPageActions;
 import pageActions.LoginPageActions;
 import utils.dataProvider.TestDataProvider;
 
+import java.io.IOException;
 import java.util.Map;
 
 public class LoginPageTests extends BaseTest {
@@ -51,5 +55,20 @@ public class LoginPageTests extends BaseTest {
             assert text.contentEquals("Welcome to the Broker Portal");
 
         }
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public static synchronized void updateTestStatus(ITestResult result) {
+        System.out.println("In After Method :: "+result.getName());
+        System.out.println("In After Method :: "+result.getStatus());
+
+        logger.info("updating result of test script " + result.getName() + " to report :: updateTestStatus");
+        try {
+            logTestStatusToReport(DriverManager.getDriver(), result);
+        } catch (IOException e) {
+            logger.error("Failed to update the status of the test case:: updateTestStatus" + e);
+        }
+        DriverManager.quitDriver();
+        testLogger.log(Status.PASS, "Closed the browser successfully");
     }
 }
