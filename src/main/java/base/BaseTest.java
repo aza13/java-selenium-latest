@@ -146,7 +146,6 @@ public class BaseTest {
     @AfterMethod(alwaysRun = true)
     public static synchronized void updateTestStatus(ITestResult result) {
 
-        if (result != null){
             logger.info("updating result of test script " + result.getName() + " to report :: updateTestStatus");
             try {
                 logTestStatusToReport(DriverManager.getDriver(), result);
@@ -156,9 +155,6 @@ public class BaseTest {
             DriverManager.quitDriver();
             testLogger.log(Status.PASS, "Closed the browser successfully");
         }
-    }
-
-
 
 
     @AfterSuite(alwaysRun = true)
