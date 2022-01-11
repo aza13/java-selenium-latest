@@ -1,13 +1,17 @@
 import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
+import com.aventstack.extentreports.Status;
 import org.apache.log4j.Logger;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageActions.DashboardPageActions;
 import pageActions.InsuredPageActions;
 import utils.dataProvider.TestDataProvider;
 
+import java.io.IOException;
 import java.util.Map;
 
 public class InsuredPageTests extends BaseTest {
@@ -115,5 +119,7 @@ public class InsuredPageTests extends BaseTest {
         insuredPageActions.clickDuplicateCancelButton(DriverManager.getDriver());
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
     }
+
+
 
 }

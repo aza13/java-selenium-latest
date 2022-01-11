@@ -39,6 +39,7 @@ public class ConfigDataReader {
                 logger.error("Failed to load the properties file in :: ConfigPropInit ");
             }
         }
+
         return prop;
     }
 }

@@ -1,6 +1,7 @@
 package utils.dataProvider;
 
 import base.BaseTest;
+import enums.ConstantVariable;
 import utils.fileReader.ConfigDataReader;
 import utils.fileReader.ExcelDataReader;
 import org.apache.log4j.Logger;
@@ -27,6 +28,8 @@ public class TestDataProvider extends BaseTest {
         testDataFilePath = ConfigDataReader.ConfigPropInit().getProperty("testDataFilePath");
 
         logger.info("Test Data Path : " + testDataFilePath);
+
+        System.out.println("Test data file path::"+testDataFilePath);
 
         String testCaseName = method.getName();
 
