@@ -479,7 +479,7 @@ public class DashboardPageActions extends BaseTest {
         for (String date: dates) {
             try {
                 actualDate = df.parse(date);
-                if (!actualStatus.equalsIgnoreCase(expStatus) && getDifferenceInExpirationDateInDays(actualDate,givenDate) <=67) {
+                if (!actualStatus.equalsIgnoreCase(expStatus) && getDifferenceInExpirationDateInDays(actualDate,givenDate) <=60) {
                     ClickHelper.clickElement(driver,firstAvailableRenewButton);
                     ClickHelper.clickElement(driver, submitSubmissionRenewal);
 
