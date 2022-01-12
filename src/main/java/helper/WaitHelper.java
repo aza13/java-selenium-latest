@@ -8,7 +8,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class WaitHelper {
 
-    private static Logger logger = Logger.getLogger(WaitHelper.class);
+    private static final Logger logger = Logger.getLogger(WaitHelper.class);
 
     private WaitHelper() {
     }

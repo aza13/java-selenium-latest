@@ -2,6 +2,8 @@ import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
 import enums.ConstantVariable;
+import helper.ClickHelper;
+import helper.WaitHelper;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -18,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class DashboardPageTests extends BaseTest {
 
@@ -275,7 +278,7 @@ public class DashboardPageTests extends BaseTest {
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
     public void testPresenceOfContinueButtonOnQuotes(Map<String, String> map) throws InterruptedException {
         /**
-         * this test verifies whether continue button should be displayed or not
+         * this test verifies whether continue button should be displayed or not quotes in MY QUOTES
          story - N2020-28296
          **/
         logger.info("verifying broker filtering the policies list :: testBrokerFilteringPoliciesList");
@@ -287,18 +290,49 @@ public class DashboardPageTests extends BaseTest {
         int quoteCount = quoteCards.size();
         logger.info("validating whether continue button displayed for only specific statuses");
         if (quoteCount > 0) {
-            String continueBtnXpath = null;
-            List<String> statuses = dashboardPageActions.getAllQuotesStatus(DriverManager.getDriver());
+            String continueBtnXpath;
             for (int i = 1; i <= quoteCount; i++) {
-                continueBtnXpath = "(//div[@data-qa='quote_card']/div/div[last()]//button)["+i+"]";
-                switch (statuses.get(i)) {
+                continueBtnXpath = "(//div[@data-qa='quote_card']//p[@data-qa='status'])["+i+"]/parent::div/parent::div/following-sibling::div//button";
+                By continueButton = By.xpath(continueBtnXpath);
+                String status = dashboardPageActions.getGivenQuoteStatus(DriverManager.getDriver(), i);
+                switch (status) {
                     case ConstantVariable.CANCELLED_STRING:
                     case ConstantVariable.DECLINED_STRING:
                     case ConstantVariable.IN_REVIEW_STRING:
-                        assert !DriverManager.getDriver().findElement(By.xpath(continueBtnXpath)).isDisplayed();
+                        assert !ClickHelper.isElementExist(DriverManager.getDriver(), continueButton);
                         break;
                     case ConstantVariable.ACTIVE_STRING:
-                        assert DriverManager.getDriver().findElement(By.xpath(continueBtnXpath)).isDisplayed();
+                        assert ClickHelper.isElementExist(DriverManager.getDriver(), continueButton);
+                }
+            }
+            logger.info("validating the continue button in search results");
+            List<String> referenceIds = dashboardPageActions.getAllQuoteReferenceIds(DriverManager.getDriver());
+            int refIdCount = referenceIds.size();
+            Random ran = new Random();
+            if(refIdCount > 3) {
+                for (int j = 0; j <= 3; j++) {
+                    int index = ran.nextInt(refIdCount);
+                    String refId = referenceIds.get(index);
+                    dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), refId);
+                    List<WebElement> quoteCards2 = dashboardPageActions.getQuoteCardsList(DriverManager.getDriver());
+                    int quoteCount2 = quoteCards2.size();
+                    if (quoteCount2 > 0) {
+                        String continueBtnXpath2;
+                        for (int i = 1; i <= quoteCount2; i++) {
+                            String status2 = dashboardPageActions.getGivenQuoteStatus(DriverManager.getDriver(), i);
+                            continueBtnXpath2 = "(//div[@data-qa='quote_card']//p[@data-qa='status'])["+i+"]/parent::div/parent::div/following-sibling::div//button";
+                            By continueButton2 = By.xpath(continueBtnXpath2);
+                            switch (status2) {
+                                case ConstantVariable.CANCELLED_STRING:
+                                case ConstantVariable.DECLINED_STRING:
+                                case ConstantVariable.IN_REVIEW_STRING:
+                                    assert !ClickHelper.isElementExist(DriverManager.getDriver(), continueButton2);
+                                    break;
+                                case ConstantVariable.ACTIVE_STRING:
+                                    assert ClickHelper.isElementExist(DriverManager.getDriver(), continueButton2);;
+                            }
+                        }
+                    }
                 }
             }
 

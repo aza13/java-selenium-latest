@@ -112,6 +112,8 @@ public class DashboardPageObjects {
 
     public static final By policyExpirationDateGeneric = By.xpath("//p[@data-qa='expDate']");
 
+    public static final By quoteReferenceIdGenericLocator = By.xpath("//p[@data-qa='id']");
+
 
 
 

@@ -4,6 +4,7 @@ import base.BaseTest;
 import base.PageObjectManager;
 import helper.*;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -160,11 +161,33 @@ public class DashboardPageActions extends BaseTest {
 
     }
 
+    public String getGivenQuoteStatus(WebDriver driver, int index) {
+
+        String quoteStatusXpath = "(//div[@data-qa='quote_card']//p[@data-qa='status'])["+index+"]";
+
+        WebElement element = driver.findElement(By.xpath(quoteStatusXpath));
+
+        return element.getText();
+
+    }
+
     public List<String> getAllQuotesProductName(WebDriver driver) {
 
         List<String> names = new ArrayList<>();
 
         List<WebElement> quoteNameElements = driver.findElements(quoteProductName);
+
+        for (WebElement element : quoteNameElements) {
+            names.add(element.getText());
+        }
+        return names;
+    }
+
+    public List<String> getAllQuoteReferenceIds(WebDriver driver) {
+
+        List<String> names = new ArrayList<>();
+
+        List<WebElement> quoteNameElements = driver.findElements(quoteReferenceIdGenericLocator);
 
         for (WebElement element : quoteNameElements) {
             names.add(element.getText());
