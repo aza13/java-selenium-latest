@@ -52,4 +52,5 @@ public class LoginPageTests extends BaseTest {
 
         }
     }
+
 }

@@ -35,8 +35,6 @@ public class DataGeneratorHelper {
 
     public static String firstName(){
 
-        System.out.println(person.getFirstName());
-
         return person.getFirstName();
     }
 

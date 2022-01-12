@@ -40,6 +40,7 @@ public class BaseTest {
 
     @BeforeSuite(alwaysRun = true)
     public static void configSetUpMethod() {
+
         logger.info("Executing the @BeforeSuite - configSetUpMethod() in BaseTest ");
 
         Properties prop;
@@ -52,15 +53,19 @@ public class BaseTest {
 
         logger.info("Selected browserType is: " + browserName);
 
+        System.out.println("Browser Name :: "+ browserName);
+
         DriverManager.setBrowserType(browserName);
 
         appUrl = prop.getProperty("appUrl");
 
+        logger.info("Given application URL is: " + appUrl);
+
+        System.out.println("App url Name :: "+appUrl);
+
         userId = prop.getProperty("userId");
 
         password = prop.getProperty("password");
-
-        logger.info("Given application URL is: " + appUrl);
 
         logger.info("Initialising extent report");
 
@@ -104,7 +109,7 @@ public class BaseTest {
         return screenShotPath;
     }
 
-    private static synchronized void logTestStatusToReport(WebDriver driver, ITestResult result) throws IOException {
+    protected static synchronized void logTestStatusToReport(WebDriver driver, ITestResult result) throws IOException {
 
         logger.info("Executing logTestStatusToReport() method");
 
@@ -141,15 +146,15 @@ public class BaseTest {
     @AfterMethod(alwaysRun = true)
     public static synchronized void updateTestStatus(ITestResult result) {
 
-        logger.info("updating result of test script " + result.getName() + " to report :: updateTestStatus");
-        try {
-            logTestStatusToReport(DriverManager.getDriver(), result);
-        } catch (IOException e) {
-            logger.error("Failed to update the status of the test case:: updateTestStatus" + e);
+            logger.info("updating result of test script " + result.getName() + " to report :: updateTestStatus");
+            try {
+                logTestStatusToReport(DriverManager.getDriver(), result);
+            } catch (IOException e) {
+                logger.error("Failed to update the status of the test case:: updateTestStatus" + e);
+            }
+            DriverManager.quitDriver();
+            testLogger.log(Status.PASS, "Closed the browser successfully");
         }
-        DriverManager.quitDriver();
-        testLogger.log(Status.PASS, "Closed the browser successfully");
-    }
 
 
     @AfterSuite(alwaysRun = true)

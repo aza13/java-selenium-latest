@@ -21,7 +21,7 @@ public class DriverManager {
 
     }
 
-    private static ThreadLocal<WebDriver> threadDriver = new ThreadLocal<>();
+    private static final ThreadLocal<WebDriver> threadDriver = new ThreadLocal<>();
 
     static synchronized void setBrowserType(String browser) {
 
@@ -42,6 +42,7 @@ public class DriverManager {
                     logger.info("Initialising the chrome browser");
                     WebDriverManager.chromedriver().setup();
                     ChromeOptions options = new ChromeOptions();
+                    options. addArguments("--headless");
                     options.addArguments("--incognito");
                     driver = new ChromeDriver(options);
                     threadDriver.set(driver);
