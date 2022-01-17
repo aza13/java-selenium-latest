@@ -3,6 +3,8 @@ import base.DriverManager;
 import base.PageObjectManager;
 import com.aventstack.extentreports.Status;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -12,7 +14,9 @@ import pageActions.InsuredPageActions;
 import utils.dataProvider.TestDataProvider;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class InsuredPageTests extends BaseTest {
 
@@ -113,6 +117,47 @@ public class InsuredPageTests extends BaseTest {
         dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), map.get("applicantName"), map.get("website"));
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         insuredPageActions.selectInsuredCard(DriverManager.getDriver(), map.get("applicantName"));
+        assert insuredPageActions.duplicateSubmissionDialog(DriverManager.getDriver());
+        String actualText = insuredPageActions.duplicateSubmissionDialogDescription(DriverManager.getDriver());
+        assert actualText.contains(map.get("dialogText"));
+        insuredPageActions.clickDuplicateCancelButton(DriverManager.getDriver());
+        dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
+    }
+
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "InsuredPageData")
+    public void testSubmissionClearancesFunctionality(Map<String, String> map) throws InterruptedException {
+        /***
+         this test verifies whether user can proceed for submission creation based on clearances results
+         story - N2020-28325, 28326
+         **/
+        logger.info("verifying submission clearance results :: testClearancesResults");
+        dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
+        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
+        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
+        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
+        dashboardPageActions.clickNewQuote(DriverManager.getDriver());
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), map.get("applicantName"), map.get("website"));
+        InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
+        if(Objects.equals(map.get("functionality"), "submit")){
+            List<WebElement> insuranceCards = insuredPageActions.getAllInsuranceCards(DriverManager.getDriver());
+            int count = insuranceCards.size();
+            if(count>0){
+                for(int i=1; i<=count; i++){
+                    String insured_name = insuranceCards.get(i).findElement(By.xpath("//div[@data-qa='insured_name']")).getText();
+                    insuredPageActions.selectInsuredCardWithIndex(DriverManager.getDriver(), i);
+                    if (insuredPageActions.isClearanceDialogModalDisplayed(DriverManager.getDriver())){
+                        insuredPageActions.enterClearanceText(DriverManager.getDriver(), map.get("clearanceText"));
+                        insuredPageActions.clickClearanceSubmitButton(DriverManager.getDriver());
+                    }else if(insuredPageActions.duplicateSubmissionDialog(DriverManager.getDriver())){
+                        insuredPageActions.clickDuplicateCancelButton(DriverManager.getDriver());
+                    }
+                }
+            }
+
+
+        }
+
+
         assert insuredPageActions.duplicateSubmissionDialog(DriverManager.getDriver());
         String actualText = insuredPageActions.duplicateSubmissionDialogDescription(DriverManager.getDriver());
         assert actualText.contains(map.get("dialogText"));

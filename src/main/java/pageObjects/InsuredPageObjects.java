@@ -41,5 +41,11 @@ public class InsuredPageObjects {
     public static final By duplicateSubDialogDescription = By.id("alert-dialog-description");
     public static final By duplicateDialogCancelButton = By.xpath("//button[text()='CANCEL']/span");
     public static final By insuredNameInCard = By.xpath("//div[@data-qa='insured_name']");
+    public static final By loadingSpinnerIcon = By.xpath("//p[text()='loading..']");
+    public static final By clearanceDialogModal = By.xpath("//h2[text()='Clearances']");
+    public static final By clearanceSubmitButton = By.xpath("//button[@data-qa='submit_alert_modal']");
+    public static final By clearanceCancelQuoteButton = By.xpath("//button[@data-qa='cancel_alert_modal']");
+    public static final By clearanceDialogTextArea = By.id("outlined-textarea");
+    public static final By insuranceCardGenericLocator = By.xpath("//div[contains(@class, 'MuiCard')]");
 
 }
