@@ -16,7 +16,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
-import utils.extentReport.ExtentReport;
+import utils.extentReport.ExtentManager;
 import utils.fileReader.ConfigDataReader;
 
 import java.io.File;
@@ -69,7 +69,7 @@ public class BaseTest {
 
         logger.info("Initialising extent report");
 
-        extentReport = ExtentReport.ExtentReportInit();
+        extentReport = ExtentManager.getInstance();
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -95,7 +95,7 @@ public class BaseTest {
         File src = takesScreenshot.getScreenshotAs(OutputType.FILE);
 
         try {
-            screenShotPath = System.getProperty("user.dir") + "\\reports\\screenshots\\" + testName + "_screenshot.png";
+            screenShotPath = System.getProperty("user.dir") + "\\test-output\\extent-report\\screenshots" + testName + "_screenshot.png";
 
             logger.info("The screenshot is saved at " + screenShotPath);
 

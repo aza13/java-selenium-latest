@@ -12,9 +12,9 @@ public class ExtentTestManager {
 
     private static final Logger logger = Logger.getLogger(ExtentTestManager.class);
 
-    private static Map<Integer, ExtentTest> extentTestMap = new HashMap<Integer, ExtentTest>();
+    private static final Map<Integer, ExtentTest> extentTestMap = new HashMap<Integer, ExtentTest>();
 
-    private static ExtentReports extent = ExtentManager.getInstance();
+    private static final ExtentReports extent = ExtentManager.getInstance();
 
     private static ExtentTest suite;
 
