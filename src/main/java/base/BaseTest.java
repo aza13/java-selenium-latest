@@ -95,7 +95,7 @@ public class BaseTest {
         File src = takesScreenshot.getScreenshotAs(OutputType.FILE);
 
         try {
-            screenShotPath = System.getProperty("user.dir") + "\\src\\test-output\\extent-report\\screenshots" + testName + "_screenshot.png";
+            screenShotPath = System.getProperty("user.dir") + "\\extent-report\\screenshots" + testName + "_screenshot.png";
 
             logger.info("The screenshot is saved at " + screenShotPath);
 
