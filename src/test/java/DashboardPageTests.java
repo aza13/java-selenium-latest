@@ -1,6 +1,7 @@
 import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
+import com.sun.xml.bind.v2.runtime.reflect.Lister;
 import enums.ConstantVariable;
 import helper.ClickHelper;
 import helper.WaitHelper;
@@ -17,11 +18,10 @@ import utils.dataProvider.TestDataProvider;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 
 public class DashboardPageTests extends BaseTest {
@@ -399,6 +399,45 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
         dashboardPageActions.clickRenewButton(DriverManager.getDriver());
+
+    }
+
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    public void  sortQuoteList(Map<String, String> map) throws InterruptedException, ParseException {
+        /***
+         this test Sort the My Quotes List
+         story - N2020-29952
+         **/
+
+        logger.info("verifying sort my quote list ::  sortQuoteList");
+        dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
+        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
+        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
+        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
+        WaitHelper.pause(2000);
+        String actual = dashboardPageActions.getFirstAvailableCreatedDate(DriverManager.getDriver());
+        dashboardPageActions.clickSortBy(DriverManager.getDriver());
+        dashboardPageActions.clickSortByNewest(DriverManager.getDriver());
+        dashboardPageActions.getFirstAvailableCreatedDate(DriverManager.getDriver());
+        String expected = dashboardPageActions.getFirstAvailableCreatedDate(DriverManager.getDriver());
+        assert actual.equals(expected);
+
+        dashboardPageActions.clickSortBy(DriverManager.getDriver());
+        dashboardPageActions.clickSortByOldest(DriverManager.getDriver());
+        String actualOldestDate = dashboardPageActions.getFirstAvailableCreatedDate(DriverManager.getDriver());
+        dashboardPageActions.clickSortByOldest(DriverManager.getDriver());
+        String expectedOldestDate = dashboardPageActions.getFirstAvailableCreatedDate(DriverManager.getDriver());
+        assert actualOldestDate.equals(expectedOldestDate);
+
+
+
+
+
+
+
+
+
+
 
     }
 }

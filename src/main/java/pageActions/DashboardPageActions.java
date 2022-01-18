@@ -391,6 +391,26 @@ public class DashboardPageActions extends BaseTest {
         return TextHelper.getText(driver, getFirstAvailableLegalName, "text");
     }
 
+    public String getFirstAvailableCreatedDate(WebDriver driver) {
+
+        return TextHelper.getText(driver, firstAvailableCreatedDate, "text");
+    }
+
+    public void clickSortBy(WebDriver driver) {
+        WaitHelper.waitForElementClickable(driver, sortBy);
+        ClickHelper.clickElement(driver, sortBy);
+    }
+
+    public void clickSortByNewest(WebDriver driver) {
+        WaitHelper.waitForElementClickable(driver, sortByNewest);
+        ClickHelper.clickElement(driver, sortByNewest);
+    }
+
+    public void clickSortByOldest(WebDriver driver) {
+        WaitHelper.waitForElementClickable(driver, sortByOldest);
+        ClickHelper.clickElement(driver, sortByOldest);
+    }
+
 
 
     public boolean verifyQuoteStatusInTable(WebDriver driver) {
