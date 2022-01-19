@@ -128,6 +128,10 @@ public class DashboardPageObjects {
 
     public static final By sortByOldest = By.cssSelector("li:nth-child(1)");
 
+    public static final By sortByExpiringLater = By.xpath("//li[normalize-space()='Expiring Later']");
+
+    public static final By sortByExpiringSoon = By.xpath("//li[normalize-space()='Expiring Soon']");
+
 
 
 }

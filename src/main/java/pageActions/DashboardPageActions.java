@@ -411,7 +411,15 @@ public class DashboardPageActions extends BaseTest {
         ClickHelper.clickElement(driver, sortByOldest);
     }
 
+    public void clickSortByExpiringLater(WebDriver driver) {
+        WaitHelper.waitForElementClickable(driver, sortByExpiringLater);
+        ClickHelper.clickElement(driver, sortByExpiringLater);
+    }
 
+    public void clickSortByExpiringSoon(WebDriver driver) {
+        WaitHelper.waitForElementClickable(driver, sortByExpiringSoon);
+        ClickHelper.clickElement(driver, sortByExpiringSoon);
+    }
 
     public boolean verifyQuoteStatusInTable(WebDriver driver) {
 
@@ -539,6 +547,15 @@ public class DashboardPageActions extends BaseTest {
     public long getDifferenceInExpirationDateInDays (Date expirationDate, Date currentDate) throws ParseException {
         long difference = (expirationDate.getTime()-currentDate.getTime())/8640000;
         return Math.abs(difference);
+    }
+
+
+    public ArrayList<String> sortDates(ArrayList<String> dates) throws ParseException {
+        SimpleDateFormat f = new SimpleDateFormat("MM/dd/yyyy");
+        Map <Date, String> dateFormatMap = new TreeMap<>();
+        for (String date: dates)
+            dateFormatMap.put(f.parse(date), date);
+        return new ArrayList<>(dateFormatMap.values());
     }
 
 
