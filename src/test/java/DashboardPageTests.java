@@ -463,7 +463,7 @@ public class DashboardPageTests extends BaseTest {
         if (!isEqual) {
             logger.info("======================== Sorting my policy is working as expected ========================================");
         }else {
-            logger.info("======================== Sorting my policy is not working as expected ===================================");
+            logger.error("======================== Sorting my policy is not working as expected ===================================");
         }
 
 
