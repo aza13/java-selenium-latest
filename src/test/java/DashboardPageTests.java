@@ -15,9 +15,14 @@ import pageActions.InsuredPageActions;
 import pageActions.LoginPageActions;
 import utils.dataProvider.TestDataProvider;
 
+import javax.swing.text.DateFormatter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -429,11 +434,37 @@ public class DashboardPageTests extends BaseTest {
         String expectedOldestDate = dashboardPageActions.getFirstAvailableCreatedDate(DriverManager.getDriver());
         assert actualOldestDate.equals(expectedOldestDate);
 
+    }
 
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    public void  sortPolicyList(Map<String, String> map) throws InterruptedException, ParseException {
+        /***
+         this test Sort my Policy List
+         story - N2020-29736
+         **/
 
-
-
-
+        logger.info("verifying sort my quote list ::  sortPolicyList");
+        dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
+        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
+        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
+        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
+        dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
+        dashboardPageActions.clickSortBy(DriverManager.getDriver());
+        dashboardPageActions.clickSortByExpiringSoon(DriverManager.getDriver());
+        WaitHelper.pause(2000);
+        List<String> datesSortedByExpiringSoon = dashboardPageActions.getPolicyExpirationDates(DriverManager.getDriver());
+        List<String> sortedDatesByExpiringSoonAsc = dashboardPageActions.sortDates((ArrayList<String>) datesSortedByExpiringSoon);
+        dashboardPageActions.clickSortBy(DriverManager.getDriver());
+        dashboardPageActions.clickSortByExpiringLater(DriverManager.getDriver());
+        WaitHelper.pause(2000);
+        List<String> datesSortedByExpiringLater = dashboardPageActions.getPolicyExpirationDates(DriverManager.getDriver());
+        List<String> sortedDatesByExpiringLaterAsc = dashboardPageActions.sortDates((ArrayList<String>) datesSortedByExpiringLater);
+        boolean isEqual = sortedDatesByExpiringLaterAsc.equals(sortedDatesByExpiringSoonAsc);
+        if (!isEqual) {
+            logger.info("======================== Sorting my policy is working as expected ========================================");
+        }else {
+            logger.error("======================== Sorting my policy is not working as expected ===================================");
+        }
 
 
 
