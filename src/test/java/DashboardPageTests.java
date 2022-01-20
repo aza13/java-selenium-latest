@@ -7,6 +7,8 @@ import helper.WaitHelper;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
+import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageActions.DashboardPageActions;
@@ -21,7 +23,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
 
 
 public class DashboardPageTests extends BaseTest {
@@ -101,12 +102,17 @@ public class DashboardPageTests extends BaseTest {
         /* Status color changes would be coming soon with hexa codes
         dashboardPageActions.validatePolicyStatusColorCoding(DriverManager.getDriver());*/
         List<WebElement> labels = dashboardPageActions.getPolicyTableLabels(DriverManager.getDriver());
-        String policyLabel = labels.get(0).getText();
-        assert policyLabel.equals(map.get("policyLabel"));
-        String effDateLabel = labels.get(1).getText();
-        assert effDateLabel.equals(map.get("effDateLabel"));
-        String expDateLabel = labels.get(2).getText();
-        assert expDateLabel.equals(map.get("expDateLabel"));
+        if(labels.size()>0){
+            String policyLabel = labels.get(0).getText();
+            assert policyLabel.equals(map.get("policyLabel"));
+            String effDateLabel = labels.get(1).getText();
+            assert effDateLabel.equals(map.get("effDateLabel"));
+            String expDateLabel = labels.get(2).getText();
+            assert expDateLabel.equals(map.get("expDateLabel"));
+        }else{
+            throw new SkipException("No policies were found for the given broker");
+        }
+
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
@@ -155,8 +161,15 @@ public class DashboardPageTests extends BaseTest {
         assert insuredPageActions.newInsuredButton(DriverManager.getDriver()).isDisplayed();
         assert insuredPageActions.searchAgainButton(DriverManager.getDriver()).isDisplayed();
         assert insuredPageActions.verifyInsuredSearchResult(DriverManager.getDriver(), map.get("applicantName"), map.get("website"));
-        insuredPageActions.clickSelectInsuredButton(DriverManager.getDriver());
-        assert insuredPageActions.continueInsuredSearch(DriverManager.getDriver()).isDisplayed();
+        insuredPageActions.clickContinueInsuredButton(DriverManager.getDriver());
+        boolean duplicateDialog = insuredPageActions.duplicateSubmissionDialog(DriverManager.getDriver());
+        if(!duplicateDialog){
+            assert insuredPageActions.continueInsuredSearch(DriverManager.getDriver()).isDisplayed();
+        }else{
+            logger.info("Can't continue to insured search page, duplicate submission displayed");
+            throw new SkipException("The test is Ignored, because can't continue to insured search page, duplicate submission dialog is displayed");
+        }
+
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
@@ -335,6 +348,7 @@ public class DashboardPageTests extends BaseTest {
                             }
                         }
                     }
+                    dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
                 }
             }
 
