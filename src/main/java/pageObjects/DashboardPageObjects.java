@@ -120,6 +120,18 @@ public class DashboardPageObjects {
 
     public static final By submitSubmissionRenewal = By.xpath("//button[normalize-space()='SUBMIT']");
 
+    public static final By firstAvailableCreatedDate = By.xpath("//p[@class='sc-ezbkAF fLaTpy MuiTypography-root MuiTypography-body1']/div[1]/div/div[3]/div/p");
+
+    public static final By sortBy = By.xpath("//button[@id='sortByButton']//*[name()='svg']");
+
+    public static final By sortByNewest = By.xpath("//li[normalize-space()='Newest']");
+
+    public static final By sortByOldest = By.cssSelector("li:nth-child(1)");
+
+    public static final By sortByExpiringLater = By.xpath("//li[normalize-space()='Expiring Later']");
+
+    public static final By sortByExpiringSoon = By.xpath("//li[normalize-space()='Expiring Soon']");
+
 
 
 }
