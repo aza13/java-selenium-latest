@@ -11,7 +11,7 @@ public class InsuredPageObjects {
     public static final By modifySearchNameField = By.id("txt-modify-search-name");
     public static final By modifySearchWebsiteField = By.id("txt-modify-search-website");
     public static final By searchAgainButton = By.id("btn-search-again");
-    public static final By selectInsuredButton = By.xpath("//button[text()='Select']");
+    public static final By continueInsuredButton = By.xpath("//button[@data-qa='insured_select']");
     public static final By cancelInsuredSearchButton = By.id("btn-search-cancel");
     public static final By continueInsuredSearchButton = By.id("btn-insured-continue");
     public static final By modifySearchButton = By.xpath("//button[text()='Modify Search']");

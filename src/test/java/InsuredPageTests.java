@@ -6,11 +6,13 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.ITestResult;
+import org.testng.SkipException;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageActions.DashboardPageActions;
 import pageActions.InsuredPageActions;
+import pageActions.RatingCriteriaPageActions;
 import utils.dataProvider.TestDataProvider;
 
 import java.io.IOException;
@@ -33,7 +35,7 @@ public class InsuredPageTests extends BaseTest {
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "InsuredPageData")
     public void testCreateInsuredFieldsValidation(Map<String, String> map) throws InterruptedException {
         /***
-          this test verifies creation of new insured fields validation
+         this test verifies creation of new insured fields validation
          story - N2020-28293
          **/
         logger.info("verifying creating new quote creation :: testCreateInsuredFieldsValidation");
@@ -138,33 +140,55 @@ public class InsuredPageTests extends BaseTest {
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), map.get("applicantName"), map.get("website"));
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
-        if(Objects.equals(map.get("functionality"), "submit")){
-            List<WebElement> insuranceCards = insuredPageActions.getAllInsuranceCards(DriverManager.getDriver());
-            int count = insuranceCards.size();
-            if(count>0){
-                for(int i=1; i<=count; i++){
-                    String insured_name = insuranceCards.get(i).findElement(By.xpath("//div[@data-qa='insured_name']")).getText();
-                    insuredPageActions.selectInsuredCardWithIndex(DriverManager.getDriver(), i);
-                    if (insuredPageActions.isClearanceDialogModalDisplayed(DriverManager.getDriver())){
-                        insuredPageActions.enterClearanceText(DriverManager.getDriver(), map.get("clearanceText"));
-                        insuredPageActions.clickClearanceSubmitButton(DriverManager.getDriver());
-                    }else if(insuredPageActions.duplicateSubmissionDialog(DriverManager.getDriver())){
-                        insuredPageActions.clickDuplicateCancelButton(DriverManager.getDriver());
+        RatingCriteriaPageActions ratingCriteriaPageActions = new RatingCriteriaPageActions();
+        List<WebElement> insuranceCards = insuredPageActions.getAllInsuredNames(DriverManager.getDriver());
+        int count = insuranceCards.size();
+        if (count > 0) {
+            if (Objects.equals(map.get("functionality"), "submit")) {
+                for (int i = 0; i <= count; i++) {
+                    String name = insuranceCards.get(i).getText();
+                    if (name.contains(map.get("applicantName"))) {
+                        insuredPageActions.selectInsuredCardWithIndex(DriverManager.getDriver(), i);
+                        if (insuredPageActions.isClearanceDialogModalDisplayed(DriverManager.getDriver())) {
+                            insuredPageActions.enterClearanceText(DriverManager.getDriver(), map.get("clearanceText"));
+                            insuredPageActions.clickClearanceSubmitButton(DriverManager.getDriver());
+                            assert dashboardPageActions.myQuotesTab(DriverManager.getDriver()).isDisplayed();
+                            break;
+                        } else if (insuredPageActions.duplicateSubmissionDialog(DriverManager.getDriver())) {
+                            insuredPageActions.clickDuplicateCancelButton(DriverManager.getDriver());
+                            throw new SkipException("Duplicate submission was displayed");
+                        } else if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
+                            logger.info("Rating Criteria Page Displayed");
+                            assert ratingCriteriaPageActions.ratingCriteriaExitButton(DriverManager.getDriver()).isDisplayed();
+                            throw new SkipException("No clearance associated with insured, Rating criteria page displayed");
+                        }
                     }
                 }
+            } else if (Objects.equals(map.get("functionality"), "cancel")) {
+                for (int i = 0; i <= count; i++) {
+                    String name = insuranceCards.get(i).getText();
+                    if (name.contains(map.get("applicantName"))) {
+                        insuredPageActions.selectInsuredCardWithIndex(DriverManager.getDriver(), i);
+                        if (insuredPageActions.isClearanceDialogModalDisplayed(DriverManager.getDriver())) {
+                            insuredPageActions.clickClearanceCancelQuoteButton(DriverManager.getDriver());
+                            assert dashboardPageActions.myQuotesTab(DriverManager.getDriver()).isDisplayed();
+                            break;
+                        } else if (insuredPageActions.duplicateSubmissionDialog(DriverManager.getDriver())) {
+                            insuredPageActions.clickDuplicateCancelButton(DriverManager.getDriver());
+                            throw new SkipException("Duplicate submission was displayed");
+                        } else if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
+                            logger.info("Rating Criteria Displayed");
+                            throw new SkipException("No clearance associated with insured, Rating criteria page displayed");
+                        }
+                    }
+
+                }
+            } else {
+                logger.info("No insureds displayed, skipping the test");
+                throw new SkipException("No insureds displayed, skipping the test");
             }
-
-
         }
-
-
-        assert insuredPageActions.duplicateSubmissionDialog(DriverManager.getDriver());
-        String actualText = insuredPageActions.duplicateSubmissionDialogDescription(DriverManager.getDriver());
-        assert actualText.contains(map.get("dialogText"));
-        insuredPageActions.clickDuplicateCancelButton(DriverManager.getDriver());
-        dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
     }
-
 
 
 }

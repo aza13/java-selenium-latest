@@ -1,7 +1,6 @@
 package pageActions;
 
 import base.BaseTest;
-import base.PageObjectManager;
 import helper.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -38,9 +37,9 @@ public class InsuredPageActions extends BaseTest {
         ClickHelper.clickElement(driver, continueInsuredSearchButton);
     }
 
-    public void clickSelectInsuredButton(WebDriver driver) {
+    public void clickContinueInsuredButton(WebDriver driver) {
 
-        ClickHelper.clickElement(driver, selectInsuredButton);
+        ClickHelper.clickElement(driver, continueInsuredButton);
     }
 
     public void clickNewInsuredButton(WebDriver driver) {
@@ -187,7 +186,7 @@ public class InsuredPageActions extends BaseTest {
     }
 
     public boolean duplicateSubmissionDialog(WebDriver driver) {
-
+        WaitHelper.waitForElementVisibility(driver, duplicateSubmissionDialog);
         return ClickHelper.isElementExist(driver, duplicateSubmissionDialog);
 
     }
@@ -215,8 +214,11 @@ public class InsuredPageActions extends BaseTest {
             }
             String selectButtonXpath = "(//button[@data-qa='insured_select'])[" + cardsCount + "]";
             driver.findElement(By.xpath(selectButtonXpath)).click();
-            WaitHelper.waitForSpinnerIconInvisibility(driver, loadingSpinnerIcon);
         }
+    }
+
+    public List<WebElement> getAllInsuredNames(WebDriver driver) {
+        return driver.findElements(insuredNameInCard);
     }
 
     public void selectInsuredCardWithIndex(WebDriver driver, int index) throws InterruptedException {

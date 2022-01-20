@@ -74,7 +74,7 @@ public class DashboardPageActions extends BaseTest {
     }
 
     public WebElement profileLink(WebDriver driver) {
-
+        WaitHelper.waitForElementVisibility(driver, profileLink);
         return driver.findElement(profileLink);
     }
 
