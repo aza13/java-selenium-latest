@@ -6,6 +6,7 @@ import enums.ConstantVariable;
 import helper.ClickHelper;
 import helper.WaitHelper;
 import org.apache.log4j.Logger;
+import org.apache.pdfbox.pdmodel.interactive.annotation.handlers.PDSoundAppearanceHandler;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeClass;
@@ -465,10 +466,29 @@ public class DashboardPageTests extends BaseTest {
         }else {
             logger.error("======================== Sorting my policy is not working as expected ===================================");
         }
-
-
-
-
-
     }
+
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    public void testSupportRequestFunctionality(Map<String, String> map) throws InterruptedException {
+        /***
+         this test verifies sup of new insured
+         story - N2020-28346
+         **/
+        logger.info("verifying duplicate submissions :: testSupportRequestFunctionality");
+        dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
+        dashboardPageActions.clickSupportLink(DriverManager.getDriver());
+        dashboardPageActions.selectSupportType(DriverManager.getDriver(), map.get("supportType"));
+        dashboardPageActions.enterRequestDetails(DriverManager.getDriver(), map.get("requestDetails"));
+        dashboardPageActions.clickSendRequestButton(DriverManager.getDriver());
+        assert dashboardPageActions.isSupportTicketCreatedSuccessfully(DriverManager.getDriver());
+        dashboardPageActions.closeSuccessMessage(DriverManager.getDriver());
+        dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
+        dashboardPageActions.clickSupportLink(DriverManager.getDriver());
+        dashboardPageActions.clickSendRequestButton(DriverManager.getDriver());
+        assert dashboardPageActions.supportTypeRequiredWarning(DriverManager.getDriver());
+        assert dashboardPageActions.supportRequestDetailsRequiredWarning(DriverManager.getDriver());
+        dashboardPageActions.clickCancelSupportRequestButton(DriverManager.getDriver());
+        dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
+    }
+
 }
