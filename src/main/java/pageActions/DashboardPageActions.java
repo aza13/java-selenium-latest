@@ -11,6 +11,8 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Wait;
+import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -81,6 +83,11 @@ public class DashboardPageActions extends BaseTest {
     public WebElement signOutLink(WebDriver driver) {
 
         return driver.findElement(signOutLink);
+    }
+
+    public void clickSupportLink(WebDriver driver){
+        WaitHelper.waitForElementVisibility(driver, supportLink);
+        driver.findElement(supportLink).click();
     }
 
     public WebElement myQuotesTab(WebDriver driver) {
@@ -554,6 +561,41 @@ public class DashboardPageActions extends BaseTest {
         for (String date: dates)
             dateFormatMap.put(f.parse(date), date);
         return new ArrayList<>(dateFormatMap.values());
+    }
+
+    public void clickSendRequestButton(WebDriver driver){
+        ClickHelper.clickElement(driver, supportRequestSendButton);
+    }
+
+    public boolean supportTypeRequiredWarning(WebDriver driver){
+        return ClickHelper.isElementExist(driver, supportTypeRequired);
+    }
+
+    public boolean supportRequestDetailsRequiredWarning(WebDriver driver){
+        return ClickHelper.isElementExist(driver, supportRequestDetailsRequired);
+    }
+
+    public void selectSupportType(WebDriver driver, String supportType) throws InterruptedException {
+        DropdownHelper.selectValueFromBootstrapDropdown(driver, selectProductDropdown, genericProductOption, supportType);
+    }
+
+    public void enterRequestDetails(WebDriver driver, String details){
+        TextHelper.enterText(driver, supportRequestDetailTextArea, details);
+    }
+
+    public boolean isSupportTicketCreatedSuccessfully(WebDriver driver){
+        WaitHelper.waitForElementVisibility(driver, supportTicketSuccessMessage);
+        return ClickHelper.isElementExist(driver, supportTicketSuccessMessage);
+    }
+
+    public void closeSuccessMessage(WebDriver driver){
+        WaitHelper.waitForElementVisibility(driver, closeSuccessMessageButton);
+        ClickHelper.clickElement(driver, closeSuccessMessageButton);
+    }
+
+    public void clickCancelSupportRequestButton(WebDriver driver){
+        WaitHelper.waitForElementVisibility(driver, supportRequestCancelButton);
+        ClickHelper.clickElement(driver, supportRequestCancelButton);
     }
 
 

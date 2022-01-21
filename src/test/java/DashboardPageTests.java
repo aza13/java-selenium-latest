@@ -1,14 +1,12 @@
 import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
-import com.sun.xml.bind.v2.runtime.reflect.Lister;
 import enums.ConstantVariable;
 import helper.ClickHelper;
 import helper.WaitHelper;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -17,18 +15,10 @@ import pageActions.InsuredPageActions;
 import pageActions.LoginPageActions;
 import utils.dataProvider.TestDataProvider;
 
-import javax.swing.text.DateFormatter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class DashboardPageTests extends BaseTest {
 
@@ -349,7 +339,7 @@ public class DashboardPageTests extends BaseTest {
                                     assert !ClickHelper.isElementExist(DriverManager.getDriver(), continueButton2);
                                     break;
                                 case ConstantVariable.ACTIVE_STRING:
-                                    assert ClickHelper.isElementExist(DriverManager.getDriver(), continueButton2);;
+                                    assert ClickHelper.isElementExist(DriverManager.getDriver(), continueButton2);
                             }
                         }
                     }
@@ -422,8 +412,8 @@ public class DashboardPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
-    public void  sortQuoteList(Map<String, String> map) throws InterruptedException, ParseException {
-        /***
+    public void  sortQuoteList(Map<String, String> map) throws InterruptedException {
+        /**
          this test Sort the My Quotes List
          story - N2020-29952
          **/
@@ -479,10 +469,29 @@ public class DashboardPageTests extends BaseTest {
         }else {
             logger.error("======================== Sorting my policy is not working as expected ===================================");
         }
-
-
-
-
-
     }
+
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    public void testSupportRequestFunctionality(Map<String, String> map) throws InterruptedException {
+        /***
+         this test verifies sup of new insured
+         story - N2020-28346
+         **/
+        logger.info("verifying duplicate submissions :: testSupportRequestFunctionality");
+        dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
+        dashboardPageActions.clickSupportLink(DriverManager.getDriver());
+        dashboardPageActions.selectSupportType(DriverManager.getDriver(), map.get("supportType"));
+        dashboardPageActions.enterRequestDetails(DriverManager.getDriver(), map.get("requestDetails"));
+        dashboardPageActions.clickSendRequestButton(DriverManager.getDriver());
+        assert dashboardPageActions.isSupportTicketCreatedSuccessfully(DriverManager.getDriver());
+        dashboardPageActions.closeSuccessMessage(DriverManager.getDriver());
+        dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
+        dashboardPageActions.clickSupportLink(DriverManager.getDriver());
+        dashboardPageActions.clickSendRequestButton(DriverManager.getDriver());
+        assert dashboardPageActions.supportTypeRequiredWarning(DriverManager.getDriver());
+        assert dashboardPageActions.supportRequestDetailsRequiredWarning(DriverManager.getDriver());
+        dashboardPageActions.clickCancelSupportRequestButton(DriverManager.getDriver());
+        dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
+    }
+
 }

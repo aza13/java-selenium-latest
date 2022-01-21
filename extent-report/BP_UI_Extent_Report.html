@@ -35,7 +35,7 @@
 <a href="#"><span class="badge badge-primary">Regression Results</span></a>
 </li>
 <li class="m-r-10">
-<a href="#"><span class="badge badge-primary">Jan 20, 2022 03:14:11 AM</span></a>
+<a href="#"><span class="badge badge-primary">Jan 21, 2022 06:17:30 AM</span></a>
 </li>
 </ul>
 </div>
@@ -66,7 +66,8 @@
 <li class="dropdown">
 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-exclamation-circle"></i></a>
 <ul id="status-toggle" class="dropdown-menu dropdown-md p-v-0">
-<a class="dropdown-item" status="skip" href="#"><span>Skip</span><span class="status warning"></span></a>
+<a class="dropdown-item" status="pass" href="#"><span>Pass</span><span class="status success"></span></a>
+<a class="dropdown-item" status="fail" href="#"><span>Fail</span><span class="status danger"></span></a>
 <div class="dropdown-divider"></div>
 <a status="clear" class="dropdown-item" href="#"><span>Clear</span><span class="pull-right"><i class="fa fa-close"></i></span></a>
 </ul>
@@ -74,25 +75,25 @@
 </ul>
 </div>    <div class="test-list-wrapper scrollable">
       <ul class="test-list-item">
-        <li class="test-item"  status="skip" test-id="1"
+        <li class="test-item"  status="fail" test-id="1"
           author=""
           tag=""
           device="">
           <div class="test-detail">
             <p class="name">DashboardPageTests</p>
             <p class="text-sm">
-              <span>3:14:11 AM</span> / <span>00:03:18:072</span>
-              <span class="badge skip-bg log float-right">Skip</span>
+              <span>6:17:31 AM</span> / <span>00:04:13:682</span>
+              <span class="badge fail-bg log float-right">Fail</span>
             </p>
           </div>
           <div class="test-contents d-none">
 <div class="detail-head">
 <div class="p-v-10">
 <div class="info">
-<h5 class="test-status text-skip">DashboardPageTests</h5>
-<span class='badge badge-success'>01.20.2022 3:14:11 AM</span>
-<span class='badge badge-danger'>01.20.2022 3:17:29 AM</span>
-<span class='badge badge-default'>00:03:18:072</span>
+<h5 class="test-status text-fail">DashboardPageTests</h5>
+<span class='badge badge-success'>01.21.2022 6:17:31 AM</span>
+<span class='badge badge-danger'>01.21.2022 6:21:44 AM</span>
+<span class='badge badge-default'>00:04:13:682</span>
 &middot; <span class='uri-anchor badge badge-default'>#test-id=1</span>
 <span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
 <span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
@@ -104,12 +105,12 @@
           <div class="card-toolbar node-info">
             <ul class="list-inline d-none d-sm-block">
               <li><span class="badge pass-bg log ">Pass</span></li>
-              <li><span class='badge badge-default'>00:33:451</span></li>
+              <li><span class='badge badge-default'>00:19:717</span></li>
               <li></li>
             </ul>
           </div>
           <div class="card-title">
-            <a class="node " id="2"><span>testBrokerFilteringPoliciesList</span></a>
+            <a class="node " id="2"><span>sortPolicyList</span></a>
             <div class="node-attr">
             </div>
           </div>
@@ -121,14 +122,103 @@
   <tbody>
       <tr class="event-row">
         <td><span class="badge log pass-bg">Pass</span></td>
-        <td>3:14:45 AM</td>
+        <td>6:17:50 AM</td>
+        <td>
+          <span class='badge white-text green'>sortPolicyList - Test Case PASSED</span>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>6:17:51 AM</td>
+        <td>
+          Closed the browser successfully
+        </td>
+      </tr>
+  </tbody>
+</table>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-toolbar node-info">
+            <ul class="list-inline d-none d-sm-block">
+              <li><span class="badge fail-bg log ">Fail</span></li>
+              <li><span class='badge badge-default'>00:13:436</span></li>
+              <li><span><i class="fa fa-paperclip"></i></span></li>
+            </ul>
+          </div>
+          <div class="card-title">
+            <a class="node " id="3"><span>sortQuoteList</span></a>
+            <div class="node-attr">
+            </div>
+          </div>
+        </div>
+        <div class="">
+          <div class="card-body">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log fail-bg">Fail</span></td>
+        <td>6:18:04 AM</td>
+        <td>
+          <span class='badge white-text red'>sortQuoteList - Test Case FAILED</span>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log fail-bg">Fail</span></td>
+        <td>6:18:04 AM</td>
+        <td>
+          Test Case failed check the screenshot below com.aventstack.extentreports.ExtentTest@54b1c403
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>6:18:04 AM</td>
+        <td>
+          Closed the browser successfully
+        </td>
+      </tr>
+  </tbody>
+</table>
+    <div class="row mb-3"><div class="col-md-3">
+<img data-featherlight='screenshots\sortQuoteList_screenshot.png' src="screenshots\sortQuoteList_screenshot.png">
+    
+    </div></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-toolbar node-info">
+            <ul class="list-inline d-none d-sm-block">
+              <li><span class="badge pass-bg log ">Pass</span></li>
+              <li><span class='badge badge-default'>00:32:624</span></li>
+              <li></li>
+            </ul>
+          </div>
+          <div class="card-title">
+            <a class="node " id="4"><span>testBrokerFilteringPoliciesList</span></a>
+            <div class="node-attr">
+            </div>
+          </div>
+        </div>
+        <div class="collapse">
+          <div class="card-body">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>6:18:37 AM</td>
         <td>
           <span class='badge white-text green'>testBrokerFilteringPoliciesList - Test Case PASSED</span>
         </td>
       </tr>
       <tr class="event-row">
         <td><span class="badge log pass-bg">Pass</span></td>
-        <td>3:14:45 AM</td>
+        <td>6:18:37 AM</td>
         <td>
           Closed the browser successfully
         </td>
@@ -143,12 +233,12 @@
           <div class="card-toolbar node-info">
             <ul class="list-inline d-none d-sm-block">
               <li><span class="badge pass-bg log ">Pass</span></li>
-              <li><span class='badge badge-default'>00:29:265</span></li>
+              <li><span class='badge badge-default'>00:29:477</span></li>
               <li></li>
             </ul>
           </div>
           <div class="card-title">
-            <a class="node " id="3"><span>testBrokerFilteringSubmissionsList</span></a>
+            <a class="node " id="5"><span>testBrokerFilteringSubmissionsList</span></a>
             <div class="node-attr">
             </div>
           </div>
@@ -160,14 +250,14 @@
   <tbody>
       <tr class="event-row">
         <td><span class="badge log pass-bg">Pass</span></td>
-        <td>3:15:14 AM</td>
+        <td>6:19:06 AM</td>
         <td>
           <span class='badge white-text green'>testBrokerFilteringSubmissionsList - Test Case PASSED</span>
         </td>
       </tr>
       <tr class="event-row">
         <td><span class="badge log pass-bg">Pass</span></td>
-        <td>3:15:15 AM</td>
+        <td>6:19:07 AM</td>
         <td>
           Closed the browser successfully
         </td>
@@ -182,12 +272,12 @@
           <div class="card-toolbar node-info">
             <ul class="list-inline d-none d-sm-block">
               <li><span class="badge pass-bg log ">Pass</span></li>
-              <li><span class='badge badge-default'>00:28:789</span></li>
+              <li><span class='badge badge-default'>00:29:027</span></li>
               <li></li>
             </ul>
           </div>
           <div class="card-title">
-            <a class="node " id="4"><span>testBrokerSearchRelatedRecords</span></a>
+            <a class="node " id="6"><span>testBrokerSearchRelatedRecords</span></a>
             <div class="node-attr">
             </div>
           </div>
@@ -199,14 +289,14 @@
   <tbody>
       <tr class="event-row">
         <td><span class="badge log pass-bg">Pass</span></td>
-        <td>3:15:43 AM</td>
+        <td>6:19:35 AM</td>
         <td>
           <span class='badge white-text green'>testBrokerSearchRelatedRecords - Test Case PASSED</span>
         </td>
       </tr>
       <tr class="event-row">
         <td><span class="badge log pass-bg">Pass</span></td>
-        <td>3:15:43 AM</td>
+        <td>6:19:36 AM</td>
         <td>
           Closed the browser successfully
         </td>
@@ -221,12 +311,12 @@
           <div class="card-toolbar node-info">
             <ul class="list-inline d-none d-sm-block">
               <li><span class="badge skip-bg log ">Skip</span></li>
-              <li><span class='badge badge-default'>00:20:668</span></li>
+              <li><span class='badge badge-default'>00:20:884</span></li>
               <li></li>
             </ul>
           </div>
           <div class="card-title">
-            <a class="node " id="5"><span>testCreateNewQuote</span></a>
+            <a class="node " id="7"><span>testCreateNewQuote</span></a>
             <div class="node-attr">
             </div>
           </div>
@@ -238,14 +328,14 @@
   <tbody>
       <tr class="event-row">
         <td><span class="badge log skip-bg">Skip</span></td>
-        <td>3:16:04 AM</td>
+        <td>6:19:56 AM</td>
         <td>
           <span class='badge white-text blue'>testCreateNewQuote - Test Case SKIPPED</span>
         </td>
       </tr>
       <tr class="event-row">
         <td><span class="badge log pass-bg">Pass</span></td>
-        <td>3:16:04 AM</td>
+        <td>6:19:57 AM</td>
         <td>
           Closed the browser successfully
         </td>
@@ -260,12 +350,12 @@
           <div class="card-toolbar node-info">
             <ul class="list-inline d-none d-sm-block">
               <li><span class="badge pass-bg log ">Pass</span></li>
-              <li><span class='badge badge-default'>00:24:175</span></li>
+              <li><span class='badge badge-default'>00:24:929</span></li>
               <li></li>
             </ul>
           </div>
           <div class="card-title">
-            <a class="node " id="6"><span>testNewQuoteFieldsValidation</span></a>
+            <a class="node " id="8"><span>testNewQuoteFieldsValidation</span></a>
             <div class="node-attr">
             </div>
           </div>
@@ -277,14 +367,53 @@
   <tbody>
       <tr class="event-row">
         <td><span class="badge log pass-bg">Pass</span></td>
-        <td>3:16:28 AM</td>
+        <td>6:20:21 AM</td>
         <td>
           <span class='badge white-text green'>testNewQuoteFieldsValidation - Test Case PASSED</span>
         </td>
       </tr>
       <tr class="event-row">
         <td><span class="badge log pass-bg">Pass</span></td>
-        <td>3:16:28 AM</td>
+        <td>6:20:22 AM</td>
+        <td>
+          Closed the browser successfully
+        </td>
+      </tr>
+  </tbody>
+</table>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-toolbar node-info">
+            <ul class="list-inline d-none d-sm-block">
+              <li><span class="badge skip-bg log ">Skip</span></li>
+              <li><span class='badge badge-default'>00:13:164</span></li>
+              <li></li>
+            </ul>
+          </div>
+          <div class="card-title">
+            <a class="node " id="9"><span>testPoliciesDashboardUI</span></a>
+            <div class="node-attr">
+            </div>
+          </div>
+        </div>
+        <div class="collapse">
+          <div class="card-body">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log skip-bg">Skip</span></td>
+        <td>6:20:34 AM</td>
+        <td>
+          <span class='badge white-text blue'>testPoliciesDashboardUI - Test Case SKIPPED</span>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>6:20:35 AM</td>
         <td>
           Closed the browser successfully
         </td>
@@ -299,12 +428,12 @@
           <div class="card-toolbar node-info">
             <ul class="list-inline d-none d-sm-block">
               <li><span class="badge pass-bg log ">Pass</span></li>
-              <li><span class='badge badge-default'>00:13:058</span></li>
+              <li><span class='badge badge-default'>00:23:384</span></li>
               <li></li>
             </ul>
           </div>
           <div class="card-title">
-            <a class="node " id="7"><span>testPoliciesDashboardUI</span></a>
+            <a class="node " id="10"><span>testPresenceOfContinueButtonOnQuotes</span></a>
             <div class="node-attr">
             </div>
           </div>
@@ -316,53 +445,14 @@
   <tbody>
       <tr class="event-row">
         <td><span class="badge log pass-bg">Pass</span></td>
-        <td>3:16:41 AM</td>
-        <td>
-          <span class='badge white-text green'>testPoliciesDashboardUI - Test Case PASSED</span>
-        </td>
-      </tr>
-      <tr class="event-row">
-        <td><span class="badge log pass-bg">Pass</span></td>
-        <td>3:16:41 AM</td>
-        <td>
-          Closed the browser successfully
-        </td>
-      </tr>
-  </tbody>
-</table>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header">
-          <div class="card-toolbar node-info">
-            <ul class="list-inline d-none d-sm-block">
-              <li><span class="badge pass-bg log ">Pass</span></li>
-              <li><span class='badge badge-default'>00:23:256</span></li>
-              <li></li>
-            </ul>
-          </div>
-          <div class="card-title">
-            <a class="node " id="8"><span>testPresenceOfContinueButtonOnQuotes</span></a>
-            <div class="node-attr">
-            </div>
-          </div>
-        </div>
-        <div class="collapse">
-          <div class="card-body">
-<table class="table table-sm">
-  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
-  <tbody>
-      <tr class="event-row">
-        <td><span class="badge log pass-bg">Pass</span></td>
-        <td>3:17:04 AM</td>
+        <td>6:20:58 AM</td>
         <td>
           <span class='badge white-text green'>testPresenceOfContinueButtonOnQuotes - Test Case PASSED</span>
         </td>
       </tr>
       <tr class="event-row">
         <td><span class="badge log pass-bg">Pass</span></td>
-        <td>3:17:05 AM</td>
+        <td>6:20:58 AM</td>
         <td>
           Closed the browser successfully
         </td>
@@ -377,12 +467,12 @@
           <div class="card-toolbar node-info">
             <ul class="list-inline d-none d-sm-block">
               <li><span class="badge pass-bg log ">Pass</span></li>
-              <li><span class='badge badge-default'>00:11:143</span></li>
+              <li><span class='badge badge-default'>00:11:293</span></li>
               <li></li>
             </ul>
           </div>
           <div class="card-title">
-            <a class="node " id="9"><span>testQuotesDashboardUI</span></a>
+            <a class="node " id="11"><span>testQuotesDashboardUI</span></a>
             <div class="node-attr">
             </div>
           </div>
@@ -394,14 +484,14 @@
   <tbody>
       <tr class="event-row">
         <td><span class="badge log pass-bg">Pass</span></td>
-        <td>3:17:15 AM</td>
+        <td>6:21:09 AM</td>
         <td>
           <span class='badge white-text green'>testQuotesDashboardUI - Test Case PASSED</span>
         </td>
       </tr>
       <tr class="event-row">
         <td><span class="badge log pass-bg">Pass</span></td>
-        <td>3:17:16 AM</td>
+        <td>6:21:10 AM</td>
         <td>
           Closed the browser successfully
         </td>
@@ -416,12 +506,12 @@
           <div class="card-toolbar node-info">
             <ul class="list-inline d-none d-sm-block">
               <li><span class="badge pass-bg log ">Pass</span></li>
-              <li><span class='badge badge-default'>00:13:213</span></li>
+              <li><span class='badge badge-default'>00:13:234</span></li>
               <li></li>
             </ul>
           </div>
           <div class="card-title">
-            <a class="node " id="10"><span>testSubmissionRenewal</span></a>
+            <a class="node " id="12"><span>testSubmissionRenewal</span></a>
             <div class="node-attr">
             </div>
           </div>
@@ -433,14 +523,92 @@
   <tbody>
       <tr class="event-row">
         <td><span class="badge log pass-bg">Pass</span></td>
-        <td>3:17:29 AM</td>
+        <td>6:21:22 AM</td>
         <td>
           <span class='badge white-text green'>testSubmissionRenewal - Test Case PASSED</span>
         </td>
       </tr>
       <tr class="event-row">
         <td><span class="badge log pass-bg">Pass</span></td>
-        <td>3:17:29 AM</td>
+        <td>6:21:23 AM</td>
+        <td>
+          Closed the browser successfully
+        </td>
+      </tr>
+  </tbody>
+</table>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-toolbar node-info">
+            <ul class="list-inline d-none d-sm-block">
+              <li><span class="badge pass-bg log ">Pass</span></li>
+              <li><span class='badge badge-default'>00:11:194</span></li>
+              <li></li>
+            </ul>
+          </div>
+          <div class="card-title">
+            <a class="node " id="13"><span>testSupportRequestFunctionality</span></a>
+            <div class="node-attr">
+            </div>
+          </div>
+        </div>
+        <div class="collapse">
+          <div class="card-body">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>6:21:34 AM</td>
+        <td>
+          <span class='badge white-text green'>testSupportRequestFunctionality - Test Case PASSED</span>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>6:21:34 AM</td>
+        <td>
+          Closed the browser successfully
+        </td>
+      </tr>
+  </tbody>
+</table>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-toolbar node-info">
+            <ul class="list-inline d-none d-sm-block">
+              <li><span class="badge pass-bg log ">Pass</span></li>
+              <li><span class='badge badge-default'>00:10:117</span></li>
+              <li></li>
+            </ul>
+          </div>
+          <div class="card-title">
+            <a class="node " id="14"><span>testSupportRequestFunctionality</span></a>
+            <div class="node-attr">
+            </div>
+          </div>
+        </div>
+        <div class="collapse">
+          <div class="card-body">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>6:21:44 AM</td>
+        <td>
+          <span class='badge white-text green'>testSupportRequestFunctionality - Test Case PASSED</span>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>6:21:44 AM</td>
         <td>
           Closed the browser successfully
         </td>
@@ -454,26 +622,26 @@
 </div>
           </div>
         </li>
-        <li class="test-item"  status="skip" test-id="11"
+        <li class="test-item"  status="pass" test-id="15"
           author=""
           tag=""
           device="">
           <div class="test-detail">
             <p class="name">InsuredPageTests</p>
             <p class="text-sm">
-              <span>3:17:29 AM</span> / <span>00:02:25:416</span>
-              <span class="badge skip-bg log float-right">Skip</span>
+              <span>6:21:44 AM</span> / <span>00:01:34:369</span>
+              <span class="badge pass-bg log float-right">Pass</span>
             </p>
           </div>
           <div class="test-contents d-none">
 <div class="detail-head">
 <div class="p-v-10">
 <div class="info">
-<h5 class="test-status text-skip">InsuredPageTests</h5>
-<span class='badge badge-success'>01.20.2022 3:17:29 AM</span>
-<span class='badge badge-danger'>01.20.2022 3:19:55 AM</span>
-<span class='badge badge-default'>00:02:25:416</span>
-&middot; <span class='uri-anchor badge badge-default'>#test-id=11</span>
+<h5 class="test-status text-pass">InsuredPageTests</h5>
+<span class='badge badge-success'>01.21.2022 6:21:44 AM</span>
+<span class='badge badge-danger'>01.21.2022 6:23:19 AM</span>
+<span class='badge badge-default'>00:01:34:369</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=15</span>
 <span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
 <span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
 </div>
@@ -484,12 +652,12 @@
           <div class="card-toolbar node-info">
             <ul class="list-inline d-none d-sm-block">
               <li><span class="badge pass-bg log ">Pass</span></li>
-              <li><span class='badge badge-default'>00:24:833</span></li>
+              <li><span class='badge badge-default'>00:25:090</span></li>
               <li></li>
             </ul>
           </div>
           <div class="card-title">
-            <a class="node " id="12"><span>testCheckDuplicateSubmission</span></a>
+            <a class="node " id="16"><span>testCheckDuplicateSubmission</span></a>
             <div class="node-attr">
             </div>
           </div>
@@ -501,14 +669,14 @@
   <tbody>
       <tr class="event-row">
         <td><span class="badge log pass-bg">Pass</span></td>
-        <td>3:17:53 AM</td>
+        <td>6:22:09 AM</td>
         <td>
           <span class='badge white-text green'>testCheckDuplicateSubmission - Test Case PASSED</span>
         </td>
       </tr>
       <tr class="event-row">
         <td><span class="badge log pass-bg">Pass</span></td>
-        <td>3:17:54 AM</td>
+        <td>6:22:09 AM</td>
         <td>
           Closed the browser successfully
         </td>
@@ -523,12 +691,12 @@
           <div class="card-toolbar node-info">
             <ul class="list-inline d-none d-sm-block">
               <li><span class="badge pass-bg log ">Pass</span></li>
-              <li><span class='badge badge-default'>00:23:843</span></li>
+              <li><span class='badge badge-default'>00:24:118</span></li>
               <li></li>
             </ul>
           </div>
           <div class="card-title">
-            <a class="node " id="13"><span>testCreateInsured</span></a>
+            <a class="node " id="17"><span>testCreateInsured</span></a>
             <div class="node-attr">
             </div>
           </div>
@@ -540,14 +708,14 @@
   <tbody>
       <tr class="event-row">
         <td><span class="badge log pass-bg">Pass</span></td>
-        <td>3:18:17 AM</td>
+        <td>6:22:33 AM</td>
         <td>
           <span class='badge white-text green'>testCreateInsured - Test Case PASSED</span>
         </td>
       </tr>
       <tr class="event-row">
         <td><span class="badge log pass-bg">Pass</span></td>
-        <td>3:18:18 AM</td>
+        <td>6:22:33 AM</td>
         <td>
           Closed the browser successfully
         </td>
@@ -562,12 +730,12 @@
           <div class="card-toolbar node-info">
             <ul class="list-inline d-none d-sm-block">
               <li><span class="badge pass-bg log ">Pass</span></li>
-              <li><span class='badge badge-default'>00:20:630</span></li>
+              <li><span class='badge badge-default'>00:20:669</span></li>
               <li></li>
             </ul>
           </div>
           <div class="card-title">
-            <a class="node " id="14"><span>testCreateInsuredFieldsValidation</span></a>
+            <a class="node " id="18"><span>testCreateInsuredFieldsValidation</span></a>
             <div class="node-attr">
             </div>
           </div>
@@ -579,14 +747,14 @@
   <tbody>
       <tr class="event-row">
         <td><span class="badge log pass-bg">Pass</span></td>
-        <td>3:18:38 AM</td>
+        <td>6:22:54 AM</td>
         <td>
           <span class='badge white-text green'>testCreateInsuredFieldsValidation - Test Case PASSED</span>
         </td>
       </tr>
       <tr class="event-row">
         <td><span class="badge log pass-bg">Pass</span></td>
-        <td>3:18:39 AM</td>
+        <td>6:22:54 AM</td>
         <td>
           Closed the browser successfully
         </td>
@@ -601,12 +769,12 @@
           <div class="card-toolbar node-info">
             <ul class="list-inline d-none d-sm-block">
               <li><span class="badge pass-bg log ">Pass</span></li>
-              <li><span class='badge badge-default'>00:23:695</span></li>
+              <li><span class='badge badge-default'>00:24:352</span></li>
               <li></li>
             </ul>
           </div>
           <div class="card-title">
-            <a class="node " id="15"><span>testSearchAgainFunctionality</span></a>
+            <a class="node " id="19"><span>testSearchAgainFunctionality</span></a>
             <div class="node-attr">
             </div>
           </div>
@@ -618,92 +786,14 @@
   <tbody>
       <tr class="event-row">
         <td><span class="badge log pass-bg">Pass</span></td>
-        <td>3:19:02 AM</td>
+        <td>6:23:18 AM</td>
         <td>
           <span class='badge white-text green'>testSearchAgainFunctionality - Test Case PASSED</span>
         </td>
       </tr>
       <tr class="event-row">
         <td><span class="badge log pass-bg">Pass</span></td>
-        <td>3:19:02 AM</td>
-        <td>
-          Closed the browser successfully
-        </td>
-      </tr>
-  </tbody>
-</table>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header">
-          <div class="card-toolbar node-info">
-            <ul class="list-inline d-none d-sm-block">
-              <li><span class="badge skip-bg log ">Skip</span></li>
-              <li><span class='badge badge-default'>00:26:088</span></li>
-              <li></li>
-            </ul>
-          </div>
-          <div class="card-title">
-            <a class="node " id="16"><span>testSubmissionClearancesFunctionality</span></a>
-            <div class="node-attr">
-            </div>
-          </div>
-        </div>
-        <div class="collapse">
-          <div class="card-body">
-<table class="table table-sm">
-  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
-  <tbody>
-      <tr class="event-row">
-        <td><span class="badge log skip-bg">Skip</span></td>
-        <td>3:19:28 AM</td>
-        <td>
-          <span class='badge white-text blue'>testSubmissionClearancesFunctionality - Test Case SKIPPED</span>
-        </td>
-      </tr>
-      <tr class="event-row">
-        <td><span class="badge log pass-bg">Pass</span></td>
-        <td>3:19:28 AM</td>
-        <td>
-          Closed the browser successfully
-        </td>
-      </tr>
-  </tbody>
-</table>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header">
-          <div class="card-toolbar node-info">
-            <ul class="list-inline d-none d-sm-block">
-              <li><span class="badge skip-bg log ">Skip</span></li>
-              <li><span class='badge badge-default'>00:26:173</span></li>
-              <li></li>
-            </ul>
-          </div>
-          <div class="card-title">
-            <a class="node " id="17"><span>testSubmissionClearancesFunctionality</span></a>
-            <div class="node-attr">
-            </div>
-          </div>
-        </div>
-        <div class="collapse">
-          <div class="card-body">
-<table class="table table-sm">
-  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
-  <tbody>
-      <tr class="event-row">
-        <td><span class="badge log skip-bg">Skip</span></td>
-        <td>3:19:54 AM</td>
-        <td>
-          <span class='badge white-text blue'>testSubmissionClearancesFunctionality - Test Case SKIPPED</span>
-        </td>
-      </tr>
-      <tr class="event-row">
-        <td><span class="badge log pass-bg">Pass</span></td>
-        <td>3:19:55 AM</td>
+        <td>6:23:19 AM</td>
         <td>
           Closed the browser successfully
         </td>
@@ -731,25 +821,25 @@
 <div class="col-md-3">
 <div class="card"><div class="card-body">
 <p class="m-b-0">Started</p>
-<h3>Jan 20, 2022 03:14:11 AM</h3>
+<h3>Jan 21, 2022 06:17:30 AM</h3>
 </div></div>
 </div>
 <div class="col-md-3">
 <div class="card"><div class="card-body">
 <p class="m-b-0">Ended</p>
-<h3>Jan 20, 2022 03:19:55 AM</h3>
+<h3>Jan 21, 2022 06:23:19 AM</h3>
 </div></div>
 </div>
 <div class="col-md-3">
 <div class="card"><div class="card-body">
 <p class="m-b-0 text-pass">Tests Passed</p>
-<h3>0</h3>
+<h3>1</h3>
 </div></div>
 </div>
 <div class="col-md-3">
 <div class="card"><div class="card-body">
 <p class="m-b-0 text-fail">Tests Failed</p>
-<h3>0</h3>
+<h3>1</h3>
 </div></div>
 </div>
 </div>
@@ -765,13 +855,13 @@
 </div>
 </div>
 <div class="card-footer">
-<div><small data-tooltip='0%'>
-<b>0</b> tests passed
+<div><small data-tooltip='50%'>
+<b>1</b> tests passed
 </small>
 </div>
 <div>
-<small data-tooltip='0%'><b>0</b> tests failed,
-<b>2</b> skipped, <b data-tooltip='0%'>0</b> others
+<small data-tooltip='50%'><b>1</b> tests failed,
+<b>0</b> skipped, <b data-tooltip='0%'>0</b> others
 </small>
 </div>
 </div>
@@ -788,10 +878,10 @@
 </div>
 </div>
 <div class="card-footer">
-<div><small data-tooltip='80%'><b>12</b> steps passed</small></div>
+<div><small data-tooltip='82%'><b>14</b> steps passed</small></div>
 <div>
-<small data-tooltip='0%'><b>0</b> steps failed,
-<b>3</b> skipped, <b data-tooltip='%'>0</b> others
+<small data-tooltip='5%'><b>1</b> steps failed,
+<b>2</b> skipped, <b data-tooltip='%'>0</b> others
 </small>
 </div>
 </div>
@@ -808,10 +898,10 @@
 </div>
 </div>
 <div class="card-footer">
-<div><small data-tooltip='90%'><b>27</b> events passed</small></div>
+<div><small data-tooltip='88%'><b>31</b> events passed</small></div>
 <div>
-<small data-tooltip='0%'><b>0</b> events failed,
-<b data-tooltip='%'>3</b> others
+<small data-tooltip='5%'><b>2</b> events failed,
+<b data-tooltip='%'>2</b> others
 </small>
 </div>
 </div>
@@ -827,7 +917,7 @@
 </div></div>
 <script>
 var timeline = {
-"DashboardPageTests":198.072,"InsuredPageTests":145.416
+"DashboardPageTests":253.682,"InsuredPageTests":94.369
 };
 </script>
 <div class="row">
@@ -858,15 +948,15 @@ var timeline = {
 <script>
 var statusGroup = {
 parentCount: 5,
-passParent: 0,
-failParent: 0,
+passParent: 1,
+failParent: 1,
 warningParent: 0,
-skipParent: 2,
+skipParent: 0,
 childCount: 5,
-passChild: 12,
-failChild: 0,
+passChild: 14,
+failChild: 1,
 warningChild: 0,
-skipChild: 3,
+skipChild: 2,
 infoChild: 0,
 grandChildCount: 5,
 passGrandChild: 0,
@@ -875,10 +965,10 @@ warningGrandChild: 0,
 skipGrandChild: 0,
 infoGrandChild: 0,
 eventsCount: 5,
-passEvents: 27,
-failEvents: 0,
+passEvents: 31,
+failEvents: 2,
 warningEvents: 0,
-skipEvents: 3,
+skipEvents: 2,
 infoEvents: 0
 };
 </script>        </div>

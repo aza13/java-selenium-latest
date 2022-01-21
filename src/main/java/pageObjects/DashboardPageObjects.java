@@ -14,6 +14,24 @@ public class DashboardPageObjects {
 
     public static final By signOutLink = By.id("action_item_signout");
 
+    public static final By supportLink = By.id("action_item_support");
+
+    public static final By supportDialogModal = By.xpath("//h2[text()='Support Request']");
+
+    public static final By supportRequestDetailTextArea = By.id("outlined-textarea");
+
+    public static final By supportRequestSendButton = By.xpath("//button[@data-qa='submit_alert_modal']");
+
+    public static final By supportTicketSuccessMessage = By.xpath("//div[@data-qa='alertTitle']");
+
+    public static final By closeSuccessMessageButton = By.xpath("//button[@data-qa='closeAlertButton']");
+
+    public static final By supportRequestCancelButton = By.xpath("//button[@data-qa='cancel_alert_modal']");
+
+    public static final By supportTypeRequired = By.id("demo-simple-select-error-label");
+
+    public static final By supportRequestDetailsRequired = By.id("outlined-error-helper-text-helper-text");
+
     public static final By brokerIdField = By.id("txt-brokerid");
 
     public static final By agencyOfficeIdField = By.id("txt-AgencyOfficeId");
@@ -87,8 +105,6 @@ public class DashboardPageObjects {
     public static final By searchForNoResult = By.xpath("//p[contains(text(),'Your search has no results')]");
 
     public static final By getFirstAvailableLegalName = By.xpath("//p[@class='sc-ezbkAF fLaTpy MuiTypography-root MuiTypography-body1']/div[1]/div/div[1]/div[1]");
-
-
 
     public static final By applyFiltersButton = By.id("applyFilters");
 
