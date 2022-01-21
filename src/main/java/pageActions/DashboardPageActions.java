@@ -496,7 +496,6 @@ public class DashboardPageActions extends BaseTest {
         if (createdDates.size()>0){
             List<String> dates = new ArrayList<>();
             for (WebElement ele : createdDates) {
-                System.out.println("\n actual Date --"+ele.getText());
                 dates.add(ele.getText());
             }
             return dates;
@@ -510,7 +509,6 @@ public class DashboardPageActions extends BaseTest {
         if (createdDates.size()>0){
             List<String> dates = new ArrayList<>();
             for (WebElement ele : createdDates) {
-                System.out.println("\n actual Date --"+ele.getText());
                 dates.add(ele.getText());
             }
             return dates;
