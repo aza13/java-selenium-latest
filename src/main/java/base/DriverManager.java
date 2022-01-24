@@ -10,6 +10,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.opera.OperaDriver;
 
+import static base.BaseTest.operatingSystem;
+
 
 public class DriverManager {
 
@@ -42,7 +44,9 @@ public class DriverManager {
                     logger.info("Initialising the chrome browser");
                     WebDriverManager.chromedriver().setup();
                     ChromeOptions options = new ChromeOptions();
-                    options. addArguments("--headless");
+                    if (!operatingSystem.contains("Windows")) {
+                        options.addArguments("--headless");
+                    }
                     options.addArguments("--incognito");
                     driver = new ChromeDriver(options);
                     threadDriver.set(driver);
