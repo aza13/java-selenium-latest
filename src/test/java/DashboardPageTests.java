@@ -452,12 +452,10 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
         dashboardPageActions.clickSortBy(DriverManager.getDriver());
         dashboardPageActions.clickSortByExpiringSoon(DriverManager.getDriver());
-        WaitHelper.pause(2000);
         List<String> datesSortedByExpiringSoon = dashboardPageActions.getPolicyExpirationDates(DriverManager.getDriver());
         List<String> sortedDatesByExpiringSoonAsc = dashboardPageActions.sortDates((ArrayList<String>) datesSortedByExpiringSoon);
         dashboardPageActions.clickSortBy(DriverManager.getDriver());
         dashboardPageActions.clickSortByExpiringLater(DriverManager.getDriver());
-        WaitHelper.pause(2000);
         List<String> datesSortedByExpiringLater = dashboardPageActions.getPolicyExpirationDates(DriverManager.getDriver());
         List<String> sortedDatesByExpiringLaterAsc = dashboardPageActions.sortDates((ArrayList<String>) datesSortedByExpiringLater);
         boolean isEqual = sortedDatesByExpiringLaterAsc.equals(sortedDatesByExpiringSoonAsc);
@@ -489,6 +487,23 @@ public class DashboardPageTests extends BaseTest {
         assert dashboardPageActions.supportRequestDetailsRequiredWarning(DriverManager.getDriver());
         dashboardPageActions.clickCancelSupportRequestButton(DriverManager.getDriver());
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
+    }
+
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    public void  brokersCanContinueRenewalSubmission(Map<String, String> map) throws InterruptedException, ParseException {
+        /***
+         this test Brokers can continue a Renewal Submission
+         story - N2020-28483
+         **/
+
+        logger.info("verifying :: continue a Renewal Submission ");
+        dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
+        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
+        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
+        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
+        dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
+        dashboardPageActions.validateContinueSubmission(DriverManager.getDriver());
+        dashboardPageActions.clickExitRatingCriteria(DriverManager.getDriver());
     }
 
 }

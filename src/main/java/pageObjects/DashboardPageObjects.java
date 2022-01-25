@@ -72,11 +72,12 @@ public class DashboardPageObjects {
 
     public static final By cancelButton = By.xpath("//button[text()='CANCEL']/span");
 
-    public static final By continueButton = By.xpath("//button[text()='CONTINUE']/span");
+    public static final By continueButton = By.xpath("//button[@type='button'][normalize-space()='Continue']");
 
     public static final By genericProductOption = By.xpath("//li[@role='option']");
 
     public static final By productRequiredText = By.xpath("//p[text()='Product is required']");
+
 
     public static final By nameRequiredText = By.xpath("//p[text()='Name is required']");
 
@@ -147,6 +148,10 @@ public class DashboardPageObjects {
     public static final By sortByExpiringLater = By.xpath("//li[normalize-space()='Expiring Later']");
 
     public static final By sortByExpiringSoon = By.xpath("//li[normalize-space()='Expiring Soon']");
+
+    public static final By exitRatingCriteria = By.xpath("//button[@id='rating_criteria-cancel']");
+
+    public static final By statusInDashboard = By.xpath("//div[@data-qa='status']");
 
 
 
