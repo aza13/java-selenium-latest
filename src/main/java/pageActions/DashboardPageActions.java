@@ -491,7 +491,7 @@ public class DashboardPageActions extends BaseTest {
     }
 
     public void validateContinueSubmission(WebDriver driver) throws InterruptedException {
-        List<WebElement> elementsContinueButton = driver.findElements(continueButton);
+        List<WebElement> elementsContinueButton = driver.findElements(myPolicyCardGenericContinueButton);
         List<WebElement> elementStatus = driver.findElements(statusInDashboard);
         int count1 = elementStatus.size();
         Set<String> actualStatus = new HashSet<String>();
@@ -499,7 +499,7 @@ public class DashboardPageActions extends BaseTest {
         if (count > 0) {
             for (int i = 0; i < elementsContinueButton.size(); i ++) {
                 elementsContinueButton.get(i).click();
-                WaitHelper.pause(2000);
+                WaitHelper.pause(3000);
             }
         } else if (count1 > 0) {
             for (WebElement statusElement : elementStatus) {
