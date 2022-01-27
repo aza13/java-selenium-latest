@@ -409,7 +409,7 @@ public class DashboardPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
-    public void  sortQuoteList(Map<String, String> map) throws InterruptedException, ParseException {
+    public void  testSortQuoteList(Map<String, String> map) throws InterruptedException, ParseException {
         /***
          this test Sort the My Quotes List
          story - N2020-29952
@@ -438,7 +438,7 @@ public class DashboardPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
-    public void  sortPolicyList(Map<String, String> map) throws InterruptedException, ParseException {
+    public void  testSortPolicyList(Map<String, String> map) throws InterruptedException, ParseException {
         /***
          this test Sort my Policy List
          story - N2020-29736
@@ -490,7 +490,7 @@ public class DashboardPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
-    public void  brokersCanContinueRenewalSubmission(Map<String, String> map) throws InterruptedException, ParseException {
+    public void  testBrokersCanContinueRenewalSubmission(Map<String, String> map) throws InterruptedException, ParseException {
         /***
          this test Brokers can continue a Renewal Submission
          story - N2020-28483
