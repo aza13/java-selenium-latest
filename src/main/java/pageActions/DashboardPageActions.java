@@ -500,6 +500,7 @@ public class DashboardPageActions extends BaseTest {
             for (int i = 0; i < elementsContinueButton.size(); i ++) {
                 elementsContinueButton.get(i).click();
                 WaitHelper.pause(3000);
+                break;
             }
         } else if (count1 > 0) {
             for (WebElement statusElement : elementStatus) {
