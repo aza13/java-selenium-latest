@@ -3,6 +3,7 @@ package base;
 import pageActions.DashboardPageActions;
 import pageActions.InsuredPageActions;
 import pageActions.LoginPageActions;
+import pageActions.RatingCriteriaPageActions;
 
 public class PageObjectManager {
 
@@ -11,6 +12,8 @@ public class PageObjectManager {
     private static InsuredPageActions insuredPageActions;
 
     private static LoginPageActions loginPageActions;
+
+    private static RatingCriteriaPageActions ratingCriteriaPageActions;
 
     private PageObjectManager(){
 
@@ -28,6 +31,11 @@ public class PageObjectManager {
     public static LoginPageActions getLoginPageActions(){
 
         return (loginPageActions == null) ? loginPageActions = new LoginPageActions() : loginPageActions;
+    }
+
+    public static RatingCriteriaPageActions getRatingCriteriaActions() {
+
+        return (ratingCriteriaPageActions == null) ? ratingCriteriaPageActions = new RatingCriteriaPageActions() : ratingCriteriaPageActions;
     }
 
 }
