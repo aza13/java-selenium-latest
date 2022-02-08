@@ -418,14 +418,16 @@ public class DashboardPageActions extends BaseTest {
         ClickHelper.clickElement(driver, sortByOldest);
     }
 
-    public void clickSortByExpiringLater(WebDriver driver) {
+    public void clickSortByExpiringLater(WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementClickable(driver, sortByExpiringLater);
         ClickHelper.clickElement(driver, sortByExpiringLater);
+        WaitHelper.pause(2000);
     }
 
-    public void clickSortByExpiringSoon(WebDriver driver) {
+    public void clickSortByExpiringSoon(WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementClickable(driver, sortByExpiringSoon);
         ClickHelper.clickElement(driver, sortByExpiringSoon);
+        WaitHelper.pause(2000);
     }
 
     public boolean verifyQuoteStatusInTable(WebDriver driver) {
@@ -488,6 +490,36 @@ public class DashboardPageActions extends BaseTest {
         ClickHelper.clickElement(driver, policyFilterByStatus);
     }
 
+    public void validateContinueSubmission(WebDriver driver) throws InterruptedException {
+        List<WebElement> elementsContinueButton = driver.findElements(myPolicyCardGenericContinueButton);
+        List<WebElement> elementStatus = driver.findElements(statusInDashboard);
+        int count1 = elementStatus.size();
+        Set<String> actualStatus = new HashSet<String>();
+        int count = elementsContinueButton.size();
+        if (count > 0) {
+            for (int i = 0; i < elementsContinueButton.size(); i ++) {
+                elementsContinueButton.get(i).click();
+                WaitHelper.pause(3000);
+                break;
+            }
+        } else if (count1 > 0) {
+            for (WebElement statusElement : elementStatus) {
+                String status = statusElement.getText();
+                actualStatus.add(status);
+            }
+            if (actualStatus.contains("cancelled") || actualStatus.contains("review") || actualStatus.contains("declined")) {
+                assert count ==0;
+            }
+        }else {
+            logger.error("======================== Continue Button is not available=======================================");
+        }
+
+    }
+    public void clickExitRatingCriteria(WebDriver driver) {
+        WaitHelper.waitForElementClickable(driver, exitRatingCriteria);
+        ClickHelper.clickElement(driver, exitRatingCriteria);
+    }
+
     public void enterCreateStartDate(WebDriver driver){
         WaitHelper.waitForElementVisibility(driver, createdStartDateField);
         TextHelper.enterText(driver, createdStartDateField, "12/01/2021");
@@ -496,6 +528,8 @@ public class DashboardPageActions extends BaseTest {
     public void enterCreateEndDate(WebDriver driver){
         TextHelper.enterText(driver, createdEndDateField, "12/30/2021");
     }
+
+
 
     public List<String> getQuoteCreatedDates(WebDriver driver){
         WaitHelper.waitForElementVisibility(driver, quoteCreatedDateGeneric);
