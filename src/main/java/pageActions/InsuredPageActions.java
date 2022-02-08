@@ -238,14 +238,15 @@ public class InsuredPageActions extends BaseTest {
         ClickHelper.clickElement(driver, clearanceSubmitButton);
     }
 
-    public void clickClearanceCancelQuoteButton(WebDriver driver) {
+    public void clickClearanceCancelQuoteButton(WebDriver driver) throws InterruptedException {
 
         ClickHelper.clickElement(driver, clearanceCancelQuoteButton);
+        WaitHelper.pause(3000);
     }
 
     public void enterClearanceText(WebDriver driver, String text) {
 
-        TextHelper.enterText(driver, clearanceCancelQuoteButton, text);
+        TextHelper.enterText(driver, clearanceDialogTextArea, text);
     }
 
     public List<WebElement> getAllInsuranceCards(WebDriver driver){
@@ -259,5 +260,14 @@ public class InsuredPageActions extends BaseTest {
         }
     }
 
+    public  void enterInsuredPhoneNumber(WebDriver driver){
+        String phoneNum = FakeDataHelper.phoneNumber();
+        TextHelper.enterText(driver, insuredPhoneNumberField, phoneNum);
+
+    }
+
+    public boolean isCreateNeInsuredTextDisplayed(WebDriver driver){
+        return ClickHelper.isElementExist(driver, createNewInsuredInfoText);
+    }
 
 }

@@ -15,7 +15,7 @@ public class RatingCriteriaPageActions extends BaseTest {
     private static final Logger logger = Logger.getLogger(RatingCriteriaPageActions.class);
 
     public boolean isRatingCriteriaPageDisplayed(WebDriver driver){
-
+        WaitHelper.waitForElementVisibility(driver, ratingCriteriaHeader);
        return ClickHelper.isElementExist(driver, ratingCriteriaHeader);
 
     }

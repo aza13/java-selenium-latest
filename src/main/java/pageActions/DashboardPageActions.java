@@ -598,6 +598,12 @@ public class DashboardPageActions extends BaseTest {
         ClickHelper.clickElement(driver, supportRequestCancelButton);
     }
 
+    public void clickQuoteCardContinueButton(WebDriver driver){
+
+        WaitHelper.waitForElementVisibility(driver, quoteCardGenericContinueButton);
+        ClickHelper.clickElement(driver, quoteCardGenericContinueButton);
+    }
+
 
 
 
