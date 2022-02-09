@@ -1,6 +1,5 @@
 package base;
 
-import enums.BrowserType;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -9,6 +8,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.opera.OperaDriver;
+import utils.fileReader.ConfigDataReader;
 
 
 public class DriverManager {
@@ -33,12 +33,12 @@ public class DriverManager {
 
         WebDriver driver = DriverManager.threadDriver.get();
 
-        BrowserType browser = BrowserType.valueOf(browserType);
+        String browser = ConfigDataReader.ConfigPropInit().getProperty("browserType");
 
         if (driver == null) {
 
             switch (browser) {
-                case CHROME:
+                case "CHROME":
                     logger.info("Initialising the chrome browser");
                     WebDriverManager.chromedriver().setup();
                     ChromeOptions options = new ChromeOptions();
@@ -47,19 +47,19 @@ public class DriverManager {
                     driver = new ChromeDriver(options);
                     threadDriver.set(driver);
                     break;
-                case FIREFOX:
+                case "FIREFOX":
                     logger.info("Initialising the firefox browser");
                     WebDriverManager.firefoxdriver().setup();
                     driver = new FirefoxDriver();
                     threadDriver.set(driver);
                     break;
-                case IE:
+                case "IE":
                     logger.info("Initialising the ie browser");
                     WebDriverManager.iedriver().setup();
                     driver = new InternetExplorerDriver();
                     threadDriver.set(driver);
                     break;
-                case OPERA:
+                case "OPERA":
                     logger.info("Initialising the opera browser");
                     WebDriverManager.operadriver().setup();
                     driver = new OperaDriver();
