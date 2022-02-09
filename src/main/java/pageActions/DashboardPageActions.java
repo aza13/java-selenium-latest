@@ -488,6 +488,12 @@ public class DashboardPageActions extends BaseTest {
         ClickHelper.clickElement(driver, policyFilterByStatus);
     }
 
+    public void clickFirstAvailableContinueButton (WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementClickable(driver,fistAvailableContinueButton );
+        ClickHelper.clickElement(driver, fistAvailableContinueButton);
+        WaitHelper.pause(4000);
+    }
+
     public void validateContinueSubmission(WebDriver driver) throws InterruptedException {
         List<WebElement> elementsContinueButton = driver.findElements(myPolicyCardGenericContinueButton);
         List<WebElement> elementStatus = driver.findElements(statusInDashboard);
