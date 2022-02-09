@@ -35,6 +35,10 @@ public class DashboardPageActions extends BaseTest {
         return driver.findElement(profileSettings);
     }
 
+    public String getQuoteStatus (WebDriver driver)  {
+        return TextHelper.getText(driver, quoteStatus, "text");
+    }
+
     public void clickProfileSettings(WebDriver driver) {
         WaitHelper.waitForElementVisibility(driver, newQuoteButton);
         WaitHelper.waitForElementClickable(driver, profileSettings);
