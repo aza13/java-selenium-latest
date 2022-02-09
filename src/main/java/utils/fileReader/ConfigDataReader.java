@@ -1,7 +1,7 @@
 package utils.fileReader;
 
 
-import enums.ConstantVariable;
+import constants.ConstantVariable;
 import org.apache.log4j.Logger;
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,7 +10,7 @@ import java.util.Properties;
 
 public class ConfigDataReader {
 
-    private static Logger logger = Logger.getLogger(ConfigDataReader.class);
+    private static final Logger logger = Logger.getLogger(ConfigDataReader.class);
 
     private static Properties prop;
 

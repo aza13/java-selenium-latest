@@ -1,12 +1,10 @@
 import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
-import com.sun.xml.bind.v2.runtime.reflect.Lister;
-import enums.ConstantVariable;
+import constants.ConstantVariable;
 import helper.ClickHelper;
 import helper.WaitHelper;
 import org.apache.log4j.Logger;
-import org.apache.pdfbox.pdmodel.interactive.annotation.handlers.PDSoundAppearanceHandler;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeClass;
@@ -16,18 +14,11 @@ import pageActions.InsuredPageActions;
 import pageActions.LoginPageActions;
 import utils.dataProvider.TestDataProvider;
 
-import javax.swing.text.DateFormatter;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 
 public class DashboardPageTests extends BaseTest {
@@ -145,7 +136,7 @@ public class DashboardPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
-    public void testCreateNewQuote(Map<String, String> map) throws InterruptedException {
+    public void testCreateNewQuote(Map<String, String> map) throws InterruptedException, SQLException {
         /**
          * this test verifies creation of new quote
          story - N2020-28291
