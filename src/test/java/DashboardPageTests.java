@@ -7,6 +7,7 @@ import helper.WaitHelper;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageActions.DashboardPageActions;
@@ -14,7 +15,6 @@ import pageActions.InsuredPageActions;
 import pageActions.LoginPageActions;
 import utils.dataProvider.TestDataProvider;
 
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,6 +38,7 @@ public class DashboardPageTests extends BaseTest {
         /**
          * this test verifies UI of dashboard and Mu Quotes list
          story - N2020-28285, N2020-28287, N2020-28631
+         @author - Venkat Kottapalli
          **/
         logger.info("verifying the broker portal dashboard page :: testQuotesDashboardUI");
         assert dashboardPageActions.tmhccLogo(DriverManager.getDriver()).isDisplayed();
@@ -80,6 +81,7 @@ public class DashboardPageTests extends BaseTest {
         /**
          * this test verifies UI of My Policies dashboard
          story - N2020-28286
+         @author - Venkat Kottapalli
          **/
         logger.info("verifying the broker portal dashboard page :: testPoliciesDashboardUI");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
@@ -98,12 +100,17 @@ public class DashboardPageTests extends BaseTest {
         /* Status color changes would be coming soon with hexa codes
         dashboardPageActions.validatePolicyStatusColorCoding(DriverManager.getDriver());*/
         List<WebElement> labels = dashboardPageActions.getPolicyTableLabels(DriverManager.getDriver());
-        String policyLabel = labels.get(0).getText();
-        assert policyLabel.equals(map.get("policyLabel"));
-        String effDateLabel = labels.get(1).getText();
-        assert effDateLabel.equals(map.get("effDateLabel"));
-        String expDateLabel = labels.get(2).getText();
-        assert expDateLabel.equals(map.get("expDateLabel"));
+        if(labels.size()>0){
+            String policyLabel = labels.get(0).getText();
+            assert policyLabel.equals(map.get("policyLabel"));
+            String effDateLabel = labels.get(1).getText();
+            assert effDateLabel.equals(map.get("effDateLabel"));
+            String expDateLabel = labels.get(2).getText();
+            assert expDateLabel.equals(map.get("expDateLabel"));
+        }else{
+            throw new SkipException("No policies were found for the given broker");
+        }
+
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
@@ -111,6 +118,7 @@ public class DashboardPageTests extends BaseTest {
         /**
          * this test verifies the New Quote dialog fields validation
          story - N2020-28289
+         @author - Venkat Kottapalli
          **/
         logger.info("validating the fields on New Quote modal dialog :: testNewQuoteFieldsValidation");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
@@ -136,10 +144,11 @@ public class DashboardPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
-    public void testCreateNewQuote(Map<String, String> map) throws InterruptedException, SQLException {
+    public void testCreateNewQuote(Map<String, String> map) throws InterruptedException {
         /**
          * this test verifies creation of new quote
          story - N2020-28291
+         @author - Venkat Kottapalli
          **/
         logger.info("verifying creating new quote creation :: testCreateNewQuote");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
@@ -152,8 +161,15 @@ public class DashboardPageTests extends BaseTest {
         assert insuredPageActions.newInsuredButton(DriverManager.getDriver()).isDisplayed();
         assert insuredPageActions.searchAgainButton(DriverManager.getDriver()).isDisplayed();
         assert insuredPageActions.verifyInsuredSearchResult(DriverManager.getDriver(), map.get("applicantName"), map.get("website"));
-        insuredPageActions.clickSelectInsuredButton(DriverManager.getDriver());
-        assert insuredPageActions.continueInsuredSearch(DriverManager.getDriver()).isDisplayed();
+        insuredPageActions.clickContinueInsuredButton(DriverManager.getDriver());
+        boolean duplicateDialog = insuredPageActions.duplicateSubmissionDialog(DriverManager.getDriver());
+        if(!duplicateDialog){
+            assert insuredPageActions.continueInsuredSearch(DriverManager.getDriver()).isDisplayed();
+        }else{
+            logger.info("Can't continue to insured search page, duplicate submission displayed");
+            throw new SkipException("The test is Ignored, because can't continue to insured search page, duplicate submission dialog is displayed");
+        }
+
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
@@ -161,6 +177,7 @@ public class DashboardPageTests extends BaseTest {
         /**
          * this test verifies broker filtering the submissions list
          story - N2020-28566
+         @author - Venkat Kottapalli
          **/
         logger.info("verifying broker filtering the submission list :: testBrokerFilteringSubmissionsList");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
@@ -228,6 +245,7 @@ public class DashboardPageTests extends BaseTest {
         /**
          * this test verifies broker filtering the policies list
          story - N2020-28565
+         @author - Venkat Kottapalli
          **/
         logger.info("verifying broker filtering the policies list :: testBrokerFilteringPoliciesList");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
@@ -279,6 +297,7 @@ public class DashboardPageTests extends BaseTest {
         /**
          * this test verifies whether continue button should be displayed or not quotes in MY QUOTES
          story - N2020-28296
+         @author - Venkat Kottapalli
          **/
         logger.info("verifying broker filtering the policies list :: testBrokerFilteringPoliciesList");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
@@ -328,10 +347,11 @@ public class DashboardPageTests extends BaseTest {
                                     assert !ClickHelper.isElementExist(DriverManager.getDriver(), continueButton2);
                                     break;
                                 case ConstantVariable.ACTIVE_STRING:
-                                    assert ClickHelper.isElementExist(DriverManager.getDriver(), continueButton2);;
+                                    assert ClickHelper.isElementExist(DriverManager.getDriver(), continueButton2);
                             }
                         }
                     }
+                    dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
                 }
             }
 
@@ -345,6 +365,7 @@ public class DashboardPageTests extends BaseTest {
         /**
          * this test verifies search results for related Records
          story - N2020-28288
+         @author - Azamat Uulu
          **/
         logger.info("verifying broker can search for related records :: testBrokerSearchRelatedRecords");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
@@ -388,6 +409,7 @@ public class DashboardPageTests extends BaseTest {
         /***
          this test submission renewal
          story - N2020-28481
+         @author -
          **/
         logger.info("verifying submission renewal ::  testSubmissionRenewal");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
@@ -404,8 +426,8 @@ public class DashboardPageTests extends BaseTest {
         /***
          this test Sort the My Quotes List
          story - N2020-29952
+         @author -Azamat Uulu
          **/
-
         logger.info("verifying sort my quote list ::  sortQuoteList");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
         dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
@@ -418,7 +440,6 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.getFirstAvailableCreatedDate(DriverManager.getDriver());
         String expected = dashboardPageActions.getFirstAvailableCreatedDate(DriverManager.getDriver());
         assert actual.equals(expected);
-
         dashboardPageActions.clickSortBy(DriverManager.getDriver());
         dashboardPageActions.clickSortByOldest(DriverManager.getDriver());
         String actualOldestDate = dashboardPageActions.getFirstAvailableCreatedDate(DriverManager.getDriver());
@@ -433,6 +454,7 @@ public class DashboardPageTests extends BaseTest {
         /***
          this test Sort my Policy List
          story - N2020-29736
+         @author -Azamat Uulu
          **/
 
         logger.info("verifying sort my quote list ::  sortPolicyList");
@@ -462,6 +484,7 @@ public class DashboardPageTests extends BaseTest {
         /***
          this test verifies sup of new insured
          story - N2020-28346
+         @author - Venkat Kottapalli
          **/
         logger.info("verifying duplicate submissions :: testSupportRequestFunctionality");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
@@ -481,10 +504,11 @@ public class DashboardPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
-    public void  testBrokersCanContinueRenewalSubmission(Map<String, String> map) throws InterruptedException, ParseException {
+    public void  testBrokersCanContinueRenewalSubmission(Map<String, String> map) throws InterruptedException {
         /***
          this test Brokers can continue a Renewal Submission
          story - N2020-28483
+         @author -Azamat Uulu
          **/
 
         logger.info("verifying :: continue a Renewal Submission ");

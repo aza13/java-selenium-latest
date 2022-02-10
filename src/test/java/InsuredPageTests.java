@@ -1,14 +1,14 @@
 import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
-import com.aventstack.extentreports.Status;
+import helper.FakeDataHelper;
 import org.apache.log4j.Logger;
-import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
+import org.json.simple.parser.ParseException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageActions.DashboardPageActions;
 import pageActions.InsuredPageActions;
+import pageActions.RatingCriteriaPageActions;
 import utils.dataProvider.TestDataProvider;
 
 import java.io.IOException;
@@ -29,8 +29,9 @@ public class InsuredPageTests extends BaseTest {
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "InsuredPageData")
     public void testCreateInsuredFieldsValidation(Map<String, String> map) throws InterruptedException {
         /***
-          this test verifies creation of new insured fields validation
+         this test verifies creation of new insured fields validation
          story - N2020-28293
+         @author - Venkat Kottapalli
          **/
         logger.info("verifying creating new quote creation :: testCreateInsuredFieldsValidation");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
@@ -58,6 +59,7 @@ public class InsuredPageTests extends BaseTest {
         /***
          this test verifies creation of new insured
          story - N2020-28293
+         @author -
          **/
         logger.info("verifying creating new quote creation :: testCreateInsured");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
@@ -65,17 +67,23 @@ public class InsuredPageTests extends BaseTest {
         dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
         dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), map.get("applicantName"), map.get("website"));
+        String newInsuredName = FakeDataHelper.fullName();
+        String newInsuredWebsite = FakeDataHelper.website();
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), newInsuredName,newInsuredWebsite);
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
-        insuredPageActions.clickNewInsuredButton(DriverManager.getDriver());
+        if (!insuredPageActions.isCreateNeInsuredTextDisplayed(DriverManager.getDriver())){
+            insuredPageActions.clickNewInsuredButton(DriverManager.getDriver());
+        }
         insuredPageActions.enterEmailAddress(DriverManager.getDriver());
+        insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
         insuredPageActions.enterPhysicalAddress(DriverManager.getDriver());
         insuredPageActions.enterPhyCity(DriverManager.getDriver());
         insuredPageActions.enterPhyZipcode(DriverManager.getDriver());
         insuredPageActions.selectPhyState(DriverManager.getDriver());
         insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
         insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
-
+        RatingCriteriaPageActions ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
+        assert ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver());
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "InsuredPageData")
@@ -83,6 +91,7 @@ public class InsuredPageTests extends BaseTest {
         /***
          this test verifies search again functionality
          story - N2020-29653
+         @author - Venkat Kottapalli
          **/
         logger.info("verifying modify search of insured :: testModifyInsuredSearch");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
@@ -103,6 +112,7 @@ public class InsuredPageTests extends BaseTest {
         /***
          this test verifies creation of new insured
          story - N2020-29053
+         @author - Venkat Kottapalli
          **/
         logger.info("verifying duplicate submissions :: testCheckDuplicateSubmission");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
@@ -119,6 +129,7 @@ public class InsuredPageTests extends BaseTest {
         insuredPageActions.clickDuplicateCancelButton(DriverManager.getDriver());
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
     }
+
 
 
 

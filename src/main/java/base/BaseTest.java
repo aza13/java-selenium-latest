@@ -5,6 +5,7 @@ import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
+import constants.ConstantVariable;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.OutputType;
@@ -16,7 +17,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
-import utils.extentReport.ExtentReport;
+import utils.extentReport.ExtentManager;
 import utils.fileReader.ConfigDataReader;
 
 import java.io.File;
@@ -35,6 +36,7 @@ public class BaseTest {
     protected static ExtentTest testLogger;
     private static String userId;
     private static String password;
+    public static String operatingSystem;
 
     private static final Logger logger = Logger.getLogger(BaseTest.class);
 
@@ -43,9 +45,11 @@ public class BaseTest {
 
         logger.info("Executing the @BeforeSuite - configSetUpMethod() in BaseTest ");
 
+        operatingSystem = System.getProperty("os.name");
+
         Properties prop;
 
-        prop = ConfigDataReader.ConfigPropInit();
+        prop = ConfigDataReader.configPropInit(ConstantVariable.CONFIG_PROP_FILEPATH);
 
         logger.info("Config Properties Initialised");
 
@@ -69,7 +73,7 @@ public class BaseTest {
 
         logger.info("Initialising extent report");
 
-        extentReport = ExtentReport.ExtentReportInit();
+        extentReport = ExtentManager.getInstance();
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -95,7 +99,7 @@ public class BaseTest {
         File src = takesScreenshot.getScreenshotAs(OutputType.FILE);
 
         try {
-            screenShotPath = System.getProperty("user.dir") + "\\reports\\screenshots\\" + testName + "_screenshot.png";
+            screenShotPath = System.getProperty("user.dir") + "\\extent-report\\screenshots\\" + testName + "_screenshot.png";
 
             logger.info("The screenshot is saved at " + screenShotPath);
 

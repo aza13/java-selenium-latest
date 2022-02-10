@@ -1,5 +1,6 @@
 package base;
 
+import constants.ConstantVariable;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -9,6 +10,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.opera.OperaDriver;
 import utils.fileReader.ConfigDataReader;
+
+import static base.BaseTest.operatingSystem;
 
 
 public class DriverManager {
@@ -33,7 +36,7 @@ public class DriverManager {
 
         WebDriver driver = DriverManager.threadDriver.get();
 
-        String browser = ConfigDataReader.ConfigPropInit().getProperty("browserType");
+        String browser = ConfigDataReader.configPropInit(ConstantVariable.CONFIG_PROP_FILEPATH).getProperty("browserType");
 
         if (driver == null) {
 
@@ -42,7 +45,9 @@ public class DriverManager {
                     logger.info("Initialising the chrome browser");
                     WebDriverManager.chromedriver().setup();
                     ChromeOptions options = new ChromeOptions();
-                    options. addArguments("--headless");
+                    if (!operatingSystem.contains("Windows")) {
+                        options.addArguments("--headless");
+                    }
                     options.addArguments("--incognito");
                     driver = new ChromeDriver(options);
                     threadDriver.set(driver);

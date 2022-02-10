@@ -1,9 +1,6 @@
 package base;
 
-import pageActions.DashboardPageActions;
-import pageActions.InsuredPageActions;
-import pageActions.LoginPageActions;
-import pageActions.RatingCriteriaPageActions;
+import pageActions.*;
 
 public class PageObjectManager {
 
@@ -14,6 +11,8 @@ public class PageObjectManager {
     private static LoginPageActions loginPageActions;
 
     private static RatingCriteriaPageActions ratingCriteriaPageActions;
+
+    private static UnderwritingQuestionsPageActions underwritingQuestionsPageActions;
 
     private PageObjectManager(){
 
@@ -28,6 +27,11 @@ public class PageObjectManager {
         return (insuredPageActions == null) ? insuredPageActions = new InsuredPageActions() : insuredPageActions;
     }
 
+    public static RatingCriteriaPageActions getRatingCriteriaPageActions(){
+
+        return (ratingCriteriaPageActions == null) ? ratingCriteriaPageActions = new RatingCriteriaPageActions() : ratingCriteriaPageActions;
+    }
+
     public static LoginPageActions getLoginPageActions(){
 
         return (loginPageActions == null) ? loginPageActions = new LoginPageActions() : loginPageActions;
@@ -36,6 +40,11 @@ public class PageObjectManager {
     public static RatingCriteriaPageActions getRatingCriteriaActions() {
 
         return (ratingCriteriaPageActions == null) ? ratingCriteriaPageActions = new RatingCriteriaPageActions() : ratingCriteriaPageActions;
+    }
+
+    public static UnderwritingQuestionsPageActions getUnderwritingQuestionsPageActions() {
+
+        return (underwritingQuestionsPageActions == null) ? underwritingQuestionsPageActions = new UnderwritingQuestionsPageActions() : underwritingQuestionsPageActions;
     }
 
 }

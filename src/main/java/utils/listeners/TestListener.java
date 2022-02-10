@@ -17,7 +17,7 @@ import java.io.File;
 
 public class TestListener  implements ITestListener {
 
-    private static Logger logger = Logger.getLogger(TestListener.class);
+    private static final Logger logger = Logger.getLogger(TestListener.class);
 
     @Override
     public void onStart(ITestContext context) {
