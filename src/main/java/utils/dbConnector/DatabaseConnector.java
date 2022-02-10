@@ -1,5 +1,6 @@
 package utils.dbConnector;
 
+import constants.ConstantVariable;
 import org.apache.log4j.Logger;
 import utils.fileReader.ConfigDataReader;
 
@@ -23,10 +24,10 @@ public class DatabaseConnector {
 
 
     public DatabaseConnector(){
-        databaseUrl = ConfigDataReader.ConfigPropInit().getProperty("dbUrl");
-        databaseDriverName = ConfigDataReader.ConfigPropInit().getProperty("dbDriverName");
-        userName = ConfigDataReader.ConfigPropInit().getProperty("dbUserName");
-        password = ConfigDataReader.ConfigPropInit().getProperty("dbPassword");
+        databaseUrl = ConfigDataReader.configPropInit(ConstantVariable.CONFIG_PROP_FILEPATH).getProperty("dbUrl");
+        databaseDriverName = ConfigDataReader.configPropInit(ConstantVariable.CONFIG_PROP_FILEPATH).getProperty("dbDriverName");
+        userName = ConfigDataReader.configPropInit(ConstantVariable.CONFIG_PROP_FILEPATH).getProperty("dbUserName");
+        password = ConfigDataReader.configPropInit(ConstantVariable.CONFIG_PROP_FILEPATH).getProperty("dbPassword");
     }
 
     public Connection getConnection() {

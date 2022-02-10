@@ -20,17 +20,8 @@ public class WaitHelper {
 
     public static void waitForSpinnerIconInvisibility(WebDriver driver, By elementLocator) {
 
-        WebElement element = driver.findElement(elementLocator);
-        try {
-            if (element.isDisplayed()) {
-                waitForSpinnerIconInvisibility(driver, elementLocator);
-            } else {
-                logger.info("Spinner Icon invisible - proceeding to next page ");
-            }
-        } catch (Exception e) {
-            logger.error("Waiting for Spinner Icon invisibility failed " + e.getMessage());
-            throw (e);
-        }
+        WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 30).ignoring(NoSuchElementException.class);
+        wait.until(ExpectedConditions.invisibilityOf(driver.findElement(elementLocator)));
     }
 
     public static void waitForElementPresent(WebDriver driver, By elementLocator) {

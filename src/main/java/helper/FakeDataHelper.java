@@ -18,9 +18,9 @@ public class FakeDataHelper {
         return faker.name().firstName();
     }
 
-    public static String lastName() {
+    public static String fullName() {
 
-        return faker.name().lastName();
+        return faker.name().fullName();
     }
 
     public static String phoneNumber() {
@@ -46,6 +46,11 @@ public class FakeDataHelper {
     public static String city() {
 
         return faker.address().city();
+    }
+
+    public static String website() {
+        String website = faker.company().url();
+        return "https://"+website;
     }
 
 

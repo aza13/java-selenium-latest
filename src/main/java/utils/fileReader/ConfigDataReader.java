@@ -3,9 +3,8 @@ package utils.fileReader;
 
 import constants.ConstantVariable;
 import org.apache.log4j.Logger;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+
+import java.io.*;
 import java.util.Properties;
 
 public class ConfigDataReader {
@@ -20,11 +19,11 @@ public class ConfigDataReader {
     }
 
 
-    public static Properties ConfigPropInit() {
+    public static Properties configPropInit(String filePath) {
 
-        logger.info("Loading the properties file in :: ConfigPropInit ");
+        logger.info("Loading the properties file in :: configPropInit ");
 
-        File file = new File(ConstantVariable.CONFIG_PROP_FILEPATH);
+        File file = new File(filePath);
 
         if(prop == null){
 
@@ -41,5 +40,13 @@ public class ConfigDataReader {
         }
 
         return prop;
+    }
+
+    public static void writeValuesPropFile(String filePath) throws FileNotFoundException {
+
+        File file = new File(filePath);
+        FileOutputStream fileOut = new FileOutputStream(filePath);
+
+
     }
 }

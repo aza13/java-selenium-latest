@@ -7,14 +7,27 @@ import helper.TextHelper;
 import helper.WaitHelper;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import static pageObjects.DashboardPageObjects.*;
-import static pageObjects.DashboardPageObjects.websiteField;
-import static pageObjects.InsuredPageObjects.newInsuredButton;
-import static pageObjects.RatingCriteriaPageObject.*;
+import org.apache.log4j.Logger;
+import static pageObjects.DashboardPageObjects.allStatusDropdown;
+import static pageObjects.DashboardPageObjects.statusOptions;
+import static pageObjects.RatingCriteriaPageObjects.*;
 
 
 public class RatingCriteriaPageActions extends BaseTest {
+
+
+    private static final Logger logger = Logger.getLogger(RatingCriteriaPageActions.class);
+
+    public boolean isRatingCriteriaPageDisplayed(WebDriver driver){
+        WaitHelper.waitForElementVisibility(driver, ratingCriteriaHeader);
+       return ClickHelper.isElementExist(driver, ratingCriteriaHeader);
+
+    }
+
+    public WebElement ratingCriteriaExitButton(WebDriver driver){
+        WaitHelper.waitForElementVisibility(driver, ratingCriteriaExitButton);
+        return driver.findElement(ratingCriteriaExitButton);
+    }
 
     public void clickRatingCriteriaButton(WebDriver driver) {
         WaitHelper.waitForElementClickable(driver, ratingCriteriaButton);
@@ -36,14 +49,14 @@ public class RatingCriteriaPageActions extends BaseTest {
         WaitHelper.waitForElementVisibility(driver, ratingCriteriaTitle);
         return driver.findElement(ratingCriteriaTitle);
     }
+
     public void selectBusinessClassInFilter(WebDriver driver, String status) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, allStatusDropdown);
         DropdownHelper.selectValueFromBootstrapDropdown(driver, allStatusDropdown, statusOptions, status);
     }
-    public void inputValueToRatingCriteria(WebDriver driver, String numberOfResidentialUnits, String totalCommercialSquareFeet) throws InterruptedException {
 
-        TextHelper.enterText(driver, ratingCriteriaInputBox1, numberOfResidentialUnits);
-        TextHelper.enterText(driver, ratingCriteriaInputBox2 , totalCommercialSquareFeet );
-        WaitHelper.pause(1000);
+    public void enterRatingCriteriaRevenueAndRecords(WebDriver driver, String revenue, String records) {
+        TextHelper.enterText(driver, ratingCriteriaRevenueField, revenue);
+        TextHelper.enterText(driver, ratingCriteriaRecordsField , records );
     }
 }

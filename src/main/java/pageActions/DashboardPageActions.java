@@ -74,7 +74,7 @@ public class DashboardPageActions extends BaseTest {
     }
 
     public WebElement profileLink(WebDriver driver) {
-
+        WaitHelper.waitForElementVisibility(driver, profileLink);
         return driver.findElement(profileLink);
     }
 
@@ -541,7 +541,6 @@ public class DashboardPageActions extends BaseTest {
         if (createdDates.size()>0){
             List<String> dates = new ArrayList<>();
             for (WebElement ele : createdDates) {
-                System.out.println("\n actual Date --"+ele.getText());
                 dates.add(ele.getText());
             }
             return dates;
@@ -555,7 +554,6 @@ public class DashboardPageActions extends BaseTest {
         if (createdDates.size()>0){
             List<String> dates = new ArrayList<>();
             for (WebElement ele : createdDates) {
-                System.out.println("\n actual Date --"+ele.getText());
                 dates.add(ele.getText());
             }
             return dates;
@@ -636,6 +634,12 @@ public class DashboardPageActions extends BaseTest {
     public void clickCancelSupportRequestButton(WebDriver driver){
         WaitHelper.waitForElementVisibility(driver, supportRequestCancelButton);
         ClickHelper.clickElement(driver, supportRequestCancelButton);
+    }
+
+    public void clickQuoteCardContinueButton(WebDriver driver){
+
+        WaitHelper.waitForElementVisibility(driver, quoteCardGenericContinueButton);
+        ClickHelper.clickElement(driver, quoteCardGenericContinueButton);
     }
 
 

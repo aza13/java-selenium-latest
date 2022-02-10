@@ -100,7 +100,6 @@ public class DropdownHelper {
         logger.info("selecting given value from the dropdown:: selectValueFromBootstrapDropdown " + dropdown);
         try {
             driver.findElement(dropdown).click();
-//            Thread.sleep(3000);
             WaitHelper.waitForElementVisibility(driver, option);
             List<WebElement> options = driver.findElements(option);
             for (WebElement opt : options) {
