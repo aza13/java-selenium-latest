@@ -1,13 +1,12 @@
 import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
-import enums.ConstantVariable;
+import constants.ConstantVariable;
 import helper.FakeDataHelper;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebElement;
 import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pageActions.DashboardPageActions;
 import pageActions.InsuredPageActions;
@@ -32,11 +31,9 @@ public class SubmissionClearancesTests extends BaseTest {
         dashboardPageActions = PageObjectManager.getDashboardPageActions();
     }
 
-
-//    @BeforeMethod
     public void createInsured() throws InterruptedException {
         /***
-         this test verifies creation of new insured
+         this method creates a new  insured and writes it to text file
          story - N2020-28293
          **/
         logger.info("verifying creating new quote creation :: testCreateInsured");
@@ -73,6 +70,8 @@ public class SubmissionClearancesTests extends BaseTest {
         /***
          this test verifies whether user can proceed for submission creation based on clearances results
          story - N2020-28325, 28326
+         @author - Venkat Kottapalli
+
          **/
         logger.info("verifying submission clearance results :: testClearancesSubmissionFunctionality");
         createInsured();
@@ -116,6 +115,7 @@ public class SubmissionClearancesTests extends BaseTest {
         /***
          this test verifies whether user can proceed for submission creation based on clearances results
          story - N2020-28325, 28326
+         @author - Venkat Kottapalli
          **/
         logger.info("verifying submission clearance results :: testCancelClearancesFunctionality");
         createInsured();
@@ -158,6 +158,7 @@ public class SubmissionClearancesTests extends BaseTest {
         /***
          this test verifies Submissions with no clearances can transition to the quote
          story - N2020-28329
+         @author - Venkat Kottapalli
          **/
         logger.info("verifying duplicate submissions :: testCheckDuplicateSubmission");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());

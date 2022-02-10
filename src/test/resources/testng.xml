@@ -5,6 +5,8 @@
         <classes>
             <class name="DashboardPageTests"/>
             <class name="InsuredPageTests"/>
+            <class name="RatingCriteriaPageTests"/>
+            <class name="SubmissionClearancesTests"/>
         </classes>
     </test>
 </suite>

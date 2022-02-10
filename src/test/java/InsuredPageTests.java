@@ -18,7 +18,6 @@ public class InsuredPageTests extends BaseTest {
 
     private static final Logger logger = Logger.getLogger(InsuredPageTests.class);
     private DashboardPageActions dashboardPageActions;
-    private RatingCriteriaPageActions ratingCriteriaPageActions;
 
     @BeforeClass(alwaysRun = true)
     public void beforeClassSetUp() {
@@ -32,6 +31,7 @@ public class InsuredPageTests extends BaseTest {
         /***
          this test verifies creation of new insured fields validation
          story - N2020-28293
+         @author - Venkat Kottapalli
          **/
         logger.info("verifying creating new quote creation :: testCreateInsuredFieldsValidation");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
@@ -55,10 +55,11 @@ public class InsuredPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "InsuredPageData")
-    public void testCreateInsured(Map<String, String> map) throws InterruptedException, IOException, ParseException {
+    public void testCreateInsured(Map<String, String> map) throws InterruptedException {
         /***
          this test verifies creation of new insured
          story - N2020-28293
+         @author -
          **/
         logger.info("verifying creating new quote creation :: testCreateInsured");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
@@ -81,7 +82,7 @@ public class InsuredPageTests extends BaseTest {
         insuredPageActions.selectPhyState(DriverManager.getDriver());
         insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
         insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
-        ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
+        RatingCriteriaPageActions ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
         assert ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver());
     }
 
@@ -90,6 +91,7 @@ public class InsuredPageTests extends BaseTest {
         /***
          this test verifies search again functionality
          story - N2020-29653
+         @author - Venkat Kottapalli
          **/
         logger.info("verifying modify search of insured :: testModifyInsuredSearch");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
@@ -110,6 +112,7 @@ public class InsuredPageTests extends BaseTest {
         /***
          this test verifies creation of new insured
          story - N2020-29053
+         @author - Venkat Kottapalli
          **/
         logger.info("verifying duplicate submissions :: testCheckDuplicateSubmission");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());

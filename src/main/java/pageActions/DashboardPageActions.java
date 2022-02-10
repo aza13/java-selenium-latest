@@ -3,7 +3,7 @@ package pageActions;
 import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
-import enums.ConstantVariable;
+import constants.ConstantVariable;
 import helper.*;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
@@ -11,8 +11,6 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.Wait;
-import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -488,6 +486,12 @@ public class DashboardPageActions extends BaseTest {
     public void clickPolicyFilterByStatus(WebDriver driver) {
         WaitHelper.waitForElementClickable(driver, policyFilterByStatus);
         ClickHelper.clickElement(driver, policyFilterByStatus);
+    }
+
+    public void clickFirstAvailableContinueButton (WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementClickable(driver,fistAvailableContinueButton );
+        ClickHelper.clickElement(driver, fistAvailableContinueButton);
+        WaitHelper.pause(4000);
     }
 
     public void validateContinueSubmission(WebDriver driver) throws InterruptedException {

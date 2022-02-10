@@ -1,7 +1,7 @@
 package utils.dataProvider;
 
 import base.BaseTest;
-import enums.ConstantVariable;
+import constants.ConstantVariable;
 import utils.fileReader.ConfigDataReader;
 import utils.fileReader.ExcelDataReader;
 import org.apache.log4j.Logger;

@@ -1,4 +1,4 @@
-package enums;
+package constants;
 
 public class ConstantVariable {
 
