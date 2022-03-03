@@ -5,9 +5,12 @@ import helper.ClickHelper;
 import helper.DropdownHelper;
 import helper.TextHelper;
 import helper.WaitHelper;
+import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Wait;
+
+import static pageObjects.InsuredPageObjects.searchAgainButton;
 import static pageObjects.RatingCriteriaPageObject.*;
 import org.apache.log4j.Logger;
 import static pageObjects.DashboardPageObjects.allStatusDropdown;
@@ -98,5 +101,26 @@ public class RatingCriteriaPageActions extends BaseTest {
         TextHelper.enterText(driver, ratingCriteriaRevenueField, revenue);
         TextHelper.enterText(driver, ratingCriteriaRecordsField , records );
         WaitHelper.pause(1000);
+    }
+
+    public void clickRatingCriteriaEffectiveDateCalenderButton (WebDriver driver) throws InterruptedException {
+
+        WaitHelper.waitForElementClickable(driver, ratingCriteriaEffectiveDateSelectionButton);
+        ClickHelper.clickElement(driver, ratingCriteriaEffectiveDateSelectionButton);
+        WaitHelper.pause(2000);
+        ClickHelper.clickElement(driver,ratingCriteriaEffectiveActualDateChoose);
+    }
+
+    public boolean viewRatingCriteriaExpirationDateField (WebDriver driver) {
+
+        WaitHelper.waitForElementClickable(driver, ratingCriteriaExpirationExpectedDateShow);
+        return driver.findElement(ratingCriteriaExpirationExpectedDateShow).isDisplayed();
+    }
+
+    public void clickRatingCriteriaExitButton (WebDriver driver) throws InterruptedException {
+
+        WaitHelper.waitForElementClickable(driver, ratingCriteriaCancelButton);
+        ClickHelper.clickElement(driver,ratingCriteriaCancelButton);
+        WaitHelper.pause(3000);
     }
 }
