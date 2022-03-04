@@ -7,18 +7,9 @@ import helper.TextHelper;
 import helper.WaitHelper;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import static pageObjects.RatingCriteriaPageObject.*;
+import static pageObjects.RatingCriteriaPageObjects.*;
 import org.apache.log4j.Logger;
-import static pageObjects.DashboardPageObjects.allStatusDropdown;
-import static pageObjects.DashboardPageObjects.statusOptions;
-import static pageObjects.RatingCriteriaPageObject.businessClassDropDown;
-import static pageObjects.RatingCriteriaPageObject.ratingCriteriaButton;
-import static pageObjects.RatingCriteriaPageObject.ratingCriteriaContinueButton;
-import static pageObjects.RatingCriteriaPageObject.ratingCriteriaRecordsField;
-import static pageObjects.RatingCriteriaPageObject.ratingCriteriaRevenueField;
-import static pageObjects.RatingCriteriaPageObject.ratingCriteriaTitle;
-
-
+import static pageObjects.DashboardPageObjects.*;
 
 
 public class RatingCriteriaPageActions extends BaseTest {

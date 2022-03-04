@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class RatingCriteriaPageObject {
+public class RatingCriteriaPageObjects {
 
     static SimpleDateFormat enterDateFormat = new SimpleDateFormat("d");
     static Date d = new Date(System.currentTimeMillis());
