@@ -5,12 +5,8 @@ import helper.ClickHelper;
 import helper.DropdownHelper;
 import helper.TextHelper;
 import helper.WaitHelper;
-import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Wait;
-
-import static pageObjects.InsuredPageObjects.searchAgainButton;
 import static pageObjects.RatingCriteriaPageObject.*;
 import org.apache.log4j.Logger;
 import static pageObjects.DashboardPageObjects.allStatusDropdown;
@@ -21,7 +17,7 @@ import static pageObjects.RatingCriteriaPageObject.ratingCriteriaContinueButton;
 import static pageObjects.RatingCriteriaPageObject.ratingCriteriaRecordsField;
 import static pageObjects.RatingCriteriaPageObject.ratingCriteriaRevenueField;
 import static pageObjects.RatingCriteriaPageObject.ratingCriteriaTitle;
-import static pageObjects.RatingCriteriaPageObjects.*;
+
 
 
 
