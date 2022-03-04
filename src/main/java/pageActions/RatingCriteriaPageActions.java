@@ -7,19 +7,9 @@ import helper.TextHelper;
 import helper.WaitHelper;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Wait;
-import static pageObjects.RatingCriteriaPageObject.*;
-import org.apache.log4j.Logger;
-import static pageObjects.DashboardPageObjects.allStatusDropdown;
-import static pageObjects.DashboardPageObjects.statusOptions;
-import static pageObjects.RatingCriteriaPageObject.businessClassDropDown;
-import static pageObjects.RatingCriteriaPageObject.ratingCriteriaButton;
-import static pageObjects.RatingCriteriaPageObject.ratingCriteriaContinueButton;
-import static pageObjects.RatingCriteriaPageObject.ratingCriteriaRecordsField;
-import static pageObjects.RatingCriteriaPageObject.ratingCriteriaRevenueField;
-import static pageObjects.RatingCriteriaPageObject.ratingCriteriaTitle;
 import static pageObjects.RatingCriteriaPageObjects.*;
-
+import org.apache.log4j.Logger;
+import static pageObjects.DashboardPageObjects.*;
 
 
 public class RatingCriteriaPageActions extends BaseTest {
@@ -98,5 +88,26 @@ public class RatingCriteriaPageActions extends BaseTest {
         TextHelper.enterText(driver, ratingCriteriaRevenueField, revenue);
         TextHelper.enterText(driver, ratingCriteriaRecordsField , records );
         WaitHelper.pause(1000);
+    }
+
+    public void clickRatingCriteriaEffectiveDateCalenderButton (WebDriver driver) throws InterruptedException {
+
+        WaitHelper.waitForElementClickable(driver, ratingCriteriaEffectiveDateSelectionButton);
+        ClickHelper.clickElement(driver, ratingCriteriaEffectiveDateSelectionButton);
+        WaitHelper.pause(2000);
+        ClickHelper.clickElement(driver,ratingCriteriaEffectiveActualDateChoose);
+    }
+
+    public boolean viewRatingCriteriaExpirationDateField (WebDriver driver) {
+
+        WaitHelper.waitForElementClickable(driver, ratingCriteriaExpirationExpectedDateShow);
+        return driver.findElement(ratingCriteriaExpirationExpectedDateShow).isDisplayed();
+    }
+
+    public void clickRatingCriteriaExitButton (WebDriver driver) throws InterruptedException {
+
+        WaitHelper.waitForElementClickable(driver, ratingCriteriaCancelButton);
+        ClickHelper.clickElement(driver,ratingCriteriaCancelButton);
+        WaitHelper.pause(3000);
     }
 }
