@@ -15,7 +15,8 @@ public class RatingCriteriaPageObject {
 
     static SimpleDateFormat expectDateFormat = new SimpleDateFormat("MM/dd/yyyy");
     static String expectDate = expectDateFormat.format(DateUtils.addYears(d,1));
-
+    public static final By ratingCriteriaHeader =By.xpath("//h4[text()=' Rating Criteria']");
+    public static final By ratingCriteriaExitButton = By.id("rating_criteria-cancel");
     public static final By ratingCriteriaButton = By.xpath("//button[@id='workflow-tab-1']");
     public static final By businessClassDropDown = By.xpath("//input[@id='rating-business-class-select']");
     public static final By ratingCriteriaTitle = By.xpath("//div[contains(text(),'Rating Criteria')]");
