@@ -7,6 +7,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static pageObjects.InsuredPageObjects.*;
 
@@ -260,14 +262,24 @@ public class InsuredPageActions extends BaseTest {
         }
     }
 
-    public  void enterInsuredPhoneNumber(WebDriver driver){
+    public  void enterInsuredPhoneNumber(WebDriver driver) throws InterruptedException {
         String phoneNum = FakeDataHelper.phoneNumber();
         TextHelper.enterText(driver, insuredPhoneNumberField, phoneNum);
+        WaitHelper.pause(4000);
 
     }
 
     public boolean isCreateNeInsuredTextDisplayed(WebDriver driver){
         return ClickHelper.isElementExist(driver, createNewInsuredInfoText);
+    }
+
+    public boolean verifyValidPhoneNumberFormat(WebDriver driver){
+
+        String phone = TextHelper.getText(driver, insuredPhoneNumberField, "value");
+        Pattern pattern = Pattern.compile("^\\+[0-9]{1} \\([0-9]{3}\\) [0-9]{3}-[0-9]{4}$");
+        Matcher matcher = pattern.matcher(phone);
+
+        return matcher.matches();
     }
 
 }

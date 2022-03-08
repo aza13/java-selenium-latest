@@ -13,7 +13,6 @@ import static pageObjects.DashboardPageObjects.allStatusDropdown;
 import static pageObjects.DashboardPageObjects.statusOptions;
 import static pageObjects.RatingCriteriaPageObjects.*;
 
-
 public class RatingCriteriaPageActions extends BaseTest {
 
 
@@ -95,5 +94,26 @@ public class RatingCriteriaPageActions extends BaseTest {
     public void clickBusinessClassOption(WebDriver driver){
         WaitHelper.waitForElementVisibility(driver, businessClassOption);
         ClickHelper.clickElement(driver, businessClassOption);
+    }
+
+    public void clickRatingCriteriaEffectiveDateCalenderButton (WebDriver driver) throws InterruptedException {
+
+        WaitHelper.waitForElementClickable(driver, ratingCriteriaEffectiveDateSelectionButton);
+        ClickHelper.clickElement(driver, ratingCriteriaEffectiveDateSelectionButton);
+        WaitHelper.pause(2000);
+        ClickHelper.clickElement(driver,ratingCriteriaEffectiveActualDateChoose);
+    }
+
+    public boolean viewRatingCriteriaExpirationDateField (WebDriver driver) {
+
+        WaitHelper.waitForElementClickable(driver, ratingCriteriaExpirationExpectedDateShow);
+        return driver.findElement(ratingCriteriaExpirationExpectedDateShow).isDisplayed();
+    }
+
+    public void clickRatingCriteriaExitButton (WebDriver driver) throws InterruptedException {
+
+        WaitHelper.waitForElementClickable(driver, ratingCriteriaCancelButton);
+        ClickHelper.clickElement(driver,ratingCriteriaCancelButton);
+        WaitHelper.pause(3000);
     }
 }
