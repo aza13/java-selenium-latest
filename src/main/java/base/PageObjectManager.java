@@ -14,6 +14,8 @@ public class PageObjectManager {
 
     private static UnderwritingQuestionsPageActions underwritingQuestionsPageActions;
 
+    private static QuoteListPageActions quoteListPageActions;
+
     private PageObjectManager(){
 
     }
@@ -47,5 +49,9 @@ public class PageObjectManager {
         return (underwritingQuestionsPageActions == null) ? underwritingQuestionsPageActions = new UnderwritingQuestionsPageActions() : underwritingQuestionsPageActions;
     }
 
+    public static QuoteListPageActions getQuoteListPageActions() {
+
+        return (quoteListPageActions == null) ? quoteListPageActions = new QuoteListPageActions() : quoteListPageActions;
+    }
 
 }

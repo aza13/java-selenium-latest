@@ -155,7 +155,7 @@ public class DashboardPageObjects {
 
     public static final By myPolicyCardGenericContinueButton = By.xpath("//button[@type='button'][normalize-space()='Continue']");
 
-    public static final By fistAvailableContinueButton = By.xpath("//p[@class='sc-ezbkAF fLaTpy MuiTypography-root MuiTypography-body1']/div[1]/div/div[8]/div/button");
+    public static final By fistAvailableContinueButton = By.xpath("(//button[text()='Continue'])[1]");
 
 
 

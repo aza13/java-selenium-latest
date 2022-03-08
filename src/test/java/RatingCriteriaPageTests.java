@@ -35,7 +35,6 @@ public class RatingCriteriaPageTests extends BaseTest {
 
 
     private DatabaseConnector databaseConnector;
-
     private UnderwritingQuestionsPageActions underwritingQuestionsPageActions;
 
 
@@ -48,7 +47,6 @@ public class RatingCriteriaPageTests extends BaseTest {
 
 
         databaseConnector = new DatabaseConnector();
-
         underwritingQuestionsPageActions = PageObjectManager.getUnderwritingQuestionsPageActions();
 
     }
@@ -93,7 +91,6 @@ public class RatingCriteriaPageTests extends BaseTest {
          story - N2020-28624
          **/
 
-
         String quoteId="";
         List<HashMap<Object, Object>> listValueQuoteIds =
                 databaseConnector.getResultSetToList(DatabaseQueries.GET_QUOTE_FOR_HARD_DECLINE);
@@ -120,7 +117,6 @@ public class RatingCriteriaPageTests extends BaseTest {
             String statusAfterDecline = dashboardPageActions.getQuoteStatus(DriverManager.getDriver());
             String actualStatus = "Declined";
             assert statusAfterDecline.equals(actualStatus);
-
 
     }
 

@@ -94,6 +94,7 @@ public class DashboardPageActions extends BaseTest {
 
     public WebElement myQuotesTab(WebDriver driver) {
         try {
+            WaitHelper.waitForElementVisibility(driver, myQuotesTab);
             return driver.findElement(myQuotesTab);
         } catch (Exception e) {
             testLogger.fail("failed to verify the my quote tab :: clickMyQuoteTab" + e.getMessage());
@@ -495,7 +496,7 @@ public class DashboardPageActions extends BaseTest {
     public void clickFirstAvailableContinueButton (WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementClickable(driver,fistAvailableContinueButton );
         ClickHelper.clickElement(driver, fistAvailableContinueButton);
-        WaitHelper.pause(4000);
+        WaitHelper.pause(5000);
     }
 
     public void validateContinueSubmission(WebDriver driver) throws InterruptedException {

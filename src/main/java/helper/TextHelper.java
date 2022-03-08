@@ -19,8 +19,9 @@ public class TextHelper {
 
         logger.info("Entering the text into the field " + elementLocator + " :: enterText");
         try {
-            driver.findElement(elementLocator).clear();
-            driver.findElement(elementLocator).sendKeys(text);
+            WebElement element = driver.findElement(elementLocator);
+            element.clear();
+            element.sendKeys(text);
         } catch (Exception e) {
             logger.error("Failed to enter the text to the element " + elementLocator+" :: enterText");
             throw (e);
