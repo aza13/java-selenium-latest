@@ -76,6 +76,7 @@ public class InsuredPageTests extends BaseTest {
         }
         insuredPageActions.enterEmailAddress(DriverManager.getDriver());
         insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
+        assert insuredPageActions.verifyValidPhoneNumberFormat(DriverManager.getDriver());
         insuredPageActions.enterPhysicalAddress(DriverManager.getDriver());
         insuredPageActions.enterPhyCity(DriverManager.getDriver());
         insuredPageActions.enterPhyZipcode(DriverManager.getDriver());
