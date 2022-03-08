@@ -149,9 +149,10 @@ public class InsuredPageActions extends BaseTest {
         ClickHelper.clickElement(driver, cancelInsuredFormButton);
     }
 
-    public void clickContinueInsuredFormButton(WebDriver driver) {
+    public void clickContinueInsuredFormButton(WebDriver driver) throws InterruptedException {
 
         ClickHelper.clickElement(driver, continueInsuredFormButton);
+        WaitHelper.pause(5000);
     }
 
     public boolean validateSearchAgainButtonWithInsuredName(WebDriver driver, String name) {
@@ -234,7 +235,6 @@ public class InsuredPageActions extends BaseTest {
     }
 
     public void clickClearanceSubmitButton(WebDriver driver) {
-
         ClickHelper.clickElement(driver, clearanceSubmitButton);
     }
 
