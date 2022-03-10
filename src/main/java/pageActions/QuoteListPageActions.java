@@ -6,10 +6,13 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import utils.fileDownload.FileDownloadUtil;
 
 import java.util.List;
 
 import static pageObjects.QuoteListPageObjects.*;
+import static pageObjects.QuoteListPageObjects.quoteWelcomeText;
+
 
 
 public class QuoteListPageActions extends BaseTest {
@@ -86,6 +89,30 @@ public class QuoteListPageActions extends BaseTest {
         List<WebElement> deleteIcons = driver.findElements(deleteIconLocator);
         deleteIcons.get(0).click();
         WaitHelper.pause(5000);
+    }
+
+    public String getQuotesWelcomeText(WebDriver driver){
+        WaitHelper.waitForElementVisibility(driver, quoteWelcomeText);
+        return TextHelper.getText(driver, quoteWelcomeText, "text");
+    }
+
+    public void clickQuotesTab(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibility(driver, clickOnQuotesTab);
+        ClickHelper.clickElement(driver, clickOnQuotesTab);
+        WaitHelper.pause(3000);
+    }
+
+    public void clickPDFFileDownload(WebDriver driver) throws InterruptedException {
+
+        FileDownloadUtil.fileDownload(driver, clickAsPDFDownloadButton);
+        FileDownloadUtil.afterFileDownload();
+
+    }
+
+    public void clickWORDFileDownload(WebDriver driver) throws InterruptedException {
+
+        FileDownloadUtil.fileDownload(driver, clickAsWordDownloadButton);
+        FileDownloadUtil.afterFileDownload();
     }
 
 
