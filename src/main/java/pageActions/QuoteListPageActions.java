@@ -7,11 +7,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import utils.fileDownload.FileDownloadUtil;
-
 import java.util.List;
-
 import static pageObjects.QuoteListPageObjects.*;
-import static pageObjects.QuoteListPageObjects.quoteWelcomeText;
+
 
 
 
