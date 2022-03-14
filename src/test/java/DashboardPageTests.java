@@ -521,4 +521,38 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.clickExitRatingCriteria(DriverManager.getDriver());
     }
 
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    public void  testHideRenewButtonOnPolicyList(Map<String, String> map) throws InterruptedException {
+        /***
+         this test Hide Renew Button on Policy list for Ineligible Policies
+         story - N2020-29737
+         @author -Azamat Uulu
+         **/
+
+        logger.info("verifying :: Hide Renew Button on Policy list for Ineligible Policies ");
+        dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
+        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
+        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
+        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
+        dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
+        assert dashboardPageActions.verifyPoliciesExists(DriverManager.getDriver());
+
+        String[] statuses = map.get("status").split(ConstantVariable.SEMICOLON);
+        String[] policiesNumber = map.get("policyNumber").split(ConstantVariable.SEMICOLON);
+
+        for (int i=0; i< statuses.length; i++) {
+
+            dashboardPageActions.clickFilterList(DriverManager.getDriver());
+            dashboardPageActions.clickFilterByStatus(DriverManager.getDriver());
+            dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), statuses[i]);
+            dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
+            assert dashboardPageActions.verifyPoliciesExists(DriverManager.getDriver());
+            dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(),policiesNumber[i].replaceAll("^\"|\"$", ""));
+            assert dashboardPageActions.verifyPoliciesExists(DriverManager.getDriver());
+            dashboardPageActions.verifyHideRenewButton(DriverManager.getDriver(), statuses[i]);
+            dashboardPageActions.clickClearSearch(DriverManager.getDriver());
+        }
+        assert dashboardPageActions.verifyPoliciesExists(DriverManager.getDriver());
+    }
+
 }

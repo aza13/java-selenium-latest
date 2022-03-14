@@ -11,6 +11,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.testng.Assert;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -110,6 +111,16 @@ public class DashboardPageActions extends BaseTest {
         } catch (Exception e) {
             testLogger.fail("failed to verify the my quote tab :: clickMyPoliciesTab" + e.getMessage());
             logger.error("failed to verify the my quote tab :: clickMyPoliciesTab");
+            throw (e);
+        }
+    }
+
+    public boolean verifyPoliciesExists(WebDriver driver){
+        try {
+            return driver.findElement(policyHeader).isDisplayed();
+        }catch (Exception e){
+            testLogger.fail("failed to verify the policies :: verifyPoliciesExists" + e.getMessage());
+            logger.error("failed to verify the policies :: verifyPoliciesExists");
             throw (e);
         }
     }
@@ -475,7 +486,7 @@ public class DashboardPageActions extends BaseTest {
     public void clickApplyFiltersButton(WebDriver driver) throws InterruptedException {
 
         ClickHelper.clickElement(driver, applyFiltersButton);
-        WaitHelper.pause(3000);
+        WaitHelper.pause(8000);
     }
 
     public void selectStatusInFilter(WebDriver driver, String status) throws InterruptedException {
@@ -647,9 +658,42 @@ public class DashboardPageActions extends BaseTest {
         ClickHelper.clickElement(driver, quoteCardGenericContinueButton);
     }
 
+    public void clickFilterByStatus(WebDriver driver) {
+        WaitHelper.waitForElementClickable(driver, clickFilterByStatus);
+        ClickHelper.clickElement(driver, clickFilterByStatus);
+    }
 
+    public void clickClearSearch(WebDriver driver) throws InterruptedException {
+        ClickHelper.clickElement(driver, clearSearch);
+        WaitHelper.pause(5000);
+    }
 
+    public void verifyHideRenewButton(WebDriver driver, String status) throws InterruptedException {
+        try {
+               WebElement statusText = driver.findElement(getStatusText);
+            if(status.equalsIgnoreCase(statusText.getText())) {
+                 WaitHelper.pause(5000);
+                 Assert.assertEquals(0, driver.findElements(renewButton).size());
+            } else if(status.equalsIgnoreCase(statusText.getText())){
+                WaitHelper.pause(5000);
+                Assert.assertEquals(0, driver.findElements(renewButton).size());
+            } else if(status.equalsIgnoreCase(statusText.getText())){
+                WaitHelper.pause(5000);
+                Assert.assertEquals(0, driver.findElements(renewButton).size());
+            } else if(status.equalsIgnoreCase(statusText.getText())){
+                WaitHelper.pause(5000);
+                Assert.assertEquals(0, driver.findElements(renewButton).size());
+            } else if(status.equalsIgnoreCase(statusText.getText())){
+                WaitHelper.pause(5000);
+                Assert.assertEquals(0, driver.findElements(renewButton).size());
+            }
 
+        }catch (Exception e){
+            testLogger.fail("failed to verify hide renew button :: verifyHideRenewButton" + e.getMessage());
+            logger.error("failed to verify hide renew button :: verifyHideRenewButton");
+            throw (e);
+        }
+    }
 
 
 }
