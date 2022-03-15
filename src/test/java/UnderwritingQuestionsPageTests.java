@@ -46,8 +46,8 @@ public class UnderwritingQuestionsPageTests extends BaseTest {
 
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("reffNumber").replaceAll("^\"|\"$", ""));
         dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
-        ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver());
+
         underwritingQuestionsPageActions.isGeneralHeaderDisplayed(DriverManager.getDriver());
         underwritingQuestionsPageActions.clickGeneralHeader(DriverManager.getDriver());
         underwritingQuestionsPageActions.isEnhancementsHeaderDisplayed(DriverManager.getDriver());
