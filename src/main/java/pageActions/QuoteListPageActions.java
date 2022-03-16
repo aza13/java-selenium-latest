@@ -11,10 +11,7 @@ import java.util.List;
 import static pageObjects.QuoteListPageObjects.*;
 
 
-
-
 public class QuoteListPageActions extends BaseTest {
-
 
     private static final Logger logger = Logger.getLogger(QuoteListPageActions.class);
 
@@ -89,32 +86,32 @@ public class QuoteListPageActions extends BaseTest {
         WaitHelper.pause(5000);
     }
 
-    public String getQuotesWelcomeText(WebDriver driver){
-        WaitHelper.waitForElementVisibility(driver, quoteWelcomeText);
-        return TextHelper.getText(driver, quoteWelcomeText, "text");
-    }
-
     public void clickQuotesTab(WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, clickOnQuotesTab);
         ClickHelper.clickElement(driver, clickOnQuotesTab);
         WaitHelper.pause(3000);
     }
 
-    public void clickPDFFileDownload(WebDriver driver) throws InterruptedException {
+    public boolean clickPDFFileDownload(WebDriver driver, String filename) throws InterruptedException {
 
-        FileDownloadUtil.fileDownload(driver, clickAsPDFDownloadButton);
-        FileDownloadUtil.afterFileDownload();
+        FileDownloadUtil.checkFileExistInDownloadFolder(driver);
 
+        ClickHelper.clickElement(driver, clickAsPDFDownloadButton);
+        WaitHelper.pause(20000);
+
+        return FileDownloadUtil.verifyPDFFileDownload(filename);
     }
 
-    public void clickWORDFileDownload(WebDriver driver) throws InterruptedException {
+    public boolean clickWORDFileDownload(WebDriver driver, String filename1, String filename2) throws InterruptedException {
 
-        FileDownloadUtil.fileDownload(driver, clickAsWordDownloadButton);
-        FileDownloadUtil.afterFileDownload();
+        FileDownloadUtil.checkFileExistInDownloadFolder(driver);
+
+        ClickHelper.clickElement(driver, clickAsWordDownloadButton);
+        WaitHelper.pause(20000);
+
+        return FileDownloadUtil.verifyWORDFileDownload(filename1, filename2);
+
+
     }
-
-
-
-
 
 }

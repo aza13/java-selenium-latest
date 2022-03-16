@@ -15,5 +15,4 @@ public class QuoteListPageObjects {
     public static final By clickAsPDFDownloadButton = By.xpath("//*[@data-testid='PictureAsPdfIcon']");
     public static final By clickAsWordDownloadButton = By.xpath("//div[@aria-label='Download Word']//img");
     public static final By clickOnQuotesTab = By.xpath("(//button[normalize-space()='Quotes'])[1]");
-    public static final By quoteWelcomeText = By.xpath("//h4[normalize-space()='Quote List']");
 }
