@@ -2,6 +2,7 @@ import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
 import org.apache.log4j.Logger;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageActions.DashboardPageActions;
@@ -12,9 +13,9 @@ import utils.dataProvider.TestDataProvider;
 
 import java.util.Map;
 
-public class QuoteOptionTests extends BaseTest {
+public class QuoteTests extends BaseTest {
 
-    private static final Logger logger = Logger.getLogger(QuoteOptionTests.class);
+    private static final Logger logger = Logger.getLogger(QuoteTests.class);
     private DashboardPageActions dashboardPageActions;
     private RatingCriteriaPageActions ratingCriteriaPageActions;
     private UnderwritingQuestionsPageActions underwritingQuestionsPageActions;
@@ -122,5 +123,30 @@ public class QuoteOptionTests extends BaseTest {
             System.out.println("UW questions has to be answered");
         }
 
+    }
+
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
+    public void testBrokerDownloadConfirmedQuote(Map<String, String> map) throws InterruptedException {
+        /***
+         this test verifies brokers can download confirmed quote validation
+         story - N2020-28652
+         @author - Azamat Uulu
+         **/
+        logger.info("verifying brokers can download confirmed quote :: testBrokerDownloadConfirmedQuote");
+        dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
+        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
+        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
+        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
+
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("reffNumber").replaceAll("^\"|\"$", ""));
+        dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
+
+        quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
+
+        boolean pdfDownload = quoteListPageActions.clickPDFFileDownload(DriverManager.getDriver(), map.get("pdfFilename"));
+        Assert.assertTrue(pdfDownload);
+
+        boolean wordDownload = quoteListPageActions.clickWORDFileDownload(DriverManager.getDriver(), map.get("wordFilename"), map.get("wordPDFFilename"));
+        Assert.assertTrue(wordDownload);
     }
 }

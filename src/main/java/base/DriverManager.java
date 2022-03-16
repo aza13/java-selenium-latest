@@ -11,6 +11,9 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.opera.OperaDriver;
 import utils.fileReader.ConfigDataReader;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static base.BaseTest.operatingSystem;
 
 
@@ -44,11 +47,19 @@ public class DriverManager {
                 case "CHROME":
                     logger.info("Initialising the chrome browser");
                     WebDriverManager.chromedriver().setup();
+
+                    Map<String, Object> prefs = new HashMap<String, Object>();
+                    //to turns off multiple download warning
+                    prefs.put("profile.default_content_settings.popups", 0);
+                    prefs.put("profile.content_settings.exceptions.automatic_downloads.*.setting", 1);
+                    prefs.put("download.prompt_for_download", false);
+
                     ChromeOptions options = new ChromeOptions();
                     if (!operatingSystem.contains("Windows")) {
                         options.addArguments("--headless");
                     }
                     options.addArguments("--incognito");
+                    options.setExperimentalOption("prefs", prefs);
                     driver = new ChromeDriver(options);
                     threadDriver.set(driver);
                     break;

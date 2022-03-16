@@ -16,6 +16,7 @@ public class PageObjectManager {
 
     private static QuoteListPageActions quoteListPageActions;
 
+
     private PageObjectManager(){
 
     }
@@ -53,5 +54,6 @@ public class PageObjectManager {
 
         return (quoteListPageActions == null) ? quoteListPageActions = new QuoteListPageActions() : quoteListPageActions;
     }
+
 
 }
