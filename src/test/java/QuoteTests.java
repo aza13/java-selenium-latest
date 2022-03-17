@@ -3,6 +3,7 @@ import base.DriverManager;
 import base.PageObjectManager;
 import helper.FakeDataHelper;
 import org.apache.log4j.Logger;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageActions.*;
@@ -125,49 +126,46 @@ public class QuoteTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
-    public void testConfirmAndLockQuoteOption(Map<String, String> map) throws InterruptedException {
+
+    public void testBrokerDownloadConfirmedQuote(Map<String, String> map) throws InterruptedException {
+
         /***
-         this verifies whether broker can click and confirm lock quote option
-         story - N2020-28645-QAT-174
+
+         this test verifies brokers can download confirmed quote validation
+
+         story - N2020-28652
+
          @author - Azamat Uulu
+
          **/
 
-        logger.info("Executing the testConfirmAndLockQuoteOption from QuoteOptionTests class :: testConfirmAndLockQuoteOption");
+        logger.info("verifying brokers can download confirmed quote :: testBrokerDownloadConfirmedQuote");
+
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
+
         dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
+
         dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
+
         dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
-        dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        String newInsuredName = FakeDataHelper.fullName();
-        String newInsuredWebsite = FakeDataHelper.website();
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), newInsuredName,newInsuredWebsite);
-        InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
-        insuredPageActions.enterEmailAddress(DriverManager.getDriver());
-        insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
-        assert insuredPageActions.verifyValidPhoneNumberFormat(DriverManager.getDriver());
-        insuredPageActions.enterPhysicalAddress(DriverManager.getDriver());
-        insuredPageActions.enterPhyCity(DriverManager.getDriver());
-        insuredPageActions.enterPhyZipcode(DriverManager.getDriver());
-        insuredPageActions.selectPhyState(DriverManager.getDriver());
-        insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
-        insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
 
-        if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass"));
-            ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
-            ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
-            ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
-            assert underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver());
-           // underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
-        }
-       /* if (underwritingQuestionsPageActions.checkWhetherAllUWQuestionsAreAnswered(DriverManager.getDriver())) {        // continue to create quote
-            underwritingQuestionsPageActions.clickQuotesTab(DriverManager.getDriver());
 
-        } else if (!underwritingQuestionsPageActions.checkWhetherAllUWQuestionsAreAnswered(DriverManager.getDriver())) {
-            // answer uw questions
-            underwritingQuestionsPageActions.answerUnderWriterQuestions(DriverManager.getDriver(), "No");
-            System.out.println("UW questions has to be answered");
-        }*/
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("reffNumber").replaceAll("^\"|\"$", ""));
+
+        dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
+
+
+        quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
+
+
+        boolean pdfDownload = quoteListPageActions.clickPDFFileDownload(DriverManager.getDriver(), map.get("pdfFilename"));
+
+        Assert.assertTrue(pdfDownload);
+
+
+        boolean wordDownload = quoteListPageActions.clickWORDFileDownload(DriverManager.getDriver(), map.get("wordFilename"), map.get("wordPDFFilename"));
+
+        Assert.assertTrue(wordDownload);
 
     }
 
