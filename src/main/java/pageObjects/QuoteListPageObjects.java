@@ -12,4 +12,5 @@ public class QuoteListPageObjects {
     public static final By perClaimOptionGenericLocator = By.xpath("//ul/li[starts-with(@data-qa, 'menuItem_')]");
     public static final By lockIconOpenLocator = By.xpath("//*[@data-testid='LockOpenIcon']");
     public static final By deleteIconLocator = By.xpath("//*[@data-testid='DeleteOutlineIcon']");
+
 }
