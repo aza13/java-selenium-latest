@@ -52,7 +52,6 @@ public class RatingCriteriaPageActions extends BaseTest {
 
     public void enterTextToBusinessClassDropDown(WebDriver driver, String bitcoin) throws InterruptedException {
         ClickHelper.clickElement(driver, businessClassDropDown);
-        //ClickHelper.clickElement(driver, clearBusinessClassButton);
         TextHelper.enterText(driver, businessClassDropDown, bitcoin);
         WaitHelper.pause(1000);
     }
