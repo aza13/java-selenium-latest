@@ -110,8 +110,36 @@ public class QuoteListPageActions extends BaseTest {
         WaitHelper.pause(20000);
 
         return FileDownloadUtil.verifyWORDFileDownload(filename1, filename2);
+    }
 
+    public boolean verifyPDFFileAvailable(WebDriver driver){
+        return driver.findElement(clickAsPDFDownloadButton).isDisplayed();
+    }
+
+    public boolean verifyWORDFileAvailable(WebDriver driver){
+        return driver.findElement(clickAsWordDownloadButton).isDisplayed();
+    }
+
+    public void verifyStatusConfirmAndLockInProgress(WebDriver driver){
+        WaitHelper.waitForElementVisibility(driver, statusQuoteInProgress);
+        ClickHelper.isElementExist(driver, statusQuoteInProgress);
+
+    }
+    public void verifyStatusConfirmAndLockReadyToPlaceOrder(WebDriver driver){
+        WaitHelper.waitForElementVisibility(driver,  statusQuoteReadyToPlaceOrder);
+        ClickHelper.isElementExist(driver,  statusQuoteReadyToPlaceOrder);
 
     }
 
+    public void clickConfirmAndLock(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibility(driver, confirmAndLockButton);
+        ClickHelper.clickElement(driver, confirmAndLockButton);
+        WaitHelper.pause(20000);
+
+    }
+
+    public String verifySuccessConfirmAndLockMessage(WebDriver driver){
+        WaitHelper.waitForElementVisibility(driver, quoteSuccessMessage);
+        return TextHelper.getText(driver, quoteSuccessMessage, "text");
+    }
 }
