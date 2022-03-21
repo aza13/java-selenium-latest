@@ -162,9 +162,9 @@ public class SubmissionClearancesTests extends BaseTest {
          **/
         logger.info("verifying duplicate submissions :: testCheckDuplicateSubmission");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
+        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
+        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
+        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_OFFICE_ID);
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("applicantName"));
         dashboardPageActions.clickQuoteCardContinueButton(DriverManager.getDriver());
         ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();

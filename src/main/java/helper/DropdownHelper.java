@@ -96,18 +96,22 @@ public class DropdownHelper {
         }
     }
 
-    public static void selectValueFromBootstrapDropdown(WebDriver driver, By dropdown, By option, String optionValue) throws InterruptedException {
+    public static void selectValueFromBootstrapDropdown(WebDriver driver, WebElement dropdown, By option, String optionValue) throws InterruptedException {
         logger.info("selecting given value from the dropdown:: selectValueFromBootstrapDropdown " + dropdown);
         try {
-            driver.findElement(dropdown).click();
+            dropdown.click();
             WaitHelper.waitForElementVisibility(driver, option);
             List<WebElement> options = driver.findElements(option);
-            for (WebElement opt : options) {
-
-                if (opt.getText().contentEquals(optionValue)) {
-                    opt.click();
-                    break;
+            if (!optionValue.equalsIgnoreCase("index")){
+                for (WebElement opt : options) {
+                    String actualValue = opt.getText().trim();
+                    if (actualValue.contentEquals(optionValue)) {
+                        opt.click();
+                        break;
+                    }
                 }
+            }else{
+                options.get(1).click();
             }
         } catch (Exception e) {
             logger.error("Failed to select value from dropdown:: selectValueFromBootstrapDropdown " + e.getMessage());

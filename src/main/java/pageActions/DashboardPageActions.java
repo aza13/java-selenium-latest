@@ -216,8 +216,8 @@ public class DashboardPageActions extends BaseTest {
     }
 
     public void CreateNewQuote(WebDriver driver, String product, String applicantName, String website) throws InterruptedException {
-
-        DropdownHelper.selectValueFromBootstrapDropdown(driver, selectProductDropdown, genericProductOption, product);
+        WebElement element = driver.findElement(selectProductDropdown);
+        DropdownHelper.selectValueFromBootstrapDropdown(driver, element, genericProductOption, product);
         TextHelper.enterText(driver, applicantNameField, applicantName);
         TextHelper.enterText(driver, websiteField, website);
     }
@@ -279,7 +279,7 @@ public class DashboardPageActions extends BaseTest {
         if (count > 0) {
             for (WebElement statusElement : quoteStatusList) {
                 String status = statusElement.getText();
-                String color = statusElement.getAttribute("style").split(":")[1].replace(";", "").trim();
+                String color = statusElement.getAttribute("style").split(";")[1].replace(":", "").trim();
                 switch (status) {
                     case "Active":
                         assert color.equals("blue");
@@ -469,23 +469,25 @@ public class DashboardPageActions extends BaseTest {
 
     public void selectProductInFilter(WebDriver driver, String product) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, allProductsDropdown);
-        DropdownHelper.selectValueFromBootstrapDropdown(driver, allProductsDropdown, productOptions, product);
+        WebElement element = driver.findElement(allProductsDropdown);
+        DropdownHelper.selectValueFromBootstrapDropdown(driver, element, productOptions, product);
     }
 
     public void clickApplyFiltersButton(WebDriver driver) throws InterruptedException {
-
-        ClickHelper.clickElement(driver, applyFiltersButton);
+        ClickHelper.javaScriptExecutorClick(driver, applyFiltersButton);
         WaitHelper.pause(3000);
     }
 
     public void selectStatusInFilter(WebDriver driver, String status) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, allStatusDropdown);
-        DropdownHelper.selectValueFromBootstrapDropdown(driver, allStatusDropdown, statusOptions, status);
+        WebElement dropdown = driver.findElement(allStatusDropdown);
+        DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, statusOptions, status);
     }
 
     public void selectPolicyStatusInFilter(WebDriver driver, String status) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, policyAllStatusDropdown);
-        DropdownHelper.selectValueFromBootstrapDropdown(driver, policyAllStatusDropdown, statusOptions, status);
+        WebElement dropdown = driver.findElement(policyAllStatusDropdown);
+        DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, statusOptions, status);
     }
 
     public void clickPolicyFilterByStatus(WebDriver driver) {
@@ -506,7 +508,7 @@ public class DashboardPageActions extends BaseTest {
         Set<String> actualStatus = new HashSet<String>();
         int count = elementsContinueButton.size();
         if (count > 0) {
-            for (int i = 0; i < elementsContinueButton.size(); i ++) {
+            for (int i = 0; i < count; i++) {
                 elementsContinueButton.get(i).click();
                 WaitHelper.pause(3000);
                 break;
@@ -619,7 +621,8 @@ public class DashboardPageActions extends BaseTest {
     }
 
     public void selectSupportType(WebDriver driver, String supportType) throws InterruptedException {
-        DropdownHelper.selectValueFromBootstrapDropdown(driver, selectProductDropdown, genericProductOption, supportType);
+        WebElement dropdown = driver.findElement(selectProductDropdown);
+        DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, genericProductOption, supportType);
     }
 
     public void enterRequestDetails(WebDriver driver, String details){

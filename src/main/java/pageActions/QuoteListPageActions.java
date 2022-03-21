@@ -40,21 +40,25 @@ public class QuoteListPageActions extends BaseTest {
     public void selectPerClaim(WebDriver driver, int optionCount, String claim) throws InterruptedException {
         String perClaimDropdownXpath = "//div[@data-qa='option_card_"+optionCount+"']//div[@data-qa='groupLimit']/div";
         By perClaimDropdown = By.xpath(perClaimDropdownXpath);
-        DropdownHelper.selectValueFromBootstrapDropdown(driver, perClaimDropdown, perClaimOptionGenericLocator, claim);
-
+        WaitHelper.waitForElementVisibility(driver, perClaimDropdown);
+        WebElement dropdown = driver.findElement(perClaimDropdown);
+        DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, perClaimOptionGenericLocator, claim);
     }
 
     public void selectAggregateLimit(WebDriver driver, int optionCount, String aggLimit) throws InterruptedException {
         String aggregateLimitXpath = "//div[@data-qa='option_card_"+optionCount+"']//div[@data-qa='aggregateLimit']/div";
         By aggregateLimitDropdown = By.xpath(aggregateLimitXpath);
-        DropdownHelper.selectValueFromBootstrapDropdown(driver, aggregateLimitDropdown, perClaimOptionGenericLocator, aggLimit);
-
+        WaitHelper.waitForElementVisibility(driver, aggregateLimitDropdown);
+        WebElement dropdown = driver.findElement(aggregateLimitDropdown);
+        DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, perClaimOptionGenericLocator, aggLimit);
     }
 
     public void selectRetentionOption(WebDriver driver, int optionCount, String retention) throws InterruptedException {
         String retentionOptionXpath = "//div[@data-qa='option_card_"+optionCount+"']//div[@data-qa='retentionGroup']/div";
         By retentionDropdown = By.xpath(retentionOptionXpath);
-        DropdownHelper.selectValueFromBootstrapDropdown(driver, retentionDropdown, perClaimOptionGenericLocator, retention);
+        WaitHelper.waitForElementVisibility(driver, retentionDropdown);
+        WebElement dropdown = driver.findElement(retentionDropdown);
+        DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, perClaimOptionGenericLocator, retention);
     }
 
     public int getQuoteOptionCount(WebDriver driver){
@@ -82,10 +86,51 @@ public class QuoteListPageActions extends BaseTest {
         return ClickHelper.isElementExist(driver, lockIconOpenLocator);
     }
 
+    public boolean checkIfLockedQuoteExist(WebDriver driver){
+        return ClickHelper.isElementExist(driver, lockIconLocator);
+    }
+
+    public boolean checkIfQuoteListContainerDisplayed(WebDriver driver){
+        return ClickHelper.isElementExist(driver, quoteListContainer);
+    }
+
     public void deleteQuoteOption(WebDriver driver) throws InterruptedException {
         List<WebElement> deleteIcons = driver.findElements(deleteIconLocator);
         deleteIcons.get(0).click();
         WaitHelper.pause(5000);
+    }
+
+    public boolean addNewQuoteButton(WebDriver driver){
+        return ClickHelper.isElementExist(driver, addQuoteButton);
+    }
+
+    public void addNewQuote(WebDriver driver, String quoteType){
+        logger.info("adding quote to the submission based on quote type custom/4 option/6 options ");
+        try{
+            ClickHelper.clickElement(driver, addQuoteButton);
+            String newQuoteXpath = "//ul//li";
+            By newQuoteOption = By.xpath(newQuoteXpath);
+            List<WebElement> options = driver.findElements(newQuoteOption);
+            for (WebElement opt : options) {
+                if (opt.getText().contains(quoteType)) {
+                    opt.click();
+                    break;
+                }
+            }
+        }catch (Exception e){
+            logger.error("failed to add the quote to submission based on the quote type"+e.getMessage());
+            throw e;
+        }
+    }
+
+    public void clickConfirmQuoteButton(WebDriver driver){
+        logger.info("clicking on confirm quote button :: clickConfirmQuoteButton");
+        try{
+            ClickHelper.clickElement(driver, confirmAndLockQuoteButton);
+        }catch (Exception e){
+            logger.error("failed to click the confirm quote button :: clickConfirmQuoteButton"+e.getMessage());
+            throw e;
+        }
     }
 
 

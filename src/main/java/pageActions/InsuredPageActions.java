@@ -137,8 +137,8 @@ public class InsuredPageActions extends BaseTest {
     }
 
     public void selectPhyState(WebDriver driver) throws InterruptedException {
-
-        DropdownHelper.selectValueFromBootstrapDropdown(driver, physicalStateDropdown, physicalStateOptions, "CA");
+        WebElement dropdown = driver.findElement(physicalStateDropdown);
+        DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, physicalStateOptions, "CA");
     }
 
     public void clickSameAsPhyAddress(WebDriver driver) {

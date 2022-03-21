@@ -13,6 +13,9 @@ public class UnderwritingQuestionsPageObjects {
     public static final By allQuestionsAnsweredText = By.xpath("//h3[text()='All questions have been answered!']");
     public static final By quotesTab = By.id("workflow-tab-3");
     public static final By underWriterQuestionTabs = By.xpath("//div[@id='underwriting-questions-header' and @role='button']");
+    public static final By uwQuestionsDropdownsOption = By.xpath("//ul/li[@role='option']");
+    public static final By uwQuestionsAnswerRequiredIcon = By.xpath("//*[@data-testid='GppMaybeIcon']");
+    public static final By quoteTemplateOptions = By.xpath("//ul//li[@role='menuitem']");
     public static final By headerGeneral = By.xpath("//*[contains(text(),'General')]");
     public static final By headerGeneralQuestion = By.xpath("(//button[@type='button'][normalize-space()='No'])[1]");
     public static final By headerEnhancements = By.xpath("//h2[normalize-space()='Enhancements']");

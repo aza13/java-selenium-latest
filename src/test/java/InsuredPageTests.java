@@ -103,7 +103,6 @@ public class InsuredPageTests extends BaseTest {
         dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), map.get("applicantName"), map.get("website"));
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         assert insuredPageActions.validateSearchAgainButtonWithInsuredName(DriverManager.getDriver(), map.get("secondApplicant"));
-        assert insuredPageActions.validateSearchAgainButtonWithInsuredWebsite(DriverManager.getDriver(), map.get("secondWebsite"));
         insuredPageActions.clickSearchAgainButton(DriverManager.getDriver());
         assert insuredPageActions.verifyInsuredSearchResult(DriverManager.getDriver(), map.get("secondApplicant"), map.get("secondWebsite"));
     }
