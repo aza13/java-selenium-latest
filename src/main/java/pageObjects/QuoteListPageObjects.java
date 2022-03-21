@@ -16,4 +16,13 @@ public class QuoteListPageObjects {
     public static final By addQuoteButton = By.id("add_quote_button");
     public static final By confirmAndLockQuoteButton = By.xpath("//button[text()='Confirm and Lock']");
     public static final By quoteListContainer = By.xpath("//div[@data-qa='quote_list_container']");
+    public static final By clickAsPDFDownloadButton = By.xpath("//*[@data-testid='PictureAsPdfIcon']");
+    public static final By clickAsWordDownloadButton = By.xpath("//div[@aria-label='Download Word']//img");
+    public static final By clickOnQuotesTab = By.xpath("(//button[normalize-space()='Quotes'])[1]");
+    public static final By statusQuoteInProgress = By.xpath("//div[contains(text(),'In Progress')]");
+    public static final By statusQuoteReadyToPlaceOrder = By.xpath("//div[contains(text(),'Ready to Place Order')]");
+    public static final By confirmAndLockButton = By.xpath("//button[normalize-space()='Confirm and Lock']");
+    public static final By quoteSuccessMessage = By.xpath("//div[@class='sc-lcepkR gjhMuD MuiAlert-message']");
+
+
 }

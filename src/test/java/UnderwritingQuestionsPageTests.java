@@ -1,6 +1,7 @@
 import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
+import constants.ConstantVariable;
 import org.apache.log4j.Logger;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -40,14 +41,14 @@ public class UnderwritingQuestionsPageTests extends BaseTest {
 
         logger.info("verifying :: Under Writing Questions");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
+        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
+        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
+        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
 
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("reffNumber").replaceAll("^\"|\"$", ""));
         dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
-        ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver());
+
         underwritingQuestionsPageActions.isGeneralHeaderDisplayed(DriverManager.getDriver());
         underwritingQuestionsPageActions.clickGeneralHeader(DriverManager.getDriver());
         underwritingQuestionsPageActions.isEnhancementsHeaderDisplayed(DriverManager.getDriver());

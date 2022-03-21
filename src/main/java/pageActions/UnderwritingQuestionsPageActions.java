@@ -37,9 +37,10 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
     public void clickGeneralHeader(WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, headerGeneral);
         ClickHelper.clickElement(driver, headerGeneral);
-        WaitHelper.pause(3000);
+        WaitHelper.pause(6000);
         WaitHelper.waitForElementVisibility(driver, headerGeneralQuestion);
         ClickHelper.clickElement(driver, headerGeneralQuestion);
+        WaitHelper.pause(6000);
 
     }
 
@@ -64,34 +65,42 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
     public void clickRequiredHeader(WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, headerRequiredQuestions);
         ClickHelper.clickElement(driver, headerRequiredQuestions);
-        WaitHelper.pause(3000);
+        WaitHelper.pause(6000);
         WaitHelper.waitForElementVisibility(driver, headerRequiredQuestions1);
         ClickHelper.clickElement(driver, headerRequiredQuestions1);
+        WaitHelper.pause(6000);
         WaitHelper.waitForElementVisibility(driver, headerRequiredQuestions2);
         ClickHelper.clickElement(driver, headerRequiredQuestions2);
+        WaitHelper.pause(6000);
         WaitHelper.waitForElementVisibility(driver, headerRequiredQuestions3);
         ClickHelper.clickElement(driver, headerRequiredQuestions3);
+        WaitHelper.pause(6000);
         ScrollHelper.scrollElementIntoView(DriverManager.getDriver(), headerRequiredQuestions3);
         WaitHelper.pause(2000);
         WaitHelper.waitForElementVisibility(driver, severityPatches);
         ClickHelper.clickElement(driver, severityPatches);
-        WaitHelper.pause(2000);
+        WaitHelper.pause(6000);
         WaitHelper.waitForElementVisibility(driver, severityPatchesValue);
         ClickHelper.clickElement(driver, severityPatchesValue);
+        WaitHelper.pause(6000);
         WaitHelper.waitForElementVisibility(driver, headerRequiredQuestions4);
         ClickHelper.clickElement(driver, headerRequiredQuestions4);
+        WaitHelper.pause(6000);
         WaitHelper.waitForElementVisibility(driver, headerRequiredQuestions5);
         ClickHelper.clickElement(driver, headerRequiredQuestions5);
+        WaitHelper.pause(6000);
         WaitHelper.waitForElementVisibility(driver, postureVulnerability);
         ClickHelper.clickElement(driver, postureVulnerability);
-        WaitHelper.pause(2000);
+        WaitHelper.pause(6000);
         WaitHelper.waitForElementVisibility(driver, postureVulnerabilityValue);
         ClickHelper.clickElement(driver, postureVulnerabilityValue);
+        WaitHelper.pause(6000);
         WaitHelper.waitForElementVisibility(driver, connectedDB);
         ClickHelper.clickElement(driver, connectedDB);
-        WaitHelper.pause(2000);
+        WaitHelper.pause(6000);
         WaitHelper.waitForElementVisibility(driver, connectedDBValue);
         ClickHelper.clickElement(driver, connectedDBValue);
+        WaitHelper.pause(6000);
     }
 
     public boolean isITDepartmentHeaderDisplayed(WebDriver driver) {
@@ -102,19 +111,25 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
     public void clickITDepartmentHeader(WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, headerITDept);
         ClickHelper.clickElement(driver, headerITDept);
-        WaitHelper.pause(3000);
+        WaitHelper.pause(6000);
         WaitHelper.waitForElementVisibility(driver, secDesgination);
         ClickHelper.clickElement(driver, secDesgination);
+        WaitHelper.pause(6000);
         WaitHelper.waitForElementVisibility(driver, networkSec);
-        WaitHelper.pause(5000);
+        WaitHelper.pause(6000);
         ClickHelper.clickElement(driver, networkSec);
+        WaitHelper.pause(6000);
         WaitHelper.waitForElementVisibility(driver, networkSecValue);
         ClickHelper.clickElement(driver, networkSecValue);
+        WaitHelper.pause(6000);
+        ScrollHelper.scrollElementIntoView(DriverManager.getDriver(),itPersonnel);
         ScrollHelper.scrollElementIntoView(DriverManager.getDriver(), itPersonnel);
         WaitHelper.waitForElementVisibility(driver, itPersonnel);
         ClickHelper.clickElement(driver, itPersonnel);
+        WaitHelper.pause(6000);
         WaitHelper.waitForElementVisibility(driver, secPersonnel);
         ClickHelper.clickElement(driver, secPersonnel);
+        WaitHelper.pause(6000);
 
     }
 
@@ -126,37 +141,50 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
     public void clickInternalSecurityHeader(WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, headerInternalSec);
         ClickHelper.clickElement(driver, headerInternalSec);
-        WaitHelper.pause(3000);
+        WaitHelper.pause(6000);
         WaitHelper.waitForElementVisibility(driver, mgmtSoftware);
         ClickHelper.clickElement(driver, mgmtSoftware);
+        WaitHelper.pause(6000);
         WaitHelper.waitForElementVisibility(driver, monitorAdmin);
         ClickHelper.clickElement(driver, monitorAdmin);
+        WaitHelper.pause(6000);
         WaitHelper.waitForElementVisibility(driver, mobileDevice);
         ClickHelper.clickElement(driver, mobileDevice);
+        WaitHelper.pause(6000);
         WaitHelper.waitForElementVisibility(driver, assetDeployed);
         ClickHelper.clickElement(driver, assetDeployed);
+        WaitHelper.pause(6000);
         ScrollHelper.scrollElementIntoView(DriverManager.getDriver(), assetDeployed);
         WaitHelper.waitForElementVisibility(driver, nonUTUsers);
         ClickHelper.clickElement(driver, nonUTUsers);
+        WaitHelper.pause(6000);
         WaitHelper.waitForElementVisibility(driver, restNetwork);
         ClickHelper.clickElement(driver, restNetwork);
+        WaitHelper.pause(6000);
         WaitHelper.waitForElementVisibility(driver, dnsService);
         ClickHelper.clickElement(driver, dnsService);
+        WaitHelper.pause(6000);
         WaitHelper.waitForElementVisibility(driver, technology);
         ClickHelper.clickElement(driver, technology);
+        WaitHelper.pause(6000);
         WaitHelper.waitForElementVisibility(driver, systemDefault);
         ClickHelper.clickElement(driver, systemDefault);
+        WaitHelper.pause(6000);
         WaitHelper.waitForElementVisibility(driver, bestPractise);
         ClickHelper.clickElement(driver, bestPractise);
+        WaitHelper.pause(6000);
         WaitHelper.waitForElementVisibility(driver, siem);
         ClickHelper.clickElement(driver, siem);
+        WaitHelper.pause(6000);
     }
 
     public void clickUWQuestionsContinueButton(WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, uwQuestionsContinueButton);
         ScrollHelper.scrollElementIntoView(driver, uwQuestionsContinueButton);
         ClickHelper.clickElement(driver, uwQuestionsContinueButton);
-        WaitHelper.pause(5000);
+        WaitHelper.waitForElementVisibility(driver, clickContinueMsg);
+        ClickHelper.clickElement(driver, clickContinueMsg);
+        WaitHelper.pause(20000);
     }
 
     public boolean checkWhetherAllUWQuestionsAreAnswered(WebDriver driver) throws InterruptedException {

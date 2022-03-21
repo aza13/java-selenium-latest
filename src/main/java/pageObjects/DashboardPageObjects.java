@@ -109,7 +109,7 @@ public class DashboardPageObjects {
 
     public static final By applyFiltersButton = By.id("applyFilters");
 
-    public static final By allStatusDropdown = By.xpath("//div[@data-qa='quoteStatusSection']//div[@id='demo-simple-select']");
+    public static final By allStatusDropdown = By.xpath("//div[@id='demo-simple-select']");
 
     public static final By statusOptions = By.xpath("//ul/li[contains(@data-qa, 'menuItem')]");
 
@@ -157,6 +157,14 @@ public class DashboardPageObjects {
 
     public static final By fistAvailableContinueButton = By.xpath("(//button[text()='Continue'])[1]");
 
+    public static final By policyHeader = By.xpath("(//div[contains(text(),'Policy#')])[1]");
 
+    public static final By clickFilterByStatus = By.id("panel-header-1");
+
+    public static final By renewButton = By.xpath("(//button[normalize-space()='Renew'])[1]");
+
+    public static final By clearSearch = By.xpath("//*[@data-testid='ClearIcon']");
+
+    public static final By getStatusText = By.xpath("//*[@data-qa='status']");
 
 }

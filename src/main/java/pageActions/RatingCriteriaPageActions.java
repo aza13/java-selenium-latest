@@ -25,6 +25,11 @@ public class RatingCriteriaPageActions extends BaseTest {
 
     }
 
+    public void ratingCriteriaPageClick(WebDriver driver) throws InterruptedException {
+         ClickHelper.clickElement(driver, ratingCriteriaHeader);
+         WaitHelper.pause(2000);
+    }
+
     public WebElement ratingCriteriaExitButton(WebDriver driver){
         WaitHelper.waitForElementVisibility(driver, ratingCriteriaExitButton);
         return driver.findElement(ratingCriteriaExitButton);
@@ -35,10 +40,10 @@ public class RatingCriteriaPageActions extends BaseTest {
         ClickHelper.clickElement(driver, ratingCriteriaButton);
     }
 
-    public void clickRatingCriteriaContinueButton (WebDriver driver) {
-
+    public void clickRatingCriteriaContinueButton (WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementClickable(driver, ratingCriteriaContinueButton);
         ClickHelper.clickElement(driver, ratingCriteriaContinueButton);
+        WaitHelper.pause(15000);
     }
 
     public void clickBusinessClassDropdown(WebDriver driver) {
@@ -68,10 +73,12 @@ public class RatingCriteriaPageActions extends BaseTest {
         DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, statusOptions, status);
     }
 
-    public void enterRatingCriteriaRevenueAndRecords(WebDriver driver, String revenue, String records) {
+    public void enterRatingCriteriaRevenueAndRecords(WebDriver driver, String revenue, String records) throws InterruptedException {
+        WaitHelper.pause(5000);
         TextHelper.enterText(driver, ratingCriteriaRevenueField, revenue);
         TextHelper.enterText(driver, ratingCriteriaRecordsField , records );
         driver.findElement(ratingCriteriaRecordsField).sendKeys(Keys.TAB);
+        WaitHelper.pause(3000);
     }
 
     public void clickRatingCriteriaOkButton (WebDriver driver) throws InterruptedException {
