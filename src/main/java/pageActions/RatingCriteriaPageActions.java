@@ -41,7 +41,7 @@ public class RatingCriteriaPageActions extends BaseTest {
     public void clickRatingCriteriaContinueButton (WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementClickable(driver, ratingCriteriaContinueButton);
         ClickHelper.clickElement(driver, ratingCriteriaContinueButton);
-        WaitHelper.pause(15000);
+        WaitHelper.pause(20000);
     }
 
     public void clickBusinessClassDropdown(WebDriver driver) {
