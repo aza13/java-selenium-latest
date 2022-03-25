@@ -71,9 +71,7 @@ public class InsuredPageTests extends BaseTest {
         String newInsuredWebsite = FakeDataHelper.website();
         dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), newInsuredName,newInsuredWebsite);
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
-        if (!insuredPageActions.isCreateNeInsuredTextDisplayed(DriverManager.getDriver())){
-            insuredPageActions.clickNewInsuredButton(DriverManager.getDriver());
-        }
+
         insuredPageActions.enterEmailAddress(DriverManager.getDriver());
         insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
         assert insuredPageActions.verifyValidPhoneNumberFormat(DriverManager.getDriver());

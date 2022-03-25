@@ -14,7 +14,7 @@ public class RatingCriteriaPageObjects {
 
     static SimpleDateFormat expectDateFormat = new SimpleDateFormat("MM/dd/yyyy");
     static String expectDate = expectDateFormat.format(DateUtils.addYears(d,1));
-    public static final By ratingCriteriaHeader =By.xpath("//h4[normalize-space()='Rating Criteria']");
+    public static final By ratingCriteriaHeader =By.xpath("(//button[normalize-space()='Details'])[1]");
     public static final By ratingCriteriaExitButton = By.id("rating_criteria-cancel");
     public static final By ratingCriteriaButton = By.id("workflow-tab-1");
     public static final By businessClassDropDown = By.id("rating-business-class-select");
@@ -29,7 +29,7 @@ public class RatingCriteriaPageObjects {
     public static final By businessClassOption = By.xpath("//div[@role='presentation']");
     public static final By ratingCriteriaInputBox1 = By.xpath("//input[@placeholder='Number of Residential Units']");
     public static final By ratingCriteriaInputBox2 = By.xpath("//input[@placeholder='Total Commercial Square Feet']");
-    public static final By ratingCriteriaEffectiveDateSelectionButton = By.xpath("//button[@class='sc-hiCibw hLXiPf MuiButtonBase-root sc-dPiLbb bhziHj MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium']");
+    public static final By ratingCriteriaEffectiveDateSelectionButton = By.xpath("//*[@id=\"panel1a-content\"]/div/div[1]/div[2]/div[1]/div[1]/div/div/button");
     public static final By ratingCriteriaEffectiveActualDateChoose = By.xpath("//button[normalize-space()='"+enterDate+"']");
     public static final By ratingCriteriaExpirationExpectedDateShow = By.xpath("//input[@value='"+expectDate+"']");
     public static final By ratingCriteriaCancelButton = By.xpath("//button[@id='rating_criteria-cancel']");

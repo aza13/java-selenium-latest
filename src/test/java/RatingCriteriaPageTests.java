@@ -64,24 +64,31 @@ public class RatingCriteriaPageTests extends BaseTest {
         dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
         dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
         dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
+
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), map.get("applicantName"), map.get("website"));
-        dashboardPageActions.clickContinueButton(DriverManager.getDriver());
-        ratingCriteriaPageActions.clickRatingCriteriaButton(DriverManager.getDriver());
-        assert ratingCriteriaPageActions.ratingCriteriaTitle(DriverManager.getDriver()).isDisplayed();
+        String newInsuredName = FakeDataHelper.fullName();
+        String newInsuredWebsite = FakeDataHelper.website();
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), newInsuredName,newInsuredWebsite);
+        InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
+        insuredPageActions.enterEmailAddress(DriverManager.getDriver());
+        insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
+        assert insuredPageActions.verifyValidPhoneNumberFormat(DriverManager.getDriver());
+        insuredPageActions.enterPhysicalAddress(DriverManager.getDriver());
+        insuredPageActions.enterPhyCity(DriverManager.getDriver());
+        insuredPageActions.enterPhyZipcode(DriverManager.getDriver());
+        insuredPageActions.selectPhyState(DriverManager.getDriver());
+        insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
+        insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
+
+        if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
+            ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass"));
+            ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
+            ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
+            ratingCriteriaPageActions.ratingCriteriaPageClick(DriverManager.getDriver());
+            ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
+
+        }
         dashboardPageActions.clickExitRatingCriteria(DriverManager.getDriver());
-        dashboardPageActions.clickFilterList(DriverManager.getDriver());
-        dashboardPageActions.clickFilterByProductName(DriverManager.getDriver());
-        dashboardPageActions.selectProductInFilter(DriverManager.getDriver(), map.get("product"));
-        dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
-        dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(),"Active");
-        dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
-        dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
-        ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("numberOfResidentialUnits"), map.get("totalCommercialSquareFeet"));
-        ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
-
-
-
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "RatingCriteriaPageData")
@@ -138,9 +145,7 @@ public class RatingCriteriaPageTests extends BaseTest {
         String newInsuredWebsite = FakeDataHelper.website();
         dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), newInsuredName,newInsuredWebsite);
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
-        if (!insuredPageActions.isCreateNeInsuredTextDisplayed(DriverManager.getDriver())){
-            insuredPageActions.clickNewInsuredButton(DriverManager.getDriver());
-        }
+
         insuredPageActions.enterEmailAddress(DriverManager.getDriver());
         insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
         insuredPageActions.enterPhysicalAddress(DriverManager.getDriver());

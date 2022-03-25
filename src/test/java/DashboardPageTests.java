@@ -7,6 +7,7 @@ import helper.WaitHelper;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -374,7 +375,7 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
 
         String actualReferenceId = dashboardPageActions.getFirstAvailableReferenceId(DriverManager.getDriver());
-        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(),actualReferenceId );
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(),actualReferenceId);
         String expectedReferenceId = dashboardPageActions.getFirstAvailableReferenceId(DriverManager.getDriver());
         assert actualReferenceId.equals(expectedReferenceId);
 
@@ -389,7 +390,7 @@ public class DashboardPageTests extends BaseTest {
         String actualPolicyName = dashboardPageActions.getFirstAvailableLegalName(DriverManager.getDriver());
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), actualPolicyName);
         String expectedPolicyName = dashboardPageActions.getFirstAvailableLegalName(DriverManager.getDriver());
-        assert actualPolicyName.equals(expectedPolicyName);
+        assert actualPolicyName.contains(expectedPolicyName);
 
         dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
         String actualPolicyNumber = dashboardPageActions.getFirstAvailableReferenceId(DriverManager.getDriver());
@@ -443,6 +444,7 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.clickSortBy(DriverManager.getDriver());
         dashboardPageActions.clickSortByOldest(DriverManager.getDriver());
         String actualOldestDate = dashboardPageActions.getFirstAvailableCreatedDate(DriverManager.getDriver());
+        dashboardPageActions.clickSortBy(DriverManager.getDriver());
         dashboardPageActions.clickSortByOldest(DriverManager.getDriver());
         String expectedOldestDate = dashboardPageActions.getFirstAvailableCreatedDate(DriverManager.getDriver());
         assert actualOldestDate.equals(expectedOldestDate);
