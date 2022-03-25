@@ -279,7 +279,7 @@ public class QuoteTests extends BaseTest {
          @author - Azamat Uulu
          **/
 
-        logger.info("Executing the testConfirmAndLockQuoteOption from QuoteOptionTests class :: testConfirmAndLockQuoteOption");
+        logger.info("Executing the testConfirmAndLockQuoteOption from QuoteTests class :: testConfirmAndLockQuoteOption");
 
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
         dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
@@ -333,6 +333,68 @@ public class QuoteTests extends BaseTest {
             quoteListPageActions.verifyStatusConfirmAndLockReadyToPlaceOrder(DriverManager.getDriver());
             assert quoteListPageActions.verifyPDFFileAvailable(DriverManager.getDriver());
             assert quoteListPageActions.verifyWORDFileAvailable(DriverManager.getDriver());
+        }
+
+    }
+
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
+    public void testQuotePreview(Map<String, String> map) throws InterruptedException {
+        /***
+         this verifies whether broker can click preview quote option
+         story - N2020-28644-QAT-229
+         @author - Azamat Uulu
+         **/
+
+        logger.info("Executing the testQuotePreview from QuoteTests class :: testQuotePreview");
+
+        dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
+        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
+        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
+        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
+
+        dashboardPageActions.clickNewQuote(DriverManager.getDriver());
+        String newInsuredName = FakeDataHelper.fullName();
+        String newInsuredWebsite = FakeDataHelper.website();
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), newInsuredName,newInsuredWebsite);
+        InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
+        insuredPageActions.enterEmailAddress(DriverManager.getDriver());
+        insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
+        assert insuredPageActions.verifyValidPhoneNumberFormat(DriverManager.getDriver());
+        insuredPageActions.enterPhysicalAddress(DriverManager.getDriver());
+        insuredPageActions.enterPhyCity(DriverManager.getDriver());
+        insuredPageActions.enterPhyZipcode(DriverManager.getDriver());
+        insuredPageActions.selectPhyState(DriverManager.getDriver());
+        insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
+        insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
+
+        if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
+            ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass"));
+            ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
+            ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
+            ratingCriteriaPageActions.ratingCriteriaPageClick(DriverManager.getDriver());
+            ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
+
+        }
+        if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {        // continue to create quote
+
+            underwritingQuestionsPageActions.isGeneralHeaderDisplayed(DriverManager.getDriver());
+            underwritingQuestionsPageActions.clickGeneralHeader(DriverManager.getDriver());
+            underwritingQuestionsPageActions.isEnhancementsHeaderDisplayed(DriverManager.getDriver());
+            underwritingQuestionsPageActions.clickEnhancementsHeader(DriverManager.getDriver());
+            underwritingQuestionsPageActions.isRequiredHeaderDisplayed(DriverManager.getDriver());
+            underwritingQuestionsPageActions.clickRequiredHeader(DriverManager.getDriver());
+            underwritingQuestionsPageActions.isITDepartmentHeaderDisplayed(DriverManager.getDriver());
+            underwritingQuestionsPageActions.clickITDepartmentHeader(DriverManager.getDriver());
+            underwritingQuestionsPageActions.isInternalSecurityHeaderDisplayed(DriverManager.getDriver());
+            underwritingQuestionsPageActions.clickInternalSecurityHeader(DriverManager.getDriver());
+
+            underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
+        }
+
+        if(quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())){
+           assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
+           quoteListPageActions.clickQuotePreviewOption(DriverManager.getDriver());
+
         }
 
     }

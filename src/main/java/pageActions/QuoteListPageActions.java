@@ -7,6 +7,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import utils.fileDownload.FileDownloadUtil;
+
+import java.util.ArrayList;
 import java.util.List;
 import static pageObjects.QuoteListPageObjects.*;
 
@@ -186,5 +188,25 @@ public class QuoteListPageActions extends BaseTest {
     public String verifySuccessConfirmAndLockMessage(WebDriver driver){
         WaitHelper.waitForElementVisibility(driver, quoteSuccessMessage);
         return TextHelper.getText(driver, quoteSuccessMessage, "text");
+    }
+
+    public boolean verifyQuotePreviewOptionVisible(WebDriver driver){
+        WaitHelper.waitForElementVisibility(driver, quotePreviewButton);
+        return ClickHelper.isElementExist(driver, quotePreviewButton);
+    }
+
+    public void clickQuotePreviewOption(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibility(driver, quotePreviewButton);
+        ClickHelper.clickElement(driver, quotePreviewButton);
+        WaitHelper.pause(10000);
+
+        ArrayList<String> tabs2 = new ArrayList<String> (driver.getWindowHandles());
+        driver.switchTo().window(tabs2.get(1));
+        String newTabPreviewWindow = driver.getTitle();
+        if(newTabPreviewWindow != null){
+            driver.close();
+        }
+        driver.switchTo().window(tabs2.get(0));
+
     }
 }

@@ -57,8 +57,8 @@ public class InsuredPageTests extends BaseTest {
     public void testCreateInsured(Map<String, String> map) throws InterruptedException {
         /***
          this test verifies creation of new insured
-         story - N2020-28293
-         @author -
+         story - N2020-28293, N2020-30893-QAT-172
+         @author - Azamat Uulu
          **/
         logger.info("verifying creating new quote creation :: testCreateInsured");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
