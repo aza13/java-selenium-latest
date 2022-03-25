@@ -134,7 +134,7 @@ public class RatingCriteriaPageTests extends BaseTest {
         String newInsuredWebsite = FakeDataHelper.website();
         dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), newInsuredName,newInsuredWebsite);
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
-        if (!insuredPageActions.isCreateNeInsuredTextDisplayed(DriverManager.getDriver())){
+        if (!insuredPageActions.isCreateNewInsuredTextDisplayed(DriverManager.getDriver())){
             insuredPageActions.clickNewInsuredButton(DriverManager.getDriver());
         }
         insuredPageActions.enterEmailAddress(DriverManager.getDriver());

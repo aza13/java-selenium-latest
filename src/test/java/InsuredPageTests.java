@@ -70,7 +70,7 @@ public class InsuredPageTests extends BaseTest {
         String newInsuredWebsite = FakeDataHelper.website();
         dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), newInsuredName,newInsuredWebsite);
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
-        if (!insuredPageActions.isCreateNeInsuredTextDisplayed(DriverManager.getDriver())){
+        if (!insuredPageActions.isCreateNewInsuredTextDisplayed(DriverManager.getDriver())){
             insuredPageActions.clickNewInsuredButton(DriverManager.getDriver());
         }
         insuredPageActions.enterEmailAddress(DriverManager.getDriver());
@@ -102,6 +102,7 @@ public class InsuredPageTests extends BaseTest {
         dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), map.get("applicantName"), map.get("website"));
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         assert insuredPageActions.validateSearchAgainButtonWithInsuredName(DriverManager.getDriver(), map.get("secondApplicant"));
+        insuredPageActions.enterApplicantWebsite(DriverManager.getDriver(), map.get("secondWebsite"));
         insuredPageActions.clickSearchAgainButton(DriverManager.getDriver());
         assert insuredPageActions.verifyInsuredSearchResult(DriverManager.getDriver(), map.get("secondApplicant"), map.get("secondWebsite"));
     }
@@ -122,11 +123,17 @@ public class InsuredPageTests extends BaseTest {
         dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), map.get("applicantName"), map.get("website"));
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         insuredPageActions.selectInsuredCard(DriverManager.getDriver(), map.get("applicantName"));
-        assert insuredPageActions.duplicateSubmissionDialog(DriverManager.getDriver());
-        String actualText = insuredPageActions.duplicateSubmissionDialogDescription(DriverManager.getDriver());
-        assert actualText.contains(map.get("dialogText"));
-        insuredPageActions.clickDuplicateCancelButton(DriverManager.getDriver());
-        dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
+        if(insuredPageActions.isClearanceDialogModalDisplayed(DriverManager.getDriver())){
+            insuredPageActions.enterClearanceText(DriverManager.getDriver(), "Test");
+            insuredPageActions.clickClearanceSubmitButton(DriverManager.getDriver());
+        }else{
+            assert insuredPageActions.duplicateSubmissionDialog(DriverManager.getDriver());
+            String actualText = insuredPageActions.duplicateSubmissionDialogDescription(DriverManager.getDriver());
+            assert actualText.contains(map.get("dialogText"));
+            insuredPageActions.clickDuplicateCancelButton(DriverManager.getDriver());
+            dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
+        }
+
     }
 
 

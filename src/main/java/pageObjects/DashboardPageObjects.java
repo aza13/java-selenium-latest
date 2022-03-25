@@ -109,7 +109,7 @@ public class DashboardPageObjects {
 
     public static final By applyFiltersButton = By.id("applyFilters");
 
-    public static final By allStatusDropdown = By.xpath("//div[@id='demo-simple-select']");
+    public static final By allStatusDropdown = By.xpath("//div[text()='All Statuses']");
 
     public static final By statusOptions = By.xpath("//ul/li[contains(@data-qa, 'menuItem')]");
 

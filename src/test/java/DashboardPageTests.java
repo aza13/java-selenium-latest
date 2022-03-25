@@ -3,6 +3,7 @@ import base.DriverManager;
 import base.PageObjectManager;
 import constants.ConstantVariable;
 import helper.ClickHelper;
+import helper.FakeDataHelper;
 import helper.WaitHelper;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
@@ -72,7 +73,7 @@ public class DashboardPageTests extends BaseTest {
         logger.info("verify logout functionality");
         LoginPageActions loginPageActions = dashboardPageActions.logoutApp(DriverManager.getDriver());
         String text = loginPageActions.getWelcomeText(DriverManager.getDriver());
-        assert text.contentEquals("Welcome to the Broker Portal");
+        assert text.contentEquals(map.get("welcomeText"));
 
     }
 
@@ -130,7 +131,6 @@ public class DashboardPageTests extends BaseTest {
         logger.info("validating whether mandatory field text displayed or not");
         assert dashboardPageActions.productRequiredElement(DriverManager.getDriver()).isDisplayed();
         assert dashboardPageActions.nameRequiredElement(DriverManager.getDriver()).isDisplayed();
-//        assert dashboardPageActions.websiteRequiredElement(DriverManager.getDriver()).isDisplayed();
         dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), map.get("applicantName"), map.get("website"));
         dashboardPageActions.clickCancelButton(DriverManager.getDriver());
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
@@ -167,7 +167,14 @@ public class DashboardPageTests extends BaseTest {
             assert insuredPageActions.continueInsuredSearch(DriverManager.getDriver()).isDisplayed();
         }else{
             logger.info("Can't continue to insured search page, duplicate submission displayed");
-            throw new SkipException("The test is Ignored, because can't continue to insured search page, duplicate submission dialog is displayed");
+            insuredPageActions.clickDuplicateCancelButton(DriverManager.getDriver());
+            dashboardPageActions.clickNewQuote(DriverManager.getDriver());
+            String newInsuredName = FakeDataHelper.fullName();
+            String newInsuredWebsite = FakeDataHelper.website();
+            dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName,newInsuredWebsite);
+            dashboardPageActions.clickContinueButton(DriverManager.getDriver());
+            boolean value = insuredPageActions.isCreateNewInsuredTextDisplayed(DriverManager.getDriver());
+            assert value;
         }
 
     }
@@ -199,7 +206,7 @@ public class DashboardPageTests extends BaseTest {
         }
         dashboardPageActions.clickFilterList(DriverManager.getDriver());
         dashboardPageActions.clickFilterByProductName(DriverManager.getDriver());
-        dashboardPageActions.selectProductInFilter(DriverManager.getDriver(), map.get("allProducts"));
+        dashboardPageActions.selectProductInFilter(DriverManager.getDriver(), map.get("productName"));
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
         String[] statuses = map.get("status").split(ConstantVariable.SEMICOLON);
         for (String status : statuses) {
@@ -274,22 +281,25 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.enterCreateEndDate(DriverManager.getDriver());
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
         List<String> dates = dashboardPageActions.getPolicyExpirationDates(DriverManager.getDriver());
-        DateFormat df = new SimpleDateFormat(ConstantVariable.DATE_FORMAT);
-        Date actualDate, givenDate;
-        String d = map.get("endDate");
-        givenDate = df.parse(d);
-        for (String date: dates) {
-            try {
-                actualDate = df.parse(date);
-                if (actualDate.compareTo(givenDate)<=0){
-                    assert true;
-                }else{
-                    assert false;
+        if(dates != null){
+            DateFormat df = new SimpleDateFormat(ConstantVariable.DATE_FORMAT);
+            Date actualDate, givenDate;
+            String d = map.get("endDate");
+            givenDate = df.parse(d);
+            for (String date: dates) {
+                try {
+                    actualDate = df.parse(date);
+                    if (actualDate.compareTo(givenDate)<=0){
+                        assert true;
+                    }else{
+                        assert false;
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
-            } catch (ParseException e) {
-                e.printStackTrace();
             }
         }
+
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")

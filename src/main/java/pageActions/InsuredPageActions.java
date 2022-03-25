@@ -170,17 +170,10 @@ public class InsuredPageActions extends BaseTest {
         }
     }
 
-    public boolean validateSearchAgainButtonWithInsuredWebsite(WebDriver driver, String website) {
-
-        if (driver.findElement(searchAgainButton).isEnabled()) {
+    public void enterApplicantWebsite(WebDriver driver, String website) {
             driver.findElement(clearInsuredWebsiteButton).click();
-            boolean val = driver.findElement(searchAgainButton).isEnabled();
             TextHelper.enterText(driver, modifySearchWebsiteField, website);
-            return !val;
-        } else {
-            TextHelper.enterText(driver, modifySearchWebsiteField, website);
-            return driver.findElement(searchAgainButton).isEnabled();
-        }
+
     }
 
     public void clickSearchAgainButton(WebDriver driver) throws InterruptedException {
@@ -269,7 +262,7 @@ public class InsuredPageActions extends BaseTest {
 
     }
 
-    public boolean isCreateNeInsuredTextDisplayed(WebDriver driver){
+    public boolean isCreateNewInsuredTextDisplayed(WebDriver driver){
         return ClickHelper.isElementExist(driver, createNewInsuredInfoText);
     }
 

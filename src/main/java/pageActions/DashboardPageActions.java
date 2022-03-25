@@ -11,6 +11,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Wait;
 import org.testng.Assert;
 
 import java.text.DateFormat;
@@ -20,6 +21,7 @@ import java.util.*;
 
 import static pageObjects.DashboardPageObjects.*;
 import static pageObjects.DashboardPageObjects.firstAvailableStatus;
+import static pageObjects.LoginPageObjects.logInButton;
 
 
 public class DashboardPageActions extends BaseTest {
@@ -350,6 +352,7 @@ public class DashboardPageActions extends BaseTest {
         logger.info("logging out from the application");
         clickProfileSettings(driver);
         signOutLink(driver).click();
+        WaitHelper.waitForElementVisibility(driver, logInButton);
         return PageObjectManager.getLoginPageActions();
     }
 
@@ -386,12 +389,12 @@ public class DashboardPageActions extends BaseTest {
 
 
     public WebElement noPolicyFound(WebDriver driver) {
-
+        WaitHelper.waitForElementVisibility(driver, noPolicyFoundText);
         return driver.findElement(noPolicyFoundText);
     }
 
     public WebElement noQuoteFound(WebDriver driver) {
-
+        WaitHelper.waitForElementVisibility(driver, noQuoteFoundText);
         return driver.findElement(noQuoteFoundText);
     }
 
@@ -486,10 +489,8 @@ public class DashboardPageActions extends BaseTest {
 
     public void clickApplyFiltersButton(WebDriver driver) throws InterruptedException {
 
-        ClickHelper.clickElement(driver, applyFiltersButton);
-        WaitHelper.pause(8000);
         ClickHelper.javaScriptExecutorClick(driver, applyFiltersButton);
-        WaitHelper.pause(3000);
+        WaitHelper.pause(5000);
     }
 
     public void selectStatusInFilter(WebDriver driver, String status) throws InterruptedException {
@@ -570,7 +571,7 @@ public class DashboardPageActions extends BaseTest {
     }
 
     public List<String> getPolicyExpirationDates(WebDriver driver){
-        WaitHelper.waitForElementVisibility(driver, policyExpirationDateGeneric);
+//        WaitHelper.waitForElementVisibility(driver, policyExpirationDateGeneric);
         List<WebElement> createdDates = driver.findElements(policyExpirationDateGeneric);
         if (createdDates.size()>0){
             List<String> dates = new ArrayList<>();

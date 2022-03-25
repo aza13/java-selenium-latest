@@ -58,8 +58,8 @@ public class QuoteTests extends BaseTest {
             ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
             ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
-            assert underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver());
         }
+        assert underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver());
         underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
         boolean uwQuestionsAnswered = underwritingQuestionsPageActions.checkWhetherAllUWQuestionsAreAnswered(DriverManager.getDriver());
         if (!uwQuestionsAnswered) {        // continue to create quote
@@ -111,7 +111,8 @@ public class QuoteTests extends BaseTest {
 
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
+    
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData", enabled = false)
     public void testLockQuote(Map<String, String> map) throws InterruptedException {
         /***
          this verifies whether applicant can lock a quote
@@ -132,7 +133,7 @@ public class QuoteTests extends BaseTest {
         dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName, newInsuredWebsite);
         TextFileReader.writeDataToTextFile(ConstantVariable.INSURED_DATA_FILEPATH, newInsuredName + ";" + newInsuredWebsite);
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
-        if (!insuredPageActions.isCreateNeInsuredTextDisplayed(DriverManager.getDriver())) {
+        if (!insuredPageActions.isCreateNewInsuredTextDisplayed(DriverManager.getDriver())) {
             insuredPageActions.clickNewInsuredButton(DriverManager.getDriver());
         }
         insuredPageActions.enterEmailAddress(DriverManager.getDriver());

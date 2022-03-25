@@ -47,7 +47,7 @@ public class SubmissionClearancesTests extends BaseTest {
         dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName,newInsuredWebsite);
         TextFileReader.writeDataToTextFile(ConstantVariable.INSURED_DATA_FILEPATH, newInsuredName+";"+newInsuredWebsite);
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
-        if (!insuredPageActions.isCreateNeInsuredTextDisplayed(DriverManager.getDriver())){
+        if (!insuredPageActions.isCreateNewInsuredTextDisplayed(DriverManager.getDriver())){
             insuredPageActions.clickNewInsuredButton(DriverManager.getDriver());
         }
         insuredPageActions.enterEmailAddress(DriverManager.getDriver());

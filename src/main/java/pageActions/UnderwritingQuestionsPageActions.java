@@ -178,13 +178,10 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
         WaitHelper.pause(6000);
     }
 
-    public void clickUWQuestionsContinueButton(WebDriver driver) throws InterruptedException {
+    public void clickUWQuestionsContinueButton(WebDriver driver) {
         WaitHelper.waitForElementVisibility(driver, uwQuestionsContinueButton);
         ScrollHelper.scrollElementIntoView(driver, uwQuestionsContinueButton);
         ClickHelper.clickElement(driver, uwQuestionsContinueButton);
-        WaitHelper.waitForElementVisibility(driver, clickContinueMsg);
-        ClickHelper.clickElement(driver, clickContinueMsg);
-        WaitHelper.pause(20000);
     }
 
     public boolean checkWhetherAllUWQuestionsAreAnswered(WebDriver driver) throws InterruptedException {
