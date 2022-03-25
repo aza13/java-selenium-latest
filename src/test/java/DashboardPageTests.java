@@ -3,6 +3,7 @@ import base.DriverManager;
 import base.PageObjectManager;
 import constants.ConstantVariable;
 import helper.ClickHelper;
+import helper.FakeDataHelper;
 import helper.WaitHelper;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
@@ -43,14 +44,14 @@ public class DashboardPageTests extends BaseTest {
         logger.info("verifying the broker portal dashboard page :: testQuotesDashboardUI");
         assert dashboardPageActions.tmhccLogo(DriverManager.getDriver()).isDisplayed();
         assert dashboardPageActions.profileSettingsIcon(DriverManager.getDriver()).isDisplayed();
-        String title = dashboardPageActions.getMyQuotesTabTitle(DriverManager.getDriver());
+        String title = dashboardPageActions.getMyQuotesTabTitle(DriverManager.getDriver()).trim();
         assert title.contentEquals(map.get("myQuotes"));
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
         assert dashboardPageActions.profileLink(DriverManager.getDriver()).isDisplayed();
         assert dashboardPageActions.signOutLink(DriverManager.getDriver()).isDisplayed();
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
+        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
+        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
+        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
         List<WebElement> quoteCardsList = dashboardPageActions.getQuoteCardsList(DriverManager.getDriver());
         if (quoteCardsList.size() > 0) {
             assert true;
@@ -72,7 +73,7 @@ public class DashboardPageTests extends BaseTest {
         logger.info("verify logout functionality");
         LoginPageActions loginPageActions = dashboardPageActions.logoutApp(DriverManager.getDriver());
         String text = loginPageActions.getWelcomeText(DriverManager.getDriver());
-        assert text.contentEquals("Welcome to the Broker Portal");
+        assert text.contentEquals(map.get("welcomeText"));
 
     }
 
@@ -85,10 +86,10 @@ public class DashboardPageTests extends BaseTest {
          **/
         logger.info("verifying the broker portal dashboard page :: testPoliciesDashboardUI");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
-        String title = dashboardPageActions.getMyPoliciesTabTitle(DriverManager.getDriver());
+        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
+        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
+        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
+        String title = dashboardPageActions.getMyPoliciesTabTitle(DriverManager.getDriver()).trim();
         assert title.contentEquals(map.get("policyTitle"));
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
         List<WebElement> policyCardsList = dashboardPageActions.getPolicyCardsList(DriverManager.getDriver());
@@ -122,15 +123,14 @@ public class DashboardPageTests extends BaseTest {
          **/
         logger.info("validating the fields on New Quote modal dialog :: testNewQuoteFieldsValidation");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
+        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
+        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
+        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         logger.info("validating whether mandatory field text displayed or not");
         assert dashboardPageActions.productRequiredElement(DriverManager.getDriver()).isDisplayed();
         assert dashboardPageActions.nameRequiredElement(DriverManager.getDriver()).isDisplayed();
-        assert dashboardPageActions.websiteRequiredElement(DriverManager.getDriver()).isDisplayed();
         dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), map.get("applicantName"), map.get("website"));
         dashboardPageActions.clickCancelButton(DriverManager.getDriver());
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
@@ -152,9 +152,9 @@ public class DashboardPageTests extends BaseTest {
          **/
         logger.info("verifying creating new quote creation :: testCreateNewQuote");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
+        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
+        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
+        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), map.get("applicantName"), map.get("website"));
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
@@ -167,7 +167,14 @@ public class DashboardPageTests extends BaseTest {
             assert insuredPageActions.continueInsuredSearch(DriverManager.getDriver()).isDisplayed();
         }else{
             logger.info("Can't continue to insured search page, duplicate submission displayed");
-            throw new SkipException("The test is Ignored, because can't continue to insured search page, duplicate submission dialog is displayed");
+            insuredPageActions.clickDuplicateCancelButton(DriverManager.getDriver());
+            dashboardPageActions.clickNewQuote(DriverManager.getDriver());
+            String newInsuredName = FakeDataHelper.fullName();
+            String newInsuredWebsite = FakeDataHelper.website();
+            dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName,newInsuredWebsite);
+            dashboardPageActions.clickContinueButton(DriverManager.getDriver());
+            boolean value = insuredPageActions.isCreateNewInsuredTextDisplayed(DriverManager.getDriver());
+            assert value;
         }
 
     }
@@ -181,9 +188,9 @@ public class DashboardPageTests extends BaseTest {
          **/
         logger.info("verifying broker filtering the submission list :: testBrokerFilteringSubmissionsList");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
+        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
+        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
+        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
         String[] products = map.get("productName").split(ConstantVariable.SEMICOLON);
         for (String product : products) {
             dashboardPageActions.clickFilterList(DriverManager.getDriver());
@@ -199,7 +206,7 @@ public class DashboardPageTests extends BaseTest {
         }
         dashboardPageActions.clickFilterList(DriverManager.getDriver());
         dashboardPageActions.clickFilterByProductName(DriverManager.getDriver());
-        dashboardPageActions.selectProductInFilter(DriverManager.getDriver(), map.get("allProducts"));
+        dashboardPageActions.selectProductInFilter(DriverManager.getDriver(), map.get("productName"));
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
         String[] statuses = map.get("status").split(ConstantVariable.SEMICOLON);
         for (String status : statuses) {
@@ -249,9 +256,9 @@ public class DashboardPageTests extends BaseTest {
          **/
         logger.info("verifying broker filtering the policies list :: testBrokerFilteringPoliciesList");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
+        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
+        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
+        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
         String[] statuses = map.get("status").split(ConstantVariable.SEMICOLON);
         for (String status : statuses) {
@@ -274,22 +281,25 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.enterCreateEndDate(DriverManager.getDriver());
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
         List<String> dates = dashboardPageActions.getPolicyExpirationDates(DriverManager.getDriver());
-        DateFormat df = new SimpleDateFormat(ConstantVariable.DATE_FORMAT);
-        Date actualDate, givenDate;
-        String d = map.get("endDate");
-        givenDate = df.parse(d);
-        for (String date: dates) {
-            try {
-                actualDate = df.parse(date);
-                if (actualDate.compareTo(givenDate)<=0){
-                    assert true;
-                }else{
-                    assert false;
+        if(dates != null){
+            DateFormat df = new SimpleDateFormat(ConstantVariable.DATE_FORMAT);
+            Date actualDate, givenDate;
+            String d = map.get("endDate");
+            givenDate = df.parse(d);
+            for (String date: dates) {
+                try {
+                    actualDate = df.parse(date);
+                    if (actualDate.compareTo(givenDate)<=0){
+                        assert true;
+                    }else{
+                        assert false;
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
-            } catch (ParseException e) {
-                e.printStackTrace();
             }
         }
+
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
@@ -301,9 +311,9 @@ public class DashboardPageTests extends BaseTest {
          **/
         logger.info("verifying broker filtering the policies list :: testBrokerFilteringPoliciesList");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
+        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
+        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
+        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
         List<WebElement> quoteCards = dashboardPageActions.getQuoteCardsList(DriverManager.getDriver());
         int quoteCount = quoteCards.size();
         logger.info("validating whether continue button displayed for only specific statuses");
@@ -369,9 +379,9 @@ public class DashboardPageTests extends BaseTest {
          **/
         logger.info("verifying broker can search for related records :: testBrokerSearchRelatedRecords");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
+        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
+        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
+        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
 
         String actualReferenceId = dashboardPageActions.getFirstAvailableReferenceId(DriverManager.getDriver());
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(),actualReferenceId );
@@ -422,7 +432,7 @@ public class DashboardPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
-    public void  testSortQuoteList(Map<String, String> map) throws InterruptedException, ParseException {
+    public void  testSortQuoteList(Map<String, String> map) throws InterruptedException {
         /***
          this test Sort the My Quotes List
          story - N2020-29952
@@ -430,9 +440,9 @@ public class DashboardPageTests extends BaseTest {
          **/
         logger.info("verifying sort my quote list ::  sortQuoteList");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
+        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
+        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
+        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
         WaitHelper.pause(2000);
         String actual = dashboardPageActions.getFirstAvailableCreatedDate(DriverManager.getDriver());
         dashboardPageActions.clickSortBy(DriverManager.getDriver());
@@ -459,9 +469,9 @@ public class DashboardPageTests extends BaseTest {
 
         logger.info("verifying sort my quote list ::  sortPolicyList");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
+        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
+        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
+        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
         dashboardPageActions.clickSortBy(DriverManager.getDriver());
         dashboardPageActions.clickSortByExpiringSoon(DriverManager.getDriver());
@@ -513,9 +523,9 @@ public class DashboardPageTests extends BaseTest {
 
         logger.info("verifying :: continue a Renewal Submission ");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
+        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
+        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
+        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
         dashboardPageActions.validateContinueSubmission(DriverManager.getDriver());
         dashboardPageActions.clickExitRatingCriteria(DriverManager.getDriver());
@@ -531,9 +541,9 @@ public class DashboardPageTests extends BaseTest {
 
         logger.info("verifying :: Hide Renew Button on Policy list for Ineligible Policies ");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
+        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
+        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
+        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
         assert dashboardPageActions.verifyPoliciesExists(DriverManager.getDriver());
 

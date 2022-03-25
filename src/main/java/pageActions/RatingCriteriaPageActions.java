@@ -6,8 +6,10 @@ import helper.DropdownHelper;
 import helper.TextHelper;
 import helper.WaitHelper;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Wait;
 
 import static pageObjects.DashboardPageObjects.allStatusDropdown;
 import static pageObjects.DashboardPageObjects.statusOptions;
@@ -19,7 +21,8 @@ public class RatingCriteriaPageActions extends BaseTest {
     private static final Logger logger = Logger.getLogger(RatingCriteriaPageActions.class);
 
     public boolean isRatingCriteriaPageDisplayed(WebDriver driver){
-       return ClickHelper.isElementExist(driver, ratingCriteriaHeader);
+        WaitHelper.waitForElementVisibility(driver, ratingCriteriaHeader2);
+       return ClickHelper.isElementExist(driver, ratingCriteriaHeader2);
 
     }
 
@@ -52,8 +55,11 @@ public class RatingCriteriaPageActions extends BaseTest {
 
     public void enterTextToBusinessClassDropDown(WebDriver driver, String bitcoin) throws InterruptedException {
         ClickHelper.clickElement(driver, businessClassDropDown);
+        if(ClickHelper.isElementExist(driver, clearBusinessClassButton)){
+            ClickHelper.clickElement(driver, clearBusinessClassButton);
+        }
         TextHelper.enterText(driver, businessClassDropDown, bitcoin);
-        WaitHelper.pause(1000);
+        WaitHelper.pause(3000);
     }
 
 
@@ -64,13 +70,15 @@ public class RatingCriteriaPageActions extends BaseTest {
 
     public void selectBusinessClassInFilter(WebDriver driver, String status) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, allStatusDropdown);
-        DropdownHelper.selectValueFromBootstrapDropdown(driver, allStatusDropdown, statusOptions, status);
+        WebElement dropdown = driver.findElement(allStatusDropdown);
+        DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, statusOptions, status);
     }
 
     public void enterRatingCriteriaRevenueAndRecords(WebDriver driver, String revenue, String records) throws InterruptedException {
         WaitHelper.pause(5000);
         TextHelper.enterText(driver, ratingCriteriaRevenueField, revenue);
         TextHelper.enterText(driver, ratingCriteriaRecordsField , records );
+        driver.findElement(ratingCriteriaRecordsField).sendKeys(Keys.TAB);
         WaitHelper.pause(3000);
     }
 

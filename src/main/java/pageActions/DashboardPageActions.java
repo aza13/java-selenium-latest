@@ -11,6 +11,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Wait;
 import org.testng.Assert;
 
 import java.text.DateFormat;
@@ -20,6 +21,7 @@ import java.util.*;
 
 import static pageObjects.DashboardPageObjects.*;
 import static pageObjects.DashboardPageObjects.firstAvailableStatus;
+import static pageObjects.LoginPageObjects.logInButton;
 
 
 public class DashboardPageActions extends BaseTest {
@@ -227,8 +229,8 @@ public class DashboardPageActions extends BaseTest {
     }
 
     public void CreateNewQuote(WebDriver driver, String product, String applicantName, String website) throws InterruptedException {
-
-        DropdownHelper.selectValueFromBootstrapDropdown(driver, selectProductDropdown, genericProductOption, product);
+        WebElement element = driver.findElement(selectProductDropdown);
+        DropdownHelper.selectValueFromBootstrapDropdown(driver, element, genericProductOption, product);
         TextHelper.enterText(driver, applicantNameField, applicantName);
         TextHelper.enterText(driver, websiteField, website);
     }
@@ -290,7 +292,7 @@ public class DashboardPageActions extends BaseTest {
         if (count > 0) {
             for (WebElement statusElement : quoteStatusList) {
                 String status = statusElement.getText();
-                String color = statusElement.getAttribute("style").split(":")[1].replace(";", "").trim();
+                String color = statusElement.getAttribute("style").split(";")[1].replace(":", "").trim();
                 switch (status) {
                     case "Active":
                         assert color.equals("blue");
@@ -350,6 +352,7 @@ public class DashboardPageActions extends BaseTest {
         logger.info("logging out from the application");
         clickProfileSettings(driver);
         signOutLink(driver).click();
+        WaitHelper.waitForElementVisibility(driver, logInButton);
         return PageObjectManager.getLoginPageActions();
     }
 
@@ -386,12 +389,12 @@ public class DashboardPageActions extends BaseTest {
 
 
     public WebElement noPolicyFound(WebDriver driver) {
-
+        WaitHelper.waitForElementVisibility(driver, noPolicyFoundText);
         return driver.findElement(noPolicyFoundText);
     }
 
     public WebElement noQuoteFound(WebDriver driver) {
-
+        WaitHelper.waitForElementVisibility(driver, noQuoteFoundText);
         return driver.findElement(noQuoteFoundText);
     }
 
@@ -480,23 +483,26 @@ public class DashboardPageActions extends BaseTest {
 
     public void selectProductInFilter(WebDriver driver, String product) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, allProductsDropdown);
-        DropdownHelper.selectValueFromBootstrapDropdown(driver, allProductsDropdown, productOptions, product);
+        WebElement element = driver.findElement(allProductsDropdown);
+        DropdownHelper.selectValueFromBootstrapDropdown(driver, element, productOptions, product);
     }
 
     public void clickApplyFiltersButton(WebDriver driver) throws InterruptedException {
 
-        ClickHelper.clickElement(driver, applyFiltersButton);
-        WaitHelper.pause(8000);
+        ClickHelper.javaScriptExecutorClick(driver, applyFiltersButton);
+        WaitHelper.pause(5000);
     }
 
     public void selectStatusInFilter(WebDriver driver, String status) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, allStatusDropdown);
-        DropdownHelper.selectValueFromBootstrapDropdown(driver, allStatusDropdown, statusOptions, status);
+        WebElement dropdown = driver.findElement(allStatusDropdown);
+        DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, statusOptions, status);
     }
 
     public void selectPolicyStatusInFilter(WebDriver driver, String status) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, policyAllStatusDropdown);
-        DropdownHelper.selectValueFromBootstrapDropdown(driver, policyAllStatusDropdown, statusOptions, status);
+        WebElement dropdown = driver.findElement(policyAllStatusDropdown);
+        DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, statusOptions, status);
     }
 
     public void clickPolicyFilterByStatus(WebDriver driver) {
@@ -517,7 +523,7 @@ public class DashboardPageActions extends BaseTest {
         Set<String> actualStatus = new HashSet<String>();
         int count = elementsContinueButton.size();
         if (count > 0) {
-            for (int i = 0; i < elementsContinueButton.size(); i ++) {
+            for (int i = 0; i < count; i++) {
                 elementsContinueButton.get(i).click();
                 WaitHelper.pause(3000);
                 break;
@@ -565,7 +571,7 @@ public class DashboardPageActions extends BaseTest {
     }
 
     public List<String> getPolicyExpirationDates(WebDriver driver){
-        WaitHelper.waitForElementVisibility(driver, policyExpirationDateGeneric);
+//        WaitHelper.waitForElementVisibility(driver, policyExpirationDateGeneric);
         List<WebElement> createdDates = driver.findElements(policyExpirationDateGeneric);
         if (createdDates.size()>0){
             List<String> dates = new ArrayList<>();
@@ -630,7 +636,8 @@ public class DashboardPageActions extends BaseTest {
     }
 
     public void selectSupportType(WebDriver driver, String supportType) throws InterruptedException {
-        DropdownHelper.selectValueFromBootstrapDropdown(driver, selectProductDropdown, genericProductOption, supportType);
+        WebElement dropdown = driver.findElement(selectProductDropdown);
+        DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, genericProductOption, supportType);
     }
 
     public void enterRequestDetails(WebDriver driver, String details){

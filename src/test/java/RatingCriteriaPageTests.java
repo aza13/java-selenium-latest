@@ -1,11 +1,9 @@
 import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
-
+import constants.ConstantVariable;
 import constants.DatabaseQueries;
 import helper.FakeDataHelper;
-import helper.WaitHelper;
-
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import org.testng.SkipException;
@@ -19,12 +17,10 @@ import pageActions.UnderwritingQuestionsPageActions;
 import utils.dataProvider.TestDataProvider;
 import utils.dbConnector.DatabaseConnector;
 
-
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
-
 import java.util.Map;
 
 public class RatingCriteriaPageTests extends BaseTest {
@@ -61,9 +57,9 @@ public class RatingCriteriaPageTests extends BaseTest {
 
         logger.info("verifying :: business class rating criteria");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
+        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
+        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
+        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), map.get("applicantName"), map.get("website"));
         dashboardPageActions.clickContinueButton(DriverManager.getDriver());
@@ -102,9 +98,9 @@ public class RatingCriteriaPageTests extends BaseTest {
         }
             logger.info("verifying :: hard decline after rating criteria");
             dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-            dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
-            dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
-            dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
+        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
+        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
+        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
             dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), (quoteId));
             dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
             ratingCriteriaPageActions.enterValueRatingCriteriaTextBox(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
@@ -130,15 +126,15 @@ public class RatingCriteriaPageTests extends BaseTest {
 
         logger.info("verifying :: proposed policy period");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
+        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
+        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
+        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         String newInsuredName = FakeDataHelper.fullName();
         String newInsuredWebsite = FakeDataHelper.website();
         dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), newInsuredName,newInsuredWebsite);
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
-        if (!insuredPageActions.isCreateNeInsuredTextDisplayed(DriverManager.getDriver())){
+        if (!insuredPageActions.isCreateNewInsuredTextDisplayed(DriverManager.getDriver())){
             insuredPageActions.clickNewInsuredButton(DriverManager.getDriver());
         }
         insuredPageActions.enterEmailAddress(DriverManager.getDriver());

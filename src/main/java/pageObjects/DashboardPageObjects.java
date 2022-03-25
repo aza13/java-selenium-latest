@@ -46,7 +46,7 @@ public class DashboardPageObjects {
 
     public static final By quoteCard = By.xpath("//div[@data-qa='quote_card']");
 
-    public static final By noQuoteFoundText = By.xpath("//p[text()='No quotes found.']");
+    public static final By noQuoteFoundText = By.xpath("//p[text()='Adjusting filters may return results.']");
 
     public static final By quotesListLabels = By.xpath("(//div[@data-qa='quote_card'])[1]//p/preceding-sibling::div");
 
@@ -54,7 +54,7 @@ public class DashboardPageObjects {
 
     public static final By policyCard = By.className("policy_card");
 
-    public static final By noPolicyFoundText = By.xpath("//p[text()='No Policy Found']");
+    public static final By noPolicyFoundText = By.xpath("//p[text()='Adjusting filters may return results.']");
 
     public static final By quotesRefLabel = By.xpath("//div[text()='Reference']");
 
@@ -109,7 +109,7 @@ public class DashboardPageObjects {
 
     public static final By applyFiltersButton = By.id("applyFilters");
 
-    public static final By allStatusDropdown = By.xpath("//div[@id='demo-simple-select']");
+    public static final By allStatusDropdown = By.xpath("//div[text()='All Statuses']");
 
     public static final By statusOptions = By.xpath("//ul/li[contains(@data-qa, 'menuItem')]");
 
