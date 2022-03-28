@@ -15,7 +15,7 @@ public class InsuredPageObjects {
     public static final By cancelInsuredSearchButton = By.id("btn-search-cancel");
     public static final By continueInsuredSearchButton = By.id("btn-insured-continue");
     public static final By modifySearchButton = By.xpath("//button[text()='Modify Search']");
-    public static final By createNewInsuredInfoText = By.xpath("//p[contains(text(),'Please create a new insured to continue')]");
+    public static final By createNewInsuredInfoText = By.xpath("//p[contains(text(),'Please create a new applicant to continue')]");
     public static final By insuredNameField = By.id("insured_name");
     public static final By insuredWebsiteField = By.id("insured_website");
     public static final By insuredPhoneNumberField = By.id("insured_form_phNumber");

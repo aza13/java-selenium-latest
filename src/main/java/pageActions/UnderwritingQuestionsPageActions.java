@@ -3,10 +3,12 @@ package pageActions;
 import base.BaseTest;
 import base.DriverManager;
 import helper.ClickHelper;
+import helper.DropdownHelper;
 import helper.ScrollHelper;
 import helper.WaitHelper;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -19,13 +21,15 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
 
 
     private static final Logger logger = Logger.getLogger(UnderwritingQuestionsPageActions.class);
+    public static int globalIndex=0;
+    public static int dropdownsIndex =0;
 
     public boolean isUnderwritingQuestionsPageDisplayed(WebDriver driver) throws InterruptedException {
         WaitHelper.pause(5000);
-       return ClickHelper.isElementExist(driver, underwritingQuestionsHeader);
+        return ClickHelper.isElementExist(driver, underwritingQuestionsHeader);
     }
 
-    public boolean isGeneralHeaderDisplayed(WebDriver driver){
+    public boolean isGeneralHeaderDisplayed(WebDriver driver) {
         WaitHelper.waitForElementVisibility(driver, headerGeneral);
         return ClickHelper.isElementExist(driver, headerGeneral);
     }
@@ -40,7 +44,7 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
 
     }
 
-    public boolean isEnhancementsHeaderDisplayed(WebDriver driver){
+    public boolean isEnhancementsHeaderDisplayed(WebDriver driver) {
         WaitHelper.waitForElementVisibility(driver, headerEnhancements);
         return ClickHelper.isElementExist(driver, headerEnhancements);
     }
@@ -48,13 +52,12 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
     public void clickEnhancementsHeader(WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, headerEnhancements);
         ClickHelper.clickElement(driver, headerEnhancements);
-        WaitHelper.pause(6000);
+        WaitHelper.pause(3000);
         WaitHelper.waitForElementVisibility(driver, headerEnhancementsQuestion);
         ClickHelper.clickElement(driver, headerEnhancementsQuestion);
-        WaitHelper.pause(6000);
     }
 
-    public boolean isRequiredHeaderDisplayed(WebDriver driver){
+    public boolean isRequiredHeaderDisplayed(WebDriver driver) {
         WaitHelper.waitForElementVisibility(driver, headerRequiredQuestions);
         return ClickHelper.isElementExist(driver, headerRequiredQuestions);
     }
@@ -100,7 +103,7 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
         WaitHelper.pause(6000);
     }
 
-    public boolean isITDepartmentHeaderDisplayed(WebDriver driver){
+    public boolean isITDepartmentHeaderDisplayed(WebDriver driver) {
         WaitHelper.waitForElementVisibility(driver, headerITDept);
         return ClickHelper.isElementExist(driver, headerITDept);
     }
@@ -120,6 +123,7 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
         ClickHelper.clickElement(driver, networkSecValue);
         WaitHelper.pause(6000);
         ScrollHelper.scrollElementIntoView(DriverManager.getDriver(),itPersonnel);
+        ScrollHelper.scrollElementIntoView(DriverManager.getDriver(), itPersonnel);
         WaitHelper.waitForElementVisibility(driver, itPersonnel);
         ClickHelper.clickElement(driver, itPersonnel);
         WaitHelper.pause(6000);
@@ -129,7 +133,7 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
 
     }
 
-    public boolean isInternalSecurityHeaderDisplayed(WebDriver driver){
+    public boolean isInternalSecurityHeaderDisplayed(WebDriver driver) {
         WaitHelper.waitForElementVisibility(driver, headerInternalSec);
         return ClickHelper.isElementExist(driver, headerInternalSec);
     }
@@ -174,37 +178,82 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
         WaitHelper.pause(6000);
     }
 
-    public void clickUWQuestionsContinueButton(WebDriver driver) throws InterruptedException {
+    public void clickUWQuestionsContinueButton(WebDriver driver) {
+        WaitHelper.waitForElementVisibility(driver, uwQuestionsContinueButton);
+        ScrollHelper.scrollElementIntoView(driver, uwQuestionsContinueButton);
         ClickHelper.clickElement(driver, uwQuestionsContinueButton);
+<<<<<<< HEAD
         WaitHelper.pause(20000);
+=======
+>>>>>>> f72b09364b5b49c69754839e11b46f78aeee4bfa
     }
 
-    public boolean checkWhetherAllUWQuestionsAreAnswered(WebDriver driver){
-        WaitHelper.waitForElementVisibility(driver, allQuestionsAnsweredText);
-        return ClickHelper.isElementExist(driver, allQuestionsAnsweredText);
+    public boolean checkWhetherAllUWQuestionsAreAnswered(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(3000);
+        List<WebElement> elements = driver.findElements(uwQuestionsAnswerRequiredIcon);
+        return elements.size() > 0;
     }
 
-    public void clickQuotesTab(WebDriver driver){
+
+    public void clickQuotesTab(WebDriver driver) {
         ClickHelper.clickElement(driver, quotesTab);
     }
 
-    public void answerUnderWriterQuestions(WebDriver driver, String answer) throws InterruptedException {
-        String uwQuestionsTab = "//div[@id='underwriting-questions-header' and @role='button']";
-        List<WebElement> uwQuestions = driver.findElements(By.xpath(uwQuestionsTab));
-        int count = uwQuestions.size();
-        for(int i=0; i<count; i++){
-            uwQuestions.get(i).click();
-            int j = i+1;
-            String buttonXpath = "(//div[@id='underwriting-questions-header' and @role='button'])["+j+"]/following-sibling::div//button[text()='No']";
+    public void answerUWQuestionButtons(WebDriver driver, String uwQuestionAnswer) throws InterruptedException {
+        String buttonXpath = "//div[@id='underwriting-questions-header']//button[text()='" + uwQuestionAnswer + "']";
+        try {
             List<WebElement> allNoButtons = driver.findElements(By.xpath(buttonXpath));
-            for (WebElement button:allNoButtons) {
-                WaitHelper.pause(6000);
-                button.click();
+            int count = allNoButtons.size();
+            for (int i=globalIndex; i< count; i++) {
+                logger.info("clicking on each yes/no button in each UW section");
+                WaitHelper.pause(5000);
+                allNoButtons.get(i).click();
+                globalIndex++;
             }
-            WaitHelper.pause(6000);
-//            driver.findElement(By.xpath(buttonXpath)).click();
+        }catch (StaleElementReferenceException e) {
+            WaitHelper.pause(3000);
+            answerUWQuestionButtons(driver, uwQuestionAnswer);
         }
 
+    }
+
+    public void answerUWQuestionDropdowns(WebDriver driver, String answer, String dropdownOption) throws InterruptedException {
+        String uwQuestionsTab = "//div[@id='underwriting-questions-header' and @role='button']";
+        String[] dropdownIds = {"General-select", null, "Required Questions-select", "IT Department-select", null};
+        try{
+            List<WebElement> uwQuestions = driver.findElements(By.xpath(uwQuestionsTab));
+            int count = uwQuestions.size();
+            for (int i = dropdownsIndex; i < count; i++) {
+                logger.info("clicking on UW question tab");
+                String dropdownId = dropdownIds[i];
+                if (dropdownId != null) {
+                    List<WebElement> dropdowns = driver.findElements(By.id(dropdownId));
+                    for (WebElement dropdown : dropdowns) {
+                        logger.info("selecting the value from dropdown");
+                        DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, uwQuestionsDropdownsOption, dropdownOption);
+                        WaitHelper.pause(5000);
+                        dropdownsIndex++;
+                    }
+                }
+
+            }
+        }catch (StaleElementReferenceException e) {
+            WaitHelper.pause(3000);
+            answerUWQuestionDropdowns(driver, answer, dropdownOption);
+        }
+
+
+    }
+
+    public void selectQuoteTemplateOption(WebDriver driver, String option) {
+        logger.info("selecting the given quote template option");
+        List<WebElement> options = driver.findElements(quoteTemplateOptions);
+        for (WebElement opt : options) {
+            if (opt.getText().contains(option)) {
+                opt.click();
+                break;
+            }
+        }
     }
 
 
