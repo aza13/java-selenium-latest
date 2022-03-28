@@ -14,6 +14,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
+import static pageObjects.DashboardPageObjects.exitRatingCriteria;
 import static pageObjects.UnderwritingQuestionsPageObjects.*;
 
 
@@ -254,5 +255,9 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
         }
     }
 
+    public void clickExitQuestion(WebDriver driver) {
+        WaitHelper.waitForElementClickable(driver, exitQuestionButton);
+        ClickHelper.clickElement(driver, exitQuestionButton);
+    }
 
 }

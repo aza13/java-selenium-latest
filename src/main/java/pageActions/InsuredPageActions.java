@@ -263,6 +263,7 @@ public class InsuredPageActions extends BaseTest {
     }
 
     public boolean isCreateNewInsuredTextDisplayed(WebDriver driver){
+        WaitHelper.waitForElementVisibility(driver, createNewInsuredInfoText);
         return ClickHelper.isElementExist(driver, createNewInsuredInfoText);
     }
 

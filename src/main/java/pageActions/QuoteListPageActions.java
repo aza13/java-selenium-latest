@@ -18,8 +18,8 @@ public class QuoteListPageActions extends BaseTest {
     private static final Logger logger = Logger.getLogger(QuoteListPageActions.class);
 
     public boolean isQuoteListPageDisplayed(WebDriver driver){
-        WaitHelper.waitForElementVisibility(driver, quoteListPageHeader);
-       return ClickHelper.isElementExist(driver, quoteListPageHeader);
+        WaitHelper.waitForElementVisibility(driver, clickOnQuotesTab);
+       return ClickHelper.isElementExist(driver, clickOnQuotesTab);
     }
 
     public void clickAddOptionButton(WebDriver driver){
@@ -198,7 +198,7 @@ public class QuoteListPageActions extends BaseTest {
     public void clickQuotePreviewOption(WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, quotePreviewButton);
         ClickHelper.clickElement(driver, quotePreviewButton);
-        WaitHelper.pause(10000);
+        WaitHelper.pause(15000);
 
         ArrayList<String> tabs2 = new ArrayList<String> (driver.getWindowHandles());
         driver.switchTo().window(tabs2.get(1));

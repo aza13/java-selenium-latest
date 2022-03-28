@@ -53,5 +53,7 @@ public class UnderwritingQuestionsPageObjects {
     public static final By bestPractise = By.xpath("(//button[@type='button'][normalize-space()='No'])[20]");
     public static final By siem = By.xpath("(//button[@type='button'][normalize-space()='No'])[21]");
 
+    public static final By exitQuestionButton = By.id("underwriting-cancel");
+
 
 }

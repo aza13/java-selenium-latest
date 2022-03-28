@@ -60,22 +60,6 @@ public class RatingCriteriaPageTests extends BaseTest {
         dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
         dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
         dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_OFFICE_ID);
-        dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), map.get("applicantName"), map.get("website"));
-        dashboardPageActions.clickContinueButton(DriverManager.getDriver());
-        ratingCriteriaPageActions.clickRatingCriteriaButton(DriverManager.getDriver());
-        assert ratingCriteriaPageActions.ratingCriteriaTitle(DriverManager.getDriver()).isDisplayed();
-        dashboardPageActions.clickExitRatingCriteria(DriverManager.getDriver());
-        dashboardPageActions.clickFilterList(DriverManager.getDriver());
-        dashboardPageActions.clickFilterByProductName(DriverManager.getDriver());
-        dashboardPageActions.selectProductInFilter(DriverManager.getDriver(), map.get("product"));
-        dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
-        dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(),"Active");
-        dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
-        dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
-        ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("numberOfResidentialUnits"), map.get("totalCommercialSquareFeet"));
-        ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
-
 
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         String newInsuredName = FakeDataHelper.fullName();
@@ -98,9 +82,8 @@ public class RatingCriteriaPageTests extends BaseTest {
             ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
             ratingCriteriaPageActions.ratingCriteriaPageClick(DriverManager.getDriver());
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
-
         }
-        dashboardPageActions.clickExitRatingCriteria(DriverManager.getDriver());
+        underwritingQuestionsPageActions.clickExitQuestion(DriverManager.getDriver());
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "RatingCriteriaPageData")
