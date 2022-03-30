@@ -9,7 +9,7 @@ public class UnderwritingQuestionsPageObjects {
     }
 
     public static final By underwritingQuestionsHeader =By.xpath("(//button[normalize-space()='Underwriter Questions'])[1]");
-    public static final By uwQuestionsContinueButton = By.xpath("//button[@id='underwriting-continue']");
+    public static final By uwQuestionsContinueButton = By.xpath("//button[@id='underwriting-continue']/span");
     public static final By allQuestionsAnsweredText = By.xpath("//h3[text()='All questions have been answered!']");
     public static final By quotesTab = By.id("workflow-tab-3");
     public static final By underWriterQuestionTabs = By.xpath("//div[@id='underwriting-questions-header' and @role='button']");
@@ -54,6 +54,8 @@ public class UnderwritingQuestionsPageObjects {
     public static final By siem = By.xpath("(//button[@type='button'][normalize-space()='No'])[21]");
 
     public static final By clickContinueMsg = By.xpath("//li[@value='$1MM/$1MM']");
+    public static final By questionsPageUnSelected = By.xpath("//button[@id='workflow-tab-2' and @aria-selected='false']");
+    public static final By questionsPageSelected = By.xpath("//button[@id='workflow-tab-2' and @aria-selected='true']");
 
 
 

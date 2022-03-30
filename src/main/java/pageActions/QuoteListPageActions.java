@@ -17,9 +17,9 @@ public class QuoteListPageActions extends BaseTest {
 
     private static final Logger logger = Logger.getLogger(QuoteListPageActions.class);
 
-    public boolean isQuoteListPageDisplayed(WebDriver driver){
-        WaitHelper.waitForElementVisibility(driver, quoteListPageHeader);
-       return ClickHelper.isElementExist(driver, quoteListPageHeader);
+    public boolean isQuoteListPageDisplayed(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(5000);
+       return ClickHelper.isElementExist(driver, quotesPageSelected);
     }
 
     public void clickAddOptionButton(WebDriver driver){
@@ -123,10 +123,11 @@ public class QuoteListPageActions extends BaseTest {
         }
     }
 
-    public void clickConfirmQuoteButton(WebDriver driver){
+    public void clickConfirmQuoteButton(WebDriver driver) throws InterruptedException {
         logger.info("clicking on confirm quote button :: clickConfirmQuoteButton");
         try{
             ClickHelper.clickElement(driver, confirmAndLockQuoteButton);
+            WaitHelper.pause(20000);
         }catch (Exception e){
             logger.error("failed to click the confirm quote button :: clickConfirmQuoteButton"+e.getMessage());
             throw e;
@@ -182,12 +183,15 @@ public class QuoteListPageActions extends BaseTest {
         WaitHelper.waitForElementVisibility(driver, confirmAndLockButton);
         ClickHelper.clickElement(driver, confirmAndLockButton);
         WaitHelper.pause(20000);
-
     }
 
     public String verifySuccessConfirmAndLockMessage(WebDriver driver){
-        WaitHelper.waitForElementVisibility(driver, quoteSuccessMessage);
-        return TextHelper.getText(driver, quoteSuccessMessage, "text");
+        WaitHelper.waitForElementVisibility(driver, quoteLockSuccessMessage);
+        return TextHelper.getText(driver, quoteLockSuccessMessage, "text");
+    }
+
+    public boolean checkIfQuoteLockSuccessMessageDisplayed(WebDriver driver){
+        return ClickHelper.isElementExist(driver, quoteLockSuccessMessage);
     }
 
     public boolean verifyQuotePreviewOptionVisible(WebDriver driver){
@@ -207,6 +211,18 @@ public class QuoteListPageActions extends BaseTest {
             driver.close();
         }
         driver.switchTo().window(tabs2.get(0));
+    }
 
+    public boolean checkIfSubmitReviewDialogDisplayed(WebDriver driver){
+        return ClickHelper.isElementExist(driver, submitReviewDialog);
+    }
+
+    public void enterQuoteReviewText(WebDriver driver){
+        TextHelper.enterText(driver, submitReviewTextArea, "Quote Review Text");
+    }
+
+    public void clickSubmitForReview(WebDriver driver){
+        WaitHelper.waitForElementVisibility(driver, submitReviewSubmitButton);
+        ClickHelper.clickElement(driver, submitReviewSubmitButton);
     }
 }

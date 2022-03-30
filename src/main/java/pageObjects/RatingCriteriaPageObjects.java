@@ -34,6 +34,10 @@ public class RatingCriteriaPageObjects {
     public static final By ratingCriteriaEffectiveActualDateChoose = By.xpath("//button[normalize-space()='"+enterDate+"']");
     public static final By ratingCriteriaExpirationExpectedDateShow = By.xpath("//input[@value='"+expectDate+"']");
     public static final By ratingCriteriaCancelButton = By.xpath("//button[@id='rating_criteria-cancel']");
+    public static final By detailsPageUnSelected = By.xpath("//button[@id='workflow-tab-1' and @aria-selected='false']");
+    public static final By detailsPageSelected = By.xpath("//button[@id='workflow-tab-1' and @aria-selected='true']");
+
+
 
 
 

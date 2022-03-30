@@ -25,8 +25,8 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
     public static int dropdownsIndex =0;
 
     public boolean isUnderwritingQuestionsPageDisplayed(WebDriver driver) throws InterruptedException {
-        WaitHelper.pause(5000);
-        return ClickHelper.isElementExist(driver, underwritingQuestionsHeader);
+        WaitHelper.pause(3000);
+        return ClickHelper.isElementExist(driver, questionsPageSelected);
     }
 
     public boolean isGeneralHeaderDisplayed(WebDriver driver) {
@@ -184,15 +184,21 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
         ClickHelper.clickElement(driver, uwQuestionsContinueButton);
     }
 
-    public boolean checkWhetherAllUWQuestionsAreAnswered(WebDriver driver) throws InterruptedException {
-        WaitHelper.pause(3000);
-        List<WebElement> elements = driver.findElements(uwQuestionsAnswerRequiredIcon);
-        return elements.size() > 0;
+    public boolean checkWhetherAllUWQuestionsAreAnswered(WebDriver driver) {
+        String xpath = "//button[@id='underwriting-continue' and @disabled]";
+        By disableLocator = By.xpath(xpath);
+        if(ClickHelper.isElementExist(driver, disableLocator)){
+            logger.info("UW continue button is disabled, need to answer UW questions");
+            return false;
+        }else{
+            logger.info("UW continue button is enabled, UW questions are answered");
+            return true;
+        }
     }
 
 
     public void clickQuotesTab(WebDriver driver) {
-        ClickHelper.clickElement(driver, quotesTab);
+        ClickHelper.javaScriptExecutorClick(driver, quotesTab);
     }
 
     public void answerUWQuestionButtons(WebDriver driver, String uwQuestionAnswer) throws InterruptedException {
@@ -214,16 +220,13 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
     }
 
     public void answerUWQuestionDropdowns(WebDriver driver, String answer, String dropdownOption) throws InterruptedException {
-        String uwQuestionsTab = "//div[@id='underwriting-questions-header' and @role='button']";
-        String[] dropdownIds = {"General-select", null, "Required Questions-select", "IT Department-select", null};
+
+        String[] dropdownIds = {"General-select", "Required Questions-select", "IT Department-select"};
         try{
-            List<WebElement> uwQuestions = driver.findElements(By.xpath(uwQuestionsTab));
-            int count = uwQuestions.size();
-            for (int i = dropdownsIndex; i < count; i++) {
-                logger.info("clicking on UW question tab");
-                String dropdownId = dropdownIds[i];
-                if (dropdownId != null) {
-                    List<WebElement> dropdowns = driver.findElements(By.id(dropdownId));
+            logger.info("clicking on UW question tab");
+            for (String dropdownId : dropdownIds) {
+                List<WebElement> dropdowns = driver.findElements(By.id(dropdownId));
+                if (dropdowns.size() > 0) {
                     for (WebElement dropdown : dropdowns) {
                         logger.info("selecting the value from dropdown");
                         DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, uwQuestionsDropdownsOption, dropdownOption);
@@ -231,14 +234,11 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
                         dropdownsIndex++;
                     }
                 }
-
             }
         }catch (StaleElementReferenceException e) {
             WaitHelper.pause(3000);
             answerUWQuestionDropdowns(driver, answer, dropdownOption);
         }
-
-
     }
 
     public void selectQuoteTemplateOption(WebDriver driver, String option) {
