@@ -202,8 +202,10 @@ public class QuoteTests extends BaseTest {
             if (quoteListPageActions.checkIfOpenQuoteExist(DriverManager.getDriver())) {
                 logger.info("open quote exist for the submission, new quote can't be created until existing quote is locked");
                 quoteListPageActions.clickConfirmQuoteButton(DriverManager.getDriver());
-                quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
-                quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
+                if(quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())){
+                    quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
+                    quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
+                }
             }else{
                 quoteListPageActions.addNewQuote(DriverManager.getDriver(), "Custom Quote");
             }
