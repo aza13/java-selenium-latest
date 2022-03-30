@@ -66,7 +66,7 @@ public class DashboardPageTests extends BaseTest {
             assert labels.get(3).getText().equals(map.get("endDateLabel"));
             assert labels.get(4).getText().equals(map.get("statusLabel"));
             logger.info("verify quote status color- In Progress");
-            dashboardPageActions.validateQuoteStatusColorCoding(DriverManager.getDriver());
+//            dashboardPageActions.validateQuoteStatusColorCoding(DriverManager.getDriver());
             logger.info("verify quote correct status displayed");
             assert dashboardPageActions.verifyQuoteStatusInTable(DriverManager.getDriver());
         }
