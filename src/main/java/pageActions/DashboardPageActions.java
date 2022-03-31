@@ -60,7 +60,7 @@ public class DashboardPageActions extends BaseTest {
 
 
     public void enterTextToSearchBox(WebDriver driver, String textInput) throws InterruptedException {
-
+        WaitHelper.waitForElementVisibility(driver, searchInputFiled);
         TextHelper.enterText(driver, searchInputFiled, textInput);
         WaitHelper.pause(3000);
 
@@ -398,20 +398,20 @@ public class DashboardPageActions extends BaseTest {
         return driver.findElement(noQuoteFoundText);
     }
 
-    public String getSearchForNoResult(WebDriver driver) {
-
+    public String getSearchForNoResult(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(3000);
         return TextHelper.getText(driver, searchForNoResult, "text");
 
     }
 
-    public String getFirstAvailableReferenceId(WebDriver driver) {
-
+    public String getFirstAvailableReferenceId(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(3000);
         return TextHelper.getText(driver, getFirstAvailableReferenceId, "text");
 
     }
 
-    public String getFirstAvailableLegalName(WebDriver driver) {
-
+    public String getFirstAvailableLegalName(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(3000);
         return TextHelper.getText(driver, getFirstAvailableLegalName, "text");
     }
 

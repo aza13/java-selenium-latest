@@ -14,6 +14,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
+import static pageObjects.DashboardPageObjects.exitRatingCriteria;
 import static pageObjects.UnderwritingQuestionsPageObjects.*;
 
 
@@ -178,10 +179,12 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
         WaitHelper.pause(6000);
     }
 
-    public void clickUWQuestionsContinueButton(WebDriver driver) {
+    public void clickUWQuestionsContinueButton(WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, uwQuestionsContinueButton);
         ScrollHelper.scrollElementIntoView(driver, uwQuestionsContinueButton);
         ClickHelper.clickElement(driver, uwQuestionsContinueButton);
+        WaitHelper.pause(20000);
+
     }
 
     public boolean checkWhetherAllUWQuestionsAreAnswered(WebDriver driver) throws InterruptedException {
@@ -252,5 +255,9 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
         }
     }
 
+    public void clickExitQuestion(WebDriver driver) {
+        WaitHelper.waitForElementClickable(driver, exitQuestionButton);
+        ClickHelper.clickElement(driver, exitQuestionButton);
+    }
 
 }

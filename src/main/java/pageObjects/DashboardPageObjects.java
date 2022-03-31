@@ -99,13 +99,13 @@ public class DashboardPageObjects {
 
     public static final By searchInputFiled = By.id("global_search");
 
-    public static final By clearSearchInputFiled = By.xpath("//header/div[1]/button[1]/*[1]");
+    public static final By clearSearchInputFiled = By.xpath("//div[@class='sc-gfqkcP eAiUgI']");
 
-    public static final By getFirstAvailableReferenceId = By.xpath("//p[@class='sc-ezbkAF fLaTpy MuiTypography-root MuiTypography-body1']/div[1]/div/div[2]/div/p");
+    public static final By getFirstAvailableReferenceId = By.xpath("//*[@id='simple-tabpanel-0']/div/p/div[1]/div[1]/div[2]/div/p | //*[@id='simple-tabpanel-1']/div/p/div[1]/div/div[2]/div/p");
 
-    public static final By searchForNoResult = By.xpath("//p[contains(text(),'Your search has no results')]");
+    public static final By searchForNoResult = By.xpath("//p[contains(text(),'Your search has returned no results.')]");
 
-    public static final By getFirstAvailableLegalName = By.xpath("//p[@class='sc-ezbkAF fLaTpy MuiTypography-root MuiTypography-body1']/div[1]/div/div[1]/div[1]");
+    public static final By getFirstAvailableLegalName = By.xpath("//*[@id='simple-tabpanel-0']/div/p/div[1]/div[1]/div[1]/div | //*[@id='simple-tabpanel-1']/div/p/div[1]/div/div[1]/div[1]");
 
     public static final By applyFiltersButton = By.id("applyFilters");
 
@@ -137,7 +137,7 @@ public class DashboardPageObjects {
 
     public static final By submitSubmissionRenewal = By.xpath("//button[normalize-space()='SUBMIT']");
 
-    public static final By firstAvailableCreatedDate = By.xpath("//p[@class='sc-ezbkAF fLaTpy MuiTypography-root MuiTypography-body1']/div[1]/div/div[3]/div/p");
+    public static final By firstAvailableCreatedDate = By.xpath("//*[@id='simple-tabpanel-0']/div/p/div[1]/div[1]/div[3]/div/p");
 
     public static final By sortBy = By.xpath("//button[@id='sortByButton']//*[name()='svg']");
 

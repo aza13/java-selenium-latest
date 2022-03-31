@@ -23,7 +23,7 @@ public class QuoteListPageObjects {
     public static final By statusQuoteReadyToPlaceOrder = By.xpath("//div[contains(text(),'Ready to Place Order')]");
     public static final By confirmAndLockButton = By.xpath("//button[normalize-space()='Confirm and Lock']");
     public static final By quoteSuccessMessage = By.xpath("//div[@class='sc-lcepkR gjhMuD MuiAlert-message']");
-    public static final By quotePreviewButton = By.xpath("(//*[name()='svg'][@aria-label='Quote Preview”'])[1]");
+    public static final By quotePreviewButton = By.xpath("//*[@data-testid='PreviewIcon']");
 
 
 }

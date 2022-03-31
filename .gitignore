@@ -19,6 +19,10 @@ dist/
 # Package files
 *.jar
 
+# reports
+allure-results/
+extent-report/
+
 # Maven
 target/
 dist/
