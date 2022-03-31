@@ -7,6 +7,8 @@
             <class name="InsuredPageTests"/>
             <class name="RatingCriteriaPageTests"/>
             <class name="SubmissionClearancesTests"/>
+            <class name="QuoteTests"/>
+            <class name="UnderwritingQuestionsPageTests"/>
         </classes>
     </test>
 </suite>

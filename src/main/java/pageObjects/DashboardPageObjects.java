@@ -93,13 +93,13 @@ public class DashboardPageObjects {
 
     public static final By submissionFilterByDateRange = By.xpath("//p[text()='Date Range']");
 
-    public static final By allProductsDropdown = By.id("demo-simple-select");
+    public static final By allProductsDropdown = By.xpath("//label[text()='All Products']/following-sibling::div/div[@id='demo-simple-select']");
 
     public static final By productOptions = By.xpath("//ul/li[contains(@data-qa, 'menuItem')]");
 
     public static final By searchInputFiled = By.id("global_search");
 
-    public static final By clearSearchInputFiled = By.xpath("//div[@class='sc-gfqkcP eAiUgI']");
+    public static final By clearSearchInputFiled = By.xpath("//*[@data-testid='ClearIcon']");
 
     public static final By getFirstAvailableReferenceId = By.xpath("//*[@id='simple-tabpanel-0']/div/p/div[1]/div[1]/div[2]/div/p | //*[@id='simple-tabpanel-1']/div/p/div[1]/div/div[2]/div/p");
 
@@ -109,7 +109,7 @@ public class DashboardPageObjects {
 
     public static final By applyFiltersButton = By.id("applyFilters");
 
-    public static final By allStatusDropdown = By.xpath("//div[text()='All Statuses']");
+    public static final By allStatusDropdown = By.xpath("//label[text()='All Statuses']/following-sibling::div/div[@id='demo-simple-select']");
 
     public static final By statusOptions = By.xpath("//ul/li[contains(@data-qa, 'menuItem')]");
 

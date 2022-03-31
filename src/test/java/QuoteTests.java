@@ -11,6 +11,7 @@ import pageActions.*;
 import utils.dataProvider.TestDataProvider;
 import utils.fileReader.TextFileReader;
 
+import java.sql.Driver;
 import java.util.Map;
 
 public class QuoteTests extends BaseTest {
@@ -59,35 +60,18 @@ public class QuoteTests extends BaseTest {
             ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
-        assert underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver());
-        underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
-        boolean uwQuestionsAnswered = underwritingQuestionsPageActions.checkWhetherAllUWQuestionsAreAnswered(DriverManager.getDriver());
-        if (!uwQuestionsAnswered) {        // continue to create quote
-            underwritingQuestionsPageActions.clickQuotesTab(DriverManager.getDriver());
-            if (quoteListPageActions.checkIfOpenQuoteExist(DriverManager.getDriver())) {
-                int optionCountBefore = quoteListPageActions.getQuoteOptionCount(DriverManager.getDriver());
-                if (map.get("functionality").equals("addQuoteOption")) {
-                    quoteListPageActions.addNewQuoteOption(DriverManager.getDriver(), optionCountBefore, map.get("claim"), map.get("limit"), map.get("retention"));
-                    int optionCountAfter = quoteListPageActions.getQuoteOptionCount(DriverManager.getDriver());
-                    assert optionCountAfter == optionCountBefore + 1;
-                } else if (map.get("functionality").equals("deleteQuoteOption")) {
-                    if (optionCountBefore > 1) {
-                        quoteListPageActions.deleteQuoteOption(DriverManager.getDriver());
-                        int optionCountAfter = quoteListPageActions.getQuoteOptionCount(DriverManager.getDriver());
-                        assert optionCountAfter == optionCountBefore - 1;
-                    } else if (optionCountBefore == 1) {
-                        quoteListPageActions.deleteQuoteOption(DriverManager.getDriver());
-                        int optionCountAfter = quoteListPageActions.getQuoteOptionCount(DriverManager.getDriver());
-                        assert optionCountAfter == optionCountBefore;
-                    }
-                }
+        if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
+            boolean uwQuestionsAnswered = underwritingQuestionsPageActions.checkWhetherAllUWQuestionsAreAnswered(DriverManager.getDriver());
+            if (uwQuestionsAnswered) {
+                logger.info("continue button is enabled, means UW questions are answered");
+            } else {
+                logger.info("continue button is disabled, means UW questions are not answered");
+                underwritingQuestionsPageActions.answerUWQuestionButtons(DriverManager.getDriver(), map.get("uwQuestionsAnswer"));
+                underwritingQuestionsPageActions.answerUWQuestionDropdowns(DriverManager.getDriver(), map.get("uwQuestionsAnswer"), map.get("uwQuestionsOption"));
             }
-        } else {
-            // answer uw questions
-            underwritingQuestionsPageActions.answerUWQuestionButtons(DriverManager.getDriver(), map.get("uwQuestionsAnswer"));
-            underwritingQuestionsPageActions.answerUWQuestionDropdowns(DriverManager.getDriver(), map.get("uwQuestionsAnswer"), map.get("uwQuestionsOption"));
-            System.out.println("UW questions has to be answered");
-            underwritingQuestionsPageActions.clickQuotesTab(DriverManager.getDriver());
+            underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
+        }
+        if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             if (quoteListPageActions.checkIfOpenQuoteExist(DriverManager.getDriver())) {
                 assert quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver());
                 int optionCountBefore = quoteListPageActions.getQuoteOptionCount(DriverManager.getDriver());
@@ -108,11 +92,10 @@ public class QuoteTests extends BaseTest {
                 }
             }
         }
-
     }
 
-    
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData", enabled = false)
+
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
     public void testLockQuote(Map<String, String> map) throws InterruptedException {
         /***
          this verifies whether applicant can lock a quote
@@ -150,38 +133,28 @@ public class QuoteTests extends BaseTest {
         ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
         ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
         ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
-        underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
-        boolean uwQuestionsAnswered = underwritingQuestionsPageActions.checkWhetherAllUWQuestionsAreAnswered(DriverManager.getDriver());
-        boolean quoteList = quoteListPageActions.checkIfQuoteListContainerDisplayed(DriverManager.getDriver());
-        if (!uwQuestionsAnswered && quoteList) {
-            logger.info("when UW questions are answered and navigated to quotes page");
-            if (quoteListPageActions.checkIfOpenQuoteExist(DriverManager.getDriver())) {
-                logger.info("open quote exist for the submission, new quote can't be created until existing quote is locked");
-//                quoteListPageActions.clickConfirmQuoteButton(DriverManager.getDriver());
+        if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
+            boolean uwQuestionsAnswered = underwritingQuestionsPageActions.checkWhetherAllUWQuestionsAreAnswered(DriverManager.getDriver());
+            if (uwQuestionsAnswered) {
+                logger.info("continue button is enabled, means UW questions are answered");
             } else {
-                quoteListPageActions.addNewQuote(DriverManager.getDriver(), "Custom Quote");
+                logger.info("continue button is disabled, means UW questions are not answered");
+                underwritingQuestionsPageActions.answerUWQuestionButtons(DriverManager.getDriver(), map.get("uwQuestionsAnswer"));
+                underwritingQuestionsPageActions.answerUWQuestionDropdowns(DriverManager.getDriver(), map.get("uwQuestionsAnswer"), map.get("uwQuestionsOption"));
             }
-        } else if (uwQuestionsAnswered) {
-            // answer uw questions
-            logger.info("when UW questions are not answered");
-            underwritingQuestionsPageActions.answerUWQuestionButtons(DriverManager.getDriver(), map.get("uwQuestionsAnswer"));
-            underwritingQuestionsPageActions.answerUWQuestionDropdowns(DriverManager.getDriver(), map.get("uwQuestionsAnswer"), map.get("uwQuestionsOption"));
-            logger.info("UW questions has to be answered");
             underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
+        }
+        if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             if (quoteListPageActions.checkIfOpenQuoteExist(DriverManager.getDriver())) {
-                if (quoteListPageActions.checkIfOpenQuoteExist(DriverManager.getDriver())) {
-                    logger.info("open quote exist for the submission, new quote can't be created until it is locked");
-                    quoteListPageActions.clickConfirmQuoteButton(DriverManager.getDriver());
-                } else {
-                    quoteListPageActions.addNewQuote(DriverManager.getDriver(), "Custom Quote");
+                quoteListPageActions.clickConfirmQuoteButton(DriverManager.getDriver());
+                if(quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())){
+                    quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
+                    quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
+                }else{
+                    quoteListPageActions.checkIfQuoteLockSuccessMessageDisplayed(DriverManager.getDriver());
                 }
-            } else {
-                underwritingQuestionsPageActions.selectQuoteTemplateOption(DriverManager.getDriver(), "4 options");
-            }
 
-        } else {
-            logger.info("when UW questions answered and quote template options displayed on UW page");
-            underwritingQuestionsPageActions.selectQuoteTemplateOption(DriverManager.getDriver(), "4 options");
+            }
         }
     }
 
@@ -211,39 +184,33 @@ public class QuoteTests extends BaseTest {
             ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
-        underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
-        boolean uwQuestionsAnswered = underwritingQuestionsPageActions.checkWhetherAllUWQuestionsAreAnswered(DriverManager.getDriver());
-        boolean quoteList = quoteListPageActions.checkIfQuoteListContainerDisplayed(DriverManager.getDriver());
-        if (!uwQuestionsAnswered && quoteList) {
-            logger.info("when UW questions are answered and navigated to quotes page");
+        if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
+            boolean uwQuestionsAnswered = underwritingQuestionsPageActions.checkWhetherAllUWQuestionsAreAnswered(DriverManager.getDriver());
+            if (uwQuestionsAnswered) {
+                logger.info("continue button is enabled, means UW questions are answered");
+            } else {
+                logger.info("continue button is disabled, means UW questions are not answered");
+                underwritingQuestionsPageActions.answerUWQuestionButtons(DriverManager.getDriver(), map.get("uwQuestionsAnswer"));
+                underwritingQuestionsPageActions.answerUWQuestionDropdowns(DriverManager.getDriver(), map.get("uwQuestionsAnswer"), map.get("uwQuestionsOption"));
+            }
+            underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
+            if(!quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())){
+                quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
+            }
+        }
+        if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             if (quoteListPageActions.checkIfOpenQuoteExist(DriverManager.getDriver())) {
                 logger.info("open quote exist for the submission, new quote can't be created until existing quote is locked");
-//                quoteListPageActions.clickConfirmQuoteButton(DriverManager.getDriver());
-            } else {
+                quoteListPageActions.clickConfirmQuoteButton(DriverManager.getDriver());
+                if(quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())){
+                    quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
+                    quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
+                }
+            }else{
                 quoteListPageActions.addNewQuote(DriverManager.getDriver(), "Custom Quote");
             }
-        } else if (uwQuestionsAnswered) {
-            // answer uw questions
-            logger.info("when UW questions are not answered");
-            underwritingQuestionsPageActions.answerUWQuestionButtons(DriverManager.getDriver(), map.get("uwQuestionsAnswer"));
-            underwritingQuestionsPageActions.answerUWQuestionDropdowns(DriverManager.getDriver(), map.get("uwQuestionsAnswer"), map.get("uwQuestionsOption"));
-            logger.info("UW questions has to be answered");
-            underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
-            if (quoteListPageActions.checkIfOpenQuoteExist(DriverManager.getDriver())) {
-                if (quoteListPageActions.checkIfOpenQuoteExist(DriverManager.getDriver())) {
-                    logger.info("open quote exist for the submission, new quote can't be created until it is locked");
-                    quoteListPageActions.clickConfirmQuoteButton(DriverManager.getDriver());
-                } else {
-                    quoteListPageActions.addNewQuote(DriverManager.getDriver(), "Custom Quote");
-                }
-            } else {
-                underwritingQuestionsPageActions.selectQuoteTemplateOption(DriverManager.getDriver(), "4 options");
-            }
-
-        } else {
-            logger.info("when UW questions answered and quote template options displayed on UW page");
-            underwritingQuestionsPageActions.selectQuoteTemplateOption(DriverManager.getDriver(), "4 options");
         }
+
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
@@ -289,7 +256,7 @@ public class QuoteTests extends BaseTest {
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         String newInsuredName = FakeDataHelper.fullName();
         String newInsuredWebsite = FakeDataHelper.website();
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), newInsuredName,newInsuredWebsite);
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), newInsuredName, newInsuredWebsite);
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         insuredPageActions.enterEmailAddress(DriverManager.getDriver());
         insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
@@ -325,7 +292,7 @@ public class QuoteTests extends BaseTest {
             underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
         }
 
-        if(quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())){
+        if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             quoteListPageActions.verifyStatusConfirmAndLockInProgress(DriverManager.getDriver());
             quoteListPageActions.clickConfirmAndLock(DriverManager.getDriver());
             String quoteSuccessStatusMessage = quoteListPageActions.verifySuccessConfirmAndLockMessage(DriverManager.getDriver());
@@ -355,7 +322,7 @@ public class QuoteTests extends BaseTest {
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         String newInsuredName = FakeDataHelper.fullName();
         String newInsuredWebsite = FakeDataHelper.website();
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), newInsuredName,newInsuredWebsite);
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), newInsuredName, newInsuredWebsite);
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         insuredPageActions.enterEmailAddress(DriverManager.getDriver());
         insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
@@ -391,9 +358,9 @@ public class QuoteTests extends BaseTest {
             underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
         }
 
-        if(quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())){
-           assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
-           quoteListPageActions.clickQuotePreviewOption(DriverManager.getDriver());
+        if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
+            assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
+            quoteListPageActions.clickQuotePreviewOption(DriverManager.getDriver());
 
         }
 

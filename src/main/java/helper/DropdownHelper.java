@@ -108,6 +108,9 @@ public class DropdownHelper {
                     if (actualValue.contentEquals(optionValue)) {
                         opt.click();
                         break;
+                    }else if(options.size()==1){
+                        options.get(0).click();
+                        break;
                     }
                 }
             }else{
