@@ -202,7 +202,7 @@ public class QuoteListPageActions extends BaseTest {
     public void clickQuotePreviewOption(WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, quotePreviewButton);
         ClickHelper.clickElement(driver, quotePreviewButton);
-        WaitHelper.pause(10000);
+        WaitHelper.pause(15000);
 
         ArrayList<String> tabs2 = new ArrayList<String> (driver.getWindowHandles());
         driver.switchTo().window(tabs2.get(1));

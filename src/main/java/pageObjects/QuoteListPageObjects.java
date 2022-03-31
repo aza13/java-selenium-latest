@@ -23,7 +23,6 @@ public class QuoteListPageObjects {
     public static final By statusQuoteReadyToPlaceOrder = By.xpath("//div[contains(text(),'Ready to Place Order')]");
     public static final By confirmAndLockButton = By.xpath("//button[normalize-space()='Confirm and Lock']");
     public static final By quoteLockSuccessMessage = By.xpath("//div[@data-qa='alertTitle' and text()='Success']");
-    public static final By quotePreviewButton = By.xpath("(//*[name()='svg'][@aria-label='Quote Preview”'])[1]");
     public static final By quotesPageUnSelected = By.xpath("//button[@id='workflow-tab-3' and @aria-selected='false']");
     public static final By quotesPageSelected = By.xpath("//button[@id='workflow-tab-3' and @aria-selected='true']");
     public static final By submitReviewDialog = By.xpath("//h2[text()='Submit for review']");
@@ -31,6 +30,8 @@ public class QuoteListPageObjects {
     public static final By submitReviewCancelButton = By.xpath("//button[@data-qa='cancel_alert_modal']");
     public static final By submitReviewReviseButton = By.xpath("//button[@data-qa='close_modal']");
     public static final By submitReviewSubmitButton = By.xpath("//button[@data-qa='submit_alert_modal']");
+    public static final By quoteSuccessMessage = By.xpath("//div[@class='sc-lcepkR gjhMuD MuiAlert-message']");
+    public static final By quotePreviewButton = By.xpath("//*[@data-testid='PreviewIcon']");
 
 
 }
