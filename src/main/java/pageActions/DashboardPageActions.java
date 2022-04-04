@@ -108,6 +108,7 @@ public class DashboardPageActions extends BaseTest {
 
     public void clickMyPoliciesTab(WebDriver driver) throws InterruptedException {
         try {
+            WaitHelper.waitForElementVisibility(driver, myPoliciesTab);
             driver.findElement(myPoliciesTab).click();
             WaitHelper.pause(3000);
         } catch (Exception e) {
@@ -223,7 +224,7 @@ public class DashboardPageActions extends BaseTest {
     }
 
     public void clickNewQuote(WebDriver driver) throws InterruptedException {
-
+        WaitHelper.waitForElementVisibility(driver, newQuoteButton);
         ClickHelper.clickElement(driver, newQuoteButton);
         WaitHelper.pause(2000);
     }
@@ -357,7 +358,7 @@ public class DashboardPageActions extends BaseTest {
     }
 
     public void clickFilterList(WebDriver driver) {
-        WaitHelper.waitForElementClickable(driver, filterList);
+        WaitHelper.waitForElementVisibility(driver, filterList);
         ClickHelper.clickElement(driver, filterList);
     }
 

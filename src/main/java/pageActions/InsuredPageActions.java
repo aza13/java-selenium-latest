@@ -39,9 +39,10 @@ public class InsuredPageActions extends BaseTest {
         ClickHelper.clickElement(driver, continueInsuredSearchButton);
     }
 
-    public void clickContinueInsuredButton(WebDriver driver) {
+    public void clickContinueInsuredButton(WebDriver driver) throws InterruptedException {
 
         ClickHelper.clickElement(driver, continueInsuredButton);
+        WaitHelper.pause(5000);
     }
 
     public void clickNewInsuredButton(WebDriver driver) {

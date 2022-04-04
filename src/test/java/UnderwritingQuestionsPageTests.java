@@ -40,10 +40,6 @@ public class UnderwritingQuestionsPageTests extends BaseTest {
          **/
 
         logger.info("verifying :: Under Writing Questions");
-        dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
 
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("reffNumber").replaceAll("^\"|\"$", ""));
         dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());

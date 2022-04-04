@@ -40,11 +40,8 @@ public class RatingCriteriaPageTests extends BaseTest {
         logger.info("Creating object for RatingCriteriaPageTests :: beforeClassSetUp");
         dashboardPageActions = PageObjectManager.getDashboardPageActions();
         ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaActions();
-
-
         databaseConnector = new DatabaseConnector();
         underwritingQuestionsPageActions = PageObjectManager.getUnderwritingQuestionsPageActions();
-
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "RatingCriteriaPageData")
@@ -56,11 +53,6 @@ public class RatingCriteriaPageTests extends BaseTest {
          **/
 
         logger.info("verifying :: business class rating criteria");
-        dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_OFFICE_ID);
-
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         String newInsuredName = FakeDataHelper.fullName();
         String newInsuredWebsite = FakeDataHelper.website();
@@ -75,19 +67,23 @@ public class RatingCriteriaPageTests extends BaseTest {
         insuredPageActions.selectPhyState(DriverManager.getDriver());
         insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
         insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
-
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass"));
-            ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
-            ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
-            ratingCriteriaPageActions.ratingCriteriaPageClick(DriverManager.getDriver());
+            if(map.get("product").equals("NetGuard® SELECT")){
+                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass2"));
+                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
+                ratingCriteriaPageActions.enterNetWorth(DriverManager.getDriver(), map.get("netWorth"));
+            }else{
+                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass"));
+                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
+                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
+            }
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         underwritingQuestionsPageActions.clickExitQuestion(DriverManager.getDriver());
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "RatingCriteriaPageData")
-    public void  testHardDeclineAfterRatingCriteria(Map<String, String> map) throws InterruptedException, ParseException, SQLException {
+    public void  testHardDeclineAfterRatingCriteria(Map<String, String> map) throws InterruptedException, SQLException {
         /***
          this test hard decline after rating criteria
          story - N2020-28624
@@ -103,13 +99,19 @@ public class RatingCriteriaPageTests extends BaseTest {
             throw new SkipException("Unable to get policy Ids from the DB ");
         }
             logger.info("verifying :: hard decline after rating criteria");
-            dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
             dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), (quoteId));
             dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
-            ratingCriteriaPageActions.enterValueRatingCriteriaTextBox(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
+        if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
+            if(map.get("product").equals("NetGuard® SELECT")){
+                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass2"));
+                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
+                ratingCriteriaPageActions.enterNetWorth(DriverManager.getDriver(), map.get("netWorth"));
+            }else{
+                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass"));
+                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
+                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
+            }
+        }
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
             assert ratingCriteriaPageActions.hardDeclineText(DriverManager.getDriver()).isDisplayed();
             ratingCriteriaPageActions.clickRatingCriteriaOkButton(DriverManager.getDriver());
@@ -131,10 +133,6 @@ public class RatingCriteriaPageTests extends BaseTest {
          **/
 
         logger.info("verifying :: proposed policy period");
-        dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_OFFICE_ID);
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         String newInsuredName = FakeDataHelper.fullName();
         String newInsuredWebsite = FakeDataHelper.website();
