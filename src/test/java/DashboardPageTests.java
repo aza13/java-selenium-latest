@@ -4,7 +4,6 @@ import base.PageObjectManager;
 import constants.ConstantVariable;
 import helper.ClickHelper;
 import helper.FakeDataHelper;
-import helper.WaitHelper;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -47,9 +46,6 @@ public class DashboardPageTests extends BaseTest {
         assert dashboardPageActions.profileSettingsIcon(DriverManager.getDriver()).isDisplayed();
         String title = dashboardPageActions.getMyQuotesTabTitle(DriverManager.getDriver()).trim();
         assert title.contentEquals(map.get("myQuotes"));
-
-//        assert dashboardPageActions.profileLink(DriverManager.getDriver()).isDisplayed();
-
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
         assert dashboardPageActions.signOutLink(DriverManager.getDriver()).isDisplayed();
         List<WebElement> quoteCardsList = dashboardPageActions.getQuoteCardsList(DriverManager.getDriver());
@@ -216,17 +212,21 @@ public class DashboardPageTests extends BaseTest {
         DateFormat df = new SimpleDateFormat(ConstantVariable.DATE_FORMAT);
         Date actualDate, givenDate;
         givenDate = df.parse(map.get("endDate"));
-        for (String date: dates) {
-            try {
-                actualDate = df.parse(date);
-                if (actualDate.compareTo(givenDate)<=0){
-                    assert true;
-                }else{
-                    assert false;
+        if(dates.size()>0){
+            for (String date: dates) {
+                try {
+                    actualDate = df.parse(date);
+                    if (actualDate.compareTo(givenDate)<=0){
+                        assert true;
+                    }else{
+                        assert false;
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
-            } catch (ParseException e) {
-                e.printStackTrace();
             }
+        }else{
+            Assert.fail("No quotes displayed");
         }
 
     }
@@ -290,10 +290,6 @@ public class DashboardPageTests extends BaseTest {
          @author - Venkat Kottapalli
          **/
         logger.info("verifying broker filtering the policies list :: testBrokerFilteringPoliciesList");
-        dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_OFFICE_ID);
         List<WebElement> quoteCards = dashboardPageActions.getQuoteCardsList(DriverManager.getDriver());
         int quoteCount = quoteCards.size();
         logger.info("validating whether continue button displayed for only specific statuses");
@@ -358,7 +354,6 @@ public class DashboardPageTests extends BaseTest {
          @author - Azamat Uulu
          **/
         logger.info("verifying broker can search for related records :: testBrokerSearchRelatedRecords");
-
         String actualReferenceId = dashboardPageActions.getFirstAvailableReferenceId(DriverManager.getDriver());
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(),actualReferenceId);
         String expectedReferenceId = dashboardPageActions.getFirstAvailableReferenceId(DriverManager.getDriver());
@@ -398,28 +393,22 @@ public class DashboardPageTests extends BaseTest {
          @author -
          **/
         logger.info("verifying submission renewal ::  testSubmissionRenewal");
-        dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), map.get("brokerId"));
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), map.get("agentId"));
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), map.get("agencyOfficeId"));
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
+        dashboardPageActions.clickFilterList(DriverManager.getDriver());
+        dashboardPageActions.clickPolicyFilterByStatus(DriverManager.getDriver());
+        dashboardPageActions.selectPolicyStatusInFilter(DriverManager.getDriver(), map.get("status"));
+        dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
         dashboardPageActions.clickRenewButton(DriverManager.getDriver());
-
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
-    public void  testSortQuoteList(Map<String, String> map) throws InterruptedException {
+    public void  testSortQuoteList(Map<String, String> map) {
         /***
          this test Sort the My Quotes List
          story - N2020-29952
          @author -Azamat Uulu
          **/
         logger.info("verifying sort my quote list ::  sortQuoteList");
-        dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_OFFICE_ID);
-        WaitHelper.pause(2000);
         String actual = dashboardPageActions.getFirstAvailableCreatedDate(DriverManager.getDriver());
         dashboardPageActions.clickSortBy(DriverManager.getDriver());
         dashboardPageActions.clickSortByNewest(DriverManager.getDriver());
@@ -445,10 +434,6 @@ public class DashboardPageTests extends BaseTest {
          **/
 
         logger.info("verifying sort my quote list ::  sortPolicyList");
-        dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_OFFICE_ID);
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
         dashboardPageActions.clickSortBy(DriverManager.getDriver());
         dashboardPageActions.clickSortByExpiringSoon(DriverManager.getDriver());
@@ -499,10 +484,6 @@ public class DashboardPageTests extends BaseTest {
          **/
 
         logger.info("verifying :: continue a Renewal Submission ");
-        dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_OFFICE_ID);
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
         dashboardPageActions.validateContinueSubmission(DriverManager.getDriver());
         dashboardPageActions.clickExitRatingCriteria(DriverManager.getDriver());
@@ -517,13 +498,8 @@ public class DashboardPageTests extends BaseTest {
          **/
 
         logger.info("verifying :: Hide Renew Button on Policy list for Ineligible Policies ");
-        dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_OFFICE_ID);
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
         assert dashboardPageActions.verifyPoliciesExists(DriverManager.getDriver());
-
         String[] statuses = map.get("status").split(ConstantVariable.SEMICOLON);
         String[] policiesNumber = map.get("policyNumber").split(ConstantVariable.SEMICOLON);
 

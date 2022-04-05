@@ -151,13 +151,16 @@ public class QuoteTests extends BaseTest {
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             if (quoteListPageActions.checkIfOpenQuoteExist(DriverManager.getDriver())) {
                 quoteListPageActions.clickConfirmQuoteButton(DriverManager.getDriver());
-                if(quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())){
-                    quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
-                    quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
-                }else{
-                    quoteListPageActions.checkIfQuoteLockSuccessMessageDisplayed(DriverManager.getDriver());
+                if (quoteListPageActions.clickConfirmAndLock(DriverManager.getDriver())){
+                    if(quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())){
+                        quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
+                        quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
+                    }else{
+                        quoteListPageActions.checkIfQuoteLockSuccessMessageDisplayed(DriverManager.getDriver());
+                    }
+                }else {
+                    Assert.fail("Confirm and quote button is disabled for some reason, some of the quotes missing premium");
                 }
-
             }
         }
     }
@@ -207,8 +210,7 @@ public class QuoteTests extends BaseTest {
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             if (quoteListPageActions.checkIfOpenQuoteExist(DriverManager.getDriver())) {
                 logger.info("open quote exist for the submission, new quote can't be created until existing quote is locked");
-                quoteListPageActions.clickConfirmQuoteButton(DriverManager.getDriver());
-                if(quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())){
+                if (quoteListPageActions.clickConfirmAndLock(DriverManager.getDriver())){
                     quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
                     quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
                 }
@@ -231,10 +233,8 @@ public class QuoteTests extends BaseTest {
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("reffNumber").replaceAll("^\"|\"$", ""));
         dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
         quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
-
         boolean pdfDownload = quoteListPageActions.clickPDFFileDownload(DriverManager.getDriver(), map.get("pdfFilename"));
         Assert.assertTrue(pdfDownload);
-
         boolean wordDownload = quoteListPageActions.clickWORDFileDownload(DriverManager.getDriver(), map.get("wordFilename"), map.get("wordPDFFilename"));
         Assert.assertTrue(wordDownload);
 
@@ -314,7 +314,6 @@ public class QuoteTests extends BaseTest {
          **/
 
         logger.info("Executing the testQuotePreview from QuoteTests class :: testQuotePreview");
-
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         String newInsuredName = FakeDataHelper.fullName();
         String newInsuredWebsite = FakeDataHelper.website();
@@ -355,11 +354,9 @@ public class QuoteTests extends BaseTest {
                 quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
             }
         }
-
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
-            quoteListPageActions.clickQuotePreviewOption(DriverManager.getDriver());
-
+            assert quoteListPageActions.verifyQuotePreview(DriverManager.getDriver());
         }
 
     }

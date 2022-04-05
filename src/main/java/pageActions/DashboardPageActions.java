@@ -86,7 +86,7 @@ public class DashboardPageActions extends BaseTest {
     }
 
     public WebElement signOutLink(WebDriver driver) {
-
+        WaitHelper.waitForElementVisibility(driver, signOutLink);
         return driver.findElement(signOutLink);
     }
 
@@ -139,7 +139,7 @@ public class DashboardPageActions extends BaseTest {
     }
 
     public List<WebElement> getQuoteCardsList(WebDriver driver) {
-
+        WaitHelper.waitForElementVisibility(driver, quoteCard);
         return driver.findElements(quoteCard);
     }
 
@@ -150,6 +150,7 @@ public class DashboardPageActions extends BaseTest {
 
     public String getMyPoliciesTabTitle(WebDriver driver) {
         try {
+            WaitHelper.waitForElementVisibility(driver, myPoliciesTab);
             return TextHelper.getText(driver, myPoliciesTab, "text");
         } catch (Exception e) {
             testLogger.fail("failed to verify the my quote tab :: getMyPoliciesTabTitle" + e.getMessage());
@@ -186,17 +187,14 @@ public class DashboardPageActions extends BaseTest {
             status.add(element.getText());
         }
         return status;
-
     }
 
-    public String getGivenQuoteStatus(WebDriver driver, int index) {
+    public String getGivenQuoteStatus(WebDriver driver, int index) throws InterruptedException {
 
         String quoteStatusXpath = "(//div[@data-qa='quote_card']//p[@data-qa='status'])["+index+"]";
-
+        WaitHelper.pause(3000);
         WebElement element = driver.findElement(By.xpath(quoteStatusXpath));
-
         return element.getText();
-
     }
 
     public List<String> getAllQuotesProductName(WebDriver driver) {
@@ -406,7 +404,7 @@ public class DashboardPageActions extends BaseTest {
     }
 
     public String getFirstAvailableReferenceId(WebDriver driver) throws InterruptedException {
-        WaitHelper.pause(3000);
+        WaitHelper.waitForElementVisibility(driver, getFirstAvailableReferenceId);
         return TextHelper.getText(driver, getFirstAvailableReferenceId, "text");
 
     }
@@ -417,7 +415,7 @@ public class DashboardPageActions extends BaseTest {
     }
 
     public String getFirstAvailableCreatedDate(WebDriver driver) {
-
+        WaitHelper.waitForElementVisibility(driver, firstAvailableCreatedDate);
         return TextHelper.getText(driver, firstAvailableCreatedDate, "text");
     }
 
@@ -462,8 +460,11 @@ public class DashboardPageActions extends BaseTest {
         if (count > 0) {
             for (WebElement statusElement : quoteStatusList) {
                 String status = statusElement.getText();
-                actualStatus.add(status);
+                if(!Objects.equals(status, "")){
+                    actualStatus.add(status);
+                }
             }
+            System.out.println("Actual Status::"+actualStatus);
             Set<String> expectedStatus = new HashSet<String>();
             expectedStatus.add("Active");
             expectedStatus.add("In Review");
@@ -549,11 +550,11 @@ public class DashboardPageActions extends BaseTest {
 
     public void enterCreateStartDate(WebDriver driver){
         WaitHelper.waitForElementVisibility(driver, createdStartDateField);
-        TextHelper.enterText(driver, createdStartDateField, "12/01/2021");
+        TextHelper.enterText(driver, createdStartDateField, "01/04/2022");
     }
 
     public void enterCreateEndDate(WebDriver driver){
-        TextHelper.enterText(driver, createdEndDateField, "12/30/2021");
+        TextHelper.enterText(driver, createdEndDateField, "04/04/2022");
     }
 
 
