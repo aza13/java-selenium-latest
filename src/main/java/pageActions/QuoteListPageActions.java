@@ -179,10 +179,16 @@ public class QuoteListPageActions extends BaseTest {
 
     }
 
-    public void clickConfirmAndLock(WebDriver driver) throws InterruptedException {
-        WaitHelper.waitForElementVisibility(driver, confirmAndLockButton);
-        ClickHelper.clickElement(driver, confirmAndLockButton);
-        WaitHelper.pause(20000);
+    public boolean clickConfirmAndLock(WebDriver driver) throws InterruptedException {
+        if(ClickHelper.isElementExist(driver, confirmAndLockDisabledButton)){
+            logger.error("Confirm and Lock button is disabled");
+            return false;
+        }else{
+            WaitHelper.waitForElementVisibility(driver, confirmAndLockButton);
+            ClickHelper.clickElement(driver, confirmAndLockButton);
+            WaitHelper.pause(20000);
+            return true;
+        }
     }
 
     public String verifySuccessConfirmAndLockMessage(WebDriver driver){

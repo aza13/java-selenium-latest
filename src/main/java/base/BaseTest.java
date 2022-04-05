@@ -17,6 +17,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
+import pageActions.DashboardPageActions;
 import utils.extentReport.ExtentManager;
 import utils.fileReader.ConfigDataReader;
 
@@ -24,6 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
@@ -37,6 +39,8 @@ public class BaseTest {
     private static String userId;
     private static String password;
     public static String operatingSystem;
+    public static String testEnvironment ;
+    private static DashboardPageActions dashboardPageActions;
 
     private static final Logger logger = Logger.getLogger(BaseTest.class);
 
@@ -71,13 +75,15 @@ public class BaseTest {
 
         password = prop.getProperty("password");
 
+        testEnvironment = prop.getProperty("environment");
+
         logger.info("Initialising extent report");
 
         extentReport = ExtentManager.getInstance();
     }
 
     @BeforeMethod(alwaysRun = true)
-    public static void beforeMethodSetUp(Method method, ITestContext context) throws MalformedURLException {
+    public static void beforeMethodSetUp(Method method, ITestContext context) throws MalformedURLException, InterruptedException {
         logger.info("Initialisation the browser  DriverManager.getDriver()::beforeMethodSetUp");
         testLogger = classLogger.createNode(method.getName());
         DriverManager.getDriver().manage().deleteAllCookies();
@@ -85,6 +91,12 @@ public class BaseTest {
         DriverManager.getDriver().navigate().to(appUrl);
         DriverManager.getDriver().manage().timeouts().pageLoadTimeout(15, TimeUnit.SECONDS);
         PageObjectManager.getLoginPageActions().loginApp(DriverManager.getDriver(), userId, password);
+        if (!Objects.equals(testEnvironment, "stage")){
+            dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
+            dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
+            dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
+            dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_OFFICE_ID);
+        }
     }
 
 

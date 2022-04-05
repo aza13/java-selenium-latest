@@ -37,10 +37,6 @@ public class SubmissionClearancesTests extends BaseTest {
          story - N2020-28293
          **/
         logger.info("verifying creating new quote creation :: testCreateInsured");
-        dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_OFFICE_ID);
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         String newInsuredName = FakeDataHelper.fullName();
         String newInsuredWebsite = FakeDataHelper.website();
@@ -161,10 +157,6 @@ public class SubmissionClearancesTests extends BaseTest {
          @author - Venkat Kottapalli
          **/
         logger.info("verifying duplicate submissions :: testCheckDuplicateSubmission");
-        dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_OFFICE_ID);
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("applicantName"));
         dashboardPageActions.clickQuoteCardContinueButton(DriverManager.getDriver());
         ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();

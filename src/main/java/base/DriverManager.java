@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.opera.OperaDriver;
@@ -69,10 +70,10 @@ public class DriverManager {
                     driver = new FirefoxDriver();
                     threadDriver.set(driver);
                     break;
-                case "IE":
+                case "EDGE":
                     logger.info("Initialising the ie browser");
-                    WebDriverManager.iedriver().setup();
-                    driver = new InternetExplorerDriver();
+                    WebDriverManager.edgedriver().setup();
+                    driver = new EdgeDriver();
                     threadDriver.set(driver);
                     break;
                 case "OPERA":

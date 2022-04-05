@@ -22,6 +22,7 @@ public class QuoteListPageObjects {
     public static final By statusQuoteInProgress = By.xpath("//div[contains(text(),'In Progress')]");
     public static final By statusQuoteReadyToPlaceOrder = By.xpath("//div[contains(text(),'Ready to Place Order')]");
     public static final By confirmAndLockButton = By.xpath("//button[normalize-space()='Confirm and Lock']");
+    public static final By confirmAndLockDisabledButton = By.xpath("//button[text()='Confirm and Lock' and @disabled]");
     public static final By quoteLockSuccessMessage = By.xpath("//div[@data-qa='alertTitle' and text()='Success']");
     public static final By quotesPageUnSelected = By.xpath("//button[@id='workflow-tab-3' and @aria-selected='false']");
     public static final By quotesPageSelected = By.xpath("//button[@id='workflow-tab-3' and @aria-selected='true']");

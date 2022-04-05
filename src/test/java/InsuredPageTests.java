@@ -33,10 +33,6 @@ public class InsuredPageTests extends BaseTest {
          @author - Venkat Kottapalli
          **/
         logger.info("verifying creating new quote creation :: testCreateInsuredFieldsValidation");
-        dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), map.get("applicantName"), map.get("website"));
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
@@ -61,10 +57,6 @@ public class InsuredPageTests extends BaseTest {
          @author - Azamat Uulu
          **/
         logger.info("verifying creating new quote creation :: testCreateInsured");
-        dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         String newInsuredName = FakeDataHelper.fullName();
         String newInsuredWebsite = FakeDataHelper.website();
@@ -96,10 +88,6 @@ public class InsuredPageTests extends BaseTest {
          @author - Venkat Kottapalli
          **/
         logger.info("verifying modify search of insured :: testModifyInsuredSearch");
-        dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), map.get("applicantName"), map.get("website"));
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
@@ -117,10 +105,6 @@ public class InsuredPageTests extends BaseTest {
          @author - Venkat Kottapalli
          **/
         logger.info("verifying duplicate submissions :: testCheckDuplicateSubmission");
-        dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), map.get("applicantName"), map.get("website"));
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
@@ -137,9 +121,4 @@ public class InsuredPageTests extends BaseTest {
         }
 
     }
-
-
-
-
-
 }

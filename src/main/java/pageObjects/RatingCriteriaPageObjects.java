@@ -35,6 +35,7 @@ public class RatingCriteriaPageObjects {
     public static final By ratingCriteriaCancelButton = By.xpath("//button[@id='rating_criteria-cancel']");
     public static final By detailsPageUnSelected = By.xpath("//button[@id='workflow-tab-1' and @aria-selected='false']");
     public static final By detailsPageSelected = By.xpath("//button[@id='workflow-tab-1' and @aria-selected='true']");
+    public static final By ratingCriteriaNetWorthField = By.id("formatted_number");
 
 
 
