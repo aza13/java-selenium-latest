@@ -145,7 +145,7 @@ public class QuoteListPageActions extends BaseTest {
         FileDownloadUtil.checkFileExistInDownloadFolder(driver);
 
         ClickHelper.clickElement(driver, clickAsPDFDownloadButton);
-        WaitHelper.pause(20000);
+        WaitHelper.pause(15000);
 
         return FileDownloadUtil.verifyPDFFileDownload(filename);
     }
@@ -155,7 +155,7 @@ public class QuoteListPageActions extends BaseTest {
         FileDownloadUtil.checkFileExistInDownloadFolder(driver);
 
         ClickHelper.clickElement(driver, clickAsWordDownloadButton);
-        WaitHelper.pause(20000);
+        WaitHelper.pause(15000);
 
         return FileDownloadUtil.verifyWORDFileDownload(filename1, filename2);
     }
@@ -205,18 +205,21 @@ public class QuoteListPageActions extends BaseTest {
         return ClickHelper.isElementExist(driver, quotePreviewButton);
     }
 
-    public void clickQuotePreviewOption(WebDriver driver) throws InterruptedException {
+    public boolean verifyQuotePreview(WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, quotePreviewButton);
         ClickHelper.clickElement(driver, quotePreviewButton);
         WaitHelper.pause(15000);
-
         ArrayList<String> tabs2 = new ArrayList<String> (driver.getWindowHandles());
-        driver.switchTo().window(tabs2.get(1));
-        String newTabPreviewWindow = driver.getTitle();
-        if(newTabPreviewWindow != null){
-            driver.close();
+        if(tabs2.size()>1){
+            driver.switchTo().window(tabs2.get(1));
+            String newTabPreviewWindow = driver.getTitle();
+            if(newTabPreviewWindow != null){
+                driver.close();
+            }
+            driver.switchTo().window(tabs2.get(0));
+            return true;
         }
-        driver.switchTo().window(tabs2.get(0));
+        return false;
     }
 
     public boolean checkIfSubmitReviewDialogDisplayed(WebDriver driver){

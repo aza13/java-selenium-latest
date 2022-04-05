@@ -34,7 +34,7 @@ public class FileDownloadUtil {
         totalFiles = fileLocation.listFiles();
 
         for(File file : totalFiles) {
-            if (file.getName().equals(filename)) {
+            if (file.getName().startsWith(filename)) {
                 file.delete();
                 fileDownloadStatus = true;
             }
@@ -48,7 +48,7 @@ public class FileDownloadUtil {
         fileDownloadStatus = false;
 
         for(File file : totalFiles) {
-            if (file.getName().equals(filename1)) {
+            if (file.getName().startsWith(filename1)) {
                 file.delete();
                 fileDownloadStatus = true;
             }else if(file.getName().equals(filename2)) {

@@ -13,10 +13,7 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.*;
 import pageActions.DashboardPageActions;
 import utils.extentReport.ExtentManager;
 import utils.fileReader.ConfigDataReader;
@@ -44,8 +41,9 @@ public class BaseTest {
 
     private static final Logger logger = Logger.getLogger(BaseTest.class);
 
+    @Parameters({"browserType"})
     @BeforeSuite(alwaysRun = true)
-    public static void configSetUpMethod() {
+    public static void configSetUpMethod(@Optional("CHROME") String browserSelected) {
 
         logger.info("Executing the @BeforeSuite - configSetUpMethod() in BaseTest ");
 
@@ -57,13 +55,9 @@ public class BaseTest {
 
         logger.info("Config Properties Initialised");
 
-        String browserName = prop.getProperty("browserType");
+        logger.info("Selected browserType is: " + browserSelected);
 
-        logger.info("Selected browserType is: " + browserName);
-
-        System.out.println("Browser Name :: "+ browserName);
-
-        DriverManager.setBrowserType(browserName);
+        DriverManager.setBrowserType(browserSelected);
 
         appUrl = prop.getProperty("appUrl");
 

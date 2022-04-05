@@ -33,7 +33,7 @@ public class ExtentManager {
 
 //        String reportPath = System.getProperty("user.dir") + "\\test-output\\extent-report\\" + dateFormat.format(date) + "_bp_ui.html";
 
-        String reportPath = System.getProperty("user.dir") + "\\extent-report\\BP_UI_Extent_Report.html";
+        String reportPath = System.getProperty("user.dir") + "\\extent-report\\Quoteit_Automation_Results.html";
 
         ExtentSparkReporter sparkReporter  = new ExtentSparkReporter(reportPath);
 
@@ -42,9 +42,9 @@ public class ExtentManager {
         extent.attachReporter(sparkReporter);
 
         //Report Config
-        sparkReporter.config().setDocumentTitle("BP UI Automation Results Report");
+        sparkReporter.config().setDocumentTitle("Quoteit UI Automation Results Report");
         sparkReporter.config().setReportName("Regression Results");
-        sparkReporter.config().setTheme(Theme.DARK);
+        sparkReporter.config().setTheme(Theme.STANDARD);
 
         //System Info
         extent.setSystemInfo("OS", "Windows 10, 64-bit");
