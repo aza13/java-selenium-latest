@@ -8,8 +8,8 @@ public class UnderwritingQuestionsPageObjects {
 
     }
 
-    public static final By underwritingQuestionsHeader =By.xpath("(//button[normalize-space()='Questions'])[1]");
-    public static final By uwQuestionsContinueButton = By.xpath("//button[@id='underwriting-continue']");
+    public static final By underwritingQuestionsHeader =By.xpath("(//button[normalize-space()='Underwriter Questions'])[1]");
+    public static final By uwQuestionsContinueButton = By.xpath("//button[@id='underwriting-continue']/span");
     public static final By allQuestionsAnsweredText = By.xpath("//h3[text()='All questions have been answered!']");
     public static final By quotesTab = By.id("workflow-tab-3");
     public static final By underWriterQuestionTabs = By.xpath("//div[@id='underwriting-questions-header' and @role='button']");
