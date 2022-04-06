@@ -609,8 +609,8 @@ public class DashboardPageActions extends BaseTest {
             }
         }
 
-
     }
+
     public long getDifferenceInExpirationDateInDays (Date expirationDate, Date currentDate) throws ParseException {
         long difference = (expirationDate.getTime()-currentDate.getTime())/8640000;
         return Math.abs(difference);
@@ -701,6 +701,34 @@ public class DashboardPageActions extends BaseTest {
             testLogger.fail("failed to verify hide renew button :: verifyHideRenewButton" + e.getMessage());
             logger.error("failed to verify hide renew button :: verifyHideRenewButton");
             throw (e);
+        }
+    }
+
+    public void handleClearanceDialogIfDisplayed(WebDriver driver, String submitCancel){
+        if(ClickHelper.isElementExist(driver, clearanceDialogPolicyDashboard)){
+            if(submitCancel.equals("submit")){
+                TextHelper.enterText(driver, clearanceDialogTextArea, "Testing Purpose");
+                ClickHelper.clickElement(driver, clearanceDialogSubmitButton);
+            }else{
+                ClickHelper.clickElement(driver, clearanceDialogCancelButton);
+            }
+        }
+    }
+
+    public void renewSubmission(WebDriver driver) throws InterruptedException {
+        int n = 1;
+        while(n <= 3){
+            List<WebElement> renewButtons = driver.findElements(genericRenewButtonLocator);
+            if (renewButtons.size()>0){
+                renewButtons.get(0).click();
+                WaitHelper.pause(6000);
+                if(ClickHelper.isElementExist(driver, clearanceDialogPolicyDashboard)){
+                    handleClearanceDialogIfDisplayed(driver, "submit");
+                }
+                break;
+            }
+            n++;
+            ScrollHelper.scrollToBottom(driver);
         }
     }
 

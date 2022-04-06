@@ -388,7 +388,7 @@ public class DashboardPageTests extends BaseTest {
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
     public void testSubmissionRenewal(Map<String, String> map) throws InterruptedException, ParseException {
         /***
-         this test submission renewal
+         this test verifies submission renewal
          story - N2020-28481
          @author -
          **/
@@ -398,7 +398,7 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.clickPolicyFilterByStatus(DriverManager.getDriver());
         dashboardPageActions.selectPolicyStatusInFilter(DriverManager.getDriver(), map.get("status"));
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
-        dashboardPageActions.clickRenewButton(DriverManager.getDriver());
+        dashboardPageActions.renewSubmission(DriverManager.getDriver());
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")

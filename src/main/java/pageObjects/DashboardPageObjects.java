@@ -163,8 +163,20 @@ public class DashboardPageObjects {
 
     public static final By renewButton = By.xpath("(//button[normalize-space()='Renew'])[1]");
 
+    public static final By genericRenewButtonLocator = By.xpath("//button[text()='Renew']");
+
     public static final By clearSearch = By.xpath("//*[@data-testid='ClearIcon']");
 
     public static final By getStatusText = By.xpath("//*[@data-qa='status']");
+
+    public static final By clearanceDialogPolicyDashboard = By.xpath("//h2[@id='alert-dialog-title' and text()='Clearance']");
+
+    public static final By clearanceDialogTextArea = By.id("outlined-textarea");
+
+    public static final By clearanceDialogSubmitButton = By.xpath("//button[@data-qa='submit_alert_modal' and text()='SUBMIT']/span");
+
+    public static final By clearanceDialogCancelButton = By.xpath("//button[@data-qa='cancel_alert_modal' and text()='CANCEL QUOTE']/span");
+
+    public static final By clearanceDialogPolicyDashboardDesc = By.xpath("//p[@id='alert-dialog-description']/div[1]");
 
 }
