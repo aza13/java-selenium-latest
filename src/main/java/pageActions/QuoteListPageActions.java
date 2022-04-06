@@ -208,7 +208,7 @@ public class QuoteListPageActions extends BaseTest {
     public boolean verifyQuotePreview(WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, quotePreviewButton);
         ClickHelper.clickElement(driver, quotePreviewButton);
-        WaitHelper.pause(15000);
+        WaitHelper.pause(10000);
         ArrayList<String> tabs2 = new ArrayList<String> (driver.getWindowHandles());
         if(tabs2.size()>1){
             driver.switchTo().window(tabs2.get(1));
@@ -233,5 +233,18 @@ public class QuoteListPageActions extends BaseTest {
     public void clickSubmitForReview(WebDriver driver){
         WaitHelper.waitForElementVisibility(driver, submitReviewSubmitButton);
         ClickHelper.clickElement(driver, submitReviewSubmitButton);
+    }
+
+    public boolean isInactiveTextDisplayed(WebDriver driver){
+        WaitHelper.waitForElementVisibility(driver, inactiveQuote);
+        return ClickHelper.isElementExist(driver, inactiveQuote);
+    }
+
+    public boolean isPDFFileIconDisplayed(WebDriver driver){
+        return ClickHelper.isElementExist(driver, clickAsPDFDownloadButton);
+    }
+
+    public boolean isWordFileIconDisplayed(WebDriver driver){
+        return ClickHelper.isElementExist(driver, clickAsWordDownloadButton);
     }
 }

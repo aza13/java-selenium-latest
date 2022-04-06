@@ -14,7 +14,6 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-import static pageObjects.DashboardPageObjects.exitRatingCriteria;
 import static pageObjects.UnderwritingQuestionsPageObjects.*;
 
 
@@ -258,6 +257,27 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
     public void clickExitQuestion(WebDriver driver) {
         WaitHelper.waitForElementClickable(driver, exitQuestionButton);
         ClickHelper.clickElement(driver, exitQuestionButton);
+    }
+
+    public void clickUnderwritingQuestionsPageTab(WebDriver driver) throws InterruptedException {
+        ClickHelper.clickElement(driver, underwritingQuestionsHeader);
+        WaitHelper.pause(10000);
+    }
+
+    public boolean checkEditButtonIsVisible(WebDriver driver){
+        return ClickHelper.isElementExist(driver, clickEditOnQuestions);
+    }
+
+    public void clickEditButtonIsVisible(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementClickable(driver, clickEditOnQuestions);
+        ClickHelper.clickElement(driver, clickEditOnQuestions);
+        WaitHelper.pause(3000);
+    }
+
+    public void checkEditConfirmMsgIsVisible(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementClickable(driver, confirmMsg);
+        ClickHelper.clickElement(driver, confirmMsgOK);
+        WaitHelper.pause(3000);
     }
 
 }

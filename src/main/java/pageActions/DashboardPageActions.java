@@ -525,8 +525,8 @@ public class DashboardPageActions extends BaseTest {
         Set<String> actualStatus = new HashSet<String>();
         int count = elementsContinueButton.size();
         if (count > 0) {
-            for (int i = 0; i < count; i++) {
-                elementsContinueButton.get(i).click();
+            for (WebElement webElement : elementsContinueButton) {
+                webElement.click();
                 WaitHelper.pause(3000);
                 break;
             }
