@@ -11,6 +11,7 @@ import utils.fileDownload.FileDownloadUtil;
 import java.util.ArrayList;
 import java.util.List;
 import static pageObjects.QuoteListPageObjects.*;
+import static pageObjects.QuoteListPageObjects.inactiveQuote;
 
 
 public class QuoteListPageActions extends BaseTest {
@@ -233,5 +234,18 @@ public class QuoteListPageActions extends BaseTest {
     public void clickSubmitForReview(WebDriver driver){
         WaitHelper.waitForElementVisibility(driver, submitReviewSubmitButton);
         ClickHelper.clickElement(driver, submitReviewSubmitButton);
+    }
+
+    public boolean isInactiveTextDisplayed(WebDriver driver){
+        WaitHelper.waitForElementVisibility(driver, inactiveQuote);
+        return ClickHelper.isElementExist(driver, inactiveQuote);
+    }
+
+    public boolean isPDFFileIconDisplayed(WebDriver driver){
+        return ClickHelper.isElementExist(driver, clickAsPDFDownloadButton);
+    }
+
+    public boolean isWordFileIconDisplayed(WebDriver driver){
+        return ClickHelper.isElementExist(driver, clickAsWordDownloadButton);
     }
 }

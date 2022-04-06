@@ -13,7 +13,7 @@ public class RatingCriteriaPageObjects {
     static String enterDate = enterDateFormat.format(d);
     static SimpleDateFormat expectDateFormat = new SimpleDateFormat("MM/dd/yyyy");
     static String expectDate = expectDateFormat.format(DateUtils.addYears(d,1));
-    public static final By ratingCriteriaHeader =By.xpath("//h4[text()='Rating Criteria']");
+    public static final By ratingCriteriaHeader =By.xpath("(//button[normalize-space()='Details'])[1]");
     public static final By ratingCriteriaHeader2 =By.xpath("//h5[text()='Effective Date and Business Class']");
     public static final By ratingCriteriaExitButton = By.id("rating_criteria-cancel");
     public static final By ratingCriteriaButton = By.id("workflow-tab-1");

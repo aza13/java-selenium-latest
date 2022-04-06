@@ -60,6 +60,8 @@ public class UnderwritingQuestionsPageObjects {
 
 
     public static final By exitQuestionButton = By.id("underwriting-cancel");
-
+    public static final By clickEditOnQuestions = By.xpath("(//button[normalize-space()='Edit'])[1]");
+    public static final By confirmMsg = By.xpath("//div[contains(text(),'Updates to the data on these views will invalidate')]");
+    public static final By confirmMsgOK = By.xpath("(//button[normalize-space()='Ok'])[1]");
 
 }
