@@ -20,7 +20,6 @@ public class QuoteTests extends BaseTest {
     private RatingCriteriaPageActions ratingCriteriaPageActions;
     private UnderwritingQuestionsPageActions underwritingQuestionsPageActions;
     private QuoteListPageActions quoteListPageActions;
-    private InsuredPageActions insuredPageActions;
 
     @BeforeClass(alwaysRun = true)
     public void beforeClassSetUp() {
@@ -30,10 +29,10 @@ public class QuoteTests extends BaseTest {
         ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaActions();
         underwritingQuestionsPageActions = PageObjectManager.getUnderwritingQuestionsPageActions();
         quoteListPageActions = PageObjectManager.getQuoteListPageActions();
-        insuredPageActions = PageObjectManager.getInsuredPageActions();
+        InsuredPageActions insuredPageActions = PageObjectManager.getInsuredPageActions();
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData", enabled = false)
     public void testAddAndDeleteQuoteOption(Map<String, String> map) throws InterruptedException {
         /***
          this verifies whether broker can add the new quote option
@@ -96,7 +95,7 @@ public class QuoteTests extends BaseTest {
     }
 
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData", enabled = false)
     public void testLockQuote(Map<String, String> map) throws InterruptedException {
         /***
          this verifies whether applicant can lock a quote
@@ -165,7 +164,7 @@ public class QuoteTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData", enabled = false)
     public void testAddQuote(Map<String, String> map) throws InterruptedException {
         /***
          this verifies whether broker can delete the new quote option
@@ -305,7 +304,7 @@ public class QuoteTests extends BaseTest {
 
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData", enabled = false)
     public void testQuotePreview(Map<String, String> map) throws InterruptedException {
         /***
          this verifies whether broker can click preview quote option
