@@ -2,6 +2,7 @@ import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
 import constants.ConstantVariable;
+import constants.DatabaseQueries;
 import helper.FakeDataHelper;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
@@ -9,8 +10,12 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageActions.*;
 import utils.dataProvider.TestDataProvider;
+import utils.dbConnector.DatabaseConnector;
 import utils.fileReader.TextFileReader;
 
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class QuoteTests extends BaseTest {
@@ -20,6 +25,7 @@ public class QuoteTests extends BaseTest {
     private RatingCriteriaPageActions ratingCriteriaPageActions;
     private UnderwritingQuestionsPageActions underwritingQuestionsPageActions;
     private QuoteListPageActions quoteListPageActions;
+    private DatabaseConnector databaseConnector;
 
     @BeforeClass(alwaysRun = true)
     public void beforeClassSetUp() {
@@ -30,9 +36,10 @@ public class QuoteTests extends BaseTest {
         underwritingQuestionsPageActions = PageObjectManager.getUnderwritingQuestionsPageActions();
         quoteListPageActions = PageObjectManager.getQuoteListPageActions();
         InsuredPageActions insuredPageActions = PageObjectManager.getInsuredPageActions();
+        databaseConnector = new DatabaseConnector();
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData", enabled = false)
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
     public void testAddAndDeleteQuoteOption(Map<String, String> map) throws InterruptedException {
         /***
          this verifies whether broker can add the new quote option
@@ -95,7 +102,7 @@ public class QuoteTests extends BaseTest {
     }
 
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData", enabled = false)
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
     public void testLockQuote(Map<String, String> map) throws InterruptedException {
         /***
          this verifies whether applicant can lock a quote
@@ -164,7 +171,7 @@ public class QuoteTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData", enabled = false)
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
     public void testAddQuote(Map<String, String> map) throws InterruptedException {
         /***
          this verifies whether broker can delete the new quote option
@@ -221,21 +228,26 @@ public class QuoteTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
-    public void testBrokerDownloadConfirmedQuote(Map<String, String> map) throws InterruptedException {
+    public void testBrokerDownloadConfirmedQuote(Map<String, String> map) throws InterruptedException, SQLException {
         /***
          this test verifies brokers can download confirmed quote validation
          story - N2020-28652-QAT-156
          @author - Azamat Uulu
          **/
-
         logger.info("verifying brokers can download confirmed quote :: testBrokerDownloadConfirmedQuote");
-        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("reffNumber").replaceAll("^\"|\"$", ""));
-        dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
-        quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
-        boolean pdfDownload = quoteListPageActions.clickPDFFileDownload(DriverManager.getDriver(), map.get("pdfFilename"));
-        Assert.assertTrue(pdfDownload);
-        boolean wordDownload = quoteListPageActions.clickWORDFileDownload(DriverManager.getDriver(), map.get("wordFilename"), map.get("wordPDFFilename"));
-        Assert.assertTrue(wordDownload);
+        List<HashMap<Object, Object>> submissionIds =
+                databaseConnector.getResultSetToList(DatabaseQueries.GET_SUBMISSIONS_WITH_CONFIRMED_QUOTES);
+        String submissionId;
+        if(submissionIds != null){
+            submissionId=submissionIds.get(0).get("id").toString();
+            dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
+            dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
+            quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
+            boolean pdfDownload = quoteListPageActions.clickPDFFileDownload(DriverManager.getDriver(), map.get("pdfFilename"));
+            Assert.assertTrue(pdfDownload);
+            boolean wordDownload = quoteListPageActions.clickWORDFileDownload(DriverManager.getDriver(), map.get("wordFilename"), map.get("wordPDFFilename"));
+            Assert.assertTrue(wordDownload);
+        }
 
     }
 
@@ -304,7 +316,7 @@ public class QuoteTests extends BaseTest {
 
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData", enabled = false)
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
     public void testQuotePreview(Map<String, String> map) throws InterruptedException {
         /***
          this verifies whether broker can click preview quote option
