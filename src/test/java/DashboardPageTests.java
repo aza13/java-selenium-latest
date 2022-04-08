@@ -340,9 +340,7 @@ public class DashboardPageTests extends BaseTest {
                     dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
                 }
             }
-
         }
-
 
     }
 
@@ -475,7 +473,7 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", enabled = false)
     public void  testBrokersCanContinueRenewalSubmission(Map<String, String> map) throws InterruptedException {
         /***
          this test Brokers can continue a Renewal Submission

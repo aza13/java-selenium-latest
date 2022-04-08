@@ -183,13 +183,11 @@ public class InsuredPageActions extends BaseTest {
     }
 
     public boolean duplicateSubmissionDialog(WebDriver driver) {
-        WaitHelper.waitForElementVisibility(driver, duplicateSubmissionDialog);
         return ClickHelper.isElementExist(driver, duplicateSubmissionDialog);
 
     }
 
     public String duplicateSubmissionDialogDescription(WebDriver driver) {
-
         WaitHelper.waitForElementVisibility(driver, duplicateSubDialogDescription);
         return TextHelper.getText(driver, duplicateSubDialogDescription, "text");
     }
@@ -222,7 +220,7 @@ public class InsuredPageActions extends BaseTest {
         String selectButtonXpath = "(//button[@data-qa='insured_select'])[" + index + "]";
         driver.findElement(By.xpath(selectButtonXpath)).click();
 //        WaitHelper.waitForSpinnerIconInvisibility(driver, loadingSpinnerIcon);
-        WaitHelper.pause(5000);
+        WaitHelper.pause(12000);
     }
 
     public boolean isClearanceDialogModalDisplayed(WebDriver driver) {

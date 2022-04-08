@@ -237,7 +237,7 @@ public class DashboardPageActions extends BaseTest {
     public InsuredPageActions clickContinueButton(WebDriver driver) throws InterruptedException {
 
         ClickHelper.clickElement(driver, continueButton);
-        Thread.sleep(5000);
+        Thread.sleep(10000);
 //        WaitHelper.waitForElementVisibility(driver, InsuredPageObjects.newInsuredButton);
         return PageObjectManager.getInsuredPageActions();
     }
