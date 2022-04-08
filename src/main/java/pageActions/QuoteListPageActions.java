@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Wait;
 import utils.fileDownload.FileDownloadUtil;
 
 import java.util.ArrayList;
@@ -68,11 +69,11 @@ public class QuoteListPageActions extends BaseTest {
 
     public void addNewQuoteOption(WebDriver driver, int count, String claim, String aggLimit, String retention) throws InterruptedException {
         int optionCount = count+1;
-        clickAddOptionButton(driver);
         ScrollHelper.scrollToBottom(driver);
         selectPerClaim(driver,optionCount, claim);
         selectAggregateLimit(driver, optionCount, aggLimit);
         selectRetentionOption(driver, optionCount, retention);
+        WaitHelper.pause(10000);
     }
 
     public String getGivenQuoteOptionPremium(WebDriver driver, int optionCount){

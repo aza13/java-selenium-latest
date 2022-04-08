@@ -208,13 +208,18 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
         try {
             List<WebElement> allNoButtons = driver.findElements(By.xpath(buttonXpath));
             int count = allNoButtons.size();
-            for (int i=globalIndex; i< count; i++) {
-                logger.info("clicking on each yes/no button in each UW section");
-                WaitHelper.pause(5000);
-                allNoButtons.get(i).click();
-                globalIndex++;
+            if(count>0){
+                logger.info("UW question buttons exist :: answerUWQuestionButtons");
+                for (WebElement allNoButton : allNoButtons) {
+                    logger.info("clicking on each yes/no button in each UW section");
+                    WaitHelper.pause(5000);
+                    allNoButton.click();
+                }
+            }else{
+                logger.info("UW question buttons doesn't exist :: answerUWQuestionButtons");
             }
         }catch (StaleElementReferenceException e) {
+            logger.warn("StaleElementReference exception occurred :: answerUWQuestionButtons");
             WaitHelper.pause(3000);
             answerUWQuestionButtons(driver, uwQuestionAnswer);
         }
@@ -225,12 +230,13 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
 
         String[] dropdownIds = {"General-select", "Required Questions-select", "IT Department-select"};
         try{
-            logger.info("clicking on UW question tab");
+            logger.info("selecting UW questions dropdowns");
             for (String dropdownId : dropdownIds) {
                 List<WebElement> dropdowns = driver.findElements(By.id(dropdownId));
                 if (dropdowns.size() > 0) {
+                    logger.info("UW questions dropdowns exists :: answerUWQuestionDropdowns");
                     for (WebElement dropdown : dropdowns) {
-                        logger.info("selecting the value from dropdown");
+                        logger.info("selecting the value from UW dropdown");
                         DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, uwQuestionsDropdownsOption, dropdownOption);
                         WaitHelper.pause(5000);
                         dropdownsIndex++;
@@ -238,6 +244,7 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
                 }
             }
         }catch (StaleElementReferenceException e) {
+            logger.warn("StaleElementReference exception occurred in :: answerUWQuestionDropdowns");
             WaitHelper.pause(3000);
             answerUWQuestionDropdowns(driver, answer, dropdownOption);
         }
