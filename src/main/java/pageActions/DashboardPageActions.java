@@ -11,7 +11,6 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.Wait;
 import org.testng.Assert;
 
 import java.text.DateFormat;
@@ -512,10 +511,13 @@ public class DashboardPageActions extends BaseTest {
         ClickHelper.clickElement(driver, policyFilterByStatus);
     }
 
-    public void clickFirstAvailableContinueButton (WebDriver driver) throws InterruptedException {
-        WaitHelper.waitForElementClickable(driver,fistAvailableContinueButton );
-        ClickHelper.clickElement(driver, fistAvailableContinueButton);
-        WaitHelper.pause(5000);
+    public boolean clickFirstAvailableContinueButton (WebDriver driver) throws InterruptedException {
+        if(ClickHelper.isElementExist(driver, fistAvailableContinueButton)){
+            ClickHelper.clickElement(driver, fistAvailableContinueButton);
+            WaitHelper.pause(5000);
+            return true;
+        }
+        return false;
     }
 
     public void validateContinueSubmission(WebDriver driver) throws InterruptedException {

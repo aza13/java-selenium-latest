@@ -197,7 +197,7 @@ public class InsuredPageActions extends BaseTest {
         ClickHelper.clickElement(driver, duplicateDialogCancelButton);
     }
 
-    public void selectInsuredCard(WebDriver driver, String insuredName) {
+    public void selectInsuredCard(WebDriver driver, String insuredName) throws InterruptedException {
         List<WebElement> insuredNames = driver.findElements(insuredNameInCard);
         int cardsCount = 0;
         if (insuredNames.size() > 0) {
@@ -210,6 +210,7 @@ public class InsuredPageActions extends BaseTest {
             String selectButtonXpath = "(//button[@data-qa='insured_select'])[" + cardsCount + "]";
             driver.findElement(By.xpath(selectButtonXpath)).click();
         }
+        WaitHelper.pause(10000);
     }
 
     public List<WebElement> getAllInsuredNames(WebDriver driver) {

@@ -6,7 +6,6 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Wait;
 import utils.fileDownload.FileDownloadUtil;
 
 import java.util.ArrayList;
@@ -135,10 +134,31 @@ public class QuoteListPageActions extends BaseTest {
         }
     }
 
+    public boolean checkIfQuotesTabIsDisabled(WebDriver driver){
+        return ClickHelper.isElementExist(driver, quotesTabDisabled);
+    }
+
     public void clickQuotesTab(WebDriver driver) throws InterruptedException {
-        WaitHelper.waitForElementVisibility(driver, clickOnQuotesTab);
-        ClickHelper.clickElement(driver, clickOnQuotesTab);
-        WaitHelper.pause(3000);
+        if(ClickHelper.isElementExist(driver, quotesTabDisabled)){
+            logger.warn("Quotes tab is disabled");
+        }else{
+            ClickHelper.clickElement(driver, quotesTab);
+            WaitHelper.pause(3000);
+        }
+    }
+
+    public void selectQuoteTemplateOption(WebDriver driver, int index){
+        try{
+            List<WebElement> templateOptions = driver.findElements(quoteTemplateOption);
+            if(templateOptions.size()>0){
+                logger.info("selecting quote template option :: selectQuoteTemplateOption");
+                templateOptions.get(index).click();
+            }
+        }catch (Exception e){
+            logger.error("failed to select the quote template option :: "+e.getMessage());
+            throw e;
+        }
+
     }
 
     public boolean clickPDFFileDownload(WebDriver driver, String filename) throws InterruptedException {

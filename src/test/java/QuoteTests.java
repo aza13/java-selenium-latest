@@ -211,7 +211,11 @@ public class QuoteTests extends BaseTest {
             }
             underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
             if(!quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())){
-                quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
+                if(quoteListPageActions.checkIfQuotesTabIsDisabled(DriverManager.getDriver())){
+                        quoteListPageActions.selectQuoteTemplateOption(DriverManager.getDriver(), 0);
+                }else{
+                    quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
+                }
             }
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
@@ -238,21 +242,28 @@ public class QuoteTests extends BaseTest {
         logger.info("verifying brokers can download confirmed quote :: testBrokerDownloadConfirmedQuote");
         List<HashMap<Object, Object>> submissionIds =
                 databaseConnector.getResultSetToList(DatabaseQueries.GET_SUBMISSIONS_WITH_CONFIRMED_QUOTES);
+        int submissionCount = submissionIds.size();
         String submissionId;
-        if(submissionIds != null){
-            submissionId=submissionIds.get(0).get("id").toString();
-            dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
-            dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
-            quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
-            boolean pdfDownload = quoteListPageActions.clickPDFFileDownload(DriverManager.getDriver(), map.get("pdfFilename"));
-            Assert.assertTrue(pdfDownload);
-            boolean wordDownload = quoteListPageActions.clickWORDFileDownload(DriverManager.getDriver(), map.get("wordFilename"), map.get("wordPDFFilename"));
-            Assert.assertTrue(wordDownload);
-        }
+        if(submissionCount>0){
+            for (HashMap<Object, Object> id : submissionIds) {
+                submissionId = id.get("id").toString();
+                dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
+                if (dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver())) {
+                    break;
+                }
+                dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
+            }
 
+                quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
+                boolean pdfDownload = quoteListPageActions.clickPDFFileDownload(DriverManager.getDriver(), map.get("pdfFilename"));
+                Assert.assertTrue(pdfDownload);
+                boolean wordDownload = quoteListPageActions.clickWORDFileDownload(DriverManager.getDriver(), map.get("wordFilename"), map.get("wordPDFFilename"));
+                Assert.assertTrue(wordDownload);
+
+        }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData", invocationCount = 3)
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
     public void testConfirmAndLockQuoteOption(Map<String, String> map) throws InterruptedException {
         /***
          this verifies whether broker can click and confirm lock quote option
