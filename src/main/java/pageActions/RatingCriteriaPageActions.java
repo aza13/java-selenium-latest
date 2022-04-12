@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Wait;
 
 import static pageObjects.DashboardPageObjects.allStatusDropdown;
 import static pageObjects.DashboardPageObjects.statusOptions;
@@ -137,4 +136,37 @@ public class RatingCriteriaPageActions extends BaseTest {
         ClickHelper.clickElement(driver,ratingCriteriaCancelButton);
         WaitHelper.pause(3000);
     }
+
+    public void clickDetailsPageTab(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(5000);
+        ClickHelper.clickElement(driver, ratingCriteriaHeader);
+        WaitHelper.pause(5000);
+    }
+
+    public boolean checkEditButtonIsVisible(WebDriver driver){
+        return ClickHelper.isElementExist(driver, clickEditOnDetails);
+    }
+
+    public void clickEditButtonIsVisible(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementClickable(driver, clickEditOnDetails);
+        ClickHelper.clickElement(driver, clickEditOnDetails);
+        WaitHelper.pause(3000);
+    }
+
+    public void checkEditConfirmMsgIsVisible(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementClickable(driver, confirmMsgDetails);
+        ClickHelper.clickElement(driver, confirmMsgOKDetails);
+        WaitHelper.pause(3000);
+    }
+
+    public void checkEditConfirmMsgCancelIsVisible(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(3000);
+        ClickHelper.clickElement(driver, confirmMsgCancelDetails);
+        WaitHelper.pause(3000);
+    }
+
+    public boolean checkEffectiveDateIsVisible(WebDriver driver){
+        return ClickHelper.isElementExist(driver, ratingCriteriaHeader2);
+    }
+
 }

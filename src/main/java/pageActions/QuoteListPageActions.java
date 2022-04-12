@@ -268,6 +268,11 @@ public class QuoteListPageActions extends BaseTest {
         return ClickHelper.isElementExist(driver, clickAsWordDownloadButton);
     }
 
+
+    public boolean verifyQuoteIsVisible(WebDriver driver) {
+        return ClickHelper.isElementExist(driver, quoteListPageHeader);
+    }
+
     public void expandTheQuote(WebDriver driver){
         ClickHelper.clickElement(driver, quoteExpandMoreIcon);
     }
@@ -282,5 +287,6 @@ public class QuoteListPageActions extends BaseTest {
         TextHelper.enterText(driver, orderConfirmationTextArea, "Place Order Testing");
         ClickHelper.clickElement(driver, orderConfirmationSubmitButton);
         WaitHelper.pause(3000);
+
     }
 }

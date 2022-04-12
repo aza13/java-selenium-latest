@@ -36,7 +36,10 @@ public class RatingCriteriaPageObjects {
     public static final By detailsPageUnSelected = By.xpath("//button[@id='workflow-tab-1' and @aria-selected='false']");
     public static final By detailsPageSelected = By.xpath("//button[@id='workflow-tab-1' and @aria-selected='true']");
     public static final By ratingCriteriaNetWorthField = By.id("formatted_number");
-
+    public static final By clickEditOnDetails = By.xpath("(//button[normalize-space()='Edit'])[1]");
+    public static final By confirmMsgDetails = By.xpath("//div[contains(text(),'Updates to the data on these views will invalidate')]");
+    public static final By confirmMsgOKDetails = By.xpath("(//button[normalize-space()='Ok'])[1]");
+    public static final By confirmMsgCancelDetails = By.xpath("(//button[normalize-space()='Cancel'])[1]");
 
 
 
