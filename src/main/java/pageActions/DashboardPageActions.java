@@ -11,7 +11,6 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.Wait;
 import org.testng.Assert;
 
 import java.text.DateFormat;
@@ -48,12 +47,12 @@ public class DashboardPageActions extends BaseTest {
         ClickHelper.clickElement(driver, profileSettings);
     }
 
-    public void enterBrokerId(WebDriver driver, String brokerId) throws InterruptedException {
+    public void enterBrokerId(WebDriver driver, String brokerId) {
 
         TextHelper.enterText(driver, brokerIdField, brokerId);
     }
 
-    public void enterAgencyId(WebDriver driver, String agencyId) throws InterruptedException {
+    public void enterAgencyId(WebDriver driver, String agencyId) {
 
         TextHelper.enterText(driver, agencyIdField, agencyId);
     }
@@ -237,7 +236,7 @@ public class DashboardPageActions extends BaseTest {
     public InsuredPageActions clickContinueButton(WebDriver driver) throws InterruptedException {
 
         ClickHelper.clickElement(driver, continueButton);
-        Thread.sleep(5000);
+        Thread.sleep(10000);
 //        WaitHelper.waitForElementVisibility(driver, InsuredPageObjects.newInsuredButton);
         return PageObjectManager.getInsuredPageActions();
     }
@@ -512,10 +511,13 @@ public class DashboardPageActions extends BaseTest {
         ClickHelper.clickElement(driver, policyFilterByStatus);
     }
 
-    public void clickFirstAvailableContinueButton (WebDriver driver) throws InterruptedException {
-        WaitHelper.waitForElementClickable(driver,fistAvailableContinueButton );
-        ClickHelper.clickElement(driver, fistAvailableContinueButton);
-        WaitHelper.pause(5000);
+    public boolean clickFirstAvailableContinueButton (WebDriver driver) throws InterruptedException {
+        if(ClickHelper.isElementExist(driver, fistAvailableContinueButton)){
+            ClickHelper.clickElement(driver, fistAvailableContinueButton);
+            WaitHelper.pause(5000);
+            return true;
+        }
+        return false;
     }
 
     public void validateContinueSubmission(WebDriver driver) throws InterruptedException {
@@ -525,8 +527,8 @@ public class DashboardPageActions extends BaseTest {
         Set<String> actualStatus = new HashSet<String>();
         int count = elementsContinueButton.size();
         if (count > 0) {
-            for (int i = 0; i < count; i++) {
-                elementsContinueButton.get(i).click();
+            for (WebElement webElement : elementsContinueButton) {
+                webElement.click();
                 WaitHelper.pause(3000);
                 break;
             }
@@ -609,8 +611,8 @@ public class DashboardPageActions extends BaseTest {
             }
         }
 
-
     }
+
     public long getDifferenceInExpirationDateInDays (Date expirationDate, Date currentDate) throws ParseException {
         long difference = (expirationDate.getTime()-currentDate.getTime())/8640000;
         return Math.abs(difference);
@@ -701,6 +703,34 @@ public class DashboardPageActions extends BaseTest {
             testLogger.fail("failed to verify hide renew button :: verifyHideRenewButton" + e.getMessage());
             logger.error("failed to verify hide renew button :: verifyHideRenewButton");
             throw (e);
+        }
+    }
+
+    public void handleClearanceDialogIfDisplayed(WebDriver driver, String submitCancel){
+        if(ClickHelper.isElementExist(driver, clearanceDialogPolicyDashboard)){
+            if(submitCancel.equals("submit")){
+                TextHelper.enterText(driver, clearanceDialogTextArea, "Testing Purpose");
+                ClickHelper.clickElement(driver, clearanceDialogSubmitButton);
+            }else{
+                ClickHelper.clickElement(driver, clearanceDialogCancelButton);
+            }
+        }
+    }
+
+    public void renewSubmission(WebDriver driver) throws InterruptedException {
+        int n = 1;
+        while(n <= 3){
+            List<WebElement> renewButtons = driver.findElements(genericRenewButtonLocator);
+            if (renewButtons.size()>0){
+                renewButtons.get(0).click();
+                WaitHelper.pause(6000);
+                if(ClickHelper.isElementExist(driver, clearanceDialogPolicyDashboard)){
+                    handleClearanceDialogIfDisplayed(driver, "submit");
+                }
+                break;
+            }
+            n++;
+            ScrollHelper.scrollToBottom(driver);
         }
     }
 

@@ -11,7 +11,6 @@ import utils.fileDownload.FileDownloadUtil;
 import java.util.ArrayList;
 import java.util.List;
 import static pageObjects.QuoteListPageObjects.*;
-import static pageObjects.QuoteListPageObjects.inactiveQuote;
 
 
 public class QuoteListPageActions extends BaseTest {
@@ -69,11 +68,11 @@ public class QuoteListPageActions extends BaseTest {
 
     public void addNewQuoteOption(WebDriver driver, int count, String claim, String aggLimit, String retention) throws InterruptedException {
         int optionCount = count+1;
-        clickAddOptionButton(driver);
         ScrollHelper.scrollToBottom(driver);
         selectPerClaim(driver,optionCount, claim);
         selectAggregateLimit(driver, optionCount, aggLimit);
         selectRetentionOption(driver, optionCount, retention);
+        WaitHelper.pause(10000);
     }
 
     public String getGivenQuoteOptionPremium(WebDriver driver, int optionCount){
@@ -135,10 +134,30 @@ public class QuoteListPageActions extends BaseTest {
         }
     }
 
+    public boolean checkIfQuotesTabIsDisabled(WebDriver driver){
+        return ClickHelper.isElementExist(driver, quotesTabDisabled);
+    }
+
     public void clickQuotesTab(WebDriver driver) throws InterruptedException {
-        WaitHelper.waitForElementVisibility(driver, clickOnQuotesTab);
-        ClickHelper.clickElement(driver, clickOnQuotesTab);
-        WaitHelper.pause(3000);
+        if(ClickHelper.isElementExist(driver, quotesTabDisabled)){
+            logger.warn("Quotes tab is disabled");
+        }else{
+            ClickHelper.clickElement(driver, quotesTab);
+            WaitHelper.pause(3000);
+        }
+    }
+
+    public void selectQuoteTemplateOption(WebDriver driver, int index){
+        try{
+            List<WebElement> templateOptions = driver.findElements(quoteTemplateOption);
+            if(templateOptions.size()>0){
+                logger.info("selecting quote template option :: selectQuoteTemplateOption");
+                templateOptions.get(index).click();
+            }
+        }catch (Exception e){
+            logger.error("failed to select the quote template option :: "+e.getMessage());
+            throw e;
+        }
     }
 
     public boolean clickPDFFileDownload(WebDriver driver, String filename) throws InterruptedException {
@@ -209,7 +228,7 @@ public class QuoteListPageActions extends BaseTest {
     public boolean verifyQuotePreview(WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, quotePreviewButton);
         ClickHelper.clickElement(driver, quotePreviewButton);
-        WaitHelper.pause(15000);
+        WaitHelper.pause(10000);
         ArrayList<String> tabs2 = new ArrayList<String> (driver.getWindowHandles());
         if(tabs2.size()>1){
             driver.switchTo().window(tabs2.get(1));
@@ -247,5 +266,21 @@ public class QuoteListPageActions extends BaseTest {
 
     public boolean isWordFileIconDisplayed(WebDriver driver){
         return ClickHelper.isElementExist(driver, clickAsWordDownloadButton);
+    }
+
+    public void expandTheQuote(WebDriver driver){
+        ClickHelper.clickElement(driver, quoteExpandMoreIcon);
+    }
+
+    public void clickPlaceOrderButton(WebDriver driver){
+        WaitHelper.waitForElementVisibility(driver, quotePlaceOrderButton);
+        ClickHelper.clickElement(driver, quotePlaceOrderButton);
+    }
+
+    public void submitOrderConfirmation(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibility(driver, orderConfirmationDialog);
+        TextHelper.enterText(driver, orderConfirmationTextArea, "Place Order Testing");
+        ClickHelper.clickElement(driver, orderConfirmationSubmitButton);
+        WaitHelper.pause(3000);
     }
 }
