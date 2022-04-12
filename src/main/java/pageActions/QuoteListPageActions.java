@@ -248,4 +248,8 @@ public class QuoteListPageActions extends BaseTest {
     public boolean isWordFileIconDisplayed(WebDriver driver){
         return ClickHelper.isElementExist(driver, clickAsWordDownloadButton);
     }
+
+    public boolean verifyQuoteIsVisible(WebDriver driver){
+        return ClickHelper.isElementExist(driver, quoteListPageHeader);
+    }
 }

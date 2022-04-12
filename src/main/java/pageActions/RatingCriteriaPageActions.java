@@ -13,8 +13,6 @@ import org.openqa.selenium.WebElement;
 import static pageObjects.DashboardPageObjects.allStatusDropdown;
 import static pageObjects.DashboardPageObjects.statusOptions;
 import static pageObjects.RatingCriteriaPageObjects.*;
-import static pageObjects.UnderwritingQuestionsPageObjects.*;
-import static pageObjects.QuoteListPageObjects.*;
 
 public class RatingCriteriaPageActions extends BaseTest {
 
@@ -165,13 +163,6 @@ public class RatingCriteriaPageActions extends BaseTest {
         WaitHelper.pause(3000);
         ClickHelper.clickElement(driver, confirmMsgCancelDetails);
         WaitHelper.pause(3000);
-    }
-
-    public boolean verifyQuestionIsVisible(WebDriver driver){
-        return ClickHelper.isElementExist(driver, underwritingQuestionsTab);
-    }
-    public boolean verifyQuoteIsVisible(WebDriver driver){
-        return ClickHelper.isElementExist(driver, quoteListPageHeader);
     }
 
     public boolean checkEffectiveDateIsVisible(WebDriver driver){

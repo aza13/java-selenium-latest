@@ -1,22 +1,23 @@
 import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
-import constants.ConstantVariable;
 import constants.DatabaseQueries;
 import helper.FakeDataHelper;
-import helper.WaitHelper;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import org.testng.SkipException;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import pageActions.*;
+import pageActions.DashboardPageActions;
+import pageActions.RatingCriteriaPageActions;
+import pageActions.UnderwritingQuestionsPageActions;
+import pageActions.QuoteListPageActions;
+import pageActions.InsuredPageActions;
 import utils.dataProvider.TestDataProvider;
 import utils.dbConnector.DatabaseConnector;
 
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -227,8 +228,8 @@ public class RatingCriteriaPageTests extends BaseTest {
                 ratingCriteriaPageActions.clickEditButtonIsVisible(DriverManager.getDriver());
                 ratingCriteriaPageActions.checkEditConfirmMsgIsVisible(DriverManager.getDriver());
 
-                boolean isQuestionTabVisible = ratingCriteriaPageActions.verifyQuestionIsVisible(DriverManager.getDriver());
-                boolean isQuoteTabVisible = ratingCriteriaPageActions.verifyQuoteIsVisible(DriverManager.getDriver());
+                boolean isQuestionTabVisible = underwritingQuestionsPageActions.verifyQuestionIsVisible(DriverManager.getDriver());
+                boolean isQuoteTabVisible = quoteListPageActions.verifyQuoteIsVisible(DriverManager.getDriver());
 
                 Assert.assertFalse(isQuestionTabVisible);
                 Assert.assertFalse(isQuoteTabVisible);

@@ -289,4 +289,8 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
         WaitHelper.pause(3000);
     }
 
+    public boolean verifyQuestionIsVisible(WebDriver driver){
+        return ClickHelper.isElementExist(driver, underwritingQuestionsTab);
+    }
+
 }
