@@ -36,5 +36,9 @@ public class QuoteListPageObjects {
     public static final By quotePreviewButton = By.xpath("//*[@data-testid='PreviewIcon']");
     public static final By inactiveQuote = By.xpath("//div[contains(text(),'Inactive')]");
     public static final By quoteTemplateOption = By.xpath("//ul[@role='menu']/li");
-
+    public static final By quoteExpandMoreIcon = By.xpath("//div[@data-qa='quote_list_container']//*[@data-testid='ExpandMoreIcon']");
+    public static final By quotePlaceOrderButton = By.xpath("//button[text()='Place Order']");
+    public static final By orderConfirmationDialog = By.xpath("//h2[@id='alert-dialog-title' and text()='Order Confirmation']");
+    public static final By orderConfirmationTextArea = By.xpath("//textarea[@id='outlined-textarea']");
+    public static final By orderConfirmationSubmitButton = By.xpath("//button[@data-qa='submit_alert_modal']");
 }

@@ -253,13 +253,11 @@ public class QuoteTests extends BaseTest {
                 }
                 dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
             }
-
                 quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
                 boolean pdfDownload = quoteListPageActions.clickPDFFileDownload(DriverManager.getDriver(), map.get("pdfFilename"));
                 Assert.assertTrue(pdfDownload);
                 boolean wordDownload = quoteListPageActions.clickWORDFileDownload(DriverManager.getDriver(), map.get("wordFilename"), map.get("wordPDFFilename"));
                 Assert.assertTrue(wordDownload);
-
         }
     }
 
@@ -380,6 +378,38 @@ public class QuoteTests extends BaseTest {
             assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
             assert quoteListPageActions.verifyQuotePreview(DriverManager.getDriver());
         }
+    }
 
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
+    public void testQuoteOptionPlaceOrder(Map<String, String> map) throws InterruptedException, SQLException {
+        /***
+         this test verifies brokers can download confirmed quote validation
+         story - N2020-28655-QAT-247
+         @author - Venat Kottapalli
+         **/
+        logger.info("verifying quote option placing order functionality :: testQuoteOptionPlaceOrder");
+        List<HashMap<Object, Object>> submissionIds =
+                databaseConnector.getResultSetToList(DatabaseQueries.GET_SUBMISSIONS_WITH_CONFIRMED_QUOTES);
+        int submissionCount = submissionIds.size();
+        String submissionId = null;
+        if(submissionCount>0){
+            for (HashMap<Object, Object> id : submissionIds) {
+                submissionId = id.get("id").toString();
+                dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
+                if (dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver())) {
+                    break;
+                }
+                dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
+            }
+            quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
+            if(quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())){
+                quoteListPageActions.expandTheQuote(DriverManager.getDriver());
+                quoteListPageActions.clickPlaceOrderButton(DriverManager.getDriver());
+                quoteListPageActions.submitOrderConfirmation(DriverManager.getDriver());
+            }
+            dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
+            String quoteStatus = dashboardPageActions.getQuoteStatus(DriverManager.getDriver()).trim();
+            assert quoteStatus.equals(map.get("quoteStatus"));
+        }
     }
 }

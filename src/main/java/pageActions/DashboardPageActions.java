@@ -47,12 +47,12 @@ public class DashboardPageActions extends BaseTest {
         ClickHelper.clickElement(driver, profileSettings);
     }
 
-    public void enterBrokerId(WebDriver driver, String brokerId) throws InterruptedException {
+    public void enterBrokerId(WebDriver driver, String brokerId) {
 
         TextHelper.enterText(driver, brokerIdField, brokerId);
     }
 
-    public void enterAgencyId(WebDriver driver, String agencyId) throws InterruptedException {
+    public void enterAgencyId(WebDriver driver, String agencyId) {
 
         TextHelper.enterText(driver, agencyIdField, agencyId);
     }

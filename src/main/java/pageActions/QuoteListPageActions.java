@@ -158,7 +158,6 @@ public class QuoteListPageActions extends BaseTest {
             logger.error("failed to select the quote template option :: "+e.getMessage());
             throw e;
         }
-
     }
 
     public boolean clickPDFFileDownload(WebDriver driver, String filename) throws InterruptedException {
@@ -267,5 +266,21 @@ public class QuoteListPageActions extends BaseTest {
 
     public boolean isWordFileIconDisplayed(WebDriver driver){
         return ClickHelper.isElementExist(driver, clickAsWordDownloadButton);
+    }
+
+    public void expandTheQuote(WebDriver driver){
+        ClickHelper.clickElement(driver, quoteExpandMoreIcon);
+    }
+
+    public void clickPlaceOrderButton(WebDriver driver){
+        WaitHelper.waitForElementVisibility(driver, quotePlaceOrderButton);
+        ClickHelper.clickElement(driver, quotePlaceOrderButton);
+    }
+
+    public void submitOrderConfirmation(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibility(driver, orderConfirmationDialog);
+        TextHelper.enterText(driver, orderConfirmationTextArea, "Place Order Testing");
+        ClickHelper.clickElement(driver, orderConfirmationSubmitButton);
+        WaitHelper.pause(3000);
     }
 }
