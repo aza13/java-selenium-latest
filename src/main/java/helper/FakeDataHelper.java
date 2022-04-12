@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 
 import java.util.Locale;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class FakeDataHelper {
 
@@ -54,10 +55,15 @@ public class FakeDataHelper {
     }
 
 
-    public int randomInt(int digits) {
+    public static int randomInt(int digits) {
         int minimum = (int) Math.pow(10, digits - 1); // minimum value with 2 digits is 10 (10^1)
         int maximum = (int) Math.pow(10, digits); // maximum value with 2 digits is 99 (10^2 - 1)
         Random random = new Random();
         return minimum + random.nextInt((maximum - minimum) + 1);
+    }
+
+    public static int getRandomNumber(int min, int max){
+
+        return ThreadLocalRandom.current().nextInt(min, max + 1);
     }
 }

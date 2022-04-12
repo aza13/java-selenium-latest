@@ -2,6 +2,7 @@ import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
 import constants.ConstantVariable;
+import constants.DatabaseQueries;
 import helper.FakeDataHelper;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
@@ -9,8 +10,12 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageActions.*;
 import utils.dataProvider.TestDataProvider;
+import utils.dbConnector.DatabaseConnector;
 import utils.fileReader.TextFileReader;
 
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class QuoteTests extends BaseTest {
@@ -20,7 +25,7 @@ public class QuoteTests extends BaseTest {
     private RatingCriteriaPageActions ratingCriteriaPageActions;
     private UnderwritingQuestionsPageActions underwritingQuestionsPageActions;
     private QuoteListPageActions quoteListPageActions;
-    private InsuredPageActions insuredPageActions;
+    private DatabaseConnector databaseConnector;
 
     @BeforeClass(alwaysRun = true)
     public void beforeClassSetUp() {
@@ -30,7 +35,8 @@ public class QuoteTests extends BaseTest {
         ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaActions();
         underwritingQuestionsPageActions = PageObjectManager.getUnderwritingQuestionsPageActions();
         quoteListPageActions = PageObjectManager.getQuoteListPageActions();
-        insuredPageActions = PageObjectManager.getInsuredPageActions();
+        InsuredPageActions insuredPageActions = PageObjectManager.getInsuredPageActions();
+        databaseConnector = new DatabaseConnector();
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
@@ -77,6 +83,7 @@ public class QuoteTests extends BaseTest {
 
                 int optionCountBefore = quoteListPageActions.getQuoteOptionCount(DriverManager.getDriver());
                 if (map.get("functionality").equals("addQuoteOption")) {
+                    quoteListPageActions.clickAddOptionButton(DriverManager.getDriver());
                     quoteListPageActions.addNewQuoteOption(DriverManager.getDriver(), optionCountBefore, map.get("claim"), map.get("limit"), map.get("retention"));
                     int optionCountAfter = quoteListPageActions.getQuoteOptionCount(DriverManager.getDriver());
                     assert optionCountAfter == optionCountBefore + 1;
@@ -204,7 +211,11 @@ public class QuoteTests extends BaseTest {
             }
             underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
             if(!quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())){
-                quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
+                if(quoteListPageActions.checkIfQuotesTabIsDisabled(DriverManager.getDriver())){
+                        quoteListPageActions.selectQuoteTemplateOption(DriverManager.getDriver(), 0);
+                }else{
+                    quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
+                }
             }
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
@@ -222,22 +233,32 @@ public class QuoteTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
-    public void testBrokerDownloadConfirmedQuote(Map<String, String> map) throws InterruptedException {
+    public void testBrokerDownloadConfirmedQuote(Map<String, String> map) throws InterruptedException, SQLException {
         /***
          this test verifies brokers can download confirmed quote validation
          story - N2020-28652-QAT-156
          @author - Azamat Uulu
          **/
-
         logger.info("verifying brokers can download confirmed quote :: testBrokerDownloadConfirmedQuote");
-        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("reffNumber").replaceAll("^\"|\"$", ""));
-        dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
-        quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
-        boolean pdfDownload = quoteListPageActions.clickPDFFileDownload(DriverManager.getDriver(), map.get("pdfFilename"));
-        Assert.assertTrue(pdfDownload);
-        boolean wordDownload = quoteListPageActions.clickWORDFileDownload(DriverManager.getDriver(), map.get("wordFilename"), map.get("wordPDFFilename"));
-        Assert.assertTrue(wordDownload);
-
+        List<HashMap<Object, Object>> submissionIds =
+                databaseConnector.getResultSetToList(DatabaseQueries.GET_SUBMISSIONS_WITH_CONFIRMED_QUOTES);
+        int submissionCount = submissionIds.size();
+        String submissionId;
+        if(submissionCount>0){
+            for (HashMap<Object, Object> id : submissionIds) {
+                submissionId = id.get("id").toString();
+                dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
+                if (dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver())) {
+                    break;
+                }
+                dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
+            }
+                quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
+                boolean pdfDownload = quoteListPageActions.clickPDFFileDownload(DriverManager.getDriver(), map.get("pdfFilename"));
+                Assert.assertTrue(pdfDownload);
+                boolean wordDownload = quoteListPageActions.clickWORDFileDownload(DriverManager.getDriver(), map.get("wordFilename"), map.get("wordPDFFilename"));
+                Assert.assertTrue(wordDownload);
+        }
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
@@ -278,9 +299,9 @@ public class QuoteTests extends BaseTest {
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
             boolean uwQuestionsAnswered = underwritingQuestionsPageActions.checkWhetherAllUWQuestionsAreAnswered(DriverManager.getDriver());
             if (uwQuestionsAnswered) {
-                logger.info("continue button is enabled, means UW questions are answered");
+                logger.info("UW continue button is enabled, means UW questions are answered");
             }else {
-                logger.info("continue button is disabled, means UW questions are not answered");
+                logger.info("UW continue button is disabled, means UW questions are not answered");
                 underwritingQuestionsPageActions.answerUWQuestionButtons(DriverManager.getDriver(), map.get("uwQuestionsAnswer"));
                 underwritingQuestionsPageActions.answerUWQuestionDropdowns(DriverManager.getDriver(), map.get("uwQuestionsAnswer"), map.get("uwQuestionsOption"));
             }
@@ -289,12 +310,11 @@ public class QuoteTests extends BaseTest {
                 quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
             }
         }
-
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
-            quoteListPageActions.verifyStatusConfirmAndLockInProgress(DriverManager.getDriver());
+            quoteListPageActions.addNewQuoteOption(DriverManager.getDriver(), 0, map.get("claim"), map.get("limit"), map.get("retention"));
             if (quoteListPageActions.clickConfirmAndLock(DriverManager.getDriver())){
-                String quoteSuccessStatusMessage = quoteListPageActions.verifySuccessConfirmAndLockMessage(DriverManager.getDriver());
-                Assert.assertEquals(quoteSuccessStatusMessage, map.get("quoteSuccessMessage"));
+                /*String quoteSuccessStatusMessage = quoteListPageActions.verifySuccessConfirmAndLockMessage(DriverManager.getDriver());
+                Assert.assertEquals(quoteSuccessStatusMessage, map.get("quoteSuccessMessage"));*/
                 quoteListPageActions.verifyStatusConfirmAndLockReadyToPlaceOrder(DriverManager.getDriver());
                 assert quoteListPageActions.verifyPDFFileAvailable(DriverManager.getDriver());
                 assert quoteListPageActions.verifyWORDFileAvailable(DriverManager.getDriver());
@@ -358,6 +378,38 @@ public class QuoteTests extends BaseTest {
             assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
             assert quoteListPageActions.verifyQuotePreview(DriverManager.getDriver());
         }
+    }
 
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
+    public void testQuoteOptionPlaceOrder(Map<String, String> map) throws InterruptedException, SQLException {
+        /***
+         this test verifies brokers can download confirmed quote validation
+         story - N2020-28655-QAT-247
+         @author - Venat Kottapalli
+         **/
+        logger.info("verifying quote option placing order functionality :: testQuoteOptionPlaceOrder");
+        List<HashMap<Object, Object>> submissionIds =
+                databaseConnector.getResultSetToList(DatabaseQueries.GET_SUBMISSIONS_WITH_CONFIRMED_QUOTES);
+        int submissionCount = submissionIds.size();
+        String submissionId = null;
+        if(submissionCount>0){
+            for (HashMap<Object, Object> id : submissionIds) {
+                submissionId = id.get("id").toString();
+                dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
+                if (dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver())) {
+                    break;
+                }
+                dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
+            }
+            quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
+            if(quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())){
+                quoteListPageActions.expandTheQuote(DriverManager.getDriver());
+                quoteListPageActions.clickPlaceOrderButton(DriverManager.getDriver());
+                quoteListPageActions.submitOrderConfirmation(DriverManager.getDriver());
+            }
+            dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
+            String quoteStatus = dashboardPageActions.getQuoteStatus(DriverManager.getDriver()).trim();
+            assert quoteStatus.equals(map.get("quoteStatus"));
+        }
     }
 }

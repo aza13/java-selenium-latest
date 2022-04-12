@@ -18,7 +18,8 @@ public class QuoteListPageObjects {
     public static final By quoteListContainer = By.xpath("//div[@data-qa='quote_list_container']");
     public static final By clickAsPDFDownloadButton = By.xpath("//*[@data-testid='PictureAsPdfIcon']");
     public static final By clickAsWordDownloadButton = By.xpath("//div[@aria-label='Download Word']//img");
-    public static final By clickOnQuotesTab = By.xpath("(//button[normalize-space()='Quotes'])[1]");
+    public static final By quotesTab = By.xpath("//button[text()='Quotes']");
+    public static final By quotesTabDisabled = By.xpath("//button[text()='Quotes' and @disabled]");
     public static final By statusQuoteInProgress = By.xpath("//div[contains(text(),'In Progress')]");
     public static final By statusQuoteReadyToPlaceOrder = By.xpath("//div[contains(text(),'Ready to Place Order')]");
     public static final By confirmAndLockButton = By.xpath("//button[normalize-space()='Confirm and Lock']");
@@ -34,5 +35,10 @@ public class QuoteListPageObjects {
     public static final By quoteSuccessMessage = By.xpath("//div[@class='sc-lcepkR gjhMuD MuiAlert-message']");
     public static final By quotePreviewButton = By.xpath("//*[@data-testid='PreviewIcon']");
     public static final By inactiveQuote = By.xpath("//div[contains(text(),'Inactive')]");
-
+    public static final By quoteTemplateOption = By.xpath("//ul[@role='menu']/li");
+    public static final By quoteExpandMoreIcon = By.xpath("//div[@data-qa='quote_list_container']//*[@data-testid='ExpandMoreIcon']");
+    public static final By quotePlaceOrderButton = By.xpath("//button[text()='Place Order']");
+    public static final By orderConfirmationDialog = By.xpath("//h2[@id='alert-dialog-title' and text()='Order Confirmation']");
+    public static final By orderConfirmationTextArea = By.xpath("//textarea[@id='outlined-textarea']");
+    public static final By orderConfirmationSubmitButton = By.xpath("//button[@data-qa='submit_alert_modal']");
 }

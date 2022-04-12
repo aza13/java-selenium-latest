@@ -183,13 +183,11 @@ public class InsuredPageActions extends BaseTest {
     }
 
     public boolean duplicateSubmissionDialog(WebDriver driver) {
-        WaitHelper.waitForElementVisibility(driver, duplicateSubmissionDialog);
         return ClickHelper.isElementExist(driver, duplicateSubmissionDialog);
 
     }
 
     public String duplicateSubmissionDialogDescription(WebDriver driver) {
-
         WaitHelper.waitForElementVisibility(driver, duplicateSubDialogDescription);
         return TextHelper.getText(driver, duplicateSubDialogDescription, "text");
     }
@@ -199,7 +197,7 @@ public class InsuredPageActions extends BaseTest {
         ClickHelper.clickElement(driver, duplicateDialogCancelButton);
     }
 
-    public void selectInsuredCard(WebDriver driver, String insuredName) {
+    public void selectInsuredCard(WebDriver driver, String insuredName) throws InterruptedException {
         List<WebElement> insuredNames = driver.findElements(insuredNameInCard);
         int cardsCount = 0;
         if (insuredNames.size() > 0) {
@@ -212,6 +210,7 @@ public class InsuredPageActions extends BaseTest {
             String selectButtonXpath = "(//button[@data-qa='insured_select'])[" + cardsCount + "]";
             driver.findElement(By.xpath(selectButtonXpath)).click();
         }
+        WaitHelper.pause(10000);
     }
 
     public List<WebElement> getAllInsuredNames(WebDriver driver) {
@@ -222,7 +221,7 @@ public class InsuredPageActions extends BaseTest {
         String selectButtonXpath = "(//button[@data-qa='insured_select'])[" + index + "]";
         driver.findElement(By.xpath(selectButtonXpath)).click();
 //        WaitHelper.waitForSpinnerIconInvisibility(driver, loadingSpinnerIcon);
-        WaitHelper.pause(5000);
+        WaitHelper.pause(12000);
     }
 
     public boolean isClearanceDialogModalDisplayed(WebDriver driver) {

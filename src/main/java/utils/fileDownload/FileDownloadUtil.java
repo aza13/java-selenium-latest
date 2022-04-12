@@ -18,10 +18,12 @@ public class FileDownloadUtil {
     }
 
     public static void checkFileExistInDownloadFolder(WebDriver driver) throws InterruptedException {
-
-        fileLocation = new File(home + "\\Downloads");
+        String userDirectory = System.getProperty("user.home");
+        String downloadsPath = userDirectory+"\\Downloads";
+        System.out.println("Download Path: "+downloadsPath);
+        fileLocation = new File(downloadsPath);
         totalFiles = fileLocation.listFiles();
-
+        assert totalFiles != null;
         for (File file : totalFiles) {
             if (file.getName().contains("TMHCC_")) {
                 file.delete();
