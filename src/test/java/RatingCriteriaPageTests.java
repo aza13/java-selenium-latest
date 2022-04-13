@@ -87,21 +87,25 @@ public class RatingCriteriaPageTests extends BaseTest {
     public void  testHardDeclineAfterRatingCriteria(Map<String, String> map) throws InterruptedException, SQLException {
         /***
          this test hard decline after rating criteria
-         story - N2020-28624
+         story - N2020-28624 QAT-171
+         @author - Azamat Uulu
          **/
 
-        String quoteId="";
-        List<HashMap<Object, Object>> listValueQuoteIds =
-                databaseConnector.getResultSetToList(DatabaseQueries.GET_QUOTE_FOR_HARD_DECLINE);
-        if (listValueQuoteIds != null) {
-            quoteId=listValueQuoteIds.get(0).get("id").toString();
-            System.out.println(quoteId);
-        } else{
-            throw new SkipException("Unable to get policy Ids from the DB ");
-        }
-            logger.info("verifying :: hard decline after rating criteria");
-            dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), (quoteId));
-            dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
+        logger.info("verifying :: test hard decline after rating criteria");
+        dashboardPageActions.clickNewQuote(DriverManager.getDriver());
+        String newInsuredName = FakeDataHelper.fullName();
+        String newInsuredWebsite = FakeDataHelper.website();
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), newInsuredName,newInsuredWebsite);
+        InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
+        insuredPageActions.enterEmailAddress(DriverManager.getDriver());
+        insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
+        assert insuredPageActions.verifyValidPhoneNumberFormat(DriverManager.getDriver());
+        insuredPageActions.enterPhysicalAddress(DriverManager.getDriver());
+        insuredPageActions.enterPhyCity(DriverManager.getDriver());
+        insuredPageActions.enterPhyZipcode(DriverManager.getDriver());
+        insuredPageActions.selectPhyState(DriverManager.getDriver());
+        insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
+        insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
             if(map.get("product").equals("NetGuard® SELECT")){
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass2"));
@@ -110,18 +114,14 @@ public class RatingCriteriaPageTests extends BaseTest {
             }else{
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass"));
                 ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
-                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
+                ratingCriteriaPageActions.enterRatingCriteriaNoPhysiciansRevenueAndRecords(DriverManager.getDriver(), map.get("noPhysicians"), map.get("revenue"), map.get("records"));
             }
+            ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
-            ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
-            assert ratingCriteriaPageActions.hardDeclineText(DriverManager.getDriver()).isDisplayed();
-            ratingCriteriaPageActions.clickRatingCriteriaOkButton(DriverManager.getDriver());
-            ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
-            dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
-            dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(),(quoteId));
-            String statusAfterDecline = dashboardPageActions.getQuoteStatus(DriverManager.getDriver());
-            String actualStatus = "Declined";
-            assert statusAfterDecline.equals(actualStatus);
+
+        ratingCriteriaPageActions.verifyAndClickHardDeclinePopup(DriverManager.getDriver());
+        String actualFirstStatus = dashboardPageActions.firstAvailableStatus(DriverManager.getDriver());
+        assert actualFirstStatus.equals("Declined");
 
     }
 

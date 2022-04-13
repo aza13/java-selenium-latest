@@ -40,8 +40,9 @@ public class RatingCriteriaPageObjects {
     public static final By confirmMsgDetails = By.xpath("//div[contains(text(),'Updates to the data on these views will invalidate')]");
     public static final By confirmMsgOKDetails = By.xpath("(//button[normalize-space()='Ok'])[1]");
     public static final By confirmMsgCancelDetails = By.xpath("(//button[normalize-space()='Cancel'])[1]");
-
-
+    public static final By ratingCriteriaNoPhysiciansField = By.name("Number of Physicians");
+    public static final By hardDeclineMsg = By.cssSelector("p[id='alert-dialog-description'] div div p");
+    public static final By hardDeclineOKButton = By.xpath("//button[normalize-space()='OK']");
 
 
 }

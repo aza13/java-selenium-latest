@@ -169,4 +169,19 @@ public class RatingCriteriaPageActions extends BaseTest {
         return ClickHelper.isElementExist(driver, ratingCriteriaHeader2);
     }
 
+    public void enterRatingCriteriaNoPhysiciansRevenueAndRecords(WebDriver driver, String noPhysicians, String revenue, String records) throws InterruptedException {
+        WaitHelper.pause(5000);
+        TextHelper.enterText(driver, ratingCriteriaNoPhysiciansField, noPhysicians);
+        TextHelper.enterText(driver, ratingCriteriaRevenueField, revenue);
+        TextHelper.enterText(driver, ratingCriteriaRecordsField , records );
+        driver.findElement(ratingCriteriaRecordsField).sendKeys(Keys.TAB);
+        WaitHelper.pause(3000);
+    }
+
+    public void verifyAndClickHardDeclinePopup(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementClickable(driver, hardDeclineMsg);
+        ClickHelper.clickElement(driver, hardDeclineOKButton);
+        WaitHelper.pause(3000);
+    }
+
 }
