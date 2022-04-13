@@ -502,7 +502,6 @@ public class DashboardPageTests extends BaseTest {
         String[] policiesNumber = map.get("policyNumber").split(ConstantVariable.SEMICOLON);
 
         for (int i=0; i< statuses.length; i++) {
-
             dashboardPageActions.clickFilterList(DriverManager.getDriver());
             dashboardPageActions.clickFilterByStatus(DriverManager.getDriver());
             dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), statuses[i]);
