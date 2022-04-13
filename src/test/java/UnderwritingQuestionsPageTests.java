@@ -34,7 +34,7 @@ public class UnderwritingQuestionsPageTests extends BaseTest {
 
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "UnderwritingQuestionsPageData")
-    public void  testBrokerAnswersUnderWriterQuestions(Map<String, String> map) throws InterruptedException {
+    public void testBrokerAnswersUnderWriterQuestions(Map<String, String> map) throws InterruptedException {
         /***
          this test Brokers can answers all underwriter questions
          story - N2020-28623-QAT-165
@@ -58,11 +58,11 @@ public class UnderwritingQuestionsPageTests extends BaseTest {
         insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
         insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            if(map.get("product").equals("NetGuard® SELECT")){
+            if (map.get("product").equals("NetGuard® SELECT")) {
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass2"));
                 ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
                 ratingCriteriaPageActions.enterNetWorth(DriverManager.getDriver(), map.get("netWorth"));
-            }else{
+            } else {
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass"));
                 ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
                 ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
@@ -107,11 +107,11 @@ public class UnderwritingQuestionsPageTests extends BaseTest {
         insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
         insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            if(map.get("product").equals("NetGuard® SELECT")){
+            if (map.get("product").equals("NetGuard® SELECT")) {
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass2"));
                 ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
                 ratingCriteriaPageActions.enterNetWorth(DriverManager.getDriver(), map.get("netWorth"));
-            }else{
+            } else {
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass"));
                 ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
                 ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
@@ -130,29 +130,38 @@ public class UnderwritingQuestionsPageTests extends BaseTest {
             underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
         }
 
-        if(quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
+        if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             quoteListPageActions.verifyStatusConfirmAndLockInProgress(DriverManager.getDriver());
-            quoteListPageActions.clickConfirmAndLock(DriverManager.getDriver());
-            quoteListPageActions.verifySuccessConfirmAndLockMessage(DriverManager.getDriver());
+            quoteListPageActions.clickConfirmQuoteButton(DriverManager.getDriver());
+            if (quoteListPageActions.clickConfirmAndLock(DriverManager.getDriver())) {
+                if (quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())) {
+                    quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
+                    quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
+                } else {
+                    quoteListPageActions.checkIfQuoteLockSuccessMessageDisplayed(DriverManager.getDriver());
+                }
+            /*quoteListPageActions.clickConfirmAndLock(DriverManager.getDriver());
+            quoteListPageActions.verifySuccessConfirmAndLockMessage(DriverManager.getDriver());*/
+            }
+
+            underwritingQuestionsPageActions.clickUnderwritingQuestionsPageTab(DriverManager.getDriver());
+            boolean isEditButtonVisible1 = underwritingQuestionsPageActions.checkEditButtonIsVisible(DriverManager.getDriver());
+
+            if (!isEditButtonVisible1) {
+                underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
+            } else {
+                underwritingQuestionsPageActions.clickEditButtonIsVisible(DriverManager.getDriver());
+                underwritingQuestionsPageActions.checkEditConfirmMsgIsVisible(DriverManager.getDriver());
+                underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
+            }
+
+            boolean inactiveTextPresent = quoteListPageActions.isInactiveTextDisplayed(DriverManager.getDriver());
+            Assert.assertTrue(inactiveTextPresent);
+            boolean pdfFileIconValue = quoteListPageActions.isPDFFileIconDisplayed(DriverManager.getDriver());
+            Assert.assertFalse(pdfFileIconValue);
+            boolean wordFileIconValue = quoteListPageActions.isWordFileIconDisplayed(DriverManager.getDriver());
+            Assert.assertFalse(wordFileIconValue);
+
         }
-
-        underwritingQuestionsPageActions.clickUnderwritingQuestionsPageTab(DriverManager.getDriver());
-        boolean isEditButtonVisible1 = underwritingQuestionsPageActions.checkEditButtonIsVisible(DriverManager.getDriver());
-
-        if(!isEditButtonVisible1) {
-            underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
-        }else {
-            underwritingQuestionsPageActions.clickEditButtonIsVisible(DriverManager.getDriver());
-            underwritingQuestionsPageActions.checkEditConfirmMsgIsVisible(DriverManager.getDriver());
-            underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
-        }
-
-        boolean inactiveTextPresent = quoteListPageActions.isInactiveTextDisplayed(DriverManager.getDriver());
-        Assert.assertTrue(inactiveTextPresent);
-        boolean pdfFileIconValue = quoteListPageActions.isPDFFileIconDisplayed(DriverManager.getDriver());
-        Assert.assertFalse(pdfFileIconValue);
-        boolean wordFileIconValue = quoteListPageActions.isWordFileIconDisplayed(DriverManager.getDriver());
-        Assert.assertFalse(wordFileIconValue);
-
     }
 }

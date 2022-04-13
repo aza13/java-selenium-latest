@@ -206,7 +206,7 @@ public class QuoteListPageActions extends BaseTest {
         }else{
             WaitHelper.waitForElementVisibility(driver, confirmAndLockButton);
             ClickHelper.clickElement(driver, confirmAndLockButton);
-            WaitHelper.pause(20000);
+            WaitHelper.pause(10000);
             return true;
         }
     }
