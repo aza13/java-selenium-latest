@@ -41,4 +41,10 @@ public class QuoteListPageObjects {
     public static final By orderConfirmationDialog = By.xpath("//h2[@id='alert-dialog-title' and text()='Order Confirmation']");
     public static final By orderConfirmationTextArea = By.xpath("//textarea[@id='outlined-textarea']");
     public static final By orderConfirmationSubmitButton = By.xpath("//button[@data-qa='submit_alert_modal']");
+    public static final By perClaimSelection = By.xpath("//div[@data-qa='groupLimit']//div[@aria-label='Without label' and contains(text(),'$ 500k')]");
+    public static final By perClaimSelectionValue = By.xpath("//span[normalize-space()='$ 1MM']");
+    public static final By SoftDeclineHeader = By.xpath("//h2[@id='alert-dialog-title']");
+    public static final By softDeclineText = By.xpath("//*[@id='alert-dialog-description']/div[2]/div/h1");
+    public static final By cancelSoftDecline = By.xpath("//button[normalize-space()='Cancel Everything']");
+
 }
