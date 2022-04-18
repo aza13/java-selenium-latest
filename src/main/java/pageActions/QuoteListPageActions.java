@@ -287,6 +287,12 @@ public class QuoteListPageActions extends BaseTest {
         TextHelper.enterText(driver, orderConfirmationTextArea, "Place Order Testing");
         ClickHelper.clickElement(driver, orderConfirmationSubmitButton);
         WaitHelper.pause(3000);
+    }
 
+    public String getOpenQuoteId(WebDriver driver){
+        String quoteString = TextHelper.getText(driver, openQuoteIdLocator, "text");
+        assert quoteString != null;
+        String quoteId = quoteString.split("#")[1];
+        return quoteId;
     }
 }
