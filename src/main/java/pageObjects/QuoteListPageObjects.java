@@ -46,5 +46,11 @@ public class QuoteListPageObjects {
     public static final By SoftDeclineHeader = By.xpath("//h2[@id='alert-dialog-title']");
     public static final By softDeclineText = By.xpath("//*[@id='alert-dialog-description']/div[2]/div/h1");
     public static final By cancelSoftDecline = By.xpath("//button[normalize-space()='Cancel Everything']");
-
+    public static final By coverageGroupCheckbox = By.xpath("(//input[@type='checkbox'])[1]");
+    public static final By coverageGroupAmount = By.xpath("(//span[normalize-space()='$1,650'])[1]");
+    public static final By groupLimit = By.xpath("//*[@id='panel-content-1']/div/div[1]/div/div/p[2]/div/div[2]/div/div/div");
+    public static final By aggregateLimit = By.xpath("//*[@id='panel-content-1']/div/div[1]/div/div/p[2]/div/div[3]/div/div/div");
+    public static final By deductible = By.xpath("//*[@id='panel-content-1']/div/div[1]/div/div/p[2]/div/div[4]/div/div/div");
+    public static final By warningMsg = By.xpath("//div[contains(text(),'An option should have at least 1 selected primary ')]");
+    public static final By selectDropDown = By.xpath("//*[@role='button' and em[text()='Select']]");
 }
