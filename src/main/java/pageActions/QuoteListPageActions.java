@@ -226,7 +226,7 @@ public class QuoteListPageActions extends BaseTest {
     }
 
     public boolean verifyQuotePreview(WebDriver driver) throws InterruptedException {
-        WaitHelper.waitForElementVisibility(driver, quotePreviewButton);
+        WaitHelper.pause(5000);
         ClickHelper.clickElement(driver, quotePreviewButton);
         WaitHelper.pause(10000);
         ArrayList<String> tabs2 = new ArrayList<String> (driver.getWindowHandles());

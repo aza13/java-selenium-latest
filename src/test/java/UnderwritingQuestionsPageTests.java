@@ -1,7 +1,6 @@
 import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
-import constants.ConstantVariable;
 import helper.FakeDataHelper;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
@@ -29,7 +28,6 @@ public class UnderwritingQuestionsPageTests extends BaseTest {
         underwritingQuestionsPageActions = PageObjectManager.getUnderwritingQuestionsPageActions();
         ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaActions();
         quoteListPageActions = PageObjectManager.getQuoteListPageActions();
-
     }
 
 
@@ -42,7 +40,6 @@ public class UnderwritingQuestionsPageTests extends BaseTest {
          **/
 
         logger.info("verifying :: Under Writing Questions");
-
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         String newInsuredName = FakeDataHelper.fullName();
         String newInsuredWebsite = FakeDataHelper.website();
@@ -79,6 +76,7 @@ public class UnderwritingQuestionsPageTests extends BaseTest {
                 underwritingQuestionsPageActions.answerUWQuestionDropdowns(DriverManager.getDriver(), map.get("uwQuestionsAnswer"), map.get("uwQuestionsOption"));
             }
             underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
+            assert true;
         }
     }
 
@@ -128,7 +126,6 @@ public class UnderwritingQuestionsPageTests extends BaseTest {
             }
             underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
         }
-
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             quoteListPageActions.verifyStatusConfirmAndLockInProgress(DriverManager.getDriver());
             quoteListPageActions.clickConfirmQuoteButton(DriverManager.getDriver());
@@ -139,10 +136,7 @@ public class UnderwritingQuestionsPageTests extends BaseTest {
                 } else {
                     quoteListPageActions.checkIfQuoteLockSuccessMessageDisplayed(DriverManager.getDriver());
                 }
-            /*quoteListPageActions.clickConfirmAndLock(DriverManager.getDriver());
-            quoteListPageActions.verifySuccessConfirmAndLockMessage(DriverManager.getDriver());*/
             }
-
             underwritingQuestionsPageActions.clickUnderwritingQuestionsPageTab(DriverManager.getDriver());
             boolean isEditButtonVisible1 = underwritingQuestionsPageActions.checkEditButtonIsVisible(DriverManager.getDriver());
 
@@ -153,14 +147,12 @@ public class UnderwritingQuestionsPageTests extends BaseTest {
                 underwritingQuestionsPageActions.checkEditConfirmMsgIsVisible(DriverManager.getDriver());
                 underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
             }
-
             boolean inactiveTextPresent = quoteListPageActions.isInactiveTextDisplayed(DriverManager.getDriver());
             Assert.assertTrue(inactiveTextPresent);
             boolean pdfFileIconValue = quoteListPageActions.isPDFFileIconDisplayed(DriverManager.getDriver());
             Assert.assertFalse(pdfFileIconValue);
             boolean wordFileIconValue = quoteListPageActions.isWordFileIconDisplayed(DriverManager.getDriver());
             Assert.assertFalse(wordFileIconValue);
-
         }
     }
 }

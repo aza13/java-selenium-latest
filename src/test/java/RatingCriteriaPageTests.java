@@ -162,7 +162,7 @@ public class RatingCriteriaPageTests extends BaseTest {
         dashboardPageActions.getMyQuotesTabTitle(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "RatingCriteriaPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "RatingCriteriaPageData", enabled = false)
     public void  testBrokerReturnPreviousRatingAndUWPages(Map<String, String> map) throws InterruptedException {
         /***
          this test Brokers can return to Previous pages i.e. Rating Criteria and UW View
@@ -224,7 +224,6 @@ public class RatingCriteriaPageTests extends BaseTest {
                 quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
                 quoteListPageActions.verifyStatusConfirmAndLockInProgress(DriverManager.getDriver());
                 ratingCriteriaPageActions.clickDetailsPageTab(DriverManager.getDriver());
-
                 ratingCriteriaPageActions.clickEditButtonIsVisible(DriverManager.getDriver());
                 ratingCriteriaPageActions.checkEditConfirmMsgIsVisible(DriverManager.getDriver());
 
