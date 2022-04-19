@@ -734,5 +734,9 @@ public class DashboardPageActions extends BaseTest {
         }
     }
 
+    public String firstAvailableStatus(WebDriver driver){
+        return TextHelper.getText(driver, firstAvailableStatus, "text");
+    }
+
 
 }

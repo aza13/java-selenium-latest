@@ -91,7 +91,6 @@ public class UnderwritingQuestionsPageTests extends BaseTest {
          **/
 
         logger.info("verifying :: Quotes Can Be Invalidated When Rating/UW are Edited");
-
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         String newInsuredName = FakeDataHelper.fullName();
         String newInsuredWebsite = FakeDataHelper.website();

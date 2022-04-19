@@ -295,4 +295,20 @@ public class QuoteListPageActions extends BaseTest {
         String quoteId = quoteString.split("#")[1];
         return quoteId;
     }
+
+    public void choosePerClaim(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibility(driver, perClaimSelection);
+        ClickHelper.clickElement(driver, perClaimSelection);
+        WaitHelper.waitForElementVisibility(driver, perClaimSelectionValue);
+        ClickHelper.clickElement(driver, perClaimSelectionValue);
+        WaitHelper.pause(3000);
+    }
+
+    public void verifySoftDeclinePopup(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibility(driver, SoftDeclineHeader);
+        WaitHelper.waitForElementVisibility(driver, softDeclineText);
+        TextHelper.enterText(driver, submitReviewTextArea, "Quote Review Text");
+        ClickHelper.clickElement(driver, cancelSoftDecline);
+        WaitHelper.pause(6000);
+    }
 }
