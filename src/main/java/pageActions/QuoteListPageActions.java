@@ -162,7 +162,7 @@ public class QuoteListPageActions extends BaseTest {
 
     public boolean clickPDFFileDownload(WebDriver driver, String filename) throws InterruptedException {
 
-        FileDownloadUtil.checkFileExistInDownloadFolder(driver);
+        FileDownloadUtil.checkFileExistInDownloadFolder();
 
         ClickHelper.clickElement(driver, clickAsPDFDownloadButton);
         WaitHelper.pause(15000);
@@ -172,7 +172,7 @@ public class QuoteListPageActions extends BaseTest {
 
     public boolean clickWORDFileDownload(WebDriver driver, String filename1, String filename2) throws InterruptedException {
 
-        FileDownloadUtil.checkFileExistInDownloadFolder(driver);
+        FileDownloadUtil.checkFileExistInDownloadFolder();
 
         ClickHelper.clickElement(driver, clickAsWordDownloadButton);
         WaitHelper.pause(15000);

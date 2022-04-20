@@ -17,8 +17,9 @@ public class FileDownloadUtil {
 
     }
 
-    public static void checkFileExistInDownloadFolder(WebDriver driver) throws InterruptedException {
+    public static void checkFileExistInDownloadFolder() throws InterruptedException {
         String userDirectory = System.getProperty("user.home");
+        System.out.println("Jenkins Home Path: "+userDirectory);
         String downloadsPath = userDirectory+"\\Downloads";
         System.out.println("Download Path: "+downloadsPath);
         fileLocation = new File(downloadsPath);
@@ -34,6 +35,7 @@ public class FileDownloadUtil {
     public static boolean verifyPDFFileDownload(String filename){
 
         totalFiles = fileLocation.listFiles();
+        System.out.println("Filename in Jenkins : "+filename);
 
         for(File file : totalFiles) {
             if (file.getName().startsWith(filename)) {
