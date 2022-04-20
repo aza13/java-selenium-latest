@@ -44,7 +44,7 @@ public class QuoteTests extends BaseTest {
         databaseConnector = new DatabaseConnector();
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData", enabled = false)
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
     public void testAddAndDeleteQuoteOption(Map<String, String> map) throws InterruptedException {
         /***
          this verifies whether broker can add the new quote option
@@ -108,7 +108,7 @@ public class QuoteTests extends BaseTest {
     }
 
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData", enabled = false)
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
     public void testLockQuote(Map<String, String> map) throws InterruptedException {
         /***
          this verifies whether applicant can lock a quote
@@ -177,7 +177,7 @@ public class QuoteTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData", enabled = false)
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
     public void testAddQuote(Map<String, String> map) throws InterruptedException {
         /***
          this verifies whether broker can delete the new quote option
@@ -273,7 +273,7 @@ public class QuoteTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData", enabled = false)
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
     public void testConfirmAndLockQuoteOption(Map<String, String> map) throws InterruptedException, SQLException {
         /***
          this verifies whether broker can click and confirm lock quote option
@@ -359,7 +359,7 @@ public class QuoteTests extends BaseTest {
     }
 
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData", enabled = false)
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
     public void testQuotePreview(Map<String, String> map) throws InterruptedException {
         /***
          this verifies whether broker can click preview quote option
