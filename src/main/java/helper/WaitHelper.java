@@ -104,4 +104,18 @@ public class WaitHelper {
             throw (e);
         }
     }
+
+    public static boolean isElementEnabled(WebDriver driver, By elementLocator) {
+
+        logger.info("Checking whether element enabled or not in :: isElementEnabled");
+        try {
+            WebElement element = driver.findElement(elementLocator);
+            return element.isEnabled();
+        } catch (NoSuchElementException e) {
+            return false;
+        } catch (Exception e) {
+            logger.error("Element not displayed :: isElementEnabled");
+            throw (e);
+        }
+    }
 }
