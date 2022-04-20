@@ -311,4 +311,83 @@ public class QuoteListPageActions extends BaseTest {
         ClickHelper.clickElement(driver, cancelSoftDecline);
         WaitHelper.pause(6000);
     }
+
+    public boolean verifyDefaultCoverageCheckboxSelected(WebDriver driver){
+        return ClickHelper.isElementExist(driver, coverageGroupCheckbox);
+    }
+
+    public void checkDefaultCoverageCheckboxSelectUnSelect(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibility(driver, coverageGroupAmount);
+        ClickHelper.clickElement(driver, coverageGroupCheckbox);
+        WaitHelper.pause(5000);
+        ClickHelper.clickElement(driver, coverageGroupCheckbox);
+        WaitHelper.waitForElementVisibility(driver, coverageGroupAmount);
+    }
+
+    public boolean verifyOptionCoverageGroupUnSelect(WebDriver driver) throws InterruptedException {
+        boolean isFieldVisible = false;
+        ClickHelper.clickElement(driver, coverageGroupCheckbox);
+        WaitHelper.pause(7000);
+        if(ClickHelper.isElementExist(driver, groupLimit)){
+            isFieldVisible = true;
+        }else if(ClickHelper.isElementExist(driver, aggregateLimit)){
+            isFieldVisible = true;
+        }else if(ClickHelper.isElementExist(driver, deductible)){
+            isFieldVisible = true;
+        }
+        return isFieldVisible;
+    }
+
+    public boolean verifyOptionCoverageGroupSelect(WebDriver driver) throws InterruptedException {
+
+        boolean isFieldVisible = false;
+        ClickHelper.clickElement(driver, coverageGroupCheckbox);
+        WaitHelper.pause(5000);
+        if(ClickHelper.isElementExist(driver, groupLimit)){
+            if(ClickHelper.isElementExist(driver, aggregateLimit)){
+                if(ClickHelper.isElementExist(driver, deductible)){
+                    isFieldVisible = true;
+                }
+            }
+        }
+        return isFieldVisible;
+    }
+
+    public void verifyWarningMsgWhenUncheckedOptionCoverageGroup(WebDriver driver) throws InterruptedException {
+        ClickHelper.clickElement(driver, coverageGroupCheckbox);
+        WaitHelper.pause(5000);
+        ClickHelper.isElementExist(driver, warningMsg);
+    }
+
+    public boolean isPremiumAmountDisplay(WebDriver driver){
+        return WaitHelper.isElementDisplayed(driver, coverageGroupAmount);
+    }
+
+    public boolean isConfirmedAndLockQuoteButtonDisplay(WebDriver driver){
+        return WaitHelper.isElementEnabled(driver, confirmAndLockQuoteButton);
+    }
+
+    public boolean isSelectVisibleToNewAddOption(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(3000);
+        List<WebElement> optionDropDown = driver.findElements(selectDropDown);
+        if(optionDropDown.size()==3){
+                return true;
+        }
+        return false;
+    }
+
+    public String clickClaimCheckbox(WebDriver driver, String selectCheckbox) throws InterruptedException {
+        WaitHelper.pause(3000);
+        String chooseCheckbox = "(//input[@type='checkbox'])["+selectCheckbox+"]";
+        By chooseCoverageGroupCheckbox = By.xpath(chooseCheckbox);
+        ClickHelper.clickElement(driver, chooseCoverageGroupCheckbox);
+        WaitHelper.pause(3000);
+        ClickHelper.clickElement(driver, chooseCoverageGroupCheckbox);
+        String perClaimDropdownXpath = "//div[@data-qa='option_card_"+selectCheckbox+"']//div[@data-qa='groupLimit']/div";
+        By perClaimDropdown = By.xpath(perClaimDropdownXpath);
+        WaitHelper.waitForElementVisibility(driver, perClaimDropdown);
+        WebElement dropdownValue = driver.findElement(perClaimDropdown);
+        return dropdownValue.getText();
+
+    }
 }

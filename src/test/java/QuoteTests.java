@@ -514,6 +514,82 @@ public class QuoteTests extends BaseTest {
         }
     }
 
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
+    public void testQuoteSelectUnSelectCoverageGroupOption(Map<String, String> map) throws InterruptedException, SQLException {
+        /***
+         this test verifies Broker Portal Quotes Can Select/Unselect Coverage Groups for an Option
+         story - N2020-30895-QAT-231
+         @author - Azamat Uulu
+         **/
+        logger.info("verifying Quotes Broker Can Select/Unselect Coverage Groups for an Option :: testQuoteSelectUnSelectCoverageGroupOption");
+        dashboardPageActions.clickNewQuote(DriverManager.getDriver());
+        String newInsuredName = FakeDataHelper.fullName();
+        String newInsuredWebsite = FakeDataHelper.website();
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), newInsuredName, newInsuredWebsite);
+        InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
+        insuredPageActions.enterEmailAddress(DriverManager.getDriver());
+        insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
+        assert insuredPageActions.verifyValidPhoneNumberFormat(DriverManager.getDriver());
+        insuredPageActions.enterPhysicalAddress(DriverManager.getDriver());
+        insuredPageActions.enterPhyCity(DriverManager.getDriver());
+        insuredPageActions.enterPhyZipcode(DriverManager.getDriver());
+        insuredPageActions.selectPhyState(DriverManager.getDriver());
+        insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
+        insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
+        if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
+            if(map.get("product").equals("NetGuard® SELECT")){
+                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass2"));
+                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
+                ratingCriteriaPageActions.enterNetWorth(DriverManager.getDriver(), map.get("netWorth"));
+            }else{
+                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass"));
+                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
+                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
+            }
+            ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
+        }
+        if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
+            boolean uwQuestionsAnswered = underwritingQuestionsPageActions.checkWhetherAllUWQuestionsAreAnswered(DriverManager.getDriver());
+            if (uwQuestionsAnswered) {
+                logger.info("continue button is enabled, means UW questions are answered");
+            }else {
+                logger.info("continue button is disabled, means UW questions are not answered");
+                underwritingQuestionsPageActions.answerUWQuestionButtons(DriverManager.getDriver(), map.get("uwQuestionsAnswer"));
+                underwritingQuestionsPageActions.answerUWQuestionDropdowns(DriverManager.getDriver(), map.get("uwQuestionsAnswer"), map.get("uwQuestionsOption"));
+            }
+            underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
+
+            if(!quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())){
+                quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
+            }
+        }
+        if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
+            assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
+
+            quoteListPageActions.checkDefaultCoverageCheckboxSelectUnSelect(DriverManager.getDriver());
+            boolean optionCoverageGroupUnSelect = quoteListPageActions.verifyOptionCoverageGroupUnSelect(DriverManager.getDriver());
+            Assert.assertFalse(optionCoverageGroupUnSelect);
+            boolean optionCoverageGroupSelect = quoteListPageActions.verifyOptionCoverageGroupSelect(DriverManager.getDriver());
+            Assert.assertTrue(optionCoverageGroupSelect);
+
+            quoteListPageActions.verifyWarningMsgWhenUncheckedOptionCoverageGroup(DriverManager.getDriver());
+
+            boolean isPremiumAmountDisplay = quoteListPageActions.isPremiumAmountDisplay(DriverManager.getDriver());
+            Assert.assertFalse(isPremiumAmountDisplay);
+            boolean isConfirmAndLockButtonVisible = quoteListPageActions.isConfirmedAndLockQuoteButtonDisplay(DriverManager.getDriver());
+            Assert.assertFalse(isConfirmAndLockButtonVisible);
+            boolean defaultSelectedCoverage = quoteListPageActions.verifyDefaultCoverageCheckboxSelected(DriverManager.getDriver());
+            Assert.assertTrue(defaultSelectedCoverage);
+
+            quoteListPageActions.clickAddOptionButton(DriverManager.getDriver());
+            boolean isSelectVisible = quoteListPageActions.isSelectVisibleToNewAddOption(DriverManager.getDriver());
+            Assert.assertTrue(isSelectVisible);
+            quoteListPageActions.selectPerClaim(DriverManager.getDriver(), Integer.parseInt(map.get("optionCount")), map.get("claim"));
+            String selectedPerClaimValue = quoteListPageActions.clickClaimCheckbox(DriverManager.getDriver(), map.get("optionCount"));
+            Assert.assertEquals(selectedPerClaimValue, map.get("claim"));
+        }
+    }
+
     @AfterClass(alwaysRun = true)
     public void tearDown(){databaseConnector.closeDatabaseConnector();}
 }
