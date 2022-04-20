@@ -4,12 +4,12 @@
     <parameter name="browserType" value="CHROME"/>
     <test verbose="2" preserve-order="true" name="BrokerPortalUI">
         <classes>
-            <class name="QuoteTests"/>
-            <class name="UnderwritingQuestionsPageTests"/>
-            <class name="DashboardPageTests"/>
+            <!--<class name="DashboardPageTests"/>
             <class name="InsuredPageTests"/>
             <class name="RatingCriteriaPageTests"/>
-            <class name="SubmissionClearancesTests"/>
+            <class name="SubmissionClearancesTests"/>-->
+            <class name="QuotesPageTests"/>
+            <class name="UWPageTests"/>
         </classes>
     </test>
 </suite>

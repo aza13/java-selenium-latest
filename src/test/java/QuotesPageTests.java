@@ -23,9 +23,9 @@ import java.util.Map;
 import static constants.DatabaseQueries.GET_SUBMISSION_ID_WITH_QUOTE_ID;
 import static constants.DatabaseQueries.UPDATE_IN_REVIEW_SUBMISSION_TO_ACTIVE;
 
-public class QuoteTests extends BaseTest {
+public class QuotesPageTests extends BaseTest {
 
-    private static final Logger logger = Logger.getLogger(QuoteTests.class);
+    private static final Logger logger = Logger.getLogger(QuotesPageTests.class);
     private DashboardPageActions dashboardPageActions;
     private RatingCriteriaPageActions ratingCriteriaPageActions;
     private UnderwritingQuestionsPageActions underwritingQuestionsPageActions;
@@ -44,7 +44,7 @@ public class QuoteTests extends BaseTest {
         databaseConnector = new DatabaseConnector();
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
     public void testAddAndDeleteQuoteOption(Map<String, String> map) throws InterruptedException {
         /***
          this verifies whether broker can add the new quote option
@@ -108,7 +108,7 @@ public class QuoteTests extends BaseTest {
     }
 
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
     public void testLockQuote(Map<String, String> map) throws InterruptedException {
         /***
          this verifies whether applicant can lock a quote
@@ -177,7 +177,7 @@ public class QuoteTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
     public void testAddQuote(Map<String, String> map) throws InterruptedException {
         /***
          this verifies whether broker can delete the new quote option
@@ -234,10 +234,9 @@ public class QuoteTests extends BaseTest {
                 quoteListPageActions.addNewQuote(DriverManager.getDriver(), "Custom Quote");
             }
         }
-
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
     public void testBrokerDownloadConfirmedQuote(Map<String, String> map) throws InterruptedException, SQLException {
         /***
          this test verifies brokers can download confirmed quote validation
@@ -273,7 +272,7 @@ public class QuoteTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
     public void testConfirmAndLockQuoteOption(Map<String, String> map) throws InterruptedException, SQLException {
         /***
          this verifies whether broker can click and confirm lock quote option
@@ -359,7 +358,7 @@ public class QuoteTests extends BaseTest {
     }
 
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
     public void testQuotePreview(Map<String, String> map) throws InterruptedException {
         /***
          this verifies whether broker can click preview quote option
@@ -414,7 +413,7 @@ public class QuoteTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
     public void testQuoteOptionPlaceOrder(Map<String, String> map) throws InterruptedException, SQLException {
         /***
          this test verifies brokers can download confirmed quote validation
@@ -454,7 +453,7 @@ public class QuoteTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
     public void testQuoteOutsideBoundSoftDeclined(Map<String, String> map) throws InterruptedException, SQLException {
         /***
          this test verifies Broker Portal Quotes Outside the Bounds Will Be Soft Declined
@@ -514,7 +513,7 @@ public class QuoteTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuoteOptionPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
     public void testQuoteSelectUnSelectCoverageGroupOption(Map<String, String> map) throws InterruptedException, SQLException {
         /***
          this test verifies Broker Portal Quotes Can Select/Unselect Coverage Groups for an Option

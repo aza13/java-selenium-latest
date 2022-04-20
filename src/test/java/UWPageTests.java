@@ -11,10 +11,9 @@ import utils.dataProvider.TestDataProvider;
 
 import java.util.Map;
 
-public class UnderwritingQuestionsPageTests extends BaseTest {
+public class UWPageTests extends BaseTest {
 
-    private static final Logger logger = Logger.getLogger(UnderwritingQuestionsPageTests.class);
-
+    private static final Logger logger = Logger.getLogger(UWPageTests.class);
     private DashboardPageActions dashboardPageActions;
     private UnderwritingQuestionsPageActions underwritingQuestionsPageActions;
     private RatingCriteriaPageActions ratingCriteriaPageActions;
@@ -22,16 +21,15 @@ public class UnderwritingQuestionsPageTests extends BaseTest {
 
     @BeforeClass(alwaysRun = true)
     public void beforeClassSetUp() {
-        classLogger = extentReport.createTest("UnderwritingQuestionsPageTests");
-        logger.info("Creating object for UnderwritingQuestionsPageTests :: beforeClassSetUp");
+        classLogger = extentReport.createTest("UWPageTests");
+        logger.info("Creating object for UWPageTests :: beforeClassSetUp");
         dashboardPageActions = PageObjectManager.getDashboardPageActions();
         underwritingQuestionsPageActions = PageObjectManager.getUnderwritingQuestionsPageActions();
         ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaActions();
         quoteListPageActions = PageObjectManager.getQuoteListPageActions();
     }
 
-
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "UnderwritingQuestionsPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "UWQuestionsPageData")
     public void testBrokerAnswersUnderWriterQuestions(Map<String, String> map) throws InterruptedException {
         /***
          this test Brokers can answers all underwriter questions
@@ -80,14 +78,13 @@ public class UnderwritingQuestionsPageTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "UnderwritingQuestionsPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "UWQuestionsPageData")
     public void testQuotesInvalidatedWhenEdited(Map<String, String> map) throws InterruptedException {
         /***
          this test Quotes Can Be Invalidated When Rating/UW are Edited
          story - N2020-28642 QAT-238
          @author - Azamat Uulu
          **/
-
         logger.info("verifying :: Quotes Can Be Invalidated When Rating/UW are Edited");
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         String newInsuredName = FakeDataHelper.fullName();
