@@ -162,7 +162,6 @@ public class QuotesPageTests extends BaseTest {
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             if (quoteListPageActions.checkIfOpenQuoteExist(DriverManager.getDriver())) {
-                quoteListPageActions.clickConfirmQuoteButton(DriverManager.getDriver());
                 if (quoteListPageActions.clickConfirmAndLock(DriverManager.getDriver())){
                     if(quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())){
                         quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
@@ -236,7 +235,7 @@ public class QuotesPageTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData", enabled = false)
     public void testBrokerDownloadConfirmedQuote(Map<String, String> map) throws InterruptedException, SQLException {
         /***
          this test verifies brokers can download confirmed quote validation
