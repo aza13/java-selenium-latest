@@ -562,16 +562,17 @@ public class DashboardPageActions extends BaseTest {
 
 
     public List<String> getQuoteCreatedDates(WebDriver driver){
-        WaitHelper.waitForElementVisibility(driver, quoteCreatedDateGeneric);
-        List<WebElement> createdDates = driver.findElements(quoteCreatedDateGeneric);
-        if (createdDates.size()>0){
-            List<String> dates = new ArrayList<>();
-            for (WebElement ele : createdDates) {
-                dates.add(ele.getText());
+        List<String> dates = new ArrayList<>();
+        if(!ClickHelper.isElementExist(driver, noQuoteFoundText)){
+            WaitHelper.waitForElementVisibility(driver, quoteCreatedDateGeneric);
+            List<WebElement> createdDates = driver.findElements(quoteCreatedDateGeneric);
+            if (createdDates.size()>0){
+                for (WebElement ele : createdDates) {
+                    dates.add(ele.getText());
+                }
             }
-            return dates;
         }
-        return null;
+        return dates;
     }
 
     public List<String> getPolicyExpirationDates(WebDriver driver){

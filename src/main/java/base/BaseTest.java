@@ -156,7 +156,7 @@ public class BaseTest {
     @AfterMethod(alwaysRun = true)
     public static synchronized void updateTestStatus(ITestResult result) {
 
-            logger.info("updating result of test script " + result.getName() + " to report :: updateTestStatus");
+            logger.info("Updating result : "+result.getStatus()+" to the test script " + result.getName() + " to report :: updateTestStatus");
             try {
                 logTestStatusToReport(DriverManager.getDriver(), result);
             } catch (IOException e) {

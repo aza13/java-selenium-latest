@@ -162,7 +162,7 @@ public class QuoteListPageActions extends BaseTest {
 
     public boolean clickPDFFileDownload(WebDriver driver, String filename) throws InterruptedException {
 
-        FileDownloadUtil.checkFileExistInDownloadFolder(driver);
+        FileDownloadUtil.checkFileExistInDownloadFolder();
 
         ClickHelper.clickElement(driver, clickAsPDFDownloadButton);
         WaitHelper.pause(15000);
@@ -172,7 +172,7 @@ public class QuoteListPageActions extends BaseTest {
 
     public boolean clickWORDFileDownload(WebDriver driver, String filename1, String filename2) throws InterruptedException {
 
-        FileDownloadUtil.checkFileExistInDownloadFolder(driver);
+        FileDownloadUtil.checkFileExistInDownloadFolder();
 
         ClickHelper.clickElement(driver, clickAsWordDownloadButton);
         WaitHelper.pause(15000);
@@ -206,7 +206,7 @@ public class QuoteListPageActions extends BaseTest {
         }else{
             WaitHelper.waitForElementVisibility(driver, confirmAndLockButton);
             ClickHelper.clickElement(driver, confirmAndLockButton);
-            WaitHelper.pause(20000);
+            WaitHelper.pause(10000);
             return true;
         }
     }
@@ -226,7 +226,7 @@ public class QuoteListPageActions extends BaseTest {
     }
 
     public boolean verifyQuotePreview(WebDriver driver) throws InterruptedException {
-        WaitHelper.waitForElementVisibility(driver, quotePreviewButton);
+        WaitHelper.pause(5000);
         ClickHelper.clickElement(driver, quotePreviewButton);
         WaitHelper.pause(10000);
         ArrayList<String> tabs2 = new ArrayList<String> (driver.getWindowHandles());
@@ -287,7 +287,13 @@ public class QuoteListPageActions extends BaseTest {
         TextHelper.enterText(driver, orderConfirmationTextArea, "Place Order Testing");
         ClickHelper.clickElement(driver, orderConfirmationSubmitButton);
         WaitHelper.pause(3000);
+    }
 
+    public String getOpenQuoteId(WebDriver driver){
+        String quoteString = TextHelper.getText(driver, openQuoteIdLocator, "text");
+        assert quoteString != null;
+        String quoteId = quoteString.split("#")[1];
+        return quoteId;
     }
 
     public void choosePerClaim(WebDriver driver) throws InterruptedException {

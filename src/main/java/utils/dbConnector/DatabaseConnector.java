@@ -79,6 +79,19 @@ public class DatabaseConnector {
         return list;
     }
 
+    public Integer update(String query){
+        //  Auto-commit is set to true, we do not need stmt.commit();
+        Integer row = 0;
+        try{
+            stmt = getConnection().createStatement();
+            row = stmt.executeUpdate(query);
+        }
+        catch (SQLException ex) {
+            logger.error("Get Result set error in update:: DatabaseConnectionManager" + ex.getMessage());
+        }
+        return row;
+    }
+
     public Integer getTableRowCount(){return rowCount;}
 
     public void closeDatabaseConnector() {
