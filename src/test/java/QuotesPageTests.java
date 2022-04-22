@@ -503,7 +503,8 @@ public class QuotesPageTests extends BaseTest {
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
-            quoteListPageActions.choosePerClaim(DriverManager.getDriver());
+            quoteListPageActions.selectPerClaim(DriverManager.getDriver(), Integer.parseInt(map.get("optionCount")), map.get("claim"));
+            quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), Integer.parseInt(map.get("optionCount")), map.get("limit"));
             quoteListPageActions.clickConfirmAndLock(DriverManager.getDriver());
             quoteListPageActions.verifySoftDeclinePopup(DriverManager.getDriver());
 
