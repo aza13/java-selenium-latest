@@ -201,6 +201,7 @@ public class QuoteListPageActions extends BaseTest {
     }
 
     public boolean clickConfirmAndLock(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(5000);
         if(ClickHelper.isElementExist(driver, confirmAndLockDisabledButton)){
             logger.error("Confirm and Lock button is disabled");
             return false;
@@ -271,7 +272,7 @@ public class QuoteListPageActions extends BaseTest {
 
 
     public boolean verifyQuoteIsVisible(WebDriver driver) {
-        return ClickHelper.isElementExist(driver, quoteListPageHeader);
+        return WaitHelper.isElementEnabled(driver, quoteListPageHeader);
     }
 
     public void expandTheQuote(WebDriver driver){
@@ -295,14 +296,6 @@ public class QuoteListPageActions extends BaseTest {
         assert quoteString != null;
         String quoteId = quoteString.split("#")[1];
         return quoteId;
-    }
-
-    public void choosePerClaim(WebDriver driver) throws InterruptedException {
-        WaitHelper.waitForElementVisibility(driver, perClaimSelection);
-        ClickHelper.clickElement(driver, perClaimSelection);
-        WaitHelper.waitForElementVisibility(driver, perClaimSelectionValue);
-        ClickHelper.clickElement(driver, perClaimSelectionValue);
-        WaitHelper.pause(3000);
     }
 
     public void verifySoftDeclinePopup(WebDriver driver) throws InterruptedException {

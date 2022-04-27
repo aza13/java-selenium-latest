@@ -222,7 +222,9 @@ public class RatingCriteriaPageTests extends BaseTest {
             if(isEditButtonVisible) {
                 ratingCriteriaPageActions.clickEditButtonIsVisible(DriverManager.getDriver());
                 ratingCriteriaPageActions.checkEditConfirmMsgCancelIsVisible(DriverManager.getDriver());
-                quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
+                ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
+                underwritingQuestionsPageActions.clickUnderwritingQuestionsTab(DriverManager.getDriver());
+                underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
                 quoteListPageActions.verifyStatusConfirmAndLockInProgress(DriverManager.getDriver());
                 ratingCriteriaPageActions.clickDetailsPageTab(DriverManager.getDriver());
                 ratingCriteriaPageActions.clickEditButtonIsVisible(DriverManager.getDriver());
