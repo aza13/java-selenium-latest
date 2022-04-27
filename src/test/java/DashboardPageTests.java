@@ -58,9 +58,10 @@ public class DashboardPageTests extends BaseTest {
         if (labels.size()>0){
             assert labels.get(0).getText().equals(map.get("submissionLabel"));
             assert labels.get(1).getText().equals(map.get("dateLabel"));
-            assert labels.get(2).getText().equals(map.get("startDateLabel"));
-            assert labels.get(3).getText().equals(map.get("endDateLabel"));
-            assert labels.get(4).getText().equals(map.get("statusLabel"));
+            assert labels.get(2).getText().equals(map.get("product"));
+            assert labels.get(3).getText().equals(map.get("startDateLabel"));
+            assert labels.get(4).getText().equals(map.get("endDateLabel"));
+            assert labels.get(5).getText().equals(map.get("statusLabel"));
             logger.info("verify quote status color- In Progress");
 //            dashboardPageActions.validateQuoteStatusColorCoding(DriverManager.getDriver());
             logger.info("verify quote correct status displayed");
@@ -119,7 +120,7 @@ public class DashboardPageTests extends BaseTest {
         logger.info("validating whether mandatory field text displayed or not");
         assert dashboardPageActions.productRequiredElement(DriverManager.getDriver()).isDisplayed();
         assert dashboardPageActions.nameRequiredElement(DriverManager.getDriver()).isDisplayed();
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), map.get("applicantName"), map.get("website"));
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, map.get("applicantName"), map.get("website"));
         dashboardPageActions.clickCancelButton(DriverManager.getDriver());
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         logger.info("validating whether the data entered is erased or not");
@@ -140,7 +141,7 @@ public class DashboardPageTests extends BaseTest {
          **/
         logger.info("verifying creating new quote creation :: testCreateNewQuote");
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), map.get("applicantName"), map.get("website"));
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(),ConstantVariable.PRODUCT, map.get("applicantName"), map.get("website"));
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         assert insuredPageActions.newInsuredButton(DriverManager.getDriver()).isDisplayed();
         assert insuredPageActions.searchAgainButton(DriverManager.getDriver()).isDisplayed();
@@ -391,7 +392,7 @@ public class DashboardPageTests extends BaseTest {
 
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
-    public void testSubmissionRenewal(Map<String, String> map) throws InterruptedException, ParseException {
+    public void testSubmissionRenewal(Map<String, String> map) throws InterruptedException {
         /***
          this test verifies submission renewal
          story - N2020-28481

@@ -1,6 +1,7 @@
 import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
+import constants.ConstantVariable;
 import constants.DatabaseQueries;
 import helper.FakeDataHelper;
 import org.apache.log4j.Logger;
@@ -84,7 +85,7 @@ public class RatingCriteriaPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "RatingCriteriaPageData")
-    public void  testHardDeclineAfterRatingCriteria(Map<String, String> map) throws InterruptedException, SQLException {
+    public void  testHardDeclineAfterRatingCriteria(Map<String, String> map) throws InterruptedException {
         /***
          this test hard decline after rating criteria
          story - N2020-28624 QAT-171
@@ -95,7 +96,7 @@ public class RatingCriteriaPageTests extends BaseTest {
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         String newInsuredName = FakeDataHelper.fullName();
         String newInsuredWebsite = FakeDataHelper.website();
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), newInsuredName,newInsuredWebsite);
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName,newInsuredWebsite);
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         insuredPageActions.enterEmailAddress(DriverManager.getDriver());
         insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
@@ -162,7 +163,7 @@ public class RatingCriteriaPageTests extends BaseTest {
         dashboardPageActions.getMyQuotesTabTitle(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "RatingCriteriaPageData", enabled = false)
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "RatingCriteriaPageData")
     public void  testBrokerReturnPreviousRatingAndUWPages(Map<String, String> map) throws InterruptedException {
         /***
          this test Brokers can return to Previous pages i.e. Rating Criteria and UW View

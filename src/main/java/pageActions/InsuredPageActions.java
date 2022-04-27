@@ -42,7 +42,7 @@ public class InsuredPageActions extends BaseTest {
     public void clickContinueInsuredButton(WebDriver driver) throws InterruptedException {
 
         ClickHelper.clickElement(driver, continueInsuredButton);
-        WaitHelper.pause(5000);
+        WaitHelper.pause(7000);
     }
 
     public void clickNewInsuredButton(WebDriver driver) {
