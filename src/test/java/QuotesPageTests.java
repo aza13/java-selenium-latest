@@ -85,7 +85,6 @@ public class QuotesPageTests extends BaseTest {
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             if (quoteListPageActions.checkIfOpenQuoteExist(DriverManager.getDriver())) {
-
                 int optionCountBefore = quoteListPageActions.getQuoteOptionCount(DriverManager.getDriver());
                 if (map.get("functionality").equals("addQuoteOption")) {
                     quoteListPageActions.clickAddOptionButton(DriverManager.getDriver());
@@ -180,7 +179,7 @@ public class QuotesPageTests extends BaseTest {
     public void testAddQuote(Map<String, String> map) throws InterruptedException {
         /***
          this verifies whether broker can delete the new quote option
-         story - N2020-28633
+         story - N2020-28633, N2020-28634
          @author - Venkat Kottapalli
          **/
 
@@ -216,6 +215,7 @@ public class QuotesPageTests extends BaseTest {
             underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
             if(!quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())){
                 if(quoteListPageActions.checkIfQuotesTabIsDisabled(DriverManager.getDriver())){
+                    logger.info("adding quote from the template");
                         quoteListPageActions.selectQuoteTemplateOption(DriverManager.getDriver(), 0);
                 }else{
                     quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
@@ -226,8 +226,12 @@ public class QuotesPageTests extends BaseTest {
             if (quoteListPageActions.checkIfOpenQuoteExist(DriverManager.getDriver())) {
                 logger.info("open quote exist for the submission, new quote can't be created until existing quote is locked");
                 if (quoteListPageActions.clickConfirmAndLock(DriverManager.getDriver())){
-                    quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
-                    quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
+                    if(quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())){
+                        quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
+                        quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
+                    }else{
+                        quoteListPageActions.checkIfQuoteLockSuccessMessageDisplayed(DriverManager.getDriver());
+                    }
                 }
             }else{
                 quoteListPageActions.addNewQuote(DriverManager.getDriver(), "Custom Quote");
@@ -403,7 +407,11 @@ public class QuotesPageTests extends BaseTest {
             }
             underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
             if(!quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())){
-                quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
+                if(quoteListPageActions.checkIfQuotesTabIsDisabled(DriverManager.getDriver())){
+                    quoteListPageActions.selectQuoteTemplateOption(DriverManager.getDriver(), 0);
+                }else{
+                    quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
+                }
             }
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {

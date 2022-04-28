@@ -182,8 +182,6 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
         WaitHelper.waitForElementVisibility(driver, uwQuestionsContinueButton);
         ScrollHelper.scrollElementIntoView(driver, uwQuestionsContinueButton);
         ClickHelper.clickElement(driver, uwQuestionsContinueButton);
-        /*WaitHelper.waitForElementVisibility(driver, uwMSGWhileContinue);
-        ClickHelper.clickElement(driver, uwMSGWhileContinue); */
         WaitHelper.pause(20000);
 
     }

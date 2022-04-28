@@ -74,6 +74,8 @@ public class BaseTest {
         logger.info("Initialising extent report");
 
         extentReport = ExtentManager.getInstance();
+
+        dashboardPageActions = PageObjectManager.getDashboardPageActions();
     }
 
     @BeforeMethod(alwaysRun = true)

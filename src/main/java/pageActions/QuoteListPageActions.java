@@ -147,12 +147,13 @@ public class QuoteListPageActions extends BaseTest {
         }
     }
 
-    public void selectQuoteTemplateOption(WebDriver driver, int index){
+    public void selectQuoteTemplateOption(WebDriver driver, int index) throws InterruptedException {
         try{
             List<WebElement> templateOptions = driver.findElements(quoteTemplateOption);
             if(templateOptions.size()>0){
                 logger.info("selecting quote template option :: selectQuoteTemplateOption");
                 templateOptions.get(index).click();
+                WaitHelper.pause(7000);
             }
         }catch (Exception e){
             logger.error("failed to select the quote template option :: "+e.getMessage());
@@ -207,7 +208,7 @@ public class QuoteListPageActions extends BaseTest {
         }else{
             WaitHelper.waitForElementVisibility(driver, confirmAndLockButton);
             ClickHelper.clickElement(driver, confirmAndLockButton);
-            WaitHelper.pause(10000);
+            WaitHelper.pause(15000);
             return true;
         }
     }
