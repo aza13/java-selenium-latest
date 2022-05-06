@@ -97,9 +97,11 @@ public class DashboardPageTests extends BaseTest {
         if(labels.size()>0){
             String policyLabel = labels.get(0).getText();
             assert policyLabel.equals(map.get("policyLabel"));
-            String effDateLabel = labels.get(1).getText();
+            String coverage = labels.get(1).getText();
+            assert coverage.equals(map.get("product"));
+            String effDateLabel = labels.get(2).getText();
             assert effDateLabel.equals(map.get("effDateLabel"));
-            String expDateLabel = labels.get(2).getText();
+            String expDateLabel = labels.get(3).getText();
             assert expDateLabel.equals(map.get("expDateLabel"));
         }else{
             throw new SkipException("No policies were found for the given broker");

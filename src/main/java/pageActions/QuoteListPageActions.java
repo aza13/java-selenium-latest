@@ -77,7 +77,7 @@ public class QuoteListPageActions extends BaseTest {
 
     public String getGivenQuoteOptionPremium(WebDriver driver, int optionCount){
 
-        String optionPremiumXpath = "//div[text()='Option"+optionCount+"']/span";
+        String optionPremiumXpath = "//div[starts-with(@data-qa, 'option_card_"+optionCount+"')]//div[text()='Max. Policy Aggregate Limit']/preceding-sibling::div//span";
         By optionPremium = By.xpath(optionPremiumXpath);
         return TextHelper.getText(driver, optionPremium, "text");
     }
@@ -208,7 +208,7 @@ public class QuoteListPageActions extends BaseTest {
         }else{
             WaitHelper.waitForElementVisibility(driver, confirmAndLockButton);
             ClickHelper.clickElement(driver, confirmAndLockButton);
-            WaitHelper.pause(15000);
+            WaitHelper.pause(20000);
             return true;
         }
     }
@@ -347,10 +347,8 @@ public class QuoteListPageActions extends BaseTest {
         return isFieldVisible;
     }
 
-    public void verifyWarningMsgWhenUncheckedOptionCoverageGroup(WebDriver driver) throws InterruptedException {
-        ClickHelper.clickElement(driver, coverageGroupCheckbox);
-        WaitHelper.pause(5000);
-        ClickHelper.isElementExist(driver, warningMsg);
+    public boolean verifyWarningMsgWhenUncheckedOptionCoverageGroup(WebDriver driver) throws InterruptedException {
+        return ClickHelper.isElementExist(driver, warningMsg);
     }
 
     public boolean isPremiumAmountDisplay(WebDriver driver){
@@ -381,6 +379,13 @@ public class QuoteListPageActions extends BaseTest {
         By perClaimDropdown = By.xpath(perClaimDropdownXpath);
         WaitHelper.waitForElementVisibility(driver, perClaimDropdown);
         WebElement dropdownValue = driver.findElement(perClaimDropdown);
+        return dropdownValue.getText();
+
+    }
+
+    public String getAggLimitSelectedValue(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(3000);
+        WebElement dropdownValue = driver.findElement(aggregateLimit);
         return dropdownValue.getText();
 
     }
