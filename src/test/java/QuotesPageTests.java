@@ -20,9 +20,9 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static constants.DatabaseQueries.GET_SUBMISSION_ID_WITH_QUOTE_ID;
-import static constants.DatabaseQueries.UPDATE_IN_REVIEW_SUBMISSION_TO_ACTIVE;
 
 public class QuotesPageTests extends BaseTest {
 
@@ -603,6 +603,46 @@ public class QuotesPageTests extends BaseTest {
             quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), Integer.parseInt(map.get("optionCount")), map.get("limit"));
             String aggLimit = quoteListPageActions.getAggLimitSelectedValue(DriverManager.getDriver());
             Assert.assertEquals(aggLimit, map.get("limit"));
+
+            quoteListPageActions.selectRetentionOption(DriverManager.getDriver(), Integer.parseInt(map.get("optionCount")), map.get("retention"));
+            String retentionValue = quoteListPageActions.getRetentionSelectedValue(DriverManager.getDriver());
+            Assert.assertEquals(retentionValue, map.get("retention"));
+        }
+    }
+
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
+    public void testUpdatedOptionMaxAggLimitAndPremium(Map<String, String> map) throws InterruptedException {
+        /***
+         this verifies whether option max agg limit and premium are updated or not
+         story - N2020-30385, 28679
+         @author - Venkat Kottapalli
+         **/
+
+        logger.info("Executing the testAddQuoteOption from QuoteOptionTests class :: testUpdatedOptionMaxAggLimitAndPremium");
+        dashboardPageActions.clickFilterList(DriverManager.getDriver());
+        dashboardPageActions.clickFilterByProductName(DriverManager.getDriver());
+        dashboardPageActions.selectProductInFilter(DriverManager.getDriver(), map.get("product"));
+        dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
+        dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), map.get("status"));
+        dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
+        dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
+        if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
+            assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
+            quoteListPageActions.selectPerClaim(DriverManager.getDriver(), Integer.parseInt(map.get("optionCount")), map.get("claim1"));
+            quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), Integer.parseInt(map.get("optionCount")), map.get("limit1"));
+
+            String premiumBefore = quoteListPageActions.getFirstOptionPremium(DriverManager.getDriver());
+            String policyAggLimitBefore = quoteListPageActions.getFirstMaxPolicyAggLimit(DriverManager.getDriver());
+
+            quoteListPageActions.selectPerClaim(DriverManager.getDriver(), Integer.parseInt(map.get("optionCount")), map.get("claim2"));
+            quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), Integer.parseInt(map.get("optionCount")), map.get("limit2"));
+
+            String premiumAfter = quoteListPageActions.getFirstOptionPremium(DriverManager.getDriver());
+            String policyAggLimitAfter = quoteListPageActions.getFirstMaxPolicyAggLimit(DriverManager.getDriver());
+
+            assert !Objects.equals(premiumAfter, premiumBefore);
+            assert !Objects.equals(policyAggLimitAfter, policyAggLimitBefore);
+
         }
     }
 

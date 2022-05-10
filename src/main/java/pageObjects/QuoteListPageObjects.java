@@ -46,11 +46,14 @@ public class QuoteListPageObjects {
     public static final By softDeclineText = By.xpath("//*[@id='alert-dialog-description']/div[2]/div/h1");
     public static final By cancelSoftDecline = By.xpath("//button[normalize-space()='Cancel Everything']");
     public static final By coverageGroupCheckbox = By.xpath("//div[@data-qa='option_card_1']//span[@data-qa='coverageGroup_isSelected']/span");
-    public static final By coverageGroupAmount = By.xpath("(//div[starts-with(@data-qa, 'option_card_')]//div[text()='Max. Policy Aggregate Limit']/preceding-sibling::div//span)[1]");
+    public static final By firstQuoteOptionPremium = By.xpath("(//div[starts-with(@data-qa, 'option_card_')]//div[text()='Max. Policy Aggregate Limit']/preceding-sibling::div//span)[1]");
     public static final By groupLimit = By.xpath("//*[@id='panel-content-1']/div/div[1]/div/div/p[2]/div/div[2]/div/div/div");
     public static final By aggregateLimit = By.xpath("//*[@id='panel-content-1']/div/div[1]/div/div/p[2]/div/div[3]/div/div/div");
     public static final By deductible = By.xpath("//*[@id='panel-content-1']/div/div[1]/div/div/p[2]/div/div[4]/div/div/div");
     public static final By warningMsg = By.xpath("//div[contains(text(),'An option should have at least 1 selected primary ')]");
     public static final By selectDropDown = By.xpath("//*[@role='button' and em[text()='Select']]");
     public static final By quoteOptionPremiumGenericLocator = By.xpath("//div[starts-with(@data-qa, 'option_card_')]//div[text()='Max. Policy Aggregate Limit']/preceding-sibling::div//span");
+    public static final By quoteOptionMaxPolicyAggLimit = By.xpath("//div[starts-with(@data-qa, 'option_card_')]//div[text()='Max. Policy Aggregate Limit']/following-sibling::div//span");
+    public static final By firstQuoteOptionMaxPolicyAggLimit = By.xpath("//div[starts-with(@data-qa, 'option_card_1')]//div[text()='Max. Policy Aggregate Limit']/following-sibling::div//span");
+
 }
