@@ -525,4 +525,18 @@ public class DashboardPageTests extends BaseTest {
         assert dashboardPageActions.verifyPoliciesExists(DriverManager.getDriver());
     }
 
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    public void testWebsiteRequired(Map<String, String> map) throws InterruptedException {
+        /**
+         * this test verifies Website can be Required for Insured Details Based on Product
+         story - N2020-28921
+         @author - Sheetal
+         **/
+
+        logger.info("verifying Website can be Required for Insured Details Based on Product :: testWebsiteRequired");
+        dashboardPageActions.clickNewQuote(DriverManager.getDriver());
+        dashboardPageActions.CreateNewQuoteWithoutWebsite(DriverManager.getDriver(), map.get("product"), map.get("applicantName"));
+        InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
+        assert dashboardPageActions.websiteRequiredElement(DriverManager.getDriver()).isDisplayed();
+    }
 }

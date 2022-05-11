@@ -81,7 +81,7 @@ public class DashboardPageObjects {
 
     public static final By nameRequiredText = By.xpath("//p[text()='Name is required']");
 
-    public static final By websiteRequiredText = By.xpath("//p[text()='Name is required']");
+    public static final By websiteRequiredText = By.xpath("//p[text()='Website is required']");
 
     public static final By policyStatus = By.xpath("//div[@data-qa='status']");
 
@@ -180,6 +180,8 @@ public class DashboardPageObjects {
     public static final By clearanceDialogPolicyDashboardDesc = By.xpath("//p[@id='alert-dialog-description']/div[1]");
 
     public static final By quoteitLogo = By.xpath("//img[@alt='hello']");
+
+
 
 
 }

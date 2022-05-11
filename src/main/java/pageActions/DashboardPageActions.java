@@ -20,6 +20,7 @@ import java.util.*;
 
 import static pageObjects.DashboardPageObjects.*;
 import static pageObjects.DashboardPageObjects.firstAvailableStatus;
+import static pageObjects.InsuredPageObjects.emailRequiredText;
 import static pageObjects.LoginPageObjects.logInButton;
 
 
@@ -744,5 +745,11 @@ public class DashboardPageActions extends BaseTest {
         driver.findElement(quoteitLogo).click();
     }
 
+
+    public void CreateNewQuoteWithoutWebsite(WebDriver driver, String product, String applicantName) throws InterruptedException {
+        WebElement element = driver.findElement(selectProductDropdown);
+        DropdownHelper.selectValueFromBootstrapDropdown(driver, element, genericProductOption, product);
+        TextHelper.enterText(driver, applicantNameField, applicantName);
+    }
 
 }
