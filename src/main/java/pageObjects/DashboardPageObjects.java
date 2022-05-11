@@ -179,4 +179,7 @@ public class DashboardPageObjects {
 
     public static final By clearanceDialogPolicyDashboardDesc = By.xpath("//p[@id='alert-dialog-description']/div[1]");
 
+    public static final By quoteitLogo = By.xpath("//img[@alt='hello']");
+
+
 }

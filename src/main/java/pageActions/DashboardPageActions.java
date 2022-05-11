@@ -739,5 +739,10 @@ public class DashboardPageActions extends BaseTest {
         return TextHelper.getText(driver, firstAvailableStatus, "text");
     }
 
+    public void clickQuoteIt(WebDriver driver){
+        WaitHelper.waitForElementVisibility(driver, quoteitLogo);
+        driver.findElement(quoteitLogo).click();
+    }
+
 
 }
