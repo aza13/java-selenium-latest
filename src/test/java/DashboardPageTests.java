@@ -122,7 +122,6 @@ public class DashboardPageTests extends BaseTest {
         logger.info("validating whether mandatory field text displayed or not");
         assert dashboardPageActions.productRequiredElement(DriverManager.getDriver()).isDisplayed();
         assert dashboardPageActions.nameRequiredElement(DriverManager.getDriver()).isDisplayed();
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, map.get("applicantName"), map.get("website"));
         dashboardPageActions.clickCancelButton(DriverManager.getDriver());
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         logger.info("validating whether the data entered is erased or not");
@@ -132,6 +131,9 @@ public class DashboardPageTests extends BaseTest {
         assert name.equals(ConstantVariable.EMPTY_STRING);
         String website = dashboardPageActions.getWebsite(DriverManager.getDriver());
         assert website.equals(ConstantVariable.EMPTY_STRING);
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, map.get("applicantName"), map.get("website"));
+        InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
+        assert dashboardPageActions.websiteRequiredElement(DriverManager.getDriver()).isDisplayed();
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
@@ -525,18 +527,4 @@ public class DashboardPageTests extends BaseTest {
         assert dashboardPageActions.verifyPoliciesExists(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
-    public void testWebsiteRequired(Map<String, String> map) throws InterruptedException {
-        /**
-         * this test verifies Website can be Required for Insured Details Based on Product
-         story - N2020-28921
-         @author - Sheetal
-         **/
-
-        logger.info("verifying Website can be Required for Insured Details Based on Product :: testWebsiteRequired");
-        dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        dashboardPageActions.CreateNewQuoteWithoutWebsite(DriverManager.getDriver(), map.get("product"), map.get("applicantName"));
-        InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
-        assert dashboardPageActions.websiteRequiredElement(DriverManager.getDriver()).isDisplayed();
-    }
 }

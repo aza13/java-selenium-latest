@@ -231,7 +231,11 @@ public class DashboardPageActions extends BaseTest {
         WebElement element = driver.findElement(selectProductDropdown);
         DropdownHelper.selectValueFromBootstrapDropdown(driver, element, genericProductOption, product);
         TextHelper.enterText(driver, applicantNameField, applicantName);
-        TextHelper.enterText(driver, websiteField, website);
+        if(website.contentEquals("No website")){
+            website = "";
+        }
+        TextHelper.enterText(driver, websiteField,website);
+
     }
 
     public InsuredPageActions clickContinueButton(WebDriver driver) throws InterruptedException {
@@ -743,13 +747,6 @@ public class DashboardPageActions extends BaseTest {
     public void clickQuoteIt(WebDriver driver){
         WaitHelper.waitForElementVisibility(driver, quoteitLogo);
         driver.findElement(quoteitLogo).click();
-    }
-
-
-    public void CreateNewQuoteWithoutWebsite(WebDriver driver, String product, String applicantName) throws InterruptedException {
-        WebElement element = driver.findElement(selectProductDropdown);
-        DropdownHelper.selectValueFromBootstrapDropdown(driver, element, genericProductOption, product);
-        TextHelper.enterText(driver, applicantNameField, applicantName);
     }
 
 }
