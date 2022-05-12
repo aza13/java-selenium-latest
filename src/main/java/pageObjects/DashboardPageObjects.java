@@ -186,4 +186,7 @@ public class DashboardPageObjects {
     public static final By quoteTypeOption = By.xpath("//ul//li[contains(@data-qa, 'quoteType_menuItem_')]");
 
     public static final By quoteBusinessType = By.xpath("//div[@data-qa='quote_card']/div/div//div[3]");
+    public static final By quoteitLogo = By.xpath("//img[@alt='hello']");
+
+
 }

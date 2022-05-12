@@ -55,7 +55,7 @@ public class DashboardPageTests extends BaseTest {
             assert dashboardPageActions.noQuoteFound(DriverManager.getDriver()).isDisplayed();
         }
         List<WebElement> labels = dashboardPageActions.getQuoteTableLabels(DriverManager.getDriver());
-        if (labels.size()>0){
+        if (labels.size() > 0) {
             assert labels.get(0).getText().equals(map.get("submissionLabel"));
             assert labels.get(1).getText().equals(map.get("dateLabel"));
             assert labels.get(2).getText().equals(map.get("product"));
@@ -94,7 +94,7 @@ public class DashboardPageTests extends BaseTest {
         /* Status color changes would be coming soon with hexa codes
         dashboardPageActions.validatePolicyStatusColorCoding(DriverManager.getDriver());*/
         List<WebElement> labels = dashboardPageActions.getPolicyTableLabels(DriverManager.getDriver());
-        if(labels.size()>0){
+        if (labels.size() > 0) {
             String policyLabel = labels.get(0).getText();
             assert policyLabel.equals(map.get("policyLabel"));
             String coverage = labels.get(1).getText();
@@ -103,7 +103,7 @@ public class DashboardPageTests extends BaseTest {
             assert effDateLabel.equals(map.get("effDateLabel"));
             String expDateLabel = labels.get(3).getText();
             assert expDateLabel.equals(map.get("expDateLabel"));
-        }else{
+        } else {
             throw new SkipException("No policies were found for the given broker");
         }
 
@@ -143,22 +143,22 @@ public class DashboardPageTests extends BaseTest {
          **/
         logger.info("verifying creating new quote creation :: testCreateNewQuote");
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(),ConstantVariable.PRODUCT, map.get("applicantName"), map.get("website"));
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, map.get("applicantName"), map.get("website"));
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         assert insuredPageActions.newInsuredButton(DriverManager.getDriver()).isDisplayed();
         assert insuredPageActions.searchAgainButton(DriverManager.getDriver()).isDisplayed();
         assert insuredPageActions.verifyInsuredSearchResult(DriverManager.getDriver(), map.get("applicantName"), map.get("website"));
         insuredPageActions.clickContinueInsuredButton(DriverManager.getDriver());
         boolean duplicateDialog = insuredPageActions.duplicateSubmissionDialog(DriverManager.getDriver());
-        if(!duplicateDialog){
+        if (!duplicateDialog) {
             assert insuredPageActions.continueInsuredSearch(DriverManager.getDriver()).isDisplayed();
-        }else{
+        } else {
             logger.info("Can't continue to insured search page, duplicate submission displayed");
             insuredPageActions.clickDuplicateCancelButton(DriverManager.getDriver());
             dashboardPageActions.clickNewQuote(DriverManager.getDriver());
             String newInsuredName = FakeDataHelper.fullName();
             String newInsuredWebsite = FakeDataHelper.website();
-            dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName,newInsuredWebsite);
+            dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName, newInsuredWebsite);
             dashboardPageActions.clickContinueButton(DriverManager.getDriver());
             boolean value = insuredPageActions.isCreateNewInsuredTextDisplayed(DriverManager.getDriver());
             assert value;
@@ -323,7 +323,7 @@ public class DashboardPageTests extends BaseTest {
             List<String> referenceIds = dashboardPageActions.getAllQuoteReferenceIds(DriverManager.getDriver());
             int refIdCount = referenceIds.size();
             Random ran = new Random();
-            if(refIdCount > 3) {
+            if (refIdCount > 3) {
                 for (int j = 0; j <= 3; j++) {
                     int index = ran.nextInt(refIdCount);
                     String refId = referenceIds.get(index);
@@ -334,7 +334,7 @@ public class DashboardPageTests extends BaseTest {
                         String continueBtnXpath2;
                         for (int i = 1; i <= quoteCount2; i++) {
                             String status2 = dashboardPageActions.getGivenQuoteStatus(DriverManager.getDriver(), i);
-                            continueBtnXpath2 = "(//div[@data-qa='quote_card']//p[@data-qa='status'])["+i+"]/parent::div/parent::div/following-sibling::div//button";
+                            continueBtnXpath2 = "(//div[@data-qa='quote_card']//p[@data-qa='status'])[" + i + "]/parent::div/parent::div/following-sibling::div//button";
                             By continueButton2 = By.xpath(continueBtnXpath2);
                             switch (status2) {
                                 case ConstantVariable.CANCELLED_STRING:
@@ -363,7 +363,7 @@ public class DashboardPageTests extends BaseTest {
          **/
         logger.info("verifying broker can search for related records :: testBrokerSearchRelatedRecords");
         String actualReferenceId = dashboardPageActions.getFirstAvailableReferenceId(DriverManager.getDriver());
-        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(),actualReferenceId);
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), actualReferenceId);
         String expectedReferenceId = dashboardPageActions.getFirstAvailableReferenceId(DriverManager.getDriver());
         assert actualReferenceId.equals(expectedReferenceId);
 
@@ -410,7 +410,7 @@ public class DashboardPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
-    public void  testSortQuoteList(Map<String, String> map) {
+    public void testSortQuoteList(Map<String, String> map) {
         /***
          this test Sort the My Quotes List
          story - N2020-29952
@@ -434,7 +434,7 @@ public class DashboardPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
-    public void  testSortPolicyList(Map<String, String> map) throws InterruptedException, ParseException {
+    public void testSortPolicyList(Map<String, String> map) throws InterruptedException, ParseException {
         /***
          this test Sort my Policy List
          story - N2020-29736
@@ -454,7 +454,7 @@ public class DashboardPageTests extends BaseTest {
         boolean isEqual = sortedDatesByExpiringLaterAsc.equals(sortedDatesByExpiringSoonAsc);
         if (!isEqual) {
             logger.info("======================== Sorting my policy is working as expected ========================================");
-        }else {
+        } else {
             logger.error("======================== Sorting my policy is not working as expected ===================================");
         }
     }
@@ -484,7 +484,7 @@ public class DashboardPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", enabled = false)
-    public void  testBrokersCanContinueRenewalSubmission(Map<String, String> map) throws InterruptedException {
+    public void testBrokersCanContinueRenewalSubmission(Map<String, String> map) throws InterruptedException {
         /***
          this test Brokers can continue a Renewal Submission
          story - N2020-28483
@@ -498,7 +498,7 @@ public class DashboardPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
-    public void  testHideRenewButtonOnPolicyList(Map<String, String> map) throws InterruptedException {
+    public void testHideRenewButtonOnPolicyList(Map<String, String> map) throws InterruptedException {
         /***
          this test Hide Renew Button on Policy list for Ineligible Policies
          story - N2020-29737
@@ -511,13 +511,13 @@ public class DashboardPageTests extends BaseTest {
         String[] statuses = map.get("status").split(ConstantVariable.SEMICOLON);
         String[] policiesNumber = map.get("policyNumber").split(ConstantVariable.SEMICOLON);
 
-        for (int i=0; i< statuses.length; i++) {
+        for (int i = 0; i < statuses.length; i++) {
             dashboardPageActions.clickFilterList(DriverManager.getDriver());
             dashboardPageActions.clickFilterByStatus(DriverManager.getDriver());
             dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), statuses[i]);
             dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
             assert dashboardPageActions.verifyPoliciesExists(DriverManager.getDriver());
-            dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(),policiesNumber[i].replaceAll("^\"|\"$", ""));
+            dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), policiesNumber[i].replaceAll("^\"|\"$", ""));
             assert dashboardPageActions.verifyPoliciesExists(DriverManager.getDriver());
             dashboardPageActions.verifyHideRenewButton(DriverManager.getDriver(), statuses[i]);
             dashboardPageActions.clickClearSearch(DriverManager.getDriver());

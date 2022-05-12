@@ -119,4 +119,21 @@ public class InsuredPageTests extends BaseTest {
         }
 
     }
+
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "InsuredPageData")
+    public void testClickingLogoNavigatesToDashboardPage(Map<String, String> map) throws InterruptedException {
+        /**
+         * this test verifies search results for related Records
+         story - N2020-32169
+         @author - Sheetal
+         **/
+        logger.info("verifying Clicking QuoteIt Logo to Return to Dashboard :: testClickingLogoNavigatesToDashboardPage");
+        dashboardPageActions.clickNewQuote(DriverManager.getDriver());
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), map.get("applicantName"), map.get("website"));
+        InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
+        dashboardPageActions.clickQuoteIt(DriverManager.getDriver());
+        assert dashboardPageActions.myQuotesTab(DriverManager.getDriver()).isDisplayed();
+        
+
+    }
 }
