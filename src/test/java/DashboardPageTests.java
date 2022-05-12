@@ -525,4 +525,29 @@ public class DashboardPageTests extends BaseTest {
         assert dashboardPageActions.verifyPoliciesExists(DriverManager.getDriver());
     }
 
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    public void  testQuotesByBusinessType(Map<String, String> map) throws InterruptedException {
+        /***
+         this test verifies quotes by business type
+         story - N2020-32172
+         @author -Venkat Kottapalli
+         **/
+        dashboardPageActions.clickFilterList(DriverManager.getDriver());
+        dashboardPageActions.clickFilterByType(DriverManager.getDriver());
+        String status = map.get("status");
+        dashboardPageActions.selectTypeInFilter(DriverManager.getDriver(), status);
+        dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
+        List<WebElement> elements = dashboardPageActions.getAllQuotesBusinessType(DriverManager.getDriver());
+        if (elements.size() > 0) {
+            for (WebElement element : elements) {
+                String businessType = element.getText();
+                assert businessType.contains("Renewal for Policy");
+            }
+        }else{
+            logger.info("New Business quotes doesn't have business");
+        }
+    }
+
+
+
 }

@@ -739,5 +739,23 @@ public class DashboardPageActions extends BaseTest {
         return TextHelper.getText(driver, firstAvailableStatus, "text");
     }
 
+    public void clickFilterByType(WebDriver driver) {
+        WaitHelper.waitForElementVisibility(driver, quotesFilterByType);
+        ClickHelper.clickElement(driver, quotesFilterByType);
+    }
+
+    public void selectTypeInFilter(WebDriver driver, String status) throws InterruptedException {
+        WaitHelper.waitForElementVisibility(driver, allTypesDropdown);
+        WebElement dropdown = driver.findElement(allTypesDropdown);
+        DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, quoteTypeOption, status);
+    }
+
+    public List<WebElement> getAllQuotesBusinessType(WebDriver driver){
+
+        List<WebElement> elements = driver.findElements(quoteBusinessType);
+
+        return elements;
+    }
+
 
 }
