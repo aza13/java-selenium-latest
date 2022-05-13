@@ -19,7 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static pageObjects.DashboardPageObjects.*;
-import static pageObjects.DashboardPageObjects.firstAvailableStatus;
+import static pageObjects.DashboardPageObjects.quoteBusinessType;
 import static pageObjects.LoginPageObjects.logInButton;
 
 
@@ -742,6 +742,24 @@ public class DashboardPageActions extends BaseTest {
     public void clickQuoteIt(WebDriver driver){
         WaitHelper.waitForElementVisibility(driver, quoteitLogo);
         driver.findElement(quoteitLogo).click();
+    }
+
+    public void clickFilterByType(WebDriver driver) {
+        WaitHelper.waitForElementVisibility(driver, quotesFilterByType);
+        ClickHelper.clickElement(driver, quotesFilterByType);
+    }
+
+    public void selectTypeInFilter(WebDriver driver, String status) throws InterruptedException {
+        WaitHelper.waitForElementVisibility(driver, allTypesDropdown);
+        WebElement dropdown = driver.findElement(allTypesDropdown);
+        DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, quoteTypeOption, status);
+    }
+
+    public List<WebElement> getAllQuotesBusinessType(WebDriver driver){
+
+        List<WebElement> elements = driver.findElements(quoteBusinessType);
+
+        return elements;
     }
 
 
