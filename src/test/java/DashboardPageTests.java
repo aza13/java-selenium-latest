@@ -200,11 +200,11 @@ public class DashboardPageTests extends BaseTest {
             List<String> stat = dashboardPageActions.getAllQuotesStatus(DriverManager.getDriver());
             if (stat.size() > 0) {
                 for (String s : stat) {
-                    if (status.contentEquals("Active")) {
-                        if (s.contentEquals(status) || s.contentEquals("Order Placed") || s.contentEquals("In Review")) {
+                    if(status.contentEquals("Active")){
+                        if(s.contentEquals(status)||s.contentEquals("Order Placed")||s.contentEquals("In Review")){
                             assert true;
                         }
-                    } else {
+                    }else{
                         assert s.contentEquals(status);
                     }
 
@@ -271,17 +271,17 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.enterCreateEndDate(DriverManager.getDriver());
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
         List<String> dates = dashboardPageActions.getPolicyExpirationDates(DriverManager.getDriver());
-        if (dates != null) {
+        if(dates != null){
             DateFormat df = new SimpleDateFormat(ConstantVariable.DATE_FORMAT);
             Date actualDate, givenDate;
             String d = map.get("endDate");
             givenDate = df.parse(d);
-            for (String date : dates) {
+            for (String date: dates) {
                 try {
                     actualDate = df.parse(date);
-                    if (actualDate.compareTo(givenDate) <= 0) {
+                    if (actualDate.compareTo(givenDate)<=0){
                         assert true;
-                    } else {
+                    }else{
                         assert false;
                     }
                 } catch (ParseException e) {
@@ -306,7 +306,7 @@ public class DashboardPageTests extends BaseTest {
         if (quoteCount > 0) {
             String continueBtnXpath;
             for (int i = 1; i <= quoteCount; i++) {
-                continueBtnXpath = "(//div[@data-qa='quote_card']//p[@data-qa='status'])[" + i + "]/parent::div/parent::div/following-sibling::div//button";
+                continueBtnXpath = "(//div[@data-qa='quote_card']//p[@data-qa='status'])["+i+"]/parent::div/parent::div/following-sibling::div//button";
                 By continueButton = By.xpath(continueBtnXpath);
                 String status = dashboardPageActions.getGivenQuoteStatus(DriverManager.getDriver(), i);
                 switch (status) {
