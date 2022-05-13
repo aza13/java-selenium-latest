@@ -19,7 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static pageObjects.DashboardPageObjects.*;
-import static pageObjects.DashboardPageObjects.firstAvailableStatus;
+import static pageObjects.DashboardPageObjects.quoteBusinessType;
 import static pageObjects.LoginPageObjects.logInButton;
 
 
@@ -739,6 +739,11 @@ public class DashboardPageActions extends BaseTest {
         return TextHelper.getText(driver, firstAvailableStatus, "text");
     }
 
+    public void clickQuoteIt(WebDriver driver){
+        WaitHelper.waitForElementVisibility(driver, quoteitLogo);
+        driver.findElement(quoteitLogo).click();
+    }
+
     public void clickFilterByType(WebDriver driver) {
         WaitHelper.waitForElementVisibility(driver, quotesFilterByType);
         ClickHelper.clickElement(driver, quotesFilterByType);
@@ -757,9 +762,24 @@ public class DashboardPageActions extends BaseTest {
         return elements;
     }
 
-    public void clickQuoteIt(WebDriver driver){
-        WaitHelper.waitForElementVisibility(driver, quoteitLogo);
-        driver.findElement(quoteitLogo).click();
+    public void clickClearFiltersButton(WebDriver driver) throws InterruptedException {
+        ClickHelper.clickElement(driver, clearFilterButton);
+        WaitHelper.pause(3000);
+    }
+
+    public String getSelectedProductName(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(3000);
+        return driver.findElement(allProductsDropdown).getText();
+    }
+
+    public String getSelectedQuoteStatus(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(2000);
+        return driver.findElement(allStatusDropdown).getText();
+    }
+
+    public String getSelectedQuoteBusinessType(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(2000);
+        return driver.findElement(allTypesDropdown).getText();
     }
 
 
