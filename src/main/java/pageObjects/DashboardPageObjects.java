@@ -109,6 +109,8 @@ public class DashboardPageObjects {
 
     public static final By applyFiltersButton = By.id("applyFilters");
 
+    public static final By clearFilterButton = By.xpath("//button[@id='filterClose' and text()='Clear Filters']");
+
     public static final By allStatusDropdown = By.xpath("//label[text()='All Statuses']/following-sibling::div/div[@id='demo-simple-select']");
 
     public static final By statusOptions = By.xpath("//ul/li[contains(@data-qa, 'menuItem')]");
@@ -178,6 +180,14 @@ public class DashboardPageObjects {
     public static final By clearanceDialogCancelButton = By.xpath("//button[@data-qa='cancel_alert_modal' and text()='CANCEL QUOTE']/span");
 
     public static final By clearanceDialogPolicyDashboardDesc = By.xpath("//p[@id='alert-dialog-description']/div[1]");
+
+    public static final By quotesFilterByType = By.id("panel-header-3");
+
+    public static final By allTypesDropdown = By.xpath("//label[text()='All Types']/following-sibling::div/div[@id='demo-simple-select']");
+
+    public static final By quoteTypeOption = By.xpath("//ul//li[contains(@data-qa, 'quoteType_menuItem_')]");
+
+    public static final By quoteBusinessType = By.xpath("//div[@data-qa='quote_card']/div/div//div[3]");
 
     public static final By quoteitLogo = By.xpath("//img[@alt='hello']");
 

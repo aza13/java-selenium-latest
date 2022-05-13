@@ -762,5 +762,25 @@ public class DashboardPageActions extends BaseTest {
         return elements;
     }
 
+    public void clickClearFiltersButton(WebDriver driver) throws InterruptedException {
+        ClickHelper.clickElement(driver, clearFilterButton);
+        WaitHelper.pause(3000);
+    }
+
+    public String getSelectedProductName(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(3000);
+        return driver.findElement(allProductsDropdown).getText();
+    }
+
+    public String getSelectedQuoteStatus(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(2000);
+        return driver.findElement(allStatusDropdown).getText();
+    }
+
+    public String getSelectedQuoteBusinessType(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(2000);
+        return driver.findElement(allTypesDropdown).getText();
+    }
+
 
 }
