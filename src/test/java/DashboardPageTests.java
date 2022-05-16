@@ -202,11 +202,11 @@ public class DashboardPageTests extends BaseTest {
             List<String> stat = dashboardPageActions.getAllQuotesStatus(DriverManager.getDriver());
             if (stat.size() > 0) {
                 for (String s : stat) {
-                    if (status.contentEquals("Active")) {
-                        if (s.contentEquals(status) || s.contentEquals("Order Placed") || s.contentEquals("In Review")) {
+                    if(status.contentEquals("Active")){
+                        if(s.contentEquals(status)||s.contentEquals("Order Placed")||s.contentEquals("In Review")){
                             assert true;
                         }
-                    } else {
+                    }else{
                         assert s.contentEquals(status);
                     }
 
@@ -224,20 +224,20 @@ public class DashboardPageTests extends BaseTest {
         DateFormat df = new SimpleDateFormat(ConstantVariable.DATE_FORMAT);
         Date actualDate, givenDate;
         givenDate = df.parse(map.get("endDate"));
-        if (dates.size() > 0) {
-            for (String date : dates) {
+        if(dates.size()>0){
+            for (String date: dates) {
                 try {
                     actualDate = df.parse(date);
-                    if (actualDate.compareTo(givenDate) <= 0) {
+                    if (actualDate.compareTo(givenDate)<=0){
                         assert true;
-                    } else {
+                    }else{
                         assert false;
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
             }
-        } else {
+        }else{
             Assert.assertTrue(true);
         }
 
@@ -273,17 +273,17 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.enterCreateEndDate(DriverManager.getDriver());
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
         List<String> dates = dashboardPageActions.getPolicyExpirationDates(DriverManager.getDriver());
-        if (dates != null) {
+        if(dates != null){
             DateFormat df = new SimpleDateFormat(ConstantVariable.DATE_FORMAT);
             Date actualDate, givenDate;
             String d = map.get("endDate");
             givenDate = df.parse(d);
-            for (String date : dates) {
+            for (String date: dates) {
                 try {
                     actualDate = df.parse(date);
-                    if (actualDate.compareTo(givenDate) <= 0) {
+                    if (actualDate.compareTo(givenDate)<=0){
                         assert true;
-                    } else {
+                    }else{
                         assert false;
                     }
                 } catch (ParseException e) {
@@ -308,7 +308,7 @@ public class DashboardPageTests extends BaseTest {
         if (quoteCount > 0) {
             String continueBtnXpath;
             for (int i = 1; i <= quoteCount; i++) {
-                continueBtnXpath = "(//div[@data-qa='quote_card']//p[@data-qa='status'])[" + i + "]/parent::div/parent::div/following-sibling::div//button";
+                continueBtnXpath = "(//div[@data-qa='quote_card']//p[@data-qa='status'])["+i+"]/parent::div/parent::div/following-sibling::div//button";
                 By continueButton = By.xpath(continueBtnXpath);
                 String status = dashboardPageActions.getGivenQuoteStatus(DriverManager.getDriver(), i);
                 switch (status) {
@@ -526,5 +526,30 @@ public class DashboardPageTests extends BaseTest {
         }
         assert dashboardPageActions.verifyPoliciesExists(DriverManager.getDriver());
     }
+
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    public void  testQuotesByBusinessType(Map<String, String> map) throws InterruptedException {
+        /***
+         this test verifies quotes by business type
+         story - N2020-32172
+         @author -Venkat Kottapalli
+         **/
+        dashboardPageActions.clickFilterList(DriverManager.getDriver());
+        dashboardPageActions.clickFilterByType(DriverManager.getDriver());
+        String status = map.get("status");
+        dashboardPageActions.selectTypeInFilter(DriverManager.getDriver(), status);
+        dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
+        List<WebElement> elements = dashboardPageActions.getAllQuotesBusinessType(DriverManager.getDriver());
+        if (elements.size() > 0) {
+            for (WebElement element : elements) {
+                String businessType = element.getText();
+                assert businessType.contains("Renewal for Policy");
+            }
+        }else{
+            logger.info("New Business quotes doesn't have business");
+        }
+    }
+
+
 
 }

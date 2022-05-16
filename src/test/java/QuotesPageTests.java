@@ -24,7 +24,7 @@ import java.util.Objects;
 
 import static constants.DatabaseQueries.GET_SUBMISSION_ID_WITH_QUOTE_ID;
 
-public class QuotesPageTests extends BaseTest {
+public class  QuotesPageTests extends BaseTest {
 
     private static final Logger logger = Logger.getLogger(QuotesPageTests.class);
     private DashboardPageActions dashboardPageActions;
