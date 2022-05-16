@@ -224,20 +224,20 @@ public class DashboardPageTests extends BaseTest {
         DateFormat df = new SimpleDateFormat(ConstantVariable.DATE_FORMAT);
         Date actualDate, givenDate;
         givenDate = df.parse(map.get("endDate"));
-        if(dates.size()>0){
-            for (String date: dates) {
+        if (dates.size() > 0) {
+            for (String date : dates) {
                 try {
                     actualDate = df.parse(date);
-                    if (actualDate.compareTo(givenDate)<=0){
+                    if (actualDate.compareTo(givenDate) <= 0) {
                         assert true;
-                    }else{
+                    } else {
                         assert false;
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
             }
-        }else{
+        } else {
             Assert.assertTrue(true);
         }
 
@@ -550,6 +550,37 @@ public class DashboardPageTests extends BaseTest {
         }
     }
 
-
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    public void  testClearFiltersButtonFunctionality(Map<String, String> map) throws InterruptedException {
+        /***
+         this test verifies clear filters button functionality
+         story - N2020-32024
+         @author -Venkat Kottapalli
+         **/
+        dashboardPageActions.clickFilterList(DriverManager.getDriver());
+        dashboardPageActions.clickFilterByProductName(DriverManager.getDriver());
+        dashboardPageActions.selectProductInFilter(DriverManager.getDriver(), map.get("product"));
+        dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
+        dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), map.get("status"));
+        dashboardPageActions.clickFilterByType(DriverManager.getDriver());
+        String status = map.get("businessType");
+        dashboardPageActions.selectTypeInFilter(DriverManager.getDriver(), status);
+        dashboardPageActions.clickSubmissionFilterByDateRange(DriverManager.getDriver());
+        dashboardPageActions.enterCreateStartDate(DriverManager.getDriver());
+        dashboardPageActions.enterCreateEndDate(DriverManager.getDriver());
+        logger.info("clearing the filters");
+        dashboardPageActions.clickClearFiltersButton(DriverManager.getDriver());
+        logger.info("checking the selected values after applying filter");
+        dashboardPageActions.clickFilterList(DriverManager.getDriver());
+        dashboardPageActions.clickFilterByProductName(DriverManager.getDriver());
+        String product = dashboardPageActions.getSelectedProductName(DriverManager.getDriver());
+        assert product.contentEquals(map.get("defaultProductValue"));
+        dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
+        String quoteStatus = dashboardPageActions.getSelectedQuoteStatus(DriverManager.getDriver());
+        assert quoteStatus.contentEquals(map.get("defaultStatusValue"));
+        dashboardPageActions.clickFilterByType(DriverManager.getDriver());
+        String quoteBusinessType = dashboardPageActions.getSelectedQuoteBusinessType(DriverManager.getDriver());
+        assert quoteBusinessType.contentEquals(map.get("defaultTypeValue"));
+    }
 
 }
