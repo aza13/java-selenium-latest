@@ -20,7 +20,7 @@ public class ConstantVariable {
 
     public static final String BROKER_ID = "12369";
     public static final String AGENT_ID = "57";
-    public static final String AGENT_OFFICE_ID = "6994";
+    public static final String AGENT_OFFICE_ID = "6944";
     public static final String PRODUCT = "NetGuard® SELECT";
 
 

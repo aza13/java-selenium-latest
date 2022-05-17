@@ -19,6 +19,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static pageObjects.DashboardPageObjects.*;
+import static pageObjects.DashboardPageObjects.firstAvailableStatus;
+import static pageObjects.InsuredPageObjects.emailRequiredText;
 import static pageObjects.DashboardPageObjects.quoteBusinessType;
 import static pageObjects.LoginPageObjects.logInButton;
 
@@ -230,7 +232,11 @@ public class DashboardPageActions extends BaseTest {
         WebElement element = driver.findElement(selectProductDropdown);
         DropdownHelper.selectValueFromBootstrapDropdown(driver, element, genericProductOption, product);
         TextHelper.enterText(driver, applicantNameField, applicantName);
-        TextHelper.enterText(driver, websiteField, website);
+        if(website.contentEquals("No website")){
+            website = "";
+        }
+        TextHelper.enterText(driver, websiteField,website);
+
     }
 
     public InsuredPageActions clickContinueButton(WebDriver driver) throws InterruptedException {
@@ -781,6 +787,5 @@ public class DashboardPageActions extends BaseTest {
         WaitHelper.pause(2000);
         return driver.findElement(allTypesDropdown).getText();
     }
-
 
 }
