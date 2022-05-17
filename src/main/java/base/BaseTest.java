@@ -38,6 +38,7 @@ public class BaseTest {
     public static String operatingSystem;
     public static String testEnvironment ;
     private static DashboardPageActions dashboardPageActions;
+    public static Properties prop;
 
     private static final Logger logger = Logger.getLogger(BaseTest.class);
 
@@ -48,8 +49,6 @@ public class BaseTest {
         logger.info("Executing the @BeforeSuite - configSetUpMethod() in BaseTest ");
 
         operatingSystem = System.getProperty("os.name");
-
-        Properties prop;
 
         prop = ConfigDataReader.configPropInit(ConstantVariable.CONFIG_PROP_FILEPATH);
 

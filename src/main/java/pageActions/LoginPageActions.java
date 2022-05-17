@@ -25,7 +25,7 @@ public class LoginPageActions extends BaseTest {
         TextHelper.enterText(driver, emailTextField, email_id);
         TextHelper.enterText(driver, passwordTextField, password);
         ClickHelper.clickElement(driver, logInButton);
-         return PageObjectManager.getDashboardPageActions();
+        return PageObjectManager.getDashboardPageActions();
     }
 
     public WebElement pleaseProvideEmailPasswordText(WebDriver driver){
