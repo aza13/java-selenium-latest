@@ -16,6 +16,8 @@ public class PageObjectManager {
 
     private static QuoteListPageActions quoteListPageActions;
 
+    private static BindingPageActions bindingPageActions;
+
 
     private PageObjectManager(){
 
@@ -53,6 +55,11 @@ public class PageObjectManager {
     public static QuoteListPageActions getQuoteListPageActions() {
 
         return (quoteListPageActions == null) ? quoteListPageActions = new QuoteListPageActions() : quoteListPageActions;
+    }
+
+    public static BindingPageActions getBindingPageActions(){
+
+        return (bindingPageActions == null) ? bindingPageActions = new BindingPageActions() : bindingPageActions;
     }
 
 
