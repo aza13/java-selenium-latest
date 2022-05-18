@@ -41,7 +41,6 @@ public class  QuotesPageTests extends BaseTest {
         ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaActions();
         underwritingQuestionsPageActions = PageObjectManager.getUnderwritingQuestionsPageActions();
         quoteListPageActions = PageObjectManager.getQuoteListPageActions();
-        databaseConnector = new DatabaseConnector();
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
@@ -279,7 +278,6 @@ public class  QuotesPageTests extends BaseTest {
          story - N2020-28645, 28655 -QAT-174
          @author - Azamat Uulu
          **/
-
         logger.info("Executing the testConfirmAndLockQuoteOption from QuoteTests class :: testConfirmAndLockQuoteOption");
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         String newInsuredName = FakeDataHelper.fullName();
