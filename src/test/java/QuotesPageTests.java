@@ -163,6 +163,7 @@ public class  QuotesPageTests extends BaseTest {
                         quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
                     } else {
                         quoteListPageActions.checkIfQuoteLockSuccessMessageDisplayed(DriverManager.getDriver());
+                        quoteListPageActions.isQuoteExpiryDisplayed(DriverManager.getDriver());
                     }
                 } else {
                     Assert.fail("Confirm and quote button is disabled for some reason, some of the quotes missing premium");
