@@ -288,7 +288,7 @@ public class QuoteListPageActions extends BaseTest {
         WaitHelper.waitForElementVisibility(driver, orderConfirmationDialog);
         TextHelper.enterText(driver, orderConfirmationTextArea, "Place Order Testing");
         ClickHelper.clickElement(driver, orderConfirmationSubmitButton);
-        WaitHelper.pause(3000);
+        WaitHelper.pause(5000);
     }
 
     public String getOpenQuoteId(WebDriver driver){

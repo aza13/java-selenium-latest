@@ -37,6 +37,7 @@ public class  QuotesPageTests extends BaseTest {
     public void beforeClassSetUp() {
         classLogger = extentReport.createTest("QuotesPageTests");
         logger.info("Executing the tests from QuotesPageTests class  :: beforeClassSetUp");
+        databaseConnector = new DatabaseConnector();
         dashboardPageActions = PageObjectManager.getDashboardPageActions();
         ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaActions();
         underwritingQuestionsPageActions = PageObjectManager.getUnderwritingQuestionsPageActions();
@@ -646,6 +647,8 @@ public class  QuotesPageTests extends BaseTest {
 
     @AfterClass(alwaysRun = true)
     public void tearDown() {
-        databaseConnector.closeDatabaseConnector();
+        if (databaseConnector != null){
+            databaseConnector.closeDatabaseConnector();
+        }
     }
 }
