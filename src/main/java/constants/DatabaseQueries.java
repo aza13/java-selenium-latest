@@ -14,7 +14,7 @@ public class DatabaseQueries extends BaseTest {
             "inner join auth.submission s " +
             "on s.id=q.submission_id " +
             "inner join auth.broker b on b.id=s.broker_id " +
-            "where q.is_locked=1 and q.type='quote' and q.status='active' and s.broker_id=8804 and s.product_id=4992 and s.status='active' order by s.id desc;";
+            "where q.is_locked=1 and q.type='quote' and q.status='active' and s.broker_id=12369 and s.product_id=4992 and s.status='active' order by s.id desc;";
 
     public static final String GET_SUBMISSION_ID_WITH_QUOTE_ID = "select submission_id from "+prop.getProperty("dbSchema")+".quote where id=";
     public static final String UPDATE_IN_REVIEW_SUBMISSION_TO_ACTIVE = "update auth.submission set status='active' where id=";

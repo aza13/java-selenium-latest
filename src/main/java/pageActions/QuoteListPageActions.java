@@ -86,7 +86,7 @@ public class QuoteListPageActions extends BaseTest {
         return ClickHelper.isElementExist(driver, lockIconOpenLocator);
     }
 
-    public boolean checkIfLockedQuoteExist(WebDriver driver){
+    public boolean verifyIfLockedQuoteExist(WebDriver driver){
         return ClickHelper.isElementExist(driver, lockIconLocator);
     }
 
@@ -208,7 +208,7 @@ public class QuoteListPageActions extends BaseTest {
         }else{
             WaitHelper.waitForElementVisibility(driver, confirmAndLockButton);
             ClickHelper.clickElement(driver, confirmAndLockButton);
-            WaitHelper.pause(120000);
+            WaitHelper.pause(30000);
             return true;
         }
     }
@@ -222,8 +222,8 @@ public class QuoteListPageActions extends BaseTest {
         return ClickHelper.isElementExist(driver, quoteLockSuccessMessage);
     }
 
-    public boolean verifyQuotePreviewOptionVisible(WebDriver driver){
-        WaitHelper.waitForElementVisibility(driver, quotePreviewButton);
+    public boolean verifyQuotePreviewOptionVisible(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(3000);
         return ClickHelper.isElementExist(driver, quotePreviewButton);
     }
 
@@ -288,7 +288,7 @@ public class QuoteListPageActions extends BaseTest {
         WaitHelper.waitForElementVisibility(driver, orderConfirmationDialog);
         TextHelper.enterText(driver, orderConfirmationTextArea, "Place Order Testing");
         ClickHelper.clickElement(driver, orderConfirmationSubmitButton);
-        WaitHelper.pause(3000);
+        WaitHelper.pause(5000);
     }
 
     public String getOpenQuoteId(WebDriver driver){

@@ -16,6 +16,7 @@ import utils.dataProvider.TestDataProvider;
 import utils.dbConnector.DatabaseConnector;
 import utils.fileReader.TextFileReader;
 
+import java.sql.Driver;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +38,7 @@ public class  QuotesPageTests extends BaseTest {
     public void beforeClassSetUp() {
         classLogger = extentReport.createTest("QuotesPageTests");
         logger.info("Executing the tests from QuotesPageTests class  :: beforeClassSetUp");
+        databaseConnector = new DatabaseConnector();
         dashboardPageActions = PageObjectManager.getDashboardPageActions();
         ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaActions();
         underwritingQuestionsPageActions = PageObjectManager.getUnderwritingQuestionsPageActions();
@@ -110,7 +112,7 @@ public class  QuotesPageTests extends BaseTest {
     public void testLockQuote(Map<String, String> map) throws InterruptedException {
         /***
          this verifies whether applicant can lock a quote
-         story - N2020-28633
+         story - N2020-28633 and N2020-28708
          @author - Venkat Kottapalli
          **/
         logger.info("test verifying locking a quote :: testLockQuote");
@@ -157,13 +159,18 @@ public class  QuotesPageTests extends BaseTest {
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             if (quoteListPageActions.checkIfOpenQuoteExist(DriverManager.getDriver())) {
+                assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
                 if (quoteListPageActions.clickConfirmAndLock(DriverManager.getDriver())) {
                     if (quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())) {
                         quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
                         quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
                     } else {
                         quoteListPageActions.checkIfQuoteLockSuccessMessageDisplayed(DriverManager.getDriver());
-                        quoteListPageActions.isQuoteExpiryDisplayed(DriverManager.getDriver());
+                        assert quoteListPageActions.isQuoteExpiryDisplayed(DriverManager.getDriver());
+                        assert quoteListPageActions.verifyIfLockedQuoteExist(DriverManager.getDriver());
+                        assert quoteListPageActions.verifyPDFFileAvailable(DriverManager.getDriver());
+                        assert quoteListPageActions.verifyWORDFileAvailable(DriverManager.getDriver());
+                        quoteListPageActions.expandTheQuote(DriverManager.getDriver());
                     }
                 } else {
                     Assert.fail("Confirm and quote button is disabled for some reason, some of the quotes missing premium");
@@ -647,6 +654,8 @@ public class  QuotesPageTests extends BaseTest {
 
     @AfterClass(alwaysRun = true)
     public void tearDown() {
-        databaseConnector.closeDatabaseConnector();
+        if (databaseConnector != null){
+            databaseConnector.closeDatabaseConnector();
+        }
     }
 }
