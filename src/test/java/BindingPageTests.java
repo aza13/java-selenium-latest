@@ -122,7 +122,7 @@ public class BindingPageTests extends BaseTest {
                     String quoteStatus = dashboardPageActions.getQuoteStatus(DriverManager.getDriver());
                     assert quoteStatus.contentEquals("Order Placed");
                     dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
-                    // clicking on renewal policy continue button
+                    assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
                 }
             } else {
                 Assert.fail("Confirm and quote button is disabled for some reason");

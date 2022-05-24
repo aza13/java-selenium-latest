@@ -86,7 +86,7 @@ public class QuoteListPageActions extends BaseTest {
         return ClickHelper.isElementExist(driver, lockIconOpenLocator);
     }
 
-    public boolean checkIfLockedQuoteExist(WebDriver driver){
+    public boolean verifyIfLockedQuoteExist(WebDriver driver){
         return ClickHelper.isElementExist(driver, lockIconLocator);
     }
 
@@ -201,14 +201,14 @@ public class QuoteListPageActions extends BaseTest {
     }
 
     public boolean clickConfirmAndLock(WebDriver driver) throws InterruptedException {
-        WaitHelper.pause(5000);
+        WaitHelper.pause(10000);
         if(ClickHelper.isElementExist(driver, confirmAndLockDisabledButton)){
             logger.error("Confirm and Lock button is disabled");
             return false;
         }else{
             WaitHelper.waitForElementVisibility(driver, confirmAndLockButton);
             ClickHelper.clickElement(driver, confirmAndLockButton);
-            WaitHelper.pause(20000);
+            WaitHelper.pause(30000);
             return true;
         }
     }
@@ -222,8 +222,8 @@ public class QuoteListPageActions extends BaseTest {
         return ClickHelper.isElementExist(driver, quoteLockSuccessMessage);
     }
 
-    public boolean verifyQuotePreviewOptionVisible(WebDriver driver){
-        WaitHelper.waitForElementVisibility(driver, quotePreviewButton);
+    public boolean verifyQuotePreviewOptionVisible(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(3000);
         return ClickHelper.isElementExist(driver, quotePreviewButton);
     }
 
@@ -406,5 +406,8 @@ public class QuoteListPageActions extends BaseTest {
         return policyAggLimit.getText();
     }
 
-
+    public boolean isQuoteExpiryDisplayed(WebDriver driver) throws InterruptedException{
+        WaitHelper.pause(10000);
+        return ClickHelper.isElementExist(driver, quoteExpiry);
+    }
 }

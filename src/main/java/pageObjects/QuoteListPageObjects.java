@@ -55,5 +55,5 @@ public class QuoteListPageObjects {
     public static final By quoteOptionPremiumGenericLocator = By.xpath("//div[starts-with(@data-qa, 'option_card_')]//div[text()='Max. Policy Aggregate Limit']/preceding-sibling::div//span");
     public static final By quoteOptionMaxPolicyAggLimit = By.xpath("//div[starts-with(@data-qa, 'option_card_')]//div[text()='Max. Policy Aggregate Limit']/following-sibling::div//span");
     public static final By firstQuoteOptionMaxPolicyAggLimit = By.xpath("//div[starts-with(@data-qa, 'option_card_1')]//div[text()='Max. Policy Aggregate Limit']/following-sibling::div//span");
-
+    public static final By quoteExpiry = By.xpath("//div[contains(text(),'Expiration')]");
 }

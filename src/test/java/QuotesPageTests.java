@@ -16,6 +16,7 @@ import utils.dataProvider.TestDataProvider;
 import utils.dbConnector.DatabaseConnector;
 import utils.fileReader.TextFileReader;
 
+import java.sql.Driver;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -158,12 +159,18 @@ public class  QuotesPageTests extends BaseTest {
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             if (quoteListPageActions.checkIfOpenQuoteExist(DriverManager.getDriver())) {
+                assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
                 if (quoteListPageActions.clickConfirmAndLock(DriverManager.getDriver())) {
                     if (quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())) {
                         quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
                         quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
                     } else {
                         quoteListPageActions.checkIfQuoteLockSuccessMessageDisplayed(DriverManager.getDriver());
+                        assert quoteListPageActions.isQuoteExpiryDisplayed(DriverManager.getDriver());
+                        assert quoteListPageActions.verifyIfLockedQuoteExist(DriverManager.getDriver());
+                        assert quoteListPageActions.verifyPDFFileAvailable(DriverManager.getDriver());
+                        assert quoteListPageActions.verifyWORDFileAvailable(DriverManager.getDriver());
+                        quoteListPageActions.expandTheQuote(DriverManager.getDriver());
                     }
                 } else {
                     Assert.fail("Confirm and quote button is disabled for some reason, some of the quotes missing premium");
