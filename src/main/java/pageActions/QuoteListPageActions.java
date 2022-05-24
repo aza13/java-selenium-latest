@@ -410,4 +410,8 @@ public class QuoteListPageActions extends BaseTest {
         WaitHelper.pause(10000);
         return ClickHelper.isElementExist(driver, quoteExpiry);
     }
+
+    public boolean checkIfFetchingOptionCoveragesMessageDisplayed(WebDriver driver){
+        return ClickHelper.isElementExist(driver, fetchingOptionCoverages);
+    }
 }
