@@ -66,4 +66,8 @@ public class UnderwritingQuestionsPageObjects {
     public static final By underwritingQuestionsTab = By.xpath("(//button[normalize-space()='Questions'])[1]");
     public static final By uwMSGWhileContinue = By.xpath("//li[@value='NetGuard Select Celebrity']");
 
+    public static final By softDeclineHeader = By.xpath("(//h2[normalize-space()='Submit for Review'])[1]");
+    public static final By softDeclineText = By.xpath("//textarea[@id='outlined-textarea']");
+    public static final By softDeclineSubmit = By.xpath("//button[normalize-space()='SUBMIT']");
+
 }
