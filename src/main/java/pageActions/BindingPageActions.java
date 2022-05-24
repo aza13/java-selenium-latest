@@ -15,5 +15,10 @@ public class BindingPageActions extends BaseTest {
         ClickHelper.clickElement(driver, exitToDashboard);
     }
 
+    public boolean isBindingTabSelected(WebDriver driver){
+
+        return ClickHelper.isElementExist(driver, bindingTabSelected);
+    }
+
 
 }
