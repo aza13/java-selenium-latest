@@ -112,7 +112,7 @@ public class  QuotesPageTests extends BaseTest {
     public void testLockQuote(Map<String, String> map) throws InterruptedException {
         /***
          this verifies whether applicant can lock a quote
-         story - N2020-28633
+         story - N2020-28633 and N2020-28708
          @author - Venkat Kottapalli
          **/
         logger.info("test verifying locking a quote :: testLockQuote");
