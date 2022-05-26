@@ -13,4 +13,8 @@ public class LoginPageObjects {
     public static final By logInButton = By.xpath("//button[text()='Log in']");
     public static final By provideEmailPasswordText = By.xpath("//p[text()='Please provide an email and password.']");
     public static final By invalidUsernamePassword = By.xpath("//p[text()='Invalid email.']");
+    public static final By forgetPasswordLink = By.xpath("//p[contains(text(),'Forgot password?')]");
+    public static final By forgotEmailTextField = By.id("sign-in-email-text-field");
+    public static final By sendForgotPasswordLink = By.xpath("//button[contains(text(),'Send Forgot Password Link')]");
+    public static final By confirmNewPassword = By.xpath("//button[contains(text(),'Confirm New Password')]");
 }

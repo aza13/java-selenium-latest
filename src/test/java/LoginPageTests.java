@@ -53,4 +53,17 @@ public class LoginPageTests extends BaseTest {
         }
     }
 
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "LoginPageData")
+    public void testResetPassword(Map<String, String> map) throws InterruptedException {
+        /***
+         this test verifies login functionality
+         story - N2020-28284
+         Author  - Sheetal
+         **/
+        DashboardPageActions dashboardPageActions = PageObjectManager.getDashboardPageActions();
+        dashboardPageActions.logoutApp(DriverManager.getDriver());
+        loginPageActions.resetPassword(DriverManager.getDriver(), map.get("userId"));
+    }
+
+
 }
