@@ -132,7 +132,7 @@ public class DashboardPageTests extends BaseTest {
         String website = dashboardPageActions.getWebsite(DriverManager.getDriver());
         assert website.equals(ConstantVariable.EMPTY_STRING);
         dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, map.get("applicantName"), map.get("website"));
-        InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
+        dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         assert dashboardPageActions.websiteRequiredElement(DriverManager.getDriver()).isDisplayed();
     }
 
@@ -370,16 +370,16 @@ public class DashboardPageTests extends BaseTest {
         assert actualReferenceId.equals(expectedReferenceId);
 
         dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
-        String actualQuoteName = dashboardPageActions.getFirstAvailableLegalName(DriverManager.getDriver());
+        String actualQuoteName = dashboardPageActions.getFirstQuoteLegalName(DriverManager.getDriver());
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), actualQuoteName);
-        String expectedQuoteName = dashboardPageActions.getFirstAvailableLegalName(DriverManager.getDriver());
+        String expectedQuoteName = dashboardPageActions.getFirstQuoteLegalName(DriverManager.getDriver());
         assert actualQuoteName.equals(expectedQuoteName);
 
         dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
-        String actualPolicyName = dashboardPageActions.getFirstAvailableLegalName(DriverManager.getDriver());
+        String actualPolicyName = dashboardPageActions.getFirstPolicyLegalName(DriverManager.getDriver());
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), actualPolicyName);
-        String expectedPolicyName = dashboardPageActions.getFirstAvailableLegalName(DriverManager.getDriver());
+        String expectedPolicyName = dashboardPageActions.getFirstPolicyLegalName(DriverManager.getDriver());
         assert actualPolicyName.contains(expectedPolicyName);
 
         dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());

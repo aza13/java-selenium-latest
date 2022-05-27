@@ -16,6 +16,7 @@ import utils.dataProvider.TestDataProvider;
 import utils.dbConnector.DatabaseConnector;
 import utils.fileReader.TextFileReader;
 
+import javax.naming.Binding;
 import java.sql.Driver;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -355,6 +356,8 @@ public class  QuotesPageTests extends BaseTest {
                     /*String updateQuery = UPDATE_IN_REVIEW_SUBMISSION_TO_ACTIVE+submissionId+";";
                     databaseConnector.update(updateQuery);*/
                     WaitHelper.pause(10000);
+                    BindingPageActions bindingPageActions = PageObjectManager.getBindingPageActions();
+                    bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
                     dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
                     String quoteStatus = dashboardPageActions.getQuoteStatus(DriverManager.getDriver());
                     assert quoteStatus.contentEquals("Order Placed");

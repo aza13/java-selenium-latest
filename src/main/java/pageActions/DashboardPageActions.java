@@ -414,9 +414,14 @@ public class DashboardPageActions extends BaseTest {
 
     }
 
-    public String getFirstAvailableLegalName(WebDriver driver) throws InterruptedException {
+    public String getFirstQuoteLegalName(WebDriver driver) throws InterruptedException {
         WaitHelper.pause(3000);
         return TextHelper.getText(driver, getFirstAvailableLegalName, "text");
+    }
+
+    public String getFirstPolicyLegalName(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(3000);
+        return TextHelper.getText(driver, firstPolicyCardLegalName, "text");
     }
 
     public String getFirstAvailableCreatedDate(WebDriver driver) {
