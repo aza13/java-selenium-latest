@@ -10,17 +10,18 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import static pageObjects.LoginPageObjects.*;
+import static pageObjects.QuoteListPageObjects.quotesPageSelected;
 
 public class LoginPageActions extends BaseTest {
 
     private static final Logger logger = Logger.getLogger(LoginPageActions.class);
 
-    public String getWelcomeText(WebDriver driver){
+    public String getWelcomeText(WebDriver driver) {
         WaitHelper.waitForElementVisibility(driver, welcomeText);
         return TextHelper.getText(driver, welcomeText, "text");
     }
 
-    public DashboardPageActions loginApp(WebDriver driver, String email_id, String password){
+    public DashboardPageActions loginApp(WebDriver driver, String email_id, String password) {
 
         TextHelper.enterText(driver, emailTextField, email_id);
         TextHelper.enterText(driver, passwordTextField, password);
@@ -28,7 +29,7 @@ public class LoginPageActions extends BaseTest {
         return PageObjectManager.getDashboardPageActions();
     }
 
-    public WebElement pleaseProvideEmailPasswordText(WebDriver driver){
+    public WebElement pleaseProvideEmailPasswordText(WebDriver driver) {
 
         return driver.findElement(provideEmailPasswordText);
     }
@@ -37,4 +38,13 @@ public class LoginPageActions extends BaseTest {
         Thread.sleep(3000);
         return driver.findElement(invalidUsernamePassword);
     }
+
+    public boolean  resetPassword (WebDriver driver, String email_id) {
+
+        ClickHelper.clickElement(driver, forgetPasswordLink);
+        TextHelper.enterText(driver, forgotEmailTextField, email_id);
+        ClickHelper.clickElement(driver, sendForgotPasswordLink);
+        return ClickHelper.isElementExist(driver, confirmNewPassword);
+    }
+
 }

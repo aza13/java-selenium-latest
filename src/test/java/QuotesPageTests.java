@@ -160,6 +160,7 @@ public class  QuotesPageTests extends BaseTest {
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             if (quoteListPageActions.checkIfOpenQuoteExist(DriverManager.getDriver())) {
+                quoteListPageActions.checkIfFetchingOptionCoveragesMessageDisplayed(DriverManager.getDriver());
                 assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
                 if (quoteListPageActions.clickConfirmAndLock(DriverManager.getDriver())) {
                     if (quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())) {
