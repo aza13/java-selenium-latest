@@ -279,9 +279,11 @@ public class QuoteListPageActions extends BaseTest {
         ClickHelper.clickElement(driver, quoteExpandMoreIcon);
     }
 
-    public void clickPlaceOrderButton(WebDriver driver){
+    public void clickPlaceOrderButton(WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, quotePlaceOrderButton);
         ClickHelper.clickElement(driver, quotePlaceOrderButton);
+        WaitHelper.pause(5000);
+
     }
 
     public void submitOrderConfirmation(WebDriver driver) throws InterruptedException {
