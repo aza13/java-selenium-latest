@@ -1,6 +1,7 @@
 import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
+import constants.ConstantVariable;
 import helper.FakeDataHelper;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
@@ -9,6 +10,7 @@ import org.testng.annotations.Test;
 import pageActions.*;
 import utils.dataProvider.TestDataProvider;
 
+import java.sql.SQLException;
 import java.util.Map;
 
 public class UWPageTests extends BaseTest {
@@ -150,6 +152,63 @@ public class UWPageTests extends BaseTest {
             Assert.assertFalse(pdfFileIconValue);
             boolean wordFileIconValue = quoteListPageActions.isWordFileIconDisplayed(DriverManager.getDriver());
             Assert.assertFalse(wordFileIconValue);
+        }
+    }
+
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "UWQuestionsPageData")
+    public void testSoftDeclineAfterUWQuestions(Map<String, String> map) throws InterruptedException, SQLException {
+
+        /***
+         this test hard decline after UW Questions
+         story - /N2020-28674 -QAT-184
+         @author - Azamat Uulu
+         **/
+
+        logger.info("verifying :: hard decline after UW Questions");
+        dashboardPageActions.clickNewQuote(DriverManager.getDriver());
+        String newInsuredName = FakeDataHelper.fullName();
+        String newInsuredWebsite = FakeDataHelper.website();
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), newInsuredName, newInsuredWebsite);
+        InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
+        insuredPageActions.enterEmailAddress(DriverManager.getDriver());
+        insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
+        assert insuredPageActions.verifyValidPhoneNumberFormat(DriverManager.getDriver());
+        insuredPageActions.enterPhysicalAddress(DriverManager.getDriver());
+        insuredPageActions.enterPhyCity(DriverManager.getDriver());
+        insuredPageActions.enterPhyZipcode(DriverManager.getDriver());
+        insuredPageActions.selectPhyState(DriverManager.getDriver());
+        insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
+        insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
+
+        if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
+            if (map.get("product").equals("NetGuard® SELECT")) {
+                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass2"));
+                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
+                ratingCriteriaPageActions.enterNetWorth(DriverManager.getDriver(), map.get("netWorth"));
+            } else {
+                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass"));
+                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
+                ratingCriteriaPageActions.enterRatingCriteriaNoPhysiciansRevenueAndRecords(DriverManager.getDriver(), map.get("noPhysicians"), map.get("revenue"), map.get("records"));
+            }
+            ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
+        }
+        if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
+            boolean uwQuestionsAnswered = underwritingQuestionsPageActions.checkWhetherAllUWQuestionsAreAnswered(DriverManager.getDriver());
+            if (uwQuestionsAnswered) {
+                logger.info("continue button is enabled, means UW questions are answered");
+            } else {
+                logger.info("continue button is disabled, means UW questions are not answered");
+                underwritingQuestionsPageActions.answerUWQuestionButtons(DriverManager.getDriver(), map.get("uwQuestionsAnswer"));
+                underwritingQuestionsPageActions.answerUWQuestionDropdowns(DriverManager.getDriver(), map.get("uwQuestionsAnswer"), map.get("uwQuestionsOption"));
+            }
+            underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
+            underwritingQuestionsPageActions.verifySoftDeclinePopupHeader(DriverManager.getDriver());
+            underwritingQuestionsPageActions.enterSoftDeclineTextAndSubmit(DriverManager.getDriver());
+
+            String title = dashboardPageActions.getMyQuotesTabTitle(DriverManager.getDriver()).trim();
+            assert title.contentEquals(map.get("myQuotes"));
+            String firstAvailableStatus = dashboardPageActions.firstAvailableStatus(DriverManager.getDriver());
+            assert firstAvailableStatus.equals("In Review");
         }
     }
 }

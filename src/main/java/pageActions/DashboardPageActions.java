@@ -131,6 +131,7 @@ public class DashboardPageActions extends BaseTest {
 
     public String getMyQuotesTabTitle(WebDriver driver) {
         try {
+            WaitHelper.waitForElementVisibility(driver, myQuotesTab);
             return TextHelper.getText(driver, myQuotesTab, "text");
         } catch (Exception e) {
             testLogger.fail("failed to verify the my quote tab :: getMyQuotesTabTitle" + e.getMessage());
@@ -742,6 +743,7 @@ public class DashboardPageActions extends BaseTest {
     }
 
     public String firstAvailableStatus(WebDriver driver){
+        WaitHelper.waitForElementVisibility(driver, firstAvailableStatus);
         return TextHelper.getText(driver, firstAvailableStatus, "text");
     }
 
