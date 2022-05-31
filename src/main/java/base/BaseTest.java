@@ -85,7 +85,7 @@ public class BaseTest {
     public static void beforeMethodSetUp(Method method, ITestContext context) throws MalformedURLException, InterruptedException {
         logger.info("Initialisation the browser  DriverManager.getDriver()::beforeMethodSetUp");
         testLogger = classLogger.createNode(method.getName());
-        DriverManager.getDriver().manage().deleteAllCookies();
+//        DriverManager.getDriver().manage().deleteAllCookies();
         DriverManager.getDriver().manage().window().maximize();
         DriverManager.getDriver().navigate().to(appUrl);
         DriverManager.getDriver().manage().timeouts().pageLoadTimeout(15, TimeUnit.SECONDS);

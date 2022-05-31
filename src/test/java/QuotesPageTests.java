@@ -369,7 +369,7 @@ public class  QuotesPageTests extends BaseTest {
     }
 
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData", enabled = false)
     public void testQuotePreview(Map<String, String> map) throws InterruptedException {
         /***
          this verifies whether broker can click preview quote option
@@ -473,7 +473,7 @@ public class  QuotesPageTests extends BaseTest {
 
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData", enabled = false)
     public void testQuoteOutsideBoundSoftDeclined(Map<String, String> map) throws InterruptedException {
         /***
          this test verifies Broker Portal Quotes Outside the Bounds Will Be Soft Declined
