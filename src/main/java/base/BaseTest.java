@@ -40,6 +40,8 @@ public class BaseTest {
     private static DashboardPageActions dashboardPageActions;
     public static Properties prop;
 
+
+
     private static final Logger logger = Logger.getLogger(BaseTest.class);
 
     @Parameters({"browserType"})
@@ -75,6 +77,8 @@ public class BaseTest {
         extentReport = ExtentManager.getInstance();
 
         dashboardPageActions = PageObjectManager.getDashboardPageActions();
+
+
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -85,13 +89,10 @@ public class BaseTest {
         DriverManager.getDriver().manage().window().maximize();
         DriverManager.getDriver().navigate().to(appUrl);
         DriverManager.getDriver().manage().timeouts().pageLoadTimeout(15, TimeUnit.SECONDS);
-        PageObjectManager.getLoginPageActions().loginApp(DriverManager.getDriver(), userId, password);
-        if (!Objects.equals(testEnvironment, "stage")){
-            dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-            dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
-            dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
-            dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_OFFICE_ID);
-        }
+
+         PageObjectManager.getLoginPageActions().loginApp(DriverManager.getDriver(), userId, password);
+
+
     }
 
 

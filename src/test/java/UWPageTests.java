@@ -156,7 +156,7 @@ public class UWPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "UWQuestionsPageData")
-    public void testHardDeclineAfterUWQuestions(Map<String, String> map) throws InterruptedException, SQLException {
+    public void testSoftDeclineAfterUWQuestions(Map<String, String> map) throws InterruptedException, SQLException {
 
         /***
          this test hard decline after UW Questions
@@ -165,11 +165,6 @@ public class UWPageTests extends BaseTest {
          **/
 
         logger.info("verifying :: hard decline after UW Questions");
-        dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-        dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
-        dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
-        dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
-
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         String newInsuredName = FakeDataHelper.fullName();
         String newInsuredWebsite = FakeDataHelper.website();
