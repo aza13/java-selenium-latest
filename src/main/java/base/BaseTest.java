@@ -92,12 +92,7 @@ public class BaseTest {
 
          PageObjectManager.getLoginPageActions().loginApp(DriverManager.getDriver(), userId, password);
 
-        if (!Objects.equals(testEnvironment, "stage")){
-            dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-            dashboardPageActions.enterBrokerId(DriverManager.getDriver(), ConstantVariable.BROKER_ID);
-            dashboardPageActions.enterAgencyId(DriverManager.getDriver(), ConstantVariable.AGENT_ID);
-            dashboardPageActions.enterAgencyOfficeId(DriverManager.getDriver(), ConstantVariable.AGENT_OFFICE_ID);
-        }
+
     }
 
 

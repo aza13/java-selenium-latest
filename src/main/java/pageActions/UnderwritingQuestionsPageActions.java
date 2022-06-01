@@ -2,10 +2,7 @@ package pageActions;
 
 import base.BaseTest;
 import base.DriverManager;
-import helper.ClickHelper;
-import helper.DropdownHelper;
-import helper.ScrollHelper;
-import helper.WaitHelper;
+import helper.*;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -294,6 +291,17 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
 
     public boolean verifyQuestionIsVisible(WebDriver driver){
         return WaitHelper.isElementEnabled(driver, underwritingQuestionsTab);
+    }
+
+    public boolean verifySoftDeclinePopupHeader(WebDriver driver){
+        return WaitHelper.isElementDisplayed(driver, softDeclineHeader);
+    }
+
+    public void enterSoftDeclineTextAndSubmit(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibility(driver, softDeclineText);
+        TextHelper.enterText(driver, softDeclineText, "softdeclinetest");
+        ClickHelper.clickElement(driver, softDeclineSubmit);
+        WaitHelper.pause(5000);
     }
 
 }
