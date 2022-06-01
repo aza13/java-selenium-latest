@@ -1,6 +1,7 @@
 import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
+import constants.ConstantVariable;
 import helper.FakeDataHelper;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
@@ -123,6 +124,8 @@ public class BindingPageTests extends BaseTest {
                     assert quoteStatus.contentEquals("Order Placed");
                     dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
                     assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
+                    bindingPageActions.VerifyQuoteHeaderInformationInBindingPage(DriverManager.getDriver(), newInsuredName, ConstantVariable.PRODUCT);
+                    bindingPageActions.clickPolicyCardExpandIconInBindingPage(DriverManager.getDriver());
                 }
             } else {
                 Assert.fail("Confirm and quote button is disabled for some reason");

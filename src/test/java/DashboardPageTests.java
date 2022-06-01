@@ -91,7 +91,7 @@ public class DashboardPageTests extends BaseTest {
         } else {
             assert dashboardPageActions.noPolicyFound(DriverManager.getDriver()).isDisplayed();
         }
-        /* Status color changes would be coming soon with hexa codes
+        /* Status color changes would be coming soon with Hexa codes
         dashboardPageActions.validatePolicyStatusColorCoding(DriverManager.getDriver());*/
         List<WebElement> labels = dashboardPageActions.getPolicyTableLabels(DriverManager.getDriver());
         if (labels.size() > 0) {
