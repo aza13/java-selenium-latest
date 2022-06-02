@@ -47,8 +47,8 @@ public class BindingPageTests extends BaseTest {
     public void testVerifyQuoteBinding(Map<String, String> map) throws InterruptedException, SQLException {
         /*****************************************************************
          this test verifies quote option Binding
-         story - N2020-33007
-         @author - Venkat Kottapalli
+         story - N2020-33007, 23922,32926, 32930
+         @author - Venkat Kottapalli, Sheetal
          ******************************************************************/
 
         logger.info("Executing the testVerifyQuoteBinding from BindingPageTests class :: testVerifyQuoteBinding");
