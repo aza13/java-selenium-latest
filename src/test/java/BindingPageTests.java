@@ -106,6 +106,8 @@ public class BindingPageTests extends BaseTest {
                     assert quoteListPageActions.verifyWORDFileAvailable(DriverManager.getDriver());
                     quoteListPageActions.clickPlaceOrderButton(DriverManager.getDriver());
                     quoteListPageActions.submitOrderConfirmation(DriverManager.getDriver());
+                    bindingPageActions.isPreSubjectivitiesDisplayed(DriverManager.getDriver());
+                    bindingPageActions.isPostSubjectivitiesDisplayed(DriverManager.getDriver());
                     bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
                     String query = GET_SUBMISSION_ID_WITH_QUOTE_ID + quoteId + ";";
                     List<HashMap<Object, Object>> submissionIds =
