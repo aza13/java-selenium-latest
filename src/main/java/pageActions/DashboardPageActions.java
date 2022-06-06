@@ -69,7 +69,7 @@ public class DashboardPageActions extends BaseTest {
         return driver.findElement(profileLink);
     }
 
-    public WebElement signOutLink(WebDriver driver) throws InterruptedException {
+    public WebElement signOutLink(WebDriver driver) {
         WaitHelper.waitForElementVisibility(driver, signOutLink);
         return driver.findElement(signOutLink);
     }

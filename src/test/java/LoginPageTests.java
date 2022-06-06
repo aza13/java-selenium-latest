@@ -44,9 +44,10 @@ public class LoginPageTests extends BaseTest {
 
         } else if (map.get("scenario").equalsIgnoreCase("noData")) {
             loginPageActions.loginApp(DriverManager.getDriver(), "", "");
-            assert loginPageActions.invalidUserNamePasswordText(DriverManager.getDriver()).isDisplayed();
+            assert loginPageActions.pleaseProvideEmailPasswordText(DriverManager.getDriver()).isDisplayed();
         } else if (map.get("scenario").equalsIgnoreCase("logout")) {
             WaitHelper.pause(3000);
+            loginPageActions.loginApp(DriverManager.getDriver(), map.get("userId"), map.get("userPassword"));
             dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
             assert !dashboardPageActions.isBrokerIdDisplayed(DriverManager.getDriver());
             dashboardPageActions.signOutLink(DriverManager.getDriver()).click();
