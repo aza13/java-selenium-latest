@@ -35,7 +35,7 @@ public class DashboardPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
-    public void testQuotesDashboardUI(Map<String, String> map) {
+    public void testQuotesDashboardUI(Map<String, String> map) throws InterruptedException {
         /**
          * this test verifies UI of dashboard and Mu Quotes list
          story - N2020-28285, N2020-28287, N2020-28631
@@ -91,7 +91,7 @@ public class DashboardPageTests extends BaseTest {
         } else {
             assert dashboardPageActions.noPolicyFound(DriverManager.getDriver()).isDisplayed();
         }
-        /* Status color changes would be coming soon with hexa codes
+        /* Status color changes would be coming soon with Hexa codes
         dashboardPageActions.validatePolicyStatusColorCoding(DriverManager.getDriver());*/
         List<WebElement> labels = dashboardPageActions.getPolicyTableLabels(DriverManager.getDriver());
         if (labels.size() > 0) {
@@ -132,8 +132,9 @@ public class DashboardPageTests extends BaseTest {
         String website = dashboardPageActions.getWebsite(DriverManager.getDriver());
         assert website.equals(ConstantVariable.EMPTY_STRING);
         dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, map.get("applicantName"), map.get("website"));
-        InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
-        assert dashboardPageActions.websiteRequiredElement(DriverManager.getDriver()).isDisplayed();
+        dashboardPageActions.clickContinueButton(DriverManager.getDriver());
+        // waiting for clarification
+       // assert dashboardPageActions.websiteRequiredElement(DriverManager.getDriver()).isDisplayed();
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
@@ -370,16 +371,16 @@ public class DashboardPageTests extends BaseTest {
         assert actualReferenceId.equals(expectedReferenceId);
 
         dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
-        String actualQuoteName = dashboardPageActions.getFirstAvailableLegalName(DriverManager.getDriver());
+        String actualQuoteName = dashboardPageActions.getFirstQuoteLegalName(DriverManager.getDriver());
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), actualQuoteName);
-        String expectedQuoteName = dashboardPageActions.getFirstAvailableLegalName(DriverManager.getDriver());
+        String expectedQuoteName = dashboardPageActions.getFirstQuoteLegalName(DriverManager.getDriver());
         assert actualQuoteName.equals(expectedQuoteName);
 
         dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
-        String actualPolicyName = dashboardPageActions.getFirstAvailableLegalName(DriverManager.getDriver());
+        String actualPolicyName = dashboardPageActions.getFirstPolicyLegalName(DriverManager.getDriver());
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), actualPolicyName);
-        String expectedPolicyName = dashboardPageActions.getFirstAvailableLegalName(DriverManager.getDriver());
+        String expectedPolicyName = dashboardPageActions.getFirstPolicyLegalName(DriverManager.getDriver());
         assert actualPolicyName.contains(expectedPolicyName);
 
         dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());

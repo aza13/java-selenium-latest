@@ -37,7 +37,7 @@ public class QuoteListPageActions extends BaseTest {
         }
     }
 
-    public void selectPerClaim(WebDriver driver, int optionCount, String claim) throws InterruptedException {
+    public void selectPerClaim(WebDriver driver, String optionCount, String claim) throws InterruptedException {
         String perClaimDropdownXpath = "//div[@data-qa='option_card_"+optionCount+"']//div[@data-qa='groupLimit']/div";
         By perClaimDropdown = By.xpath(perClaimDropdownXpath);
         WaitHelper.waitForElementVisibility(driver, perClaimDropdown);
@@ -69,7 +69,7 @@ public class QuoteListPageActions extends BaseTest {
     public void addNewQuoteOption(WebDriver driver, int count, String claim, String aggLimit, String retention) throws InterruptedException {
         int optionCount = count+1;
         ScrollHelper.scrollToBottom(driver);
-        selectPerClaim(driver,optionCount, claim);
+        selectPerClaim(driver,Integer.toString(optionCount), claim);
         selectAggregateLimit(driver, optionCount, aggLimit);
         selectRetentionOption(driver, optionCount, retention);
         WaitHelper.pause(10000);
@@ -279,9 +279,11 @@ public class QuoteListPageActions extends BaseTest {
         ClickHelper.clickElement(driver, quoteExpandMoreIcon);
     }
 
-    public void clickPlaceOrderButton(WebDriver driver){
+    public void clickPlaceOrderButton(WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, quotePlaceOrderButton);
         ClickHelper.clickElement(driver, quotePlaceOrderButton);
+        WaitHelper.pause(5000);
+
     }
 
     public void submitOrderConfirmation(WebDriver driver) throws InterruptedException {
