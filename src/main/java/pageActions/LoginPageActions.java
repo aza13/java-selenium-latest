@@ -10,7 +10,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import static pageObjects.LoginPageObjects.*;
-import static pageObjects.QuoteListPageObjects.quotesPageSelected;
 
 public class LoginPageActions extends BaseTest {
 

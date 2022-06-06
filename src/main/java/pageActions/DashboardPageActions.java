@@ -20,7 +20,6 @@ import java.util.*;
 
 import static pageObjects.DashboardPageObjects.*;
 import static pageObjects.DashboardPageObjects.firstAvailableStatus;
-import static pageObjects.InsuredPageObjects.emailRequiredText;
 import static pageObjects.DashboardPageObjects.quoteBusinessType;
 import static pageObjects.LoginPageObjects.logInButton;
 
@@ -49,14 +48,8 @@ public class DashboardPageActions extends BaseTest {
         ClickHelper.clickElement(driver, profileSettings);
     }
 
-    public void enterBrokerId(WebDriver driver, String brokerId) {
-
-        TextHelper.enterText(driver, brokerIdField, brokerId);
-    }
-
-    public void enterAgencyId(WebDriver driver, String agencyId) {
-
-        TextHelper.enterText(driver, agencyIdField, agencyId);
+    public boolean isBrokerIdDisplayed(WebDriver driver){
+        return ClickHelper.isElementExist(driver, brokerIdField);
     }
 
 
@@ -64,7 +57,6 @@ public class DashboardPageActions extends BaseTest {
         WaitHelper.waitForElementVisibility(driver, searchInputFiled);
         TextHelper.enterText(driver, searchInputFiled, textInput);
         WaitHelper.pause(3000);
-
     }
 
     public void clickClearSearchButton(WebDriver driver) {
@@ -72,21 +64,12 @@ public class DashboardPageActions extends BaseTest {
         ClickHelper.clickElement(driver, clearSearchInputFiled);
     }
 
-    public void enterAgencyOfficeId(WebDriver driver, String agencyId) throws InterruptedException {
-
-        TextHelper.enterText(driver, agencyOfficeIdField, agencyId);
-        Actions action = new Actions(driver);
-        action.sendKeys(Keys.ESCAPE).build().perform();
-        // temp wait
-        Thread.sleep(5000);
-    }
-
     public WebElement profileLink(WebDriver driver) {
         WaitHelper.waitForElementVisibility(driver, profileLink);
         return driver.findElement(profileLink);
     }
 
-    public WebElement signOutLink(WebDriver driver) {
+    public WebElement signOutLink(WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, signOutLink);
         return driver.findElement(signOutLink);
     }
@@ -353,7 +336,7 @@ public class DashboardPageActions extends BaseTest {
 
     }
 
-    public LoginPageActions logoutApp(WebDriver driver) {
+    public LoginPageActions logoutApp(WebDriver driver) throws InterruptedException {
         logger.info("logging out from the application");
         clickProfileSettings(driver);
         signOutLink(driver).click();

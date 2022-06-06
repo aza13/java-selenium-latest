@@ -82,7 +82,10 @@ public class BaseTest {
         DriverManager.getDriver().manage().window().maximize();
         DriverManager.getDriver().navigate().to(appUrl);
         DriverManager.getDriver().manage().timeouts().pageLoadTimeout(15, TimeUnit.SECONDS);
-        PageObjectManager.getLoginPageActions().loginApp(DriverManager.getDriver(), userId, password);
+        if(!method.getName().equals("testLoginFunctionality")){
+            PageObjectManager.getLoginPageActions().loginApp(DriverManager.getDriver(), userId, password);
+        }
+
     }
 
 

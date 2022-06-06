@@ -30,10 +30,13 @@ public class LoginPageTests extends BaseTest {
          story - N2020-28282
          **/
         logger.info("verifying login functionality :: testQuotesDashboardUI");
+        DashboardPageActions dashboardPageActions = PageObjectManager.getDashboardPageActions();
         if (map.get("scenario").equalsIgnoreCase("validData")) {
             loginPageActions.loginApp(DriverManager.getDriver(), map.get("userId"), map.get("userPassword"));
             WaitHelper.pause(3000);
             assert DriverManager.getDriver().getCurrentUrl().contains("dashboard");
+            dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
+            assert !dashboardPageActions.isBrokerIdDisplayed(DriverManager.getDriver());
 
         } else if (map.get("scenario").equalsIgnoreCase("invalidData")) {
             loginPageActions.loginApp(DriverManager.getDriver(), map.get("userId"), map.get("userPassword"));
@@ -41,14 +44,14 @@ public class LoginPageTests extends BaseTest {
 
         } else if (map.get("scenario").equalsIgnoreCase("noData")) {
             loginPageActions.loginApp(DriverManager.getDriver(), "", "");
-            assert loginPageActions.pleaseProvideEmailPasswordText(DriverManager.getDriver()).isDisplayed();
+            assert loginPageActions.invalidUserNamePasswordText(DriverManager.getDriver()).isDisplayed();
         } else if (map.get("scenario").equalsIgnoreCase("logout")) {
-            DashboardPageActions dashboardPageActions = loginPageActions.loginApp(DriverManager.getDriver(), map.get("userId"), map.get("userPassword"));
             WaitHelper.pause(3000);
             dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
+            assert !dashboardPageActions.isBrokerIdDisplayed(DriverManager.getDriver());
             dashboardPageActions.signOutLink(DriverManager.getDriver()).click();
             String text = loginPageActions.getWelcomeText(DriverManager.getDriver());
-            assert text.contentEquals("Welcome to the Broker Portal");
+            assert text.contentEquals("Welcome to QuoteIt");
 
         }
     }
