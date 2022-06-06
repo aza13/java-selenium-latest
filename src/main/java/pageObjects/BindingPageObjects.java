@@ -12,4 +12,6 @@ public class BindingPageObjects {
     public static final By quoteHeaderInformation = By.xpath("//div[@id='simple-tabpanel-4']//h4");
     public static final By policyExpandMoreIcon = By.xpath("(//*[@data-testid='ExpandMoreIcon'])[1]");
 
+    public static final By preSubjectivities =By.xpath("//h5[contains(text(),'Subjectivities due prior to binding')]");
+    public static final By postSubjectivities =By.xpath("//h5[contains(text(),'Subjectivities due within 7 days of effective date')]");
 }

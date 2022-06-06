@@ -159,16 +159,17 @@ public class UWPageTests extends BaseTest {
     public void testSoftDeclineAfterUWQuestions(Map<String, String> map) throws InterruptedException, SQLException {
 
         /***
-         this test hard decline after UW Questions
+         this test soft decline after UW Questions
          story - /N2020-28674 -QAT-184
          @author - Azamat Uulu
+         Updated By - Sheetal
          **/
 
         logger.info("verifying :: hard decline after UW Questions");
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         String newInsuredName = FakeDataHelper.fullName();
         String newInsuredWebsite = FakeDataHelper.website();
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), newInsuredName, newInsuredWebsite);
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName, newInsuredWebsite);
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         insuredPageActions.enterEmailAddress(DriverManager.getDriver());
         insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
@@ -186,8 +187,6 @@ public class UWPageTests extends BaseTest {
                 ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
                 ratingCriteriaPageActions.enterNetWorth(DriverManager.getDriver(), map.get("netWorth"));
             } else {
-                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass"));
-                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
                 ratingCriteriaPageActions.enterRatingCriteriaNoPhysiciansRevenueAndRecords(DriverManager.getDriver(), map.get("noPhysicians"), map.get("revenue"), map.get("records"));
             }
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());

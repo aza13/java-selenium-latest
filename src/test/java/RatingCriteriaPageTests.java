@@ -90,13 +90,14 @@ public class RatingCriteriaPageTests extends BaseTest {
          this test hard decline after rating criteria
          story - N2020-28624 QAT-171
          @author - Azamat Uulu
+         Updated By - Sheetal
          **/
 
         logger.info("verifying :: test hard decline after rating criteria");
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         String newInsuredName = FakeDataHelper.fullName();
         String newInsuredWebsite = FakeDataHelper.website();
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName,newInsuredWebsite);
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), newInsuredName, newInsuredWebsite);
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         insuredPageActions.enterEmailAddress(DriverManager.getDriver());
         insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
@@ -112,14 +113,13 @@ public class RatingCriteriaPageTests extends BaseTest {
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass2"));
                 ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
                 ratingCriteriaPageActions.enterNetWorth(DriverManager.getDriver(), map.get("netWorth"));
-            }else{
-                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass"));
-                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
+            } else{
+
                 ratingCriteriaPageActions.enterRatingCriteriaNoPhysiciansRevenueAndRecords(DriverManager.getDriver(), map.get("noPhysicians"), map.get("revenue"), map.get("records"));
             }
+
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
-
         ratingCriteriaPageActions.verifyAndClickHardDeclinePopup(DriverManager.getDriver());
         String actualFirstStatus = dashboardPageActions.firstAvailableStatus(DriverManager.getDriver());
         assert actualFirstStatus.equals("Declined");

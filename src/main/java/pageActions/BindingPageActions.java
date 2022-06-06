@@ -10,6 +10,7 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 
 import static pageObjects.BindingPageObjects.*;
+import static pageObjects.QuoteListPageObjects.quoteExpiry;
 
 public class BindingPageActions extends BaseTest {
 
@@ -39,5 +40,13 @@ public class BindingPageActions extends BaseTest {
         ClickHelper.clickElement(driver, policyExpandMoreIcon);
     }
 
+    public boolean isPreSubjectivitiesDisplayed(WebDriver driver) throws InterruptedException{
+        WaitHelper.pause(10000);
+        return ClickHelper.isElementExist(driver, preSubjectivities);
+    }
 
+    public boolean isPostSubjectivitiesDisplayed(WebDriver driver) throws InterruptedException{
+        WaitHelper.pause(10000);
+        return ClickHelper.isElementExist(driver, postSubjectivities);
+    }
 }
