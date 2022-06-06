@@ -10,14 +10,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import static pageObjects.LoginPageObjects.*;
-import static pageObjects.QuoteListPageObjects.quotesPageSelected;
 
 public class LoginPageActions extends BaseTest {
 
     private static final Logger logger = Logger.getLogger(LoginPageActions.class);
 
-    public String getWelcomeText(WebDriver driver) {
-        WaitHelper.waitForElementVisibility(driver, welcomeText);
+    public String getWelcomeText(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(3000);
         return TextHelper.getText(driver, welcomeText, "text");
     }
 

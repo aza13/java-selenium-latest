@@ -16,7 +16,6 @@ import utils.dataProvider.TestDataProvider;
 import utils.dbConnector.DatabaseConnector;
 import utils.fileReader.TextFileReader;
 
-import java.sql.Driver;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -356,6 +355,8 @@ public class  QuotesPageTests extends BaseTest {
                     /*String updateQuery = UPDATE_IN_REVIEW_SUBMISSION_TO_ACTIVE+submissionId+";";
                     databaseConnector.update(updateQuery);*/
                     WaitHelper.pause(10000);
+                    BindingPageActions bindingPageActions = PageObjectManager.getBindingPageActions();
+                    bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
                     dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
                     String quoteStatus = dashboardPageActions.getQuoteStatus(DriverManager.getDriver());
                     assert quoteStatus.contentEquals("Order Placed");
@@ -368,7 +369,7 @@ public class  QuotesPageTests extends BaseTest {
     }
 
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData", enabled = false)
     public void testQuotePreview(Map<String, String> map) throws InterruptedException {
         /***
          this verifies whether broker can click preview quote option
@@ -472,8 +473,8 @@ public class  QuotesPageTests extends BaseTest {
 
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
-    public void testQuoteOutsideBoundSoftDeclined(Map<String, String> map) throws InterruptedException, SQLException {
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData", enabled = false)
+    public void testQuoteOutsideBoundSoftDeclined(Map<String, String> map) throws InterruptedException {
         /***
          this test verifies Broker Portal Quotes Outside the Bounds Will Be Soft Declined
          story - N2020-28646-QAT-234
@@ -523,9 +524,10 @@ public class  QuotesPageTests extends BaseTest {
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
-            quoteListPageActions.selectPerClaim(DriverManager.getDriver(), Integer.parseInt(map.get("optionCount")), map.get("claim"));
+            quoteListPageActions.selectPerClaim(DriverManager.getDriver(), map.get("optionCount"), map.get("claim"));
             quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), Integer.parseInt(map.get("optionCount")), map.get("limit"));
             quoteListPageActions.clickConfirmAndLock(DriverManager.getDriver());
+            quoteListPageActions.submitOrderConfirmation(DriverManager.getDriver());
             quoteListPageActions.verifySoftDeclinePopup(DriverManager.getDriver());
 
             String actualFirstStatus = dashboardPageActions.firstAvailableStatus(DriverManager.getDriver());
@@ -534,7 +536,7 @@ public class  QuotesPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
-    public void testQuoteOptionCoverageGroupValidation(Map<String, String> map) throws InterruptedException, SQLException {
+    public void testQuoteOptionCoverageGroupValidation(Map<String, String> map) throws InterruptedException {
         /***
          this test verifies Broker Portal Quotes Can Select/Unselect Coverage Groups for an Option
          story - N2020-30895 and N2020-28635/28636 QAT-231
@@ -603,7 +605,7 @@ public class  QuotesPageTests extends BaseTest {
             quoteListPageActions.clickAddOptionButton(DriverManager.getDriver());
             boolean isSelectVisible = quoteListPageActions.isSelectVisibleToNewAddOption(DriverManager.getDriver());
             Assert.assertTrue(isSelectVisible);
-            quoteListPageActions.selectPerClaim(DriverManager.getDriver(), Integer.parseInt(map.get("optionCount")), map.get("claim"));
+            quoteListPageActions.selectPerClaim(DriverManager.getDriver(), map.get("optionCount"), map.get("claim"));
             String selectedPerClaimValue = quoteListPageActions.clickClaimCheckbox(DriverManager.getDriver(), map.get("optionCount"));
             Assert.assertEquals(selectedPerClaimValue, map.get("claim"));
 
@@ -635,13 +637,13 @@ public class  QuotesPageTests extends BaseTest {
         dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
-            quoteListPageActions.selectPerClaim(DriverManager.getDriver(), Integer.parseInt(map.get("optionCount")), map.get("claim1"));
+            quoteListPageActions.selectPerClaim(DriverManager.getDriver(), map.get("optionCount"), map.get("claim1"));
             quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), Integer.parseInt(map.get("optionCount")), map.get("limit1"));
 
             String premiumBefore = quoteListPageActions.getFirstOptionPremium(DriverManager.getDriver());
             String policyAggLimitBefore = quoteListPageActions.getFirstMaxPolicyAggLimit(DriverManager.getDriver());
 
-            quoteListPageActions.selectPerClaim(DriverManager.getDriver(), Integer.parseInt(map.get("optionCount")), map.get("claim2"));
+            quoteListPageActions.selectPerClaim(DriverManager.getDriver(), map.get("optionCount"), map.get("claim2"));
             quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), Integer.parseInt(map.get("optionCount")), map.get("limit2"));
 
             String premiumAfter = quoteListPageActions.getFirstOptionPremium(DriverManager.getDriver());

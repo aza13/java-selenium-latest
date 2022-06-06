@@ -18,9 +18,6 @@ public class ConstantVariable {
     public static final String EMPTY_STRING = "";
     public static final String NEW_INSURED_DETAILS_FILE = ".//src//main//resources//newInsuredData.json";
 
-    public static final String BROKER_ID = "7504";
-    public static final String AGENT_ID = "2654";
-    public static final String AGENT_OFFICE_ID = "3305";
     public static final String PRODUCT = "NetGuard® SELECT";
 
 

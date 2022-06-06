@@ -14,7 +14,7 @@ public class DashboardPageObjects {
 
     public static final By signOutLink = By.id("action_item_signout");
 
-    public static final By supportLink = By.id("action_item_support");
+    public static final By supportLink = By.xpath("//ul//li[@id='action_item_support' and text()='Support']");
 
     public static final By supportDialogModal = By.xpath("//h2[text()='Support Request']");
 
@@ -105,7 +105,9 @@ public class DashboardPageObjects {
 
     public static final By searchForNoResult = By.xpath("//p[contains(text(),'Your search has returned no results.')]");
 
-    public static final By getFirstAvailableLegalName = By.xpath("//*[@id='simple-tabpanel-0']/div/p/div[1]/div[1]/div[1]/div | //*[@id='simple-tabpanel-1']/div/p/div[1]/div/div[1]/div[1]");
+    public static final By getFirstAvailableLegalName = By.xpath("(//div[@data-qa='quote_card']//div[text()='Applicant']/following-sibling::div)[1]");
+
+    public static final  By firstPolicyCardLegalName = By.xpath("(//div[contains(@class, 'policy_card')]//div[@data-qa='legalname'])[1]");
 
     public static final By applyFiltersButton = By.id("applyFilters");
 

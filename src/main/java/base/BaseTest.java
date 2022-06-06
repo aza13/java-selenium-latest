@@ -14,7 +14,6 @@ import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
-import pageActions.DashboardPageActions;
 import utils.extentReport.ExtentManager;
 import utils.fileReader.ConfigDataReader;
 
@@ -22,7 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
-import java.util.Objects;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
@@ -37,7 +35,6 @@ public class BaseTest {
     private static String password;
     public static String operatingSystem;
     public static String testEnvironment ;
-    private static DashboardPageActions dashboardPageActions;
     public static Properties prop;
 
 
@@ -76,22 +73,18 @@ public class BaseTest {
 
         extentReport = ExtentManager.getInstance();
 
-        dashboardPageActions = PageObjectManager.getDashboardPageActions();
-
-
     }
 
     @BeforeMethod(alwaysRun = true)
     public static void beforeMethodSetUp(Method method, ITestContext context) throws MalformedURLException, InterruptedException {
         logger.info("Initialisation the browser  DriverManager.getDriver()::beforeMethodSetUp");
         testLogger = classLogger.createNode(method.getName());
-        DriverManager.getDriver().manage().deleteAllCookies();
         DriverManager.getDriver().manage().window().maximize();
         DriverManager.getDriver().navigate().to(appUrl);
         DriverManager.getDriver().manage().timeouts().pageLoadTimeout(15, TimeUnit.SECONDS);
-
-         PageObjectManager.getLoginPageActions().loginApp(DriverManager.getDriver(), userId, password);
-
+        if(!method.getName().equals("testLoginFunctionality")){
+            PageObjectManager.getLoginPageActions().loginApp(DriverManager.getDriver(), userId, password);
+        }
 
     }
 
