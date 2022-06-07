@@ -7,10 +7,8 @@ import constants.ConstantVariable;
 import helper.*;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 
 import java.text.DateFormat;
@@ -406,6 +404,17 @@ public class DashboardPageActions extends BaseTest {
     public String getFirstPolicyLegalName(WebDriver driver) throws InterruptedException {
         WaitHelper.pause(3000);
         return TextHelper.getText(driver, firstPolicyCardLegalName, "text");
+    }
+
+    public boolean getAllPolicyLegalNames(WebDriver driver, String expected){
+        List<String> allPoliciesLegalNames = new ArrayList<>();
+        driver.findElements(policyLegalNames).forEach(legalName -> allPoliciesLegalNames.add(legalName.getText().trim()));
+        for (String s : allPoliciesLegalNames) {
+            if (s.contains(expected)) {
+                return true;
+            }
+    }
+        return false;
     }
 
     public String getFirstAvailableCreatedDate(WebDriver driver) {
