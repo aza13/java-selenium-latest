@@ -47,7 +47,7 @@ public class BindingPageTests extends BaseTest {
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
     public void testVerifyQuoteBinding(Map<String, String> map) throws InterruptedException, SQLException {
         /*****************************************************************
-         this test verifies quote option Binding
+         this test verifies quote option Binding and Subjectivity
          story - N2020-33007, 23922,32926, 32930
          @author - Venkat Kottapalli, Sheetal
          ******************************************************************/
@@ -109,6 +109,11 @@ public class BindingPageTests extends BaseTest {
                     quoteListPageActions.submitOrderConfirmation(DriverManager.getDriver());
                     bindingPageActions.isPreSubjectivitiesDisplayed(DriverManager.getDriver());
                     bindingPageActions.isPostSubjectivitiesDisplayed(DriverManager.getDriver());
+                    bindingPageActions.isMessageToUnderWriterDisplayed(DriverManager.getDriver());
+                    String enterText = FakeDataHelper.fullName();
+                    bindingPageActions.EnterMessageToPreSubjectivitiesUnderWriterTextBox(DriverManager.getDriver(),enterText);
+                    bindingPageActions.clickPostSubjectivitiesExpandButton(DriverManager.getDriver());
+                    bindingPageActions.EnterMessageToPostSubjectivitiesUnderWriterTextBox(DriverManager.getDriver(),enterText);
                     bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
                     String query = GET_SUBMISSION_ID_WITH_QUOTE_ID + quoteId + ";";
                     List<HashMap<Object, Object>> submissionIds =

@@ -15,4 +15,7 @@ public class BindingPageObjects {
     public static final By preSubjectivities =By.xpath("//h5[contains(text(),'Subjectivities due prior to binding')]");
     public static final By postSubjectivities =By.xpath("//h5[contains(text(),'Subjectivities due within 7 days of effective date')]");
     public static final By messageToUnderWriter =By.xpath("//p[contains(text(),'Message to Underwriter')]");
+    public static final By messageToPreSubjectivitiesUnderWriterTextBox =By.xpath("//h5[contains(text(),'Subjectivities due prior to binding')]/../../..//textarea[1]");
+    public static final By postSubjectivitiesExpandButton =By.xpath("//h5[contains(text(),'Subjectivities due within 7 days of effective date')]/../../..//*[@id='panel1a-header']/div[2]");
+    public static final By messageToPostSubjectivitiesUnderWriterTextBox =By.xpath("//h5[contains(text(),'Subjectivities due within 7 days of effective date')]/../../..//textarea[1]");
 }
