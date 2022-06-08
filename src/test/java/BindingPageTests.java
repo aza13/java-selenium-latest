@@ -128,6 +128,12 @@ public class BindingPageTests extends BaseTest {
                     assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
                     bindingPageActions.VerifyQuoteHeaderInformationInBindingPage(DriverManager.getDriver(), newInsuredName, ConstantVariable.PRODUCT);
                     bindingPageActions.clickPolicyCardExpandIconInBindingPage(DriverManager.getDriver());
+                    if(!bindingPageActions.binderSubmitButton(DriverManager.getDriver()).isEnabled()){
+                        bindingPageActions.enterTextToFirstSubjectivity(DriverManager.getDriver());
+                    }
+                    bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
+                    bindingPageActions.clickConfirmationContinueButton(DriverManager.getDriver());
+                    assert dashboardPageActions.myQuotesTab(DriverManager.getDriver()).isDisplayed();
                 }
             } else {
                 Assert.fail("Confirm and quote button is disabled for some reason");
