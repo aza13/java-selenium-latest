@@ -18,4 +18,5 @@ public class BindingPageObjects {
     public static final By messageToPreSubjectivitiesUnderWriterTextBox =By.xpath("//h5[contains(text(),'Subjectivities due prior to binding')]/../../..//textarea[1]");
     public static final By postSubjectivitiesExpandButton =By.xpath("//h5[contains(text(),'Subjectivities due within 7 days of effective date')]/../../..//*[@id='panel1a-header']/div[2]");
     public static final By messageToPostSubjectivitiesUnderWriterTextBox =By.xpath("//h5[contains(text(),'Subjectivities due within 7 days of effective date')]/../../..//textarea[1]");
+    public static final By rejectedStatus = By.xpath("//div[contains(text(),'Rejected')]");
 }
