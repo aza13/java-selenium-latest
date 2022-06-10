@@ -43,13 +43,29 @@ public class BindingPageActions extends BaseTest {
     }
 
     public boolean isPreSubjectivitiesDisplayed(WebDriver driver) throws InterruptedException{
-        WaitHelper.pause(10000);
+        WaitHelper.pause(5000);
         return ClickHelper.isElementExist(driver, preSubjectivities);
     }
 
     public boolean isPostSubjectivitiesDisplayed(WebDriver driver) throws InterruptedException{
-        WaitHelper.pause(10000);
+        WaitHelper.pause(5000);
         return ClickHelper.isElementExist(driver, postSubjectivities);
+    }
+
+    public void enterTextToFirstSubjectivity(WebDriver driver){
+
+        TextHelper.enterText(driver, firstMessageToUWTextArea, "Sample text");
+    }
+
+    public WebElement binderSubmitButton(WebDriver driver){
+
+        return driver.findElement(enabledSubmitButton);
+    }
+
+    public void clickConfirmationContinueButton(WebDriver driver){
+        if(ClickHelper.isElementExist(driver, confirmationDialog)){
+            ClickHelper.clickElement(driver, submitConfirmationButton);
+        }
     }
 
     public boolean isMessageToUnderWriterDisplayed(WebDriver driver) throws InterruptedException{

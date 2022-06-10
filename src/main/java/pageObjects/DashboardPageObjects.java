@@ -109,6 +109,8 @@ public class DashboardPageObjects {
 
     public static final  By firstPolicyCardLegalName = By.xpath("(//div[contains(@class, 'policy_card')]//div[@data-qa='legalname'])[1]");
 
+    public static final By policyLegalNames = By.xpath("//div[contains(@class, 'policy_card')]//div[@data-qa='legalname']");
+
     public static final By applyFiltersButton = By.id("applyFilters");
 
     public static final By clearFilterButton = By.xpath("//button[@id='filterClose' and text()='Clear Filters']");
