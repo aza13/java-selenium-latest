@@ -14,6 +14,11 @@ public class BindingPageObjects {
 
     public static final By preSubjectivities =By.xpath("//h5[contains(text(),'Subjectivities due prior to binding')]");
     public static final By postSubjectivities =By.xpath("//h5[contains(text(),'Subjectivities due within 7 days of effective date')]");
+    public static final By firstMessageToUWTextArea = By.xpath("(//div[@id='panel1a-content']//textarea)[1]");
+    public static final By disabledSubmitButton = By.xpath("//button[@id='underwriter_message_submit' and @disabled]");
+    public static final By enabledSubmitButton = By.xpath("//button[@id='underwriter_message_submit']");
+    public static final By confirmationDialog = By.xpath("//h2[@id='alert-dialog-title' and text()='Confirmation']");
+    public static final By submitConfirmationButton = By.xpath("//button[@data-qa='submit_alert_modal']");
     public static final By messageToUnderWriter =By.xpath("//p[contains(text(),'Message to Underwriter')]");
     public static final By messageToPreSubjectivitiesUnderWriterTextBox =By.xpath("//h5[contains(text(),'Subjectivities due prior to binding')]/../../..//textarea[1]");
     public static final By postSubjectivitiesExpandButton =By.xpath("//h5[contains(text(),'Subjectivities due within 7 days of effective date')]/../../..//*[@id='panel1a-header']/div[2]");

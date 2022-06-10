@@ -381,7 +381,8 @@ public class DashboardPageTests extends BaseTest {
         String actualPolicyName = dashboardPageActions.getFirstPolicyLegalName(DriverManager.getDriver());
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), actualPolicyName);
         String expectedPolicyName = dashboardPageActions.getFirstPolicyLegalName(DriverManager.getDriver());
-        assert actualPolicyName.contains(expectedPolicyName);
+        assert dashboardPageActions.getAllPolicyLegalNames(DriverManager.getDriver(), expectedPolicyName);
+//        assert actualPolicyName.contains(expectedPolicyName);
 
         dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
         String actualPolicyNumber = dashboardPageActions.getFirstAvailableReferenceId(DriverManager.getDriver());

@@ -107,13 +107,11 @@ public class BindingPageTests extends BaseTest {
                     assert quoteListPageActions.verifyWORDFileAvailable(DriverManager.getDriver());
                     quoteListPageActions.clickPlaceOrderButton(DriverManager.getDriver());
                     quoteListPageActions.submitOrderConfirmation(DriverManager.getDriver());
-                    bindingPageActions.isPreSubjectivitiesDisplayed(DriverManager.getDriver());
-                    bindingPageActions.isPostSubjectivitiesDisplayed(DriverManager.getDriver());
-                    bindingPageActions.isMessageToUnderWriterDisplayed(DriverManager.getDriver());
-                    String enterText = FakeDataHelper.fullName();
-                    bindingPageActions.EnterMessageToPreSubjectivitiesUnderWriterTextBox(DriverManager.getDriver(),enterText);
-                    bindingPageActions.clickPostSubjectivitiesExpandButton(DriverManager.getDriver());
-                    bindingPageActions.EnterMessageToPostSubjectivitiesUnderWriterTextBox(DriverManager.getDriver(),enterText);
+                    assert bindingPageActions.isPreSubjectivitiesDisplayed(DriverManager.getDriver());
+                    assert bindingPageActions.isPostSubjectivitiesDisplayed(DriverManager.getDriver());
+                    assert bindingPageActions.isPreSubjectivitiesDisplayed(DriverManager.getDriver());
+                    assert bindingPageActions.isPostSubjectivitiesDisplayed(DriverManager.getDriver());
+                    assert bindingPageActions.isMessageToUnderWriterDisplayed(DriverManager.getDriver());
                     bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
                     String query = GET_SUBMISSION_ID_WITH_QUOTE_ID + quoteId + ";";
                     List<HashMap<Object, Object>> submissionIds =
@@ -133,6 +131,16 @@ public class BindingPageTests extends BaseTest {
                     assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
                     bindingPageActions.VerifyQuoteHeaderInformationInBindingPage(DriverManager.getDriver(), newInsuredName, ConstantVariable.PRODUCT);
                     bindingPageActions.clickPolicyCardExpandIconInBindingPage(DriverManager.getDriver());
+                    if(!bindingPageActions.binderSubmitButton(DriverManager.getDriver()).isEnabled()){
+                        bindingPageActions.enterTextToFirstSubjectivity(DriverManager.getDriver());
+                        String enterText = FakeDataHelper.fullName();
+                        bindingPageActions.EnterMessageToPreSubjectivitiesUnderWriterTextBox(DriverManager.getDriver(),enterText);
+                        bindingPageActions.clickPostSubjectivitiesExpandButton(DriverManager.getDriver());
+                        bindingPageActions.EnterMessageToPostSubjectivitiesUnderWriterTextBox(DriverManager.getDriver(),enterText);
+                    }
+                    bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
+                    bindingPageActions.clickConfirmationContinueButton(DriverManager.getDriver());
+                    assert dashboardPageActions.myQuotesTab(DriverManager.getDriver()).isDisplayed();
                 }
             } else {
                 Assert.fail("Confirm and quote button is disabled for some reason");

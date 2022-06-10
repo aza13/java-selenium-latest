@@ -473,7 +473,7 @@ public class  QuotesPageTests extends BaseTest {
 
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData", enabled = false)
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
     public void testQuoteOutsideBoundSoftDeclined(Map<String, String> map) throws InterruptedException {
         /***
          this test verifies Broker Portal Quotes Outside the Bounds Will Be Soft Declined
@@ -527,11 +527,19 @@ public class  QuotesPageTests extends BaseTest {
             quoteListPageActions.selectPerClaim(DriverManager.getDriver(), map.get("optionCount"), map.get("claim"));
             quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), Integer.parseInt(map.get("optionCount")), map.get("limit"));
             quoteListPageActions.clickConfirmAndLock(DriverManager.getDriver());
-            quoteListPageActions.submitOrderConfirmation(DriverManager.getDriver());
-            quoteListPageActions.verifySoftDeclinePopup(DriverManager.getDriver());
+            if (quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())) {
+                quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
+                quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
+            }else{
+                quoteListPageActions.checkIfQuoteLockSuccessMessageDisplayed(DriverManager.getDriver());
+                quoteListPageActions.verifyStatusConfirmAndLockReadyToPlaceOrder(DriverManager.getDriver());
+                quoteListPageActions.clickPlaceOrderButton(DriverManager.getDriver());
+                quoteListPageActions.submitOrderConfirmation(DriverManager.getDriver());
+                quoteListPageActions.verifySoftDeclinePopup(DriverManager.getDriver());
+                String actualFirstStatus = dashboardPageActions.firstAvailableStatus(DriverManager.getDriver());
+                assert actualFirstStatus.equals("Cancelled");
+            }
 
-            String actualFirstStatus = dashboardPageActions.firstAvailableStatus(DriverManager.getDriver());
-            assert actualFirstStatus.equals("Cancelled");
         }
     }
 
