@@ -160,7 +160,7 @@ public class BindingPageTests extends BaseTest {
          ******************************************************************/
 
         logger.info("Executing the testVerifyQuoteBinding from BindingPageTests class :: testRejectSubjectivity");//dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-      //  dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("submissionID1"));
+       // dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("submissionID1"));
         String submissionID1 = "12980782", submissionID2 ="12980838";
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionID1);
         dashboardPageActions.clickQuoteCardContinueButton(DriverManager.getDriver());
