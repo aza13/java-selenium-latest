@@ -146,17 +146,22 @@ public class BindingPageTests extends BaseTest {
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
     public void testRejectSubjectivity(Map<String, String> map) throws InterruptedException {
         /*****************************************************************
-         this test verifies Subjectivity status is Rejected
-         story - N2020-32716
+         this test verifies Subjectivity status is Rejected, Accepted and Waived
+         story - N2020-32716, 32708
          @author -  Sheetal
          ******************************************************************/
 
         logger.info("Executing the testVerifyQuoteBinding from BindingPageTests class :: testRejectSubjectivity");//dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        //  dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("submissionID"));
-        String submissionID = "12980782";
-        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionID);
+      //  dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("submissionID1"));
+        String submissionID1 = "12980782", submissionID2 ="12980838";
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionID1);
         dashboardPageActions.clickQuoteCardContinueButton(DriverManager.getDriver());
+        bindingPageActions.verifyWaivedStatus(DriverManager.getDriver());
         bindingPageActions.clickPostSubjectivitiesExpandButton(DriverManager.getDriver());
         bindingPageActions.verifyRejectedStatus(DriverManager.getDriver());
+        bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionID2);
+        dashboardPageActions.clickQuoteCardContinueButton(DriverManager.getDriver());
+        bindingPageActions.verifyAcceptedStatus(DriverManager.getDriver());
     }
 }

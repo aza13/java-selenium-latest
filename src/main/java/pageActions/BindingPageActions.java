@@ -76,4 +76,14 @@ public class BindingPageActions extends BaseTest {
         WaitHelper.pause(10000);
         return ClickHelper.isElementExist(driver, rejectedStatus);
     }
+
+    public boolean verifyWaivedStatus(WebDriver driver) throws InterruptedException{
+        WaitHelper.pause(10000);
+        return ClickHelper.isElementExist(driver, WaivedStatus);
+    }
+
+    public boolean verifyAcceptedStatus(WebDriver driver) throws InterruptedException{
+        WaitHelper.pause(10000);
+        return ClickHelper.isElementExist(driver, AcceptedStatus);
+    }
 }
