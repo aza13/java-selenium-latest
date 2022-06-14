@@ -78,7 +78,8 @@ public class BindingPageActions extends BaseTest {
         TextHelper.enterText(driver, messageToPreSubjectivitiesUnderWriterTextBox, text);
     }
 
-    public void clickPostSubjectivitiesExpandButton(WebDriver driver){
+    public void clickPostSubjectivitiesExpandButton(WebDriver driver)throws InterruptedException{
+        WaitHelper.pause(10000);
         ClickHelper.clickElement(driver, postSubjectivitiesExpandButton);
     }
 
@@ -87,4 +88,18 @@ public class BindingPageActions extends BaseTest {
         TextHelper.enterText(driver, messageToPostSubjectivitiesUnderWriterTextBox, text);
     }
 
+    public boolean verifyRejectedStatus(WebDriver driver) throws InterruptedException{
+        WaitHelper.pause(10000);
+        return ClickHelper.isElementExist(driver, rejectedStatus);
+    }
+
+    public boolean verifyWaivedStatus(WebDriver driver) throws InterruptedException{
+        WaitHelper.pause(10000);
+        return ClickHelper.isElementExist(driver, WaivedStatus);
+    }
+
+    public boolean verifyAcceptedStatus(WebDriver driver) throws InterruptedException{
+        WaitHelper.pause(10000);
+        return ClickHelper.isElementExist(driver, AcceptedStatus);
+    }
 }
