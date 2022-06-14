@@ -140,6 +140,8 @@ public class BindingPageTests extends BaseTest {
                         bindingPageActions.EnterMessageToPostSubjectivitiesUnderWriterTextBox(DriverManager.getDriver(),enterText);
                     }
                     bindingPageActions.uploadFile(DriverManager.getDriver());
+                    assert bindingPageActions.getFileDeleteIcon(DriverManager.getDriver()).isDisplayed();
+                    assert bindingPageActions.getFilePresentIcon(DriverManager.getDriver()).isDisplayed();
                     bindingPageActions.clickAddFilesButton(DriverManager.getDriver());
                     bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
                     bindingPageActions.clickConfirmationContinueButton(DriverManager.getDriver());

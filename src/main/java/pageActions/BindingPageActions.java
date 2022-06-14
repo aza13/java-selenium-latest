@@ -1,7 +1,6 @@
 package pageActions;
 
 import base.BaseTest;
-import constants.ConstantVariable;
 import helper.ClickHelper;
 import helper.TextHelper;
 import helper.WaitHelper;
@@ -15,8 +14,7 @@ import java.awt.event.KeyEvent;
 import java.util.List;
 
 import static pageObjects.BindingPageObjects.*;
-import static pageObjects.LoginPageObjects.forgotEmailTextField;
-import static pageObjects.QuoteListPageObjects.quoteExpiry;
+import static pageObjects.QuoteListPageObjects.deleteIconLocator;
 
 public class BindingPageActions extends BaseTest {
 
@@ -81,6 +79,7 @@ public class BindingPageActions extends BaseTest {
         // for pressing and releasing Enter
         rb.keyPress(KeyEvent.VK_ENTER);
         rb.keyRelease(KeyEvent.VK_ENTER);
+        WaitHelper.pause(3000);
     }
 
     public void enterTextToFirstSubjectivity(WebDriver driver){
@@ -121,6 +120,14 @@ public class BindingPageActions extends BaseTest {
     public void clickAddFilesButton(WebDriver driver){
         WaitHelper.waitForElementClickable(driver, addFilesButton);
         ClickHelper.clickElement(driver, addFilesButton);
+    }
+
+    public WebElement getFileDeleteIcon(WebDriver driver){
+        return driver.findElement(deleteIconLocator);
+    }
+
+    public WebElement getFilePresentIcon(WebDriver driver){
+        return driver.findElement(filePresentIcon);
     }
 
 }
