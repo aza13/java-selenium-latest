@@ -23,6 +23,13 @@ public class BindingPageObjects {
     public static final By messageToPreSubjectivitiesUnderWriterTextBox =By.xpath("//h5[contains(text(),'Subjectivities due prior to binding')]/../../..//textarea[1]");
     public static final By postSubjectivitiesExpandButton =By.xpath("//h5[contains(text(),'Subjectivities due within 7 days of effective date')]/../../..//*[@id='panel1a-header']/div[2]");
     public static final By messageToPostSubjectivitiesUnderWriterTextBox =By.xpath("//h5[contains(text(),'Subjectivities due within 7 days of effective date')]/../../..//textarea[1]");
+    public static final By preSubjSelectFilesButton = By.xpath("(//button[@id='btn-search-again'])[1]");
+    public static final By postSubjSelectFilesButton = By.xpath("(//button[@id='btn-search-again'])[2]");
+
+    public static final By clickAndDragLink = By.xpath("//p[text()='Click or Drag Files to Upload']");
+    public static final By addFilesButton = By.xpath("//button[text()='Add File(s)']");
+    public static final By fileDeleteIcon = By.xpath("//*[@data-testid='DeleteOutlineIcon']");
+    public static final By filePresentIcon = By.xpath("//*[@data-testid='FilePresentIcon']");
     public static final By rejectedStatus = By.xpath("//div[contains(text(),'Rejected')]");
     public static final By WaivedStatus = By.xpath("//div[contains(text(),'Waived')]");
     public static final By AcceptedStatus = By.xpath("//div[contains(text(),'Accepted')]");

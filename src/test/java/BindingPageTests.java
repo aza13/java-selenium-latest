@@ -13,6 +13,7 @@ import pageActions.*;
 import utils.dataProvider.TestDataProvider;
 import utils.dbConnector.DatabaseConnector;
 
+import java.awt.*;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -47,10 +48,10 @@ public class BindingPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
-    public void testVerifyQuoteBinding(Map<String, String> map) throws InterruptedException, SQLException {
+    public void testVerifyQuoteBinding(Map<String, String> map) throws InterruptedException, SQLException, AWTException {
         /*****************************************************************
          this test verifies quote option Binding and Subjectivity
-         story - N2020-33007, 23922,32926, 32930
+         story - N2020-33007, 23922,32926, 32930, 32950
          @author - Venkat Kottapalli, Sheetal
          ******************************************************************/
 
@@ -140,6 +141,10 @@ public class BindingPageTests extends BaseTest {
                         bindingPageActions.clickPostSubjectivitiesExpandButton(DriverManager.getDriver());
                         bindingPageActions.EnterMessageToPostSubjectivitiesUnderWriterTextBox(DriverManager.getDriver(),enterText);
                     }
+                    bindingPageActions.uploadFile(DriverManager.getDriver());
+                    assert bindingPageActions.getFileDeleteIcon(DriverManager.getDriver()).isDisplayed();
+                    assert bindingPageActions.getFilePresentIcon(DriverManager.getDriver()).isDisplayed();
+                    bindingPageActions.clickAddFilesButton(DriverManager.getDriver());
                     bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
                     bindingPageActions.clickConfirmationContinueButton(DriverManager.getDriver());
                     assert dashboardPageActions.myQuotesTab(DriverManager.getDriver()).isDisplayed();

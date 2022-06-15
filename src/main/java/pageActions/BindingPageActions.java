@@ -8,11 +8,13 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.awt.*;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyEvent;
 import java.util.List;
 
 import static pageObjects.BindingPageObjects.*;
-import static pageObjects.LoginPageObjects.forgotEmailTextField;
-import static pageObjects.QuoteListPageObjects.quoteExpiry;
+import static pageObjects.QuoteListPageObjects.deleteIconLocator;
 
 public class BindingPageActions extends BaseTest {
 
@@ -52,6 +54,34 @@ public class BindingPageActions extends BaseTest {
         return ClickHelper.isElementExist(driver, postSubjectivities);
     }
 
+    public void uploadFile(WebDriver driver) throws InterruptedException, AWTException {
+        ClickHelper.clickElement(driver, preSubjSelectFilesButton);
+        WaitHelper.pause(3000);
+        ClickHelper.clickElement(driver, clickAndDragLink);
+        WaitHelper.pause(3000);
+        // creating object of Robot class
+        Robot rb = new Robot();
+
+        String filePath = System.getProperty("user.dir")+"\\src\\main\\resources\\InsuredData.txt";
+
+        // copying File path to Clipboard
+        StringSelection str = new StringSelection(filePath);
+        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(str, null);
+
+        // press Contol+V for pasting
+        rb.keyPress(KeyEvent.VK_CONTROL);
+        rb.keyPress(KeyEvent.VK_V);
+
+        // release Contol+V for pasting
+        rb.keyRelease(KeyEvent.VK_CONTROL);
+        rb.keyRelease(KeyEvent.VK_V);
+
+        // for pressing and releasing Enter
+        rb.keyPress(KeyEvent.VK_ENTER);
+        rb.keyRelease(KeyEvent.VK_ENTER);
+        WaitHelper.pause(3000);
+    }
+
     public void enterTextToFirstSubjectivity(WebDriver driver){
 
         TextHelper.enterText(driver, firstMessageToUWTextArea, "Sample text");
@@ -86,6 +116,19 @@ public class BindingPageActions extends BaseTest {
     public void EnterMessageToPostSubjectivitiesUnderWriterTextBox(WebDriver driver, String text) throws InterruptedException{
         WaitHelper.pause(10000);
         TextHelper.enterText(driver, messageToPostSubjectivitiesUnderWriterTextBox, text);
+    }
+
+    public void clickAddFilesButton(WebDriver driver){
+        WaitHelper.waitForElementClickable(driver, addFilesButton);
+        ClickHelper.clickElement(driver, addFilesButton);
+    }
+
+    public WebElement getFileDeleteIcon(WebDriver driver){
+        return driver.findElement(deleteIconLocator);
+    }
+
+    public WebElement getFilePresentIcon(WebDriver driver){
+        return driver.findElement(filePresentIcon);
     }
 
     public boolean verifyRejectedStatus(WebDriver driver) throws InterruptedException{
