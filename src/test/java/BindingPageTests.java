@@ -2,8 +2,10 @@ import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
 import constants.ConstantVariable;
+import helper.ClickHelper;
 import helper.FakeDataHelper;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -151,5 +153,26 @@ public class BindingPageTests extends BaseTest {
                 Assert.fail("Confirm and quote button is disabled for some reason");
             }
         }
+    }
+
+
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
+    public void testRejectSubjectivity(Map<String, String> map) throws InterruptedException {
+        /*****************************************************************
+         this test verifies Subjectivity status is Rejected, Accepted and Waived
+         story - N2020-32716, 32708
+         @author -  Sheetal
+         ******************************************************************/
+
+        logger.info("Executing the testVerifyQuoteBinding from BindingPageTests class :: testRejectSubjectivity");//dashboardPageActions.clickNewQuote(DriverManager.getDriver());
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("submissionName1"));
+        dashboardPageActions.clickQuoteCardContinueButton(DriverManager.getDriver());
+        bindingPageActions.verifyWaivedStatus(DriverManager.getDriver());
+        bindingPageActions.clickPostSubjectivitiesExpandButton(DriverManager.getDriver());
+        bindingPageActions.verifyRejectedStatus(DriverManager.getDriver());
+        bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("submissionName2"));
+        dashboardPageActions.clickQuoteCardContinueButton(DriverManager.getDriver());
+        bindingPageActions.verifyAcceptedStatus(DriverManager.getDriver());
     }
 }

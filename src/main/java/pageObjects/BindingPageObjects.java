@@ -30,4 +30,7 @@ public class BindingPageObjects {
     public static final By addFilesButton = By.xpath("//button[text()='Add File(s)']");
     public static final By fileDeleteIcon = By.xpath("//*[@data-testid='DeleteOutlineIcon']");
     public static final By filePresentIcon = By.xpath("//*[@data-testid='FilePresentIcon']");
+    public static final By rejectedStatus = By.xpath("//div[contains(text(),'Rejected')]");
+    public static final By WaivedStatus = By.xpath("//div[contains(text(),'Waived')]");
+    public static final By AcceptedStatus = By.xpath("//div[contains(text(),'Accepted')]");
 }
