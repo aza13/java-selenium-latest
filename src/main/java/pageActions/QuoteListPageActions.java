@@ -201,7 +201,7 @@ public class QuoteListPageActions extends BaseTest {
     }
 
     public boolean clickConfirmAndLock(WebDriver driver) throws InterruptedException {
-        WaitHelper.pause(80000);
+        WaitHelper.pause(40000);
         if(ClickHelper.isElementExist(driver, confirmAndLockDisabledButton)){
             logger.error("Confirm and Lock button is disabled");
             return false;

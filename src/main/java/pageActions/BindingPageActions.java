@@ -55,6 +55,7 @@ public class BindingPageActions extends BaseTest {
     }
 
     public void uploadFile(WebDriver driver) throws InterruptedException, AWTException {
+        WaitHelper.pause(5000);
         ClickHelper.clickElement(driver, preSubjSelectFilesButton);
         WaitHelper.pause(3000);
         ClickHelper.clickElement(driver, clickAndDragLink);
@@ -82,9 +83,9 @@ public class BindingPageActions extends BaseTest {
         WaitHelper.pause(3000);
     }
 
-    public void enterTextToFirstSubjectivity(WebDriver driver){
+    public void EnterMessageToPreSubjectivitiesUnderWriterTextBox(WebDriver driver){
 
-        TextHelper.enterText(driver, firstMessageToUWTextArea, "Sample text");
+        TextHelper.enterText(driver, firstMessageToUWTextArea, "Sample text automation verification");
     }
 
     public WebElement binderSubmitButton(WebDriver driver){
@@ -103,19 +104,14 @@ public class BindingPageActions extends BaseTest {
         return ClickHelper.isElementExist(driver, messageToUnderWriter);
     }
 
-    public void EnterMessageToPreSubjectivitiesUnderWriterTextBox(WebDriver driver, String text) throws InterruptedException{
-        WaitHelper.pause(10000);
-        TextHelper.enterText(driver, messageToPreSubjectivitiesUnderWriterTextBox, text);
-    }
-
     public void clickPostSubjectivitiesExpandButton(WebDriver driver)throws InterruptedException{
         WaitHelper.pause(10000);
         ClickHelper.clickElement(driver, postSubjectivitiesExpandButton);
     }
 
-    public void EnterMessageToPostSubjectivitiesUnderWriterTextBox(WebDriver driver, String text) throws InterruptedException{
-        WaitHelper.pause(10000);
-        TextHelper.enterText(driver, messageToPostSubjectivitiesUnderWriterTextBox, text);
+    public void EnterMessageToPostSubjectivitiesUnderWriterTextBox(WebDriver driver) throws InterruptedException{
+        WaitHelper.pause(3000);
+        TextHelper.enterText(driver, messageToPostSubjectivitiesUnderWriterTextBox, "Sample text automation verification");
     }
 
     public void clickAddFilesButton(WebDriver driver){
@@ -144,5 +140,10 @@ public class BindingPageActions extends BaseTest {
     public boolean verifyAcceptedStatus(WebDriver driver) throws InterruptedException{
         WaitHelper.pause(10000);
         return ClickHelper.isElementExist(driver, AcceptedStatus);
+    }
+
+    public void clickSubmitBinder(WebDriver driver){
+
+        ClickHelper.clickElement(driver, enabledSubmitButton);
     }
 }
