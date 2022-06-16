@@ -51,7 +51,7 @@ public class BindingPageTests extends BaseTest {
     public void testVerifyQuoteBinding(Map<String, String> map) throws InterruptedException, SQLException, AWTException {
         /*****************************************************************
          this test verifies quote option Binding and Subjectivity
-         story - N2020-33007, 23922,32926, 32930, 32950
+         story - N2020-33007, 23922,32926, 32930, 32950, 32704
          @author - Venkat Kottapalli, Sheetal
          ******************************************************************/
 
@@ -135,11 +135,10 @@ public class BindingPageTests extends BaseTest {
                     bindingPageActions.VerifyQuoteHeaderInformationInBindingPage(DriverManager.getDriver(), newInsuredName, ConstantVariable.PRODUCT);
                     bindingPageActions.clickPolicyCardExpandIconInBindingPage(DriverManager.getDriver());
                     if(!bindingPageActions.binderSubmitButton(DriverManager.getDriver()).isEnabled()){
-                        bindingPageActions.enterTextToFirstSubjectivity(DriverManager.getDriver());
-                        String enterText = FakeDataHelper.fullName();
-                        bindingPageActions.EnterMessageToPreSubjectivitiesUnderWriterTextBox(DriverManager.getDriver(),enterText);
+                        bindingPageActions.EnterMessageToPreSubjectivitiesUnderWriterTextBox(DriverManager.getDriver());
                         bindingPageActions.clickPostSubjectivitiesExpandButton(DriverManager.getDriver());
-                        bindingPageActions.EnterMessageToPostSubjectivitiesUnderWriterTextBox(DriverManager.getDriver(),enterText);
+                        bindingPageActions.EnterMessageToPostSubjectivitiesUnderWriterTextBox(DriverManager.getDriver());
+                        bindingPageActions.clickSubmitBinder(DriverManager.getDriver());
                     }
                     bindingPageActions.uploadFile(DriverManager.getDriver());
                     assert bindingPageActions.getFileDeleteIcon(DriverManager.getDriver()).isDisplayed();
