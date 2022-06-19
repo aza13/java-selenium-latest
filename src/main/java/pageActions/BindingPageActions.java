@@ -146,4 +146,9 @@ public class BindingPageActions extends BaseTest {
 
         ClickHelper.clickElement(driver, enabledSubmitButton);
     }
+
+    public boolean verifyBinderText(WebDriver driver) throws InterruptedException{
+        WaitHelper.pause(10000);
+        return ClickHelper.isElementExist(driver, BinderText);
+    }
 }

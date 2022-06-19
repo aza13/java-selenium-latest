@@ -156,10 +156,10 @@ public class BindingPageTests extends BaseTest {
 
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
-    public void testRejectSubjectivity(Map<String, String> map) throws InterruptedException {
+    public void testSubjectivityStatus(Map<String, String> map) throws InterruptedException {
         /*****************************************************************
          this test verifies Subjectivity status is Rejected, Accepted and Waived
-         story - N2020-32716, 32708
+         story - N2020-32716, 32708, 33154
          @author -  Sheetal
          ******************************************************************/
 
@@ -173,5 +173,12 @@ public class BindingPageTests extends BaseTest {
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("submissionName2"));
         dashboardPageActions.clickQuoteCardContinueButton(DriverManager.getDriver());
         bindingPageActions.verifyAcceptedStatus(DriverManager.getDriver());
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("submissionName3"));
+        String quoteStatus = dashboardPageActions.getQuoteStatus(DriverManager.getDriver());
+        assert quoteStatus.equals("Bound");
+        dashboardPageActions.clickQuoteCardContinueButton(DriverManager.getDriver());
+        bindingPageActions.verifyBinderText(DriverManager.getDriver());
+        bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
+
     }
 }
