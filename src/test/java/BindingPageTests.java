@@ -173,6 +173,7 @@ public class BindingPageTests extends BaseTest {
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("submissionName2"));
         dashboardPageActions.clickQuoteCardContinueButton(DriverManager.getDriver());
         bindingPageActions.verifyAcceptedStatus(DriverManager.getDriver());
+        bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("submissionName3"));
         String quoteStatus = dashboardPageActions.getQuoteStatus(DriverManager.getDriver());
         assert quoteStatus.equals("Bound");
