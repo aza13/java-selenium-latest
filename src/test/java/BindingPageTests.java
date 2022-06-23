@@ -112,8 +112,6 @@ public class BindingPageTests extends BaseTest {
                     quoteListPageActions.submitOrderConfirmation(DriverManager.getDriver());
                     assert bindingPageActions.isPreSubjectivitiesDisplayed(DriverManager.getDriver());
                     assert bindingPageActions.isPostSubjectivitiesDisplayed(DriverManager.getDriver());
-                    assert bindingPageActions.isPreSubjectivitiesDisplayed(DriverManager.getDriver());
-                    assert bindingPageActions.isPostSubjectivitiesDisplayed(DriverManager.getDriver());
                     assert bindingPageActions.isMessageToUnderWriterDisplayed(DriverManager.getDriver());
                     bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
                     String query = GET_SUBMISSION_ID_WITH_QUOTE_ID + quoteId + ";";
@@ -141,7 +139,11 @@ public class BindingPageTests extends BaseTest {
                         bindingPageActions.clickPostSubjectivitiesExpandButton(DriverManager.getDriver());
                         bindingPageActions.EnterMessageToPostSubjectivitiesUnderWriterTextBox(DriverManager.getDriver(),enterText);
                     }
-                    bindingPageActions.uploadFile(DriverManager.getDriver());
+                    bindingPageActions.clickPreSubjSelectFilesButton(DriverManager.getDriver());
+                    bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.INVALID_FILE_TYPE);
+                    assert bindingPageActions.isFileTypeWarningDisplayed(DriverManager.getDriver());
+                    bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.PDF_DOC_FILE_PATH);
+                    bindingPageActions.clickFileDeleteIcon(DriverManager.getDriver());
                     assert bindingPageActions.getFileDeleteIcon(DriverManager.getDriver()).isDisplayed();
                     assert bindingPageActions.getFilePresentIcon(DriverManager.getDriver()).isDisplayed();
                     bindingPageActions.clickAddFilesButton(DriverManager.getDriver());

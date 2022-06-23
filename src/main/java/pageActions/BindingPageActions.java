@@ -54,15 +54,18 @@ public class BindingPageActions extends BaseTest {
         return ClickHelper.isElementExist(driver, postSubjectivities);
     }
 
-    public void uploadFile(WebDriver driver) throws InterruptedException, AWTException {
+    public void clickPreSubjSelectFilesButton(WebDriver driver) throws InterruptedException {
         ClickHelper.clickElement(driver, preSubjSelectFilesButton);
         WaitHelper.pause(3000);
+    }
+
+    public void uploadFile(WebDriver driver, String relativeFilePath) throws InterruptedException, AWTException {
         ClickHelper.clickElement(driver, clickAndDragLink);
         WaitHelper.pause(3000);
         // creating object of Robot class
         Robot rb = new Robot();
 
-        String filePath = System.getProperty("user.dir")+"\\src\\main\\resources\\InsuredData.txt";
+        String filePath = System.getProperty("user.dir")+relativeFilePath;
 
         // copying File path to Clipboard
         StringSelection str = new StringSelection(filePath);
@@ -80,6 +83,11 @@ public class BindingPageActions extends BaseTest {
         rb.keyPress(KeyEvent.VK_ENTER);
         rb.keyRelease(KeyEvent.VK_ENTER);
         WaitHelper.pause(3000);
+    }
+
+    public boolean isFileTypeWarningDisplayed(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(3000);
+        return ClickHelper.isElementExist(driver, invalidFileTypeWarning);
     }
 
     public void enterTextToFirstSubjectivity(WebDriver driver){
@@ -121,6 +129,11 @@ public class BindingPageActions extends BaseTest {
     public void clickAddFilesButton(WebDriver driver){
         WaitHelper.waitForElementClickable(driver, addFilesButton);
         ClickHelper.clickElement(driver, addFilesButton);
+    }
+
+    public void clickFileDeleteIcon(WebDriver driver){
+
+        ClickHelper.clickElement(driver, fileDeleteIcon);
     }
 
     public WebElement getFileDeleteIcon(WebDriver driver){

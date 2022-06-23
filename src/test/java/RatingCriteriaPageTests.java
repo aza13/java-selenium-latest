@@ -1,26 +1,16 @@
 import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
-import constants.ConstantVariable;
-import constants.DatabaseQueries;
 import helper.FakeDataHelper;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
-import org.testng.SkipException;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import pageActions.DashboardPageActions;
-import pageActions.RatingCriteriaPageActions;
-import pageActions.UnderwritingQuestionsPageActions;
-import pageActions.QuoteListPageActions;
-import pageActions.InsuredPageActions;
+import pageActions.*;
 import utils.dataProvider.TestDataProvider;
 import utils.dbConnector.DatabaseConnector;
 
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class RatingCriteriaPageTests extends BaseTest {

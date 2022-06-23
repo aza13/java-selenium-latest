@@ -210,7 +210,7 @@ public class InsuredPageActions extends BaseTest {
             String selectButtonXpath = "(//button[@data-qa='insured_select'])[" + cardsCount + "]";
             driver.findElement(By.xpath(selectButtonXpath)).click();
         }
-        WaitHelper.pause(15000);
+        WaitHelper.pause(7000);
     }
 
     public List<WebElement> getAllInsuredNames(WebDriver driver) {
