@@ -34,4 +34,5 @@ public class BindingPageObjects {
     public static final By WaivedStatus = By.xpath("//div[contains(text(),'Waived')]");
     public static final By AcceptedStatus = By.xpath("//div[contains(text(),'Accepted')]");
     public static final By invalidFileTypeWarning = By.xpath("//p[contains(text(), 'Files can only be of the file types')]");
+    public static final By BinderText = By.xpath("//h5[contains(text(),'Binder has been issued')]");
 }

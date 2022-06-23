@@ -51,7 +51,7 @@ public class BindingPageTests extends BaseTest {
     public void testVerifyQuoteBinding(Map<String, String> map) throws InterruptedException, SQLException, AWTException {
         /*****************************************************************
          this test verifies quote option Binding and Subjectivity
-         story - N2020-33007, 23922,32926, 32930, 32950
+         story - N2020-33007, 23922,32926, 32930, 32950, 32704
          @author - Venkat Kottapalli, Sheetal
          ******************************************************************/
 
@@ -133,11 +133,10 @@ public class BindingPageTests extends BaseTest {
                     bindingPageActions.VerifyQuoteHeaderInformationInBindingPage(DriverManager.getDriver(), newInsuredName, ConstantVariable.PRODUCT);
                     bindingPageActions.clickPolicyCardExpandIconInBindingPage(DriverManager.getDriver());
                     if(!bindingPageActions.binderSubmitButton(DriverManager.getDriver()).isEnabled()){
-                        bindingPageActions.enterTextToFirstSubjectivity(DriverManager.getDriver());
-                        String enterText = FakeDataHelper.fullName();
-                        bindingPageActions.EnterMessageToPreSubjectivitiesUnderWriterTextBox(DriverManager.getDriver(),enterText);
+                        bindingPageActions.EnterMessageToPreSubjectivitiesUnderWriterTextBox(DriverManager.getDriver());
                         bindingPageActions.clickPostSubjectivitiesExpandButton(DriverManager.getDriver());
-                        bindingPageActions.EnterMessageToPostSubjectivitiesUnderWriterTextBox(DriverManager.getDriver(),enterText);
+                        bindingPageActions.EnterMessageToPostSubjectivitiesUnderWriterTextBox(DriverManager.getDriver());
+                        bindingPageActions.clickSubmitBinder(DriverManager.getDriver());
                     }
                     bindingPageActions.clickPreSubjSelectFilesButton(DriverManager.getDriver());
                     bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.INVALID_FILE_TYPE);
@@ -159,10 +158,10 @@ public class BindingPageTests extends BaseTest {
 
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
-    public void testRejectSubjectivity(Map<String, String> map) throws InterruptedException {
+    public void testSubjectivityStatus(Map<String, String> map) throws InterruptedException {
         /*****************************************************************
          this test verifies Subjectivity status is Rejected, Accepted and Waived
-         story - N2020-32716, 32708
+         story - N2020-32716, 32708, 33154
          @author -  Sheetal
          ******************************************************************/
 
@@ -176,5 +175,13 @@ public class BindingPageTests extends BaseTest {
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("submissionName2"));
         dashboardPageActions.clickQuoteCardContinueButton(DriverManager.getDriver());
         bindingPageActions.verifyAcceptedStatus(DriverManager.getDriver());
+        bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("submissionName3"));
+        String quoteStatus = dashboardPageActions.getQuoteStatus(DriverManager.getDriver());
+        assert quoteStatus.equals("Bound");
+        dashboardPageActions.clickQuoteCardContinueButton(DriverManager.getDriver());
+        bindingPageActions.verifyBinderText(DriverManager.getDriver());
+        bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
+
     }
 }
