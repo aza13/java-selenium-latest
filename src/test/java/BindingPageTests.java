@@ -6,6 +6,7 @@ import helper.ClickHelper;
 import helper.FakeDataHelper;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.sikuli.script.FindFailed;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -48,7 +49,7 @@ public class BindingPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
-    public void testVerifyQuoteBinding(Map<String, String> map) throws InterruptedException, SQLException, AWTException {
+    public void testVerifyQuoteBinding(Map<String, String> map) throws InterruptedException, SQLException, AWTException, FindFailed {
         /*****************************************************************
          this test verifies quote option Binding and Subjectivity
          story - N2020-33007, 23922,32926, 32930, 32950, 32704
@@ -139,9 +140,13 @@ public class BindingPageTests extends BaseTest {
                         bindingPageActions.clickSubmitBinder(DriverManager.getDriver());
                     }
                     bindingPageActions.clickPreSubjSelectFilesButton(DriverManager.getDriver());
+                    /*bindingPageActions.uploadFileUsingSikuli(DriverManager.getDriver(), ConstantVariable.FILE_NAME_FIELD_IMAGE,
+                            ConstantVariable.INVALID_FILE_TYPE, ConstantVariable.OPEN_BUTTON_IMAGE);*/
                     bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.INVALID_FILE_TYPE);
                     assert bindingPageActions.isFileTypeWarningDisplayed(DriverManager.getDriver());
                     bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.PDF_DOC_FILE_PATH);
+                    /*bindingPageActions.uploadFileUsingSikuli(DriverManager.getDriver(), ConstantVariable.FILE_NAME_FIELD_IMAGE,
+                            ConstantVariable.PDF_DOC_FILE_PATH, ConstantVariable.OPEN_BUTTON_IMAGE);*/
                     bindingPageActions.clickFileDeleteIcon(DriverManager.getDriver());
                     assert bindingPageActions.getFileDeleteIcon(DriverManager.getDriver()).isDisplayed();
                     assert bindingPageActions.getFilePresentIcon(DriverManager.getDriver()).isDisplayed();

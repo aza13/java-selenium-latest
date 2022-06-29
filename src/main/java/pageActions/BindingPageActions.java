@@ -1,12 +1,15 @@
 package pageActions;
 
 import base.BaseTest;
+import constants.ConstantVariable;
 import helper.ClickHelper;
+import helper.SikuliHelper;
 import helper.TextHelper;
 import helper.WaitHelper;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.sikuli.script.FindFailed;
 
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
@@ -57,6 +60,17 @@ public class BindingPageActions extends BaseTest {
     public void clickPreSubjSelectFilesButton(WebDriver driver) throws InterruptedException {
         ClickHelper.clickElement(driver, preSubjSelectFilesButton);
         WaitHelper.pause(3000);
+    }
+
+    public void clickAndDragLink(WebDriver driver) throws InterruptedException {
+        ClickHelper.clickElement(driver, clickAndDragLink);
+        WaitHelper.pause(3000);
+    }
+
+    public void uploadFileUsingSikuli(WebDriver driver, String imageToEnter, String filePath, String imageToSubmitted ) throws InterruptedException, FindFailed {
+        clickAndDragLink(driver);
+        String rootPath = System.getProperty("user.dir");
+        SikuliHelper.uploadFile(rootPath+imageToEnter, rootPath+filePath, rootPath+imageToSubmitted);
     }
 
     public void uploadFile(WebDriver driver, String relativeFilePath) throws InterruptedException, AWTException {
