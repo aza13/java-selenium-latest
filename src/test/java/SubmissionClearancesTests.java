@@ -163,7 +163,7 @@ public class SubmissionClearancesTests extends BaseTest {
     }
 
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "InsuredPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "InsuredPageData", enabled = false)
     public void testClearancesReviewFunctionality(Map<String, String> map) throws InterruptedException, AWTException {
         /***
          this test verifies clearances review
