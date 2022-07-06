@@ -26,7 +26,7 @@ public class BindingPageObjects {
     public static final By preSubjSelectFilesButton = By.xpath("(//button[@id='btn-search-again'])[1]");
     public static final By postSubjSelectFilesButton = By.xpath("(//button[@id='btn-search-again'])[2]");
 
-    public static final By clickAndDragLink = By.xpath("//p[text()='Click or Drag Files to Upload']");
+    public static final By clickAndDragLink = By.xpath("//p[text()='Click or Drag File to Upload']");
     public static final By addFilesButton = By.xpath("//button[text()='Add File(s)']");
     public static final By fileDeleteIcon = By.xpath("//*[@data-testid='DeleteOutlineIcon']");
     public static final By filePresentIcon = By.xpath("//*[@data-testid='FilePresentIcon']");

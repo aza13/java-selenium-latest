@@ -163,7 +163,7 @@ public class SubmissionClearancesTests extends BaseTest {
     }
 
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "InsuredPageData", enabled = false)
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "InsuredPageData", enabled = true)
     public void testClearancesReviewFunctionality(Map<String, String> map) throws InterruptedException, AWTException {
         /***
          this test verifies clearances review
@@ -197,6 +197,7 @@ public class SubmissionClearancesTests extends BaseTest {
         if(insuredPageActions.isClearanceDialogModalDisplayed(DriverManager.getDriver())){
             BindingPageActions bindingPageActions = PageObjectManager.getBindingPageActions();
             bindingPageActions.clickPreSubjSelectFilesButton(DriverManager.getDriver());
+            bindingPageActions.clickAndDragLink(DriverManager.getDriver());
             bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.PDF_DOC_FILE_PATH);
         }
         insuredPageActions.clickClearanceSubmitButton(DriverManager.getDriver());
