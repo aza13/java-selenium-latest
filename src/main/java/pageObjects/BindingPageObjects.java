@@ -21,8 +21,8 @@ public class BindingPageObjects {
     public static final By submitConfirmationButton = By.xpath("//button[@data-qa='submit_alert_modal']");
     public static final By messageToUnderWriter =By.xpath("//p[contains(text(),'Message to Underwriter')]");
     public static final By messageToPreSubjectivitiesUnderWriterTextBox =By.xpath("(//div[@id='panel1a-content']//textarea)[1]");
-    public static final By postSubjectivitiesExpandButton =By.xpath("(//*[@data-testid='ExpandMoreIcon'])[3]");
-    public static final By messageToPostSubjectivitiesUnderWriterTextBox =By.xpath("(//div[@id='panel1a-content']//textarea)[3]");
+    public static final By postSubjectivitiesExpandButton =By.xpath("//p[contains(text(),'Subjectivities due within 7 days of effective date')]/../../..//*[@id='panel1a-header']/div[2]");
+    public static final By messageToPostSubjectivitiesUnderWriterTextBox =By.xpath("//p[contains(text(),'Subjectivities due within 7 days of effective date')]/../../..//textarea[1]");
     public static final By preSubjSelectFilesButton = By.xpath("(//button[@id='btn-search-again'])[1]");
     public static final By postSubjSelectFilesButton = By.xpath("(//button[@id='btn-search-again'])[2]");
 
@@ -34,5 +34,7 @@ public class BindingPageObjects {
     public static final By WaivedStatus = By.xpath("//div[contains(text(),'Waived')]");
     public static final By AcceptedStatus = By.xpath("//div[contains(text(),'Accepted')]");
     public static final By invalidFileTypeWarning = By.xpath("//p[contains(text(), 'Files can only be of the file types')]");
-    public static final By BinderText = By.xpath("//h5[contains(text(),'Binder has been issued')]");
+    public static final By BinderText = By.xpath("//p[contains(text(),'Binder has been issued')]");
+    public static final By PreBinderText = By.xpath("//p[contains(text(),'Binder will be issued shortly')]");
+
 }

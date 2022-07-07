@@ -184,6 +184,7 @@ public class BindingPageTests extends BaseTest {
         bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("submissionName2"));
         dashboardPageActions.clickQuoteCardContinueButton(DriverManager.getDriver());
+        bindingPageActions.verifyPreBinderText(DriverManager.getDriver());
         bindingPageActions.verifyAcceptedStatus(DriverManager.getDriver());
         bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("submissionName3"));
