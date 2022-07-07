@@ -88,6 +88,10 @@ public class RatingCriteriaPageActions extends BaseTest {
         WaitHelper.pause(3000);
     }
 
+    public void enterNoOfPhysicians(WebDriver driver, String count){
+        TextHelper.enterText(driver, noOfPhysicians, count);
+    }
+
     public void clickRatingCriteriaOkButton (WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementClickable(driver, ratingCriteriaOkButton);
         ClickHelper.clickElement(driver, ratingCriteriaOkButton);

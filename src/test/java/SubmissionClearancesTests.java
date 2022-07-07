@@ -8,12 +8,14 @@ import org.openqa.selenium.WebElement;
 import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import pageActions.BindingPageActions;
 import pageActions.DashboardPageActions;
 import pageActions.InsuredPageActions;
 import pageActions.RatingCriteriaPageActions;
 import utils.dataProvider.TestDataProvider;
 import utils.fileReader.TextFileReader;
 
+import java.awt.*;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -72,7 +74,7 @@ public class SubmissionClearancesTests extends BaseTest {
          **/
         logger.info("verifying submission clearance results :: testClearancesSubmissionFunctionality");
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"),  map.get("name"),  map.get("website"));
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT,  map.get("name"),  map.get("website"));
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
         List<WebElement> insuranceCards = insuredPageActions.getAllInsuredNames(DriverManager.getDriver());
@@ -114,7 +116,7 @@ public class SubmissionClearancesTests extends BaseTest {
          **/
         logger.info("verifying submission clearance results :: testCancelClearancesFunctionality");
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"),  map.get("name"),  map.get("website"));
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT,  map.get("name"),  map.get("website"));
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
         List<WebElement> insuranceCards = insuredPageActions.getAllInsuredNames(DriverManager.getDriver());
@@ -158,6 +160,48 @@ public class SubmissionClearancesTests extends BaseTest {
         dashboardPageActions.clickQuoteCardContinueButton(DriverManager.getDriver());
         ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
         assert ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver());
+    }
+
+
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "InsuredPageData", enabled = true)
+    public void testClearancesReviewFunctionality(Map<String, String> map) throws InterruptedException, AWTException {
+        /***
+         this test verifies clearances review
+         story - N2020-32093
+         @author - Venkat Kottapalli
+         **/
+        dashboardPageActions.clickNewQuote(DriverManager.getDriver());
+        String newInsuredName = FakeDataHelper.fullName();
+        String newInsuredWebsite = FakeDataHelper.website();
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT_2, newInsuredName,newInsuredWebsite);
+        TextFileReader.writeDataToTextFile(ConstantVariable.INSURED_DATA_FILEPATH, newInsuredName+";"+newInsuredWebsite);
+        InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
+        if (!insuredPageActions.isCreateNewInsuredTextDisplayed(DriverManager.getDriver())){
+            insuredPageActions.clickNewInsuredButton(DriverManager.getDriver());
+        }
+        insuredPageActions.enterEmailAddress(DriverManager.getDriver());
+        insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
+        insuredPageActions.enterPhysicalAddress(DriverManager.getDriver());
+        insuredPageActions.enterPhyCity(DriverManager.getDriver());
+        insuredPageActions.enterPhyZipcode(DriverManager.getDriver());
+        insuredPageActions.selectPhyState(DriverManager.getDriver());
+        insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
+        insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
+        ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
+        assert ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver());
+        ratingCriteriaPageActions.ratingCriteriaExitButton(DriverManager.getDriver()).click();
+        dashboardPageActions.clickNewQuote(DriverManager.getDriver());
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName,newInsuredWebsite);
+        dashboardPageActions.clickContinueButton(DriverManager.getDriver());
+        insuredPageActions.selectInsuredCard(DriverManager.getDriver(), newInsuredName);
+        if(insuredPageActions.isClearanceDialogModalDisplayed(DriverManager.getDriver())){
+            BindingPageActions bindingPageActions = PageObjectManager.getBindingPageActions();
+            bindingPageActions.clickPreSubjSelectFilesButton(DriverManager.getDriver());
+            bindingPageActions.clickAndDragLink(DriverManager.getDriver());
+            bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.PDF_DOC_FILE_PATH);
+        }
+        insuredPageActions.clickClearanceSubmitButton(DriverManager.getDriver());
+
     }
 
 }

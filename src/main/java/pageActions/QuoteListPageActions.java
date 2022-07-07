@@ -51,6 +51,7 @@ public class QuoteListPageActions extends BaseTest {
         WaitHelper.waitForElementVisibility(driver, aggregateLimitDropdown);
         WebElement dropdown = driver.findElement(aggregateLimitDropdown);
         DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, perClaimOptionGenericLocator, aggLimit);
+        WaitHelper.pause(10000);
     }
 
     public void selectRetentionOption(WebDriver driver, int optionCount, String retention) throws InterruptedException {

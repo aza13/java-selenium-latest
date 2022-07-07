@@ -1,12 +1,15 @@
 package pageActions;
 
 import base.BaseTest;
+import constants.ConstantVariable;
 import helper.ClickHelper;
+import helper.SikuliHelper;
 import helper.TextHelper;
 import helper.WaitHelper;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.sikuli.script.FindFailed;
 
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
@@ -54,16 +57,29 @@ public class BindingPageActions extends BaseTest {
         return ClickHelper.isElementExist(driver, postSubjectivities);
     }
 
-    public void uploadFile(WebDriver driver) throws InterruptedException, AWTException {
-        WaitHelper.pause(5000);
+    public void clickPreSubjSelectFilesButton(WebDriver driver) throws InterruptedException {
         ClickHelper.clickElement(driver, preSubjSelectFilesButton);
         WaitHelper.pause(3000);
+    }
+
+    public void clickAndDragLink(WebDriver driver) throws InterruptedException {
+        ClickHelper.clickElement(driver, clickAndDragLink);
+        WaitHelper.pause(3000);
+    }
+
+    public void uploadFileUsingSikuli(WebDriver driver, String imageToEnter, String filePath, String imageToSubmitted ) throws InterruptedException, FindFailed {
+        clickAndDragLink(driver);
+        String rootPath = System.getProperty("user.dir");
+        SikuliHelper.uploadFile(rootPath+imageToEnter, rootPath+filePath, rootPath+imageToSubmitted);
+    }
+
+    public void uploadFile(WebDriver driver, String relativeFilePath) throws InterruptedException, AWTException {
         ClickHelper.clickElement(driver, clickAndDragLink);
         WaitHelper.pause(3000);
         // creating object of Robot class
         Robot rb = new Robot();
 
-        String filePath = System.getProperty("user.dir")+"\\src\\main\\resources\\InsuredData.txt";
+        String filePath = System.getProperty("user.dir")+relativeFilePath;
 
         // copying File path to Clipboard
         StringSelection str = new StringSelection(filePath);
@@ -81,6 +97,11 @@ public class BindingPageActions extends BaseTest {
         rb.keyPress(KeyEvent.VK_ENTER);
         rb.keyRelease(KeyEvent.VK_ENTER);
         WaitHelper.pause(3000);
+    }
+
+    public boolean isFileTypeWarningDisplayed(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(3000);
+        return ClickHelper.isElementExist(driver, invalidFileTypeWarning);
     }
 
     public void EnterMessageToPreSubjectivitiesUnderWriterTextBox(WebDriver driver){
@@ -117,6 +138,11 @@ public class BindingPageActions extends BaseTest {
     public void clickAddFilesButton(WebDriver driver){
         WaitHelper.waitForElementClickable(driver, addFilesButton);
         ClickHelper.clickElement(driver, addFilesButton);
+    }
+
+    public void clickFileDeleteIcon(WebDriver driver){
+
+        ClickHelper.clickElement(driver, fileDeleteIcon);
     }
 
     public WebElement getFileDeleteIcon(WebDriver driver){

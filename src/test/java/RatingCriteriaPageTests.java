@@ -2,30 +2,21 @@ import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
 import constants.ConstantVariable;
-import constants.DatabaseQueries;
 import helper.FakeDataHelper;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
-import org.testng.SkipException;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import pageActions.DashboardPageActions;
-import pageActions.RatingCriteriaPageActions;
-import pageActions.UnderwritingQuestionsPageActions;
-import pageActions.QuoteListPageActions;
-import pageActions.InsuredPageActions;
+import pageActions.*;
 import utils.dataProvider.TestDataProvider;
 import utils.dbConnector.DatabaseConnector;
 
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class RatingCriteriaPageTests extends BaseTest {
 
-    private static final Logger logger = Logger.getLogger(DashboardPageTests.class);
+    private static final Logger logger = Logger.getLogger(RatingCriteriaPageTests.class);
     private DashboardPageActions dashboardPageActions;
     private RatingCriteriaPageActions ratingCriteriaPageActions;
 
@@ -58,7 +49,7 @@ public class RatingCriteriaPageTests extends BaseTest {
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         String newInsuredName = FakeDataHelper.fullName();
         String newInsuredWebsite = FakeDataHelper.website();
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), newInsuredName,newInsuredWebsite);
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName,newInsuredWebsite);
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         insuredPageActions.enterEmailAddress(DriverManager.getDriver());
         insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
@@ -70,10 +61,15 @@ public class RatingCriteriaPageTests extends BaseTest {
         insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
         insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            if(map.get("product").equals("NetGuard® SELECT")){
+            if(ConstantVariable.PRODUCT.equals("NetGuard® SELECT")){
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass2"));
                 ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
                 ratingCriteriaPageActions.enterNetWorth(DriverManager.getDriver(), map.get("netWorth"));
+            }else if(ConstantVariable.PRODUCT.contains("Ophthalmic")){
+                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass3"));
+                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
+                ratingCriteriaPageActions.enterNoOfPhysicians(DriverManager.getDriver(), map.get("physiciansCount"));
+                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
             }else{
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass"));
                 ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
@@ -97,7 +93,7 @@ public class RatingCriteriaPageTests extends BaseTest {
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         String newInsuredName = FakeDataHelper.fullName();
         String newInsuredWebsite = FakeDataHelper.website();
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), newInsuredName, newInsuredWebsite);
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName, newInsuredWebsite);
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         insuredPageActions.enterEmailAddress(DriverManager.getDriver());
         insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
@@ -109,7 +105,7 @@ public class RatingCriteriaPageTests extends BaseTest {
         insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
         insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            if(map.get("product").equals("NetGuard® SELECT")){
+            if(ConstantVariable.PRODUCT.equals("NetGuard® SELECT")){
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass2"));
                 ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
                 ratingCriteriaPageActions.enterNetWorth(DriverManager.getDriver(), map.get("netWorth"));
@@ -138,7 +134,7 @@ public class RatingCriteriaPageTests extends BaseTest {
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         String newInsuredName = FakeDataHelper.fullName();
         String newInsuredWebsite = FakeDataHelper.website();
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), newInsuredName,newInsuredWebsite);
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName,newInsuredWebsite);
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
 
         if (!insuredPageActions.isCreateNewInsuredTextDisplayed(DriverManager.getDriver())){
@@ -175,7 +171,7 @@ public class RatingCriteriaPageTests extends BaseTest {
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         String newInsuredName = FakeDataHelper.fullName();
         String newInsuredWebsite = FakeDataHelper.website();
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), newInsuredName, newInsuredWebsite);
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName, newInsuredWebsite);
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         insuredPageActions.enterEmailAddress(DriverManager.getDriver());
         insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
@@ -187,10 +183,15 @@ public class RatingCriteriaPageTests extends BaseTest {
         insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
         insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            if(map.get("product").equals("NetGuard® SELECT")){
+            if(ConstantVariable.PRODUCT.equals("NetGuard® SELECT")){
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass2"));
                 ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
                 ratingCriteriaPageActions.enterNetWorth(DriverManager.getDriver(), map.get("netWorth"));
+            }else if(ConstantVariable.PRODUCT.contains("Ophthalmic")){
+                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass3"));
+                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
+                ratingCriteriaPageActions.enterNoOfPhysicians(DriverManager.getDriver(), map.get("physiciansCount"));
+                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
             }else{
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass"));
                 ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());

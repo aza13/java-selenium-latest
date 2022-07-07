@@ -20,7 +20,6 @@ import utils.fileReader.ConfigDataReader;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
@@ -33,11 +32,6 @@ public class BaseTest {
     protected static ExtentTest testLogger;
     private static String userId;
     private static String password;
-    public static String operatingSystem;
-    public static String testEnvironment ;
-    public static Properties prop;
-
-
 
     private static final Logger logger = Logger.getLogger(BaseTest.class);
 
@@ -47,27 +41,19 @@ public class BaseTest {
 
         logger.info("Executing the @BeforeSuite - configSetUpMethod() in BaseTest ");
 
-        operatingSystem = System.getProperty("os.name");
-
-        prop = ConfigDataReader.configPropInit(ConstantVariable.CONFIG_PROP_FILEPATH);
+        Properties prop = ConfigDataReader.configPropInit(ConstantVariable.CONFIG_PROP_FILEPATH);
 
         logger.info("Config Properties Initialised");
 
         logger.info("Selected browserType is: " + browserSelected);
 
-        DriverManager.setBrowserType(browserSelected);
-
         appUrl = prop.getProperty("appUrl");
 
         logger.info("Given application URL is: " + appUrl);
 
-        System.out.println("App url Name :: "+appUrl);
-
         userId = prop.getProperty("userId");
 
         password = prop.getProperty("password");
-
-        testEnvironment = prop.getProperty("environment");
 
         logger.info("Initialising extent report");
 
@@ -76,7 +62,7 @@ public class BaseTest {
     }
 
     @BeforeMethod(alwaysRun = true)
-    public static void beforeMethodSetUp(Method method, ITestContext context) throws MalformedURLException, InterruptedException {
+    public static void beforeMethodSetUp(Method method, ITestContext context) {
         logger.info("Initialisation the browser  DriverManager.getDriver()::beforeMethodSetUp");
         testLogger = classLogger.createNode(method.getName());
         DriverManager.getDriver().manage().window().maximize();
@@ -114,7 +100,7 @@ public class BaseTest {
         return screenShotPath;
     }
 
-    protected static synchronized void logTestStatusToReport(WebDriver driver, ITestResult result) throws IOException {
+    protected static synchronized void logTestStatusToReport(WebDriver driver, ITestResult result) {
 
         logger.info("Executing logTestStatusToReport() method");
 
@@ -150,14 +136,9 @@ public class BaseTest {
 
     @AfterMethod(alwaysRun = true)
     public static synchronized void updateTestStatus(ITestResult result) {
-
-            logger.info("Updating result : "+result.getStatus()+" to the test script " + result.getName() + " to report :: updateTestStatus");
-            try {
-                logTestStatusToReport(DriverManager.getDriver(), result);
-            } catch (IOException e) {
-                logger.error("Failed to update the status of the test case:: updateTestStatus" + e);
-            }
-            DriverManager.quitDriver();
+        logger.info("Updating result : "+result.getStatus()+" to the test script " + result.getName() + " to report :: updateTestStatus");
+        logTestStatusToReport(DriverManager.getDriver(), result);
+        DriverManager.quitDriver();
             testLogger.log(Status.PASS, "Closed the browser successfully");
         }
 

@@ -55,16 +55,21 @@ public class  QuotesPageTests extends BaseTest {
         logger.info("Executing the testAddQuoteOption from QuoteOptionTests class :: testAddAndDeleteQuoteOption");
         dashboardPageActions.clickFilterList(DriverManager.getDriver());
         dashboardPageActions.clickFilterByProductName(DriverManager.getDriver());
-        dashboardPageActions.selectProductInFilter(DriverManager.getDriver(), map.get("product"));
+        dashboardPageActions.selectProductInFilter(DriverManager.getDriver(), ConstantVariable.PRODUCT);
         dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
         dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), map.get("status"));
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
         dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            if (map.get("product").equals("NetGuard® SELECT")) {
+            if (ConstantVariable.PRODUCT.equals("NetGuard® SELECT")) {
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass2"));
                 ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
                 ratingCriteriaPageActions.enterNetWorth(DriverManager.getDriver(), map.get("netWorth"));
+            }else if(ConstantVariable.PRODUCT.contains("Ophthalmic")){
+                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass3"));
+                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
+                ratingCriteriaPageActions.enterNoOfPhysicians(DriverManager.getDriver(), map.get("physiciansCount"));
+                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
             } else {
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass"));
                 ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
@@ -134,11 +139,16 @@ public class  QuotesPageTests extends BaseTest {
         insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
         ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            if (map.get("product").equals("NetGuard® SELECT")) {
+            if (ConstantVariable.PRODUCT.equals("NetGuard® SELECT")) {
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass2"));
                 ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
                 ratingCriteriaPageActions.enterNetWorth(DriverManager.getDriver(), map.get("netWorth"));
-            } else {
+            } else if(ConstantVariable.PRODUCT.contains("Ophthalmic")){
+                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass3"));
+                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
+                ratingCriteriaPageActions.enterNoOfPhysicians(DriverManager.getDriver(), map.get("physiciansCount"));
+                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
+            } else{
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass"));
                 ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
                 ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
@@ -196,11 +206,16 @@ public class  QuotesPageTests extends BaseTest {
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
         dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            if (map.get("product").equals("NetGuard® SELECT")) {
+            if (ConstantVariable.PRODUCT.equals("NetGuard® SELECT")) {
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass2"));
                 ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
                 ratingCriteriaPageActions.enterNetWorth(DriverManager.getDriver(), map.get("netWorth"));
-            } else {
+            } else if(ConstantVariable.PRODUCT.contains("Ophthalmic")){
+                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass3"));
+                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
+                ratingCriteriaPageActions.enterNoOfPhysicians(DriverManager.getDriver(), map.get("physiciansCount"));
+                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
+            }else {
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass"));
                 ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
                 ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
@@ -290,7 +305,7 @@ public class  QuotesPageTests extends BaseTest {
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         String newInsuredName = FakeDataHelper.fullName();
         String newInsuredWebsite = FakeDataHelper.website();
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), newInsuredName, newInsuredWebsite);
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName, newInsuredWebsite);
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         insuredPageActions.enterEmailAddress(DriverManager.getDriver());
         insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
@@ -302,10 +317,15 @@ public class  QuotesPageTests extends BaseTest {
         insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
         insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            if (map.get("product").equals("NetGuard® SELECT")) {
+            if (ConstantVariable.PRODUCT.equals("NetGuard® SELECT")) {
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass2"));
                 ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
                 ratingCriteriaPageActions.enterNetWorth(DriverManager.getDriver(), map.get("netWorth"));
+            }else if(ConstantVariable.PRODUCT.contains("Ophthalmic")){
+                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass3"));
+                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
+                ratingCriteriaPageActions.enterNoOfPhysicians(DriverManager.getDriver(), map.get("physiciansCount"));
+                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
             } else {
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass"));
                 ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
@@ -381,7 +401,7 @@ public class  QuotesPageTests extends BaseTest {
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         String newInsuredName = FakeDataHelper.fullName();
         String newInsuredWebsite = FakeDataHelper.website();
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), newInsuredName, newInsuredWebsite);
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName, newInsuredWebsite);
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         insuredPageActions.enterEmailAddress(DriverManager.getDriver());
         insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
@@ -393,10 +413,20 @@ public class  QuotesPageTests extends BaseTest {
         insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
         insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            if (map.get("product").equals("NetGuard® SELECT")) {
+            if (ConstantVariable.PRODUCT.equals("NetGuard® SELECT")) {
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass2"));
                 ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
                 ratingCriteriaPageActions.enterNetWorth(DriverManager.getDriver(), map.get("netWorth"));
+            }else if(ConstantVariable.PRODUCT.contains("Ophthalmic")){
+                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass3"));
+                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
+                ratingCriteriaPageActions.enterNoOfPhysicians(DriverManager.getDriver(), map.get("physiciansCount"));
+                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
+            }else if(ConstantVariable.PRODUCT.contains("Ophthalmic")){
+                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass3"));
+                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
+                ratingCriteriaPageActions.enterNoOfPhysicians(DriverManager.getDriver(), map.get("physiciansCount"));
+                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
             } else {
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass"));
                 ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
@@ -484,7 +514,7 @@ public class  QuotesPageTests extends BaseTest {
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         String newInsuredName = FakeDataHelper.fullName();
         String newInsuredWebsite = FakeDataHelper.website();
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), newInsuredName, newInsuredWebsite);
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName, newInsuredWebsite);
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         insuredPageActions.enterEmailAddress(DriverManager.getDriver());
         insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
@@ -496,10 +526,15 @@ public class  QuotesPageTests extends BaseTest {
         insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
         insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            if (map.get("product").equals("NetGuard® SELECT")) {
+            if (ConstantVariable.PRODUCT.equals("NetGuard® SELECT")) {
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass2"));
                 ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
                 ratingCriteriaPageActions.enterNetWorth(DriverManager.getDriver(), map.get("netWorth"));
+            }else if(ConstantVariable.PRODUCT.contains("Ophthalmic")){
+                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass3"));
+                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
+                ratingCriteriaPageActions.enterNoOfPhysicians(DriverManager.getDriver(), map.get("physiciansCount"));
+                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
             } else {
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass"));
                 ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
@@ -566,10 +601,15 @@ public class  QuotesPageTests extends BaseTest {
         insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
         insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            if (map.get("product").equals("NetGuard® SELECT")) {
+            if (ConstantVariable.PRODUCT.equals("NetGuard® SELECT")) {
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass2"));
                 ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
                 ratingCriteriaPageActions.enterNetWorth(DriverManager.getDriver(), map.get("netWorth"));
+            }else if(ConstantVariable.PRODUCT.contains("Ophthalmic")){
+                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass3"));
+                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
+                ratingCriteriaPageActions.enterNoOfPhysicians(DriverManager.getDriver(), map.get("physiciansCount"));
+                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
             } else {
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass"));
                 ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
@@ -638,7 +678,7 @@ public class  QuotesPageTests extends BaseTest {
         logger.info("Executing the testAddQuoteOption from QuoteOptionTests class :: testUpdatedOptionMaxAggLimitAndPremium");
         dashboardPageActions.clickFilterList(DriverManager.getDriver());
         dashboardPageActions.clickFilterByProductName(DriverManager.getDriver());
-        dashboardPageActions.selectProductInFilter(DriverManager.getDriver(), map.get("product"));
+        dashboardPageActions.selectProductInFilter(DriverManager.getDriver(), ConstantVariable.PRODUCT);
         dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
         dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), map.get("status"));
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());

@@ -6,6 +6,7 @@ import helper.ClickHelper;
 import helper.FakeDataHelper;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.sikuli.script.FindFailed;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -48,7 +49,7 @@ public class BindingPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
-    public void testVerifyQuoteBinding(Map<String, String> map) throws InterruptedException, SQLException, AWTException {
+    public void testVerifyQuoteBinding(Map<String, String> map) throws InterruptedException, SQLException, AWTException, FindFailed {
         /*****************************************************************
          this test verifies quote option Binding and Subjectivity
          story - N2020-33007, 23922,32926, 32930, 32950, 32704
@@ -59,7 +60,7 @@ public class BindingPageTests extends BaseTest {
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         String newInsuredName = FakeDataHelper.fullName();
         String newInsuredWebsite = FakeDataHelper.website();
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"), newInsuredName, newInsuredWebsite);
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName, newInsuredWebsite);
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         insuredPageActions.enterEmailAddress(DriverManager.getDriver());
         insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
@@ -71,11 +72,16 @@ public class BindingPageTests extends BaseTest {
         insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
         insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            if (map.get("product").equals("NetGuard® SELECT")) {
+            if (ConstantVariable.PRODUCT.equals("NetGuard® SELECT")) {
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass2"));
                 ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
                 ratingCriteriaPageActions.enterNetWorth(DriverManager.getDriver(), map.get("netWorth"));
-            } else {
+            }else if(ConstantVariable.PRODUCT.contains("Ophthalmic")){
+                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass3"));
+                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
+                ratingCriteriaPageActions.enterNoOfPhysicians(DriverManager.getDriver(), map.get("physiciansCount"));
+                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
+            }else {
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass"));
                 ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
                 ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
@@ -112,8 +118,6 @@ public class BindingPageTests extends BaseTest {
                     quoteListPageActions.submitOrderConfirmation(DriverManager.getDriver());
                     assert bindingPageActions.isPreSubjectivitiesDisplayed(DriverManager.getDriver());
                     assert bindingPageActions.isPostSubjectivitiesDisplayed(DriverManager.getDriver());
-                    assert bindingPageActions.isPreSubjectivitiesDisplayed(DriverManager.getDriver());
-                    assert bindingPageActions.isPostSubjectivitiesDisplayed(DriverManager.getDriver());
                     assert bindingPageActions.isMessageToUnderWriterDisplayed(DriverManager.getDriver());
                     bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
                     String query = GET_SUBMISSION_ID_WITH_QUOTE_ID + quoteId + ";";
@@ -140,7 +144,15 @@ public class BindingPageTests extends BaseTest {
                         bindingPageActions.EnterMessageToPostSubjectivitiesUnderWriterTextBox(DriverManager.getDriver());
                         bindingPageActions.clickSubmitBinder(DriverManager.getDriver());
                     }
-                    bindingPageActions.uploadFile(DriverManager.getDriver());
+                    bindingPageActions.clickPreSubjSelectFilesButton(DriverManager.getDriver());
+                    /*bindingPageActions.uploadFileUsingSikuli(DriverManager.getDriver(), ConstantVariable.FILE_NAME_FIELD_IMAGE,
+                            ConstantVariable.INVALID_FILE_TYPE, ConstantVariable.OPEN_BUTTON_IMAGE);*/
+                    bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.INVALID_FILE_TYPE);
+                    assert bindingPageActions.isFileTypeWarningDisplayed(DriverManager.getDriver());
+                    bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.PDF_DOC_FILE_PATH);
+                    /*bindingPageActions.uploadFileUsingSikuli(DriverManager.getDriver(), ConstantVariable.FILE_NAME_FIELD_IMAGE,
+                            ConstantVariable.PDF_DOC_FILE_PATH, ConstantVariable.OPEN_BUTTON_IMAGE);*/
+                    bindingPageActions.clickFileDeleteIcon(DriverManager.getDriver());
                     assert bindingPageActions.getFileDeleteIcon(DriverManager.getDriver()).isDisplayed();
                     assert bindingPageActions.getFilePresentIcon(DriverManager.getDriver()).isDisplayed();
                     bindingPageActions.clickAddFilesButton(DriverManager.getDriver());

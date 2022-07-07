@@ -8,33 +8,23 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.opera.OperaDriver;
 import utils.fileReader.ConfigDataReader;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static base.BaseTest.operatingSystem;
 
 
 public class DriverManager {
 
     private static final Logger logger = Logger.getLogger(DriverManager.class);
 
-    private static String browserType;
-
     private DriverManager(){
 
     }
 
     private static final ThreadLocal<WebDriver> threadDriver = new ThreadLocal<>();
-
-    static synchronized void setBrowserType(String browser) {
-
-        logger.info("Setting the browserType " + browser + " in :: setBrowserType");
-        browserType = browser;
-    }
 
     public static synchronized WebDriver getDriver()  {
 
@@ -43,7 +33,7 @@ public class DriverManager {
         String browser = ConfigDataReader.configPropInit(ConstantVariable.CONFIG_PROP_FILEPATH).getProperty("browserType");
 
         if (driver == null) {
-
+            String operatingSystem = System.getProperty("os.name");
             switch (browser) {
                 case "CHROME":
                     logger.info("Initialising the chrome browser");
@@ -82,6 +72,8 @@ public class DriverManager {
                     driver = new OperaDriver();
                     threadDriver.set(driver);
                     break;
+                default:
+                    logger.info("No browser is matching");
             }
         }
         return driver;
@@ -89,6 +81,6 @@ public class DriverManager {
 
     static void quitDriver() {
         getDriver().quit();
-        DriverManager.threadDriver.set(null);
+        DriverManager.threadDriver.remove();
     }
 }

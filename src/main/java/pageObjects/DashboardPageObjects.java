@@ -93,7 +93,7 @@ public class DashboardPageObjects {
 
     public static final By submissionFilterByDateRange = By.xpath("//p[text()='Date Range']");
 
-    public static final By allProductsDropdown = By.xpath("//label[text()='All Products']/following-sibling::div/div[@id='demo-simple-select']");
+    public static final By allProductsDropdown = By.xpath("//label[text()='All Coverages']/following-sibling::div/div[@id='demo-simple-select']");
 
     public static final By productOptions = By.xpath("//ul/li[contains(@data-qa, 'menuItem')]");
 
