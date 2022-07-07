@@ -74,7 +74,7 @@ public class SubmissionClearancesTests extends BaseTest {
          **/
         logger.info("verifying submission clearance results :: testClearancesSubmissionFunctionality");
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"),  map.get("name"),  map.get("website"));
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT,  map.get("name"),  map.get("website"));
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
         List<WebElement> insuranceCards = insuredPageActions.getAllInsuredNames(DriverManager.getDriver());
@@ -116,7 +116,7 @@ public class SubmissionClearancesTests extends BaseTest {
          **/
         logger.info("verifying submission clearance results :: testCancelClearancesFunctionality");
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), map.get("product"),  map.get("name"),  map.get("website"));
+        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT,  map.get("name"),  map.get("website"));
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
         List<WebElement> insuranceCards = insuredPageActions.getAllInsuredNames(DriverManager.getDriver());
