@@ -54,7 +54,7 @@ public class DashboardPageActions extends BaseTest {
     public void enterTextToSearchBox(WebDriver driver, String textInput) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, searchInputFiled);
         TextHelper.enterText(driver, searchInputFiled, textInput);
-        WaitHelper.pause(3000);
+        WaitHelper.pause(5000);
     }
 
     public void clickClearSearchButton(WebDriver driver) {
@@ -474,6 +474,7 @@ public class DashboardPageActions extends BaseTest {
             expectedStatus.add("Approved");
             expectedStatus.add("Cancelled");
             expectedStatus.add("Declined");
+            expectedStatus.add("Order Placed");
             for (String status : actualStatus) {
                 if (expectedStatus.contains(status)) {
                 } else {

@@ -23,7 +23,8 @@ public class ConstantVariable {
     public static final String FILE_NAME_FIELD_IMAGE = "\\src\\main\\resources\\fileNameTextBox.png";
     public static final String OPEN_BUTTON_IMAGE = "\\src\\main\\resources\\openButton.png";
 
-    public static final String PRODUCT = "Ophthalmic Mutual Insurance Company (OMIC) - e-MD®/Broad Regulatory Protection Plus";
+    public static final String PRODUCT = "NetGuard® SELECT";
+    //public static final String PRODUCT = "Ophthalmic Mutual Insurance Company (OMIC) - e-MD®/Broad Regulatory Protection Plus";
     public static final String PRODUCT_2 = "American Academy of Ophthalmology (AAO) - e-MD®/Broad Regulatory Protection Plus";
 
 
