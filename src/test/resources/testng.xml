@@ -4,13 +4,13 @@
     <parameter name="browserType" value="CHROME"/>
     <test verbose="2" preserve-order="true" name="BrokerPortalUI">
         <classes>
-            <class name="BindingPageTests"/>
-            <class name="DashboardPageTests"/>
-            <class name="InsuredPageTests"/>
-            <class name="RatingCriteriaPageTests"/>
-            <class name="SubmissionClearancesTests"/>
+<!--            <class name="BindingPageTests"/>-->
+<!--            <class name="DashboardPageTests"/>-->
+<!--            <class name="InsuredPageTests"/>-->
+<!--            <class name="RatingCriteriaPageTests"/>-->
+<!--            <class name="SubmissionClearancesTests"/>-->
             <class name="QuotesPageTests"/>
-            <class name="UWPageTests"/>
+<!--            <class name="UWPageTests"/>-->
         </classes>
     </test>
 </suite>
