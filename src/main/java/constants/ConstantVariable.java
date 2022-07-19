@@ -16,6 +16,7 @@ public class ConstantVariable {
     public static final String IN_REVIEW_STRING = "In Review";
     public static final String SEMICOLON = ";";
     public static final String EMPTY_STRING = "";
+    public static final String SAMPLE_TEXT = "Sample Testing Text";
     public static final String NEW_INSURED_DETAILS_FILE = ".//src//main//resources//newInsuredData.json";
     public static final String WORD_DOC_FILE_PATH = "\\src\\main\\resources\\wordDoc.docx";
     public static final String PDF_DOC_FILE_PATH = "\\src\\main\\resources\\pdfDoc.pdf";

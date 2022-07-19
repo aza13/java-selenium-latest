@@ -41,7 +41,7 @@ public class BaseTest {
 
         logger.info("Executing the @BeforeSuite - configSetUpMethod() in BaseTest ");
 
-        Properties prop = ConfigDataReader.configPropInit(ConstantVariable.CONFIG_PROP_FILEPATH);
+        Properties prop = ConfigDataReader.getPropInstance(ConstantVariable.CONFIG_PROP_FILEPATH);
 
         logger.info("Config Properties Initialised");
 

@@ -4,7 +4,6 @@ import base.PageObjectManager;
 import constants.ConstantVariable;
 import constants.DatabaseQueries;
 import helper.FakeDataHelper;
-import helper.WaitHelper;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import org.testng.SkipException;
@@ -14,7 +13,9 @@ import org.testng.annotations.Test;
 import pageActions.*;
 import utils.dataProvider.TestDataProvider;
 import utils.dbConnector.DatabaseConnector;
-import utils.fileReader.TextFileReader;
+import workflows.AnswerUnderwriterQuestions;
+import workflows.CreateApplicant;
+import workflows.FillApplicantDetails;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -120,73 +121,38 @@ public class  QuotesPageTests extends BaseTest {
          @author - Venkat Kottapalli
          **/
         logger.info("test verifying locking a quote :: testLockQuote");
-        dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        String newInsuredName = FakeDataHelper.fullName();
-        String newInsuredWebsite = FakeDataHelper.website();
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName, newInsuredWebsite);
-        TextFileReader.writeDataToTextFile(ConstantVariable.INSURED_DATA_FILEPATH, newInsuredName + ";" + newInsuredWebsite);
-        InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
-        if (!insuredPageActions.isCreateNewInsuredTextDisplayed(DriverManager.getDriver())) {
-            insuredPageActions.clickNewInsuredButton(DriverManager.getDriver());
-        }
-        insuredPageActions.enterEmailAddress(DriverManager.getDriver());
-        insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
-        insuredPageActions.enterPhysicalAddress(DriverManager.getDriver());
-        insuredPageActions.enterPhyCity(DriverManager.getDriver());
-        insuredPageActions.enterPhyZipcode(DriverManager.getDriver());
-        insuredPageActions.selectPhyState(DriverManager.getDriver());
-        insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
-        insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
+        CreateApplicant.createApplicant(DriverManager.getDriver());
         ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            if (ConstantVariable.PRODUCT.equals("NetGuard® SELECT")) {
-                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass2"));
-                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
-                ratingCriteriaPageActions.enterNetWorth(DriverManager.getDriver(), map.get("netWorth"));
-            } else if(ConstantVariable.PRODUCT.contains("Ophthalmic")){
-                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass3"));
-                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
-                ratingCriteriaPageActions.enterNoOfPhysicians(DriverManager.getDriver(), map.get("physiciansCount"));
-                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
-            } else{
-                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass"));
-                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
-                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
-            }
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
-            boolean uwQuestionsAnswered = underwritingQuestionsPageActions.checkWhetherAllUWQuestionsAreAnswered(DriverManager.getDriver());
-            if (uwQuestionsAnswered) {
-                logger.info("continue button is enabled, means UW questions are answered");
-            } else {
-                logger.info("continue button is disabled, means UW questions are not answered");
-                underwritingQuestionsPageActions.answerUWQuestionButtons(DriverManager.getDriver(), map.get("uwQuestionsAnswer"));
-                underwritingQuestionsPageActions.answerUWQuestionDropdowns(DriverManager.getDriver(), map.get("uwQuestionsAnswer"), map.get("uwQuestionsOption"));
-            }
-            underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
-        }
-        if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
-            if (quoteListPageActions.checkIfOpenQuoteExist(DriverManager.getDriver())) {
-                quoteListPageActions.checkIfFetchingOptionCoveragesMessageDisplayed(DriverManager.getDriver());
-                assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
-                if (quoteListPageActions.clickConfirmAndLock(DriverManager.getDriver())) {
-                    if (quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())) {
-                        quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
-                        quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
+            if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
+                if (quoteListPageActions.checkIfOpenQuoteExist(DriverManager.getDriver())) {
+                    quoteListPageActions.checkIfFetchingOptionCoveragesMessageDisplayed(DriverManager.getDriver());
+                    assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
+                    if (quoteListPageActions.clickConfirmAndLock(DriverManager.getDriver())) {
+                        if (quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())) {
+                            quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
+                            quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
+                        } else {
+                            quoteListPageActions.checkIfQuoteLockSuccessMessageDisplayed(DriverManager.getDriver());
+                            assert quoteListPageActions.isQuoteExpiryDisplayed(DriverManager.getDriver());
+                            assert quoteListPageActions.verifyIfLockedQuoteExist(DriverManager.getDriver());
+                            assert quoteListPageActions.verifyPDFFileAvailable(DriverManager.getDriver());
+                            assert quoteListPageActions.verifyWORDFileAvailable(DriverManager.getDriver());
+                            quoteListPageActions.expandTheQuote(DriverManager.getDriver());                        }
                     } else {
-                        quoteListPageActions.checkIfQuoteLockSuccessMessageDisplayed(DriverManager.getDriver());
-                        assert quoteListPageActions.isQuoteExpiryDisplayed(DriverManager.getDriver());
-                        assert quoteListPageActions.verifyIfLockedQuoteExist(DriverManager.getDriver());
-                        assert quoteListPageActions.verifyPDFFileAvailable(DriverManager.getDriver());
-                        assert quoteListPageActions.verifyWORDFileAvailable(DriverManager.getDriver());
-                        quoteListPageActions.expandTheQuote(DriverManager.getDriver());
+                        Assert.fail("Confirm and quote button is disabled for some reason, some of the quotes missing premium");
                     }
-                } else {
-                    Assert.fail("Confirm and quote button is disabled for some reason, some of the quotes missing premium");
                 }
             }
+        }else{
+            Assert.fail("Underwriter questions not displayed after clicking Continue button on Rating Criteria");
         }
+
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
@@ -206,32 +172,11 @@ public class  QuotesPageTests extends BaseTest {
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
         dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            if (ConstantVariable.PRODUCT.equals("NetGuard® SELECT")) {
-                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass2"));
-                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
-                ratingCriteriaPageActions.enterNetWorth(DriverManager.getDriver(), map.get("netWorth"));
-            } else if(ConstantVariable.PRODUCT.contains("Ophthalmic")){
-                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass3"));
-                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
-                ratingCriteriaPageActions.enterNoOfPhysicians(DriverManager.getDriver(), map.get("physiciansCount"));
-                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
-            }else {
-                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass"));
-                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
-                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
-            }
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
-            boolean uwQuestionsAnswered = underwritingQuestionsPageActions.checkWhetherAllUWQuestionsAreAnswered(DriverManager.getDriver());
-            if (uwQuestionsAnswered) {
-                logger.info("continue button is enabled, means UW questions are answered");
-            } else {
-                logger.info("continue button is disabled, means UW questions are not answered");
-                underwritingQuestionsPageActions.answerUWQuestionButtons(DriverManager.getDriver(), map.get("uwQuestionsAnswer"));
-                underwritingQuestionsPageActions.answerUWQuestionDropdowns(DriverManager.getDriver(), map.get("uwQuestionsAnswer"), map.get("uwQuestionsOption"));
-            }
-            underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
             if (!quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
                 if (quoteListPageActions.checkIfQuotesTabIsDisabled(DriverManager.getDriver())) {
                     logger.info("adding quote from the template");
@@ -302,47 +247,13 @@ public class  QuotesPageTests extends BaseTest {
          @author - Azamat Uulu
          **/
         logger.info("Executing the testConfirmAndLockQuoteOption from QuoteTests class :: testConfirmAndLockQuoteOption");
-        dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        String newInsuredName = FakeDataHelper.fullName();
-        String newInsuredWebsite = FakeDataHelper.website();
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName, newInsuredWebsite);
-        InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
-        insuredPageActions.enterEmailAddress(DriverManager.getDriver());
-        insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
-        assert insuredPageActions.verifyValidPhoneNumberFormat(DriverManager.getDriver());
-        insuredPageActions.enterPhysicalAddress(DriverManager.getDriver());
-        insuredPageActions.enterPhyCity(DriverManager.getDriver());
-        insuredPageActions.enterPhyZipcode(DriverManager.getDriver());
-        insuredPageActions.selectPhyState(DriverManager.getDriver());
-        insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
-        insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
+        CreateApplicant.createApplicant(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            if (ConstantVariable.PRODUCT.equals("NetGuard® SELECT")) {
-                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass2"));
-                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
-                ratingCriteriaPageActions.enterNetWorth(DriverManager.getDriver(), map.get("netWorth"));
-            }else if(ConstantVariable.PRODUCT.contains("Ophthalmic")){
-                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass3"));
-                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
-                ratingCriteriaPageActions.enterNoOfPhysicians(DriverManager.getDriver(), map.get("physiciansCount"));
-                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
-            } else {
-                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass"));
-                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
-                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
-            }
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
-            boolean uwQuestionsAnswered = underwritingQuestionsPageActions.checkWhetherAllUWQuestionsAreAnswered(DriverManager.getDriver());
-            if (uwQuestionsAnswered) {
-                logger.info("UW continue button is enabled, means UW questions are answered");
-            } else {
-                logger.info("UW continue button is disabled, means UW questions are not answered");
-                underwritingQuestionsPageActions.answerUWQuestionButtons(DriverManager.getDriver(), map.get("uwQuestionsAnswer"));
-                underwritingQuestionsPageActions.answerUWQuestionDropdowns(DriverManager.getDriver(), map.get("uwQuestionsAnswer"), map.get("uwQuestionsOption"));
-            }
-            underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
             if (!quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
                 quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
             }
@@ -372,9 +283,7 @@ public class  QuotesPageTests extends BaseTest {
                             break;
                         }
                     }
-                    /*String updateQuery = UPDATE_IN_REVIEW_SUBMISSION_TO_ACTIVE+submissionId+";";
-                    databaseConnector.update(updateQuery);*/
-                    WaitHelper.pause(10000);
+
                     BindingPageActions bindingPageActions = PageObjectManager.getBindingPageActions();
                     bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
                     dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
@@ -634,8 +543,6 @@ public class  QuotesPageTests extends BaseTest {
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
-
-            int quoteOptionsCount = quoteListPageActions.getQuoteOptionCount(DriverManager.getDriver());
             logger.info("verifying the fields, when coverage unchecked");
             boolean optionCoverageGroupUnSelect = quoteListPageActions.verifyOptionCoverageGroupUnSelect(DriverManager.getDriver());
             Assert.assertFalse(optionCoverageGroupUnSelect);
@@ -667,7 +574,7 @@ public class  QuotesPageTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData", enabled = false)
     public void testUpdatedOptionMaxAggLimitAndPremium(Map<String, String> map) throws InterruptedException {
         /***
          this verifies whether option max agg limit and premium are updated or not

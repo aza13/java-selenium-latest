@@ -64,7 +64,7 @@ public class SubmissionClearancesTests extends BaseTest {
 
 
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "InsuredPageData", priority = 1)
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "InsuredPageData")
     public void testClearancesSubmissionFunctionality(Map<String, String> map) throws InterruptedException {
         /***
          this test verifies whether user can proceed for submission creation based on clearances results
@@ -107,7 +107,7 @@ public class SubmissionClearancesTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "InsuredPageData", priority = 2)
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "InsuredPageData")
     public void testCancelClearancesFunctionality(Map<String, String> map) throws InterruptedException {
         /***
          this test verifies whether user can proceed for submission creation based on clearances results
@@ -148,22 +148,8 @@ public class SubmissionClearancesTests extends BaseTest {
         }
     }
 
+
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "InsuredPageData")
-    public void testSubmissionClearanceComplete(Map<String, String> map) throws InterruptedException {
-        /***
-         this test verifies Submissions with no clearances can transition to the quote
-         story - N2020-28329
-         @author - Venkat Kottapalli
-         **/
-        logger.info("verifying duplicate submissions :: testCheckDuplicateSubmission");
-        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("applicantName"));
-        dashboardPageActions.clickQuoteCardContinueButton(DriverManager.getDriver());
-        ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
-        assert ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver());
-    }
-
-
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "InsuredPageData", enabled = true)
     public void testClearancesReviewFunctionality(Map<String, String> map) throws InterruptedException, AWTException {
         /***
          this test verifies clearances review
@@ -197,7 +183,6 @@ public class SubmissionClearancesTests extends BaseTest {
         if(insuredPageActions.isClearanceDialogModalDisplayed(DriverManager.getDriver())){
             BindingPageActions bindingPageActions = PageObjectManager.getBindingPageActions();
             bindingPageActions.clickPreSubjSelectFilesButton(DriverManager.getDriver());
-            bindingPageActions.clickAndDragLink(DriverManager.getDriver());
             bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.PDF_DOC_FILE_PATH);
         }
         insuredPageActions.clickClearanceSubmitButton(DriverManager.getDriver());

@@ -488,7 +488,7 @@ public class DashboardPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", enabled = false)
-    public void testBrokersCanContinueRenewalSubmission(Map<String, String> map) throws InterruptedException {
+    public void testBrokersCanContinueRenewalSubmission() throws InterruptedException {
         /***
          this test Brokers can continue a Renewal Submission
          story - N2020-28483

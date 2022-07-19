@@ -10,20 +10,20 @@ import pageActions.InsuredPageActions;
 import pageActions.RatingCriteriaPageActions;
 import utils.fileReader.TextFileReader;
 
-public class CreateInsured {
+public class CreateApplicant {
 
-    private static final Logger logger = Logger.getLogger(CreateInsured.class);
+    private static final Logger logger = Logger.getLogger(CreateApplicant.class);
 
-    private CreateInsured(){}
+    private CreateApplicant(){}
 
-    public static String createInsured(WebDriver driver) throws InterruptedException {
+    public static String createApplicant(WebDriver driver) throws InterruptedException {
         logger.info("verifying creating new quote creation :: testCreateInsured");
         DashboardPageActions dashboardPageActions = PageObjectManager.getDashboardPageActions();
         dashboardPageActions.clickNewQuote(driver);
-        String newInsuredName = FakeDataHelper.fullName();
-        String newInsuredWebsite = FakeDataHelper.website();
-        dashboardPageActions.CreateNewQuote(driver, ConstantVariable.PRODUCT, newInsuredName,newInsuredWebsite);
-        TextFileReader.writeDataToTextFile(ConstantVariable.INSURED_DATA_FILEPATH, newInsuredName+";"+newInsuredWebsite);
+        String newApplicantName = FakeDataHelper.fullName();
+        String newApplicantWebsite = FakeDataHelper.website();
+        dashboardPageActions.CreateNewQuote(driver, ConstantVariable.PRODUCT, newApplicantName,newApplicantWebsite);
+        TextFileReader.writeDataToTextFile(ConstantVariable.INSURED_DATA_FILEPATH, newApplicantName+";"+newApplicantWebsite);
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(driver);
         if (!insuredPageActions.isCreateNewInsuredTextDisplayed(driver)){
             insuredPageActions.clickNewInsuredButton(driver);
@@ -38,7 +38,7 @@ public class CreateInsured {
         insuredPageActions.clickContinueInsuredFormButton(driver);
         RatingCriteriaPageActions ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
         if(ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(driver)) {
-            return newInsuredName;
+            return newApplicantName;
         }else{
             return null;
         }

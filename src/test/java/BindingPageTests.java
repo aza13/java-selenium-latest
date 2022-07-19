@@ -2,7 +2,6 @@ import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
 import constants.ConstantVariable;
-import helper.FakeDataHelper;
 import org.apache.log4j.Logger;
 import org.sikuli.script.FindFailed;
 import org.testng.Assert;
@@ -11,6 +10,9 @@ import org.testng.annotations.Test;
 import pageActions.*;
 import utils.dataProvider.TestDataProvider;
 import utils.dbConnector.DatabaseConnector;
+import workflows.AnswerUnderwriterQuestions;
+import workflows.CreateApplicant;
+import workflows.FillApplicantDetails;
 
 import java.awt.*;
 import java.sql.SQLException;
@@ -31,7 +33,7 @@ public class BindingPageTests extends BaseTest {
     private BindingPageActions bindingPageActions;
 
 
-    public BindingPageTests() {
+    private BindingPageTests() {
     }
 
     @BeforeClass(alwaysRun = true)
@@ -55,54 +57,16 @@ public class BindingPageTests extends BaseTest {
          ******************************************************************/
 
         logger.info("Executing the testVerifyQuoteBinding from BindingPageTests class :: testVerifyQuoteBinding");
-        dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        String newInsuredName = FakeDataHelper.fullName();
-        String newInsuredWebsite = FakeDataHelper.website();
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName, newInsuredWebsite);
-        InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
-        insuredPageActions.enterEmailAddress(DriverManager.getDriver());
-        insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
-        assert insuredPageActions.verifyValidPhoneNumberFormat(DriverManager.getDriver());
-        insuredPageActions.enterPhysicalAddress(DriverManager.getDriver());
-        insuredPageActions.enterPhyCity(DriverManager.getDriver());
-        insuredPageActions.enterPhyZipcode(DriverManager.getDriver());
-        insuredPageActions.selectPhyState(DriverManager.getDriver());
-        insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
-        insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
+        String newInsuredName = CreateApplicant.createApplicant(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            if (ConstantVariable.PRODUCT.equals("NetGuard® SELECT")) {
-                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass2"));
-                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
-                ratingCriteriaPageActions.enterNetWorth(DriverManager.getDriver(), map.get("netWorth"));
-            }else if(ConstantVariable.PRODUCT.contains("Ophthalmic")){
-                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass3"));
-                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
-                ratingCriteriaPageActions.enterNoOfPhysicians(DriverManager.getDriver(), map.get("physiciansCount"));
-                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
-            }else {
-                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass"));
-                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
-                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
-            }
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
-            boolean uwQuestionsAnswered = underwritingQuestionsPageActions.checkWhetherAllUWQuestionsAreAnswered(DriverManager.getDriver());
-            if (uwQuestionsAnswered) {
-                logger.info("UW continue button is enabled, means UW questions are answered");
-            } else {
-                logger.info("UW continue button is disabled, means UW questions are not answered");
-                underwritingQuestionsPageActions.answerUWQuestionButtons(DriverManager.getDriver(), map.get("uwQuestionsAnswer"));
-                underwritingQuestionsPageActions.answerUWQuestionDropdowns(DriverManager.getDriver(), map.get("uwQuestionsAnswer"), map.get("uwQuestionsOption"));
-            }
-            underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
-            if (!quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
-                quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
-            }
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             String quoteId = quoteListPageActions.getOpenQuoteId(DriverManager.getDriver());
-            //quoteListPageActions.addNewQuoteOption(DriverManager.getDriver(), 0, map.get("claim"), map.get("limit"), map.get("retention"));
             if (quoteListPageActions.clickConfirmAndLock(DriverManager.getDriver())) {
                 if (quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())) {
                     quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());

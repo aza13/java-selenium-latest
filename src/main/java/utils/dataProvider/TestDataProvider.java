@@ -1,6 +1,5 @@
 package utils.dataProvider;
 
-import base.BaseTest;
 import constants.ConstantVariable;
 import utils.fileReader.ConfigDataReader;
 import utils.fileReader.ExcelDataReader;
@@ -12,7 +11,7 @@ import org.testng.annotations.Test;
 import java.lang.reflect.Method;
 import java.util.*;
 
-public class TestDataProvider extends BaseTest {
+public class TestDataProvider {
 
     private static final Logger logger = Logger.getLogger(TestDataProvider.class);
 
@@ -20,16 +19,16 @@ public class TestDataProvider extends BaseTest {
 
     private static String testDataFilePath;
 
+    private TestDataProvider(){}
+
     @DataProvider(name = "ask-me")
     public static Object[][] dataProvider(Method method) {
 
         logger.info("Executing dataProvider method");
 
-        testDataFilePath = ConfigDataReader.configPropInit(ConstantVariable.CONFIG_PROP_FILEPATH).getProperty("testDataFilePath");
+        testDataFilePath = ConfigDataReader.getPropInstance(ConstantVariable.CONFIG_PROP_FILEPATH).getProperty("testDataFilePath");
 
         logger.info("Test Data Path : " + testDataFilePath);
-
-        System.out.println("Test data file path::"+testDataFilePath);
 
         String testCaseName = method.getName();
 
