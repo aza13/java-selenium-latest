@@ -11,6 +11,9 @@ import org.testng.annotations.Test;
 import pageActions.*;
 import utils.dataProvider.TestDataProvider;
 import utils.dbConnector.DatabaseConnector;
+import workflows.AnswerUnderwriterQuestions;
+import workflows.CreateApplicant;
+import workflows.FillApplicantDetails;
 
 import java.util.Map;
 
@@ -46,35 +49,9 @@ public class RatingCriteriaPageTests extends BaseTest {
          **/
 
         logger.info("verifying :: business class rating criteria");
-        dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        String newInsuredName = FakeDataHelper.fullName();
-        String newInsuredWebsite = FakeDataHelper.website();
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName,newInsuredWebsite);
-        InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
-        insuredPageActions.enterEmailAddress(DriverManager.getDriver());
-        insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
-        assert insuredPageActions.verifyValidPhoneNumberFormat(DriverManager.getDriver());
-        insuredPageActions.enterPhysicalAddress(DriverManager.getDriver());
-        insuredPageActions.enterPhyCity(DriverManager.getDriver());
-        insuredPageActions.enterPhyZipcode(DriverManager.getDriver());
-        insuredPageActions.selectPhyState(DriverManager.getDriver());
-        insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
-        insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
+        CreateApplicant.createApplicant(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            if(ConstantVariable.PRODUCT.equals("NetGuard® SELECT")){
-                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass2"));
-                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
-                ratingCriteriaPageActions.enterNetWorth(DriverManager.getDriver(), map.get("netWorth"));
-            }else if(ConstantVariable.PRODUCT.contains("Ophthalmic")){
-                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass3"));
-                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
-                ratingCriteriaPageActions.enterNoOfPhysicians(DriverManager.getDriver(), map.get("physiciansCount"));
-                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
-            }else{
-                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass"));
-                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
-                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
-            }
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         underwritingQuestionsPageActions.clickExitQuestion(DriverManager.getDriver());
@@ -90,36 +67,14 @@ public class RatingCriteriaPageTests extends BaseTest {
          **/
 
         logger.info("verifying :: test hard decline after rating criteria");
-        dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        String newInsuredName = FakeDataHelper.fullName();
-        String newInsuredWebsite = FakeDataHelper.website();
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName, newInsuredWebsite);
-        InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
-        insuredPageActions.enterEmailAddress(DriverManager.getDriver());
-        insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
-        assert insuredPageActions.verifyValidPhoneNumberFormat(DriverManager.getDriver());
-        insuredPageActions.enterPhysicalAddress(DriverManager.getDriver());
-        insuredPageActions.enterPhyCity(DriverManager.getDriver());
-        insuredPageActions.enterPhyZipcode(DriverManager.getDriver());
-        insuredPageActions.selectPhyState(DriverManager.getDriver());
-        insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
-        insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
+        CreateApplicant.createApplicant(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            if(ConstantVariable.PRODUCT.equals("NetGuard® SELECT")){
-                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass2"));
-                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
-                ratingCriteriaPageActions.enterNetWorth(DriverManager.getDriver(), map.get("netWorth"));
-            } else{
-
-                ratingCriteriaPageActions.enterRatingCriteriaNoPhysiciansRevenueAndRecords(DriverManager.getDriver(), map.get("noPhysicians"), map.get("revenue"), map.get("records"));
-            }
-
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         ratingCriteriaPageActions.verifyAndClickHardDeclinePopup(DriverManager.getDriver());
         String actualFirstStatus = dashboardPageActions.firstAvailableStatus(DriverManager.getDriver());
         assert actualFirstStatus.equals("Declined");
-
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "RatingCriteriaPageData")
@@ -131,27 +86,9 @@ public class RatingCriteriaPageTests extends BaseTest {
          **/
 
         logger.info("verifying :: proposed policy period");
-        dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        String newInsuredName = FakeDataHelper.fullName();
-        String newInsuredWebsite = FakeDataHelper.website();
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName,newInsuredWebsite);
-        InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
-
-        if (!insuredPageActions.isCreateNewInsuredTextDisplayed(DriverManager.getDriver())){
-            insuredPageActions.clickNewInsuredButton(DriverManager.getDriver());
-        }
-
-        insuredPageActions.enterEmailAddress(DriverManager.getDriver());
-        insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
-        insuredPageActions.enterPhysicalAddress(DriverManager.getDriver());
-        insuredPageActions.enterPhyCity(DriverManager.getDriver());
-        insuredPageActions.enterPhyZipcode(DriverManager.getDriver());
-        insuredPageActions.selectPhyState(DriverManager.getDriver());
-        insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
-        insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
+        CreateApplicant.createApplicant(DriverManager.getDriver());
         RatingCriteriaPageActions ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
         assert ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver());
-
         ratingCriteriaPageActions.clickRatingCriteriaEffectiveDateCalenderButton(DriverManager.getDriver());
         boolean val = ratingCriteriaPageActions.viewRatingCriteriaExpirationDateField(DriverManager.getDriver());
         Assert.assertTrue(val);
@@ -168,47 +105,13 @@ public class RatingCriteriaPageTests extends BaseTest {
          **/
 
         logger.info("verifying :: Brokers can return to Previous pages i.e. Rating Criteria and UW View");
-        dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        String newInsuredName = FakeDataHelper.fullName();
-        String newInsuredWebsite = FakeDataHelper.website();
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName, newInsuredWebsite);
-        InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
-        insuredPageActions.enterEmailAddress(DriverManager.getDriver());
-        insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
-        assert insuredPageActions.verifyValidPhoneNumberFormat(DriverManager.getDriver());
-        insuredPageActions.enterPhysicalAddress(DriverManager.getDriver());
-        insuredPageActions.enterPhyCity(DriverManager.getDriver());
-        insuredPageActions.enterPhyZipcode(DriverManager.getDriver());
-        insuredPageActions.selectPhyState(DriverManager.getDriver());
-        insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
-        insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
+        CreateApplicant.createApplicant(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            if(ConstantVariable.PRODUCT.equals("NetGuard® SELECT")){
-                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass2"));
-                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
-                ratingCriteriaPageActions.enterNetWorth(DriverManager.getDriver(), map.get("netWorth"));
-            }else if(ConstantVariable.PRODUCT.contains("Ophthalmic")){
-                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass3"));
-                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
-                ratingCriteriaPageActions.enterNoOfPhysicians(DriverManager.getDriver(), map.get("physiciansCount"));
-                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
-            }else{
-                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass"));
-                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
-                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
-            }
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
-            boolean uwQuestionsAnswered = underwritingQuestionsPageActions.checkWhetherAllUWQuestionsAreAnswered(DriverManager.getDriver());
-            if (uwQuestionsAnswered) {
-                logger.info("continue button is enabled, means UW questions are answered");
-            }else {
-                logger.info("continue button is disabled, means UW questions are not answered");
-                underwritingQuestionsPageActions.answerUWQuestionButtons(DriverManager.getDriver(), map.get("uwQuestionsAnswer"));
-                underwritingQuestionsPageActions.answerUWQuestionDropdowns(DriverManager.getDriver(), map.get("uwQuestionsAnswer"), map.get("uwQuestionsOption"));
-            }
-            underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
         }
         if(!quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())){
             quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
@@ -219,7 +122,6 @@ public class RatingCriteriaPageTests extends BaseTest {
 
         if(ratingCriteriaPageActions.checkEffectiveDateIsVisible(DriverManager.getDriver())){
             boolean isEditButtonVisible = ratingCriteriaPageActions.checkEditButtonIsVisible(DriverManager.getDriver());
-
             if(isEditButtonVisible) {
                 ratingCriteriaPageActions.clickEditButtonIsVisible(DriverManager.getDriver());
                 ratingCriteriaPageActions.checkEditConfirmMsgCancelIsVisible(DriverManager.getDriver());

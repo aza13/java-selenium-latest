@@ -34,44 +34,14 @@ public class SubmissionClearancesTests extends BaseTest {
         dashboardPageActions = PageObjectManager.getDashboardPageActions();
     }
 
-    public void createInsured() throws InterruptedException {
-        /***
-         this method creates a new  insured and writes it to text file
-         story - N2020-28293
-         **/
-        logger.info("verifying creating new quote creation :: testCreateInsured");
-        dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        String newInsuredName = FakeDataHelper.fullName();
-        String newInsuredWebsite = FakeDataHelper.website();
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName,newInsuredWebsite);
-        TextFileReader.writeDataToTextFile(ConstantVariable.INSURED_DATA_FILEPATH, newInsuredName+";"+newInsuredWebsite);
-        InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
-        if (!insuredPageActions.isCreateNewInsuredTextDisplayed(DriverManager.getDriver())){
-            insuredPageActions.clickNewInsuredButton(DriverManager.getDriver());
-        }
-        insuredPageActions.enterEmailAddress(DriverManager.getDriver());
-        insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
-        insuredPageActions.enterPhysicalAddress(DriverManager.getDriver());
-        insuredPageActions.enterPhyCity(DriverManager.getDriver());
-        insuredPageActions.enterPhyZipcode(DriverManager.getDriver());
-        insuredPageActions.selectPhyState(DriverManager.getDriver());
-        insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
-        insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
-        ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
-        assert ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver());
-        ratingCriteriaPageActions.ratingCriteriaExitButton(DriverManager.getDriver()).click();
-    }
-
-
-
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "InsuredPageData")
     public void testClearancesSubmissionFunctionality(Map<String, String> map) throws InterruptedException {
         /***
          this test verifies whether user can proceed for submission creation based on clearances results
          story - N2020-28325, 28326
          @author - Venkat Kottapalli
-
          **/
+
         logger.info("verifying submission clearance results :: testClearancesSubmissionFunctionality");
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT,  map.get("name"),  map.get("website"));

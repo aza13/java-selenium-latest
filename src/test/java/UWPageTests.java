@@ -9,6 +9,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageActions.*;
 import utils.dataProvider.TestDataProvider;
+import workflows.AnswerUnderwriterQuestions;
+import workflows.CreateApplicant;
+import workflows.FillApplicantDetails;
 
 import java.sql.SQLException;
 import java.util.Map;
@@ -40,42 +43,13 @@ public class UWPageTests extends BaseTest {
          **/
 
         logger.info("verifying :: Under Writing Questions");
-        dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        String newInsuredName = FakeDataHelper.fullName();
-        String newInsuredWebsite = FakeDataHelper.website();
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName, newInsuredWebsite);
-        InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
-        insuredPageActions.enterEmailAddress(DriverManager.getDriver());
-        insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
-        assert insuredPageActions.verifyValidPhoneNumberFormat(DriverManager.getDriver());
-        insuredPageActions.enterPhysicalAddress(DriverManager.getDriver());
-        insuredPageActions.enterPhyCity(DriverManager.getDriver());
-        insuredPageActions.enterPhyZipcode(DriverManager.getDriver());
-        insuredPageActions.selectPhyState(DriverManager.getDriver());
-        insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
-        insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
+        CreateApplicant.createApplicant(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            if (map.get("product").equals("NetGuard® SELECT")) {
-                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass2"));
-                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
-                ratingCriteriaPageActions.enterNetWorth(DriverManager.getDriver(), map.get("netWorth"));
-            } else {
-                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass"));
-                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
-                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
-            }
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
-            boolean uwQuestionsAnswered = underwritingQuestionsPageActions.checkWhetherAllUWQuestionsAreAnswered(DriverManager.getDriver());
-            if (uwQuestionsAnswered) {
-                logger.info("continue button is enabled, means UW questions are answered");
-            } else {
-                logger.info("continue button is disabled, means UW questions are not answered");
-                underwritingQuestionsPageActions.answerUWQuestionButtons(DriverManager.getDriver(), map.get("uwQuestionsAnswer"));
-                underwritingQuestionsPageActions.answerUWQuestionDropdowns(DriverManager.getDriver(), map.get("uwQuestionsAnswer"), map.get("uwQuestionsOption"));
-            }
-            underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
             assert true;
         }
     }
@@ -88,42 +62,13 @@ public class UWPageTests extends BaseTest {
          @author - Azamat Uulu
          **/
         logger.info("verifying :: Quotes Can Be Invalidated When Rating/UW are Edited");
-        dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        String newInsuredName = FakeDataHelper.fullName();
-        String newInsuredWebsite = FakeDataHelper.website();
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName, newInsuredWebsite);
-        InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
-        insuredPageActions.enterEmailAddress(DriverManager.getDriver());
-        insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
-        assert insuredPageActions.verifyValidPhoneNumberFormat(DriverManager.getDriver());
-        insuredPageActions.enterPhysicalAddress(DriverManager.getDriver());
-        insuredPageActions.enterPhyCity(DriverManager.getDriver());
-        insuredPageActions.enterPhyZipcode(DriverManager.getDriver());
-        insuredPageActions.selectPhyState(DriverManager.getDriver());
-        insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
-        insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
+        CreateApplicant.createApplicant(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            if (map.get("product").equals("NetGuard® SELECT")) {
-                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass2"));
-                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
-                ratingCriteriaPageActions.enterNetWorth(DriverManager.getDriver(), map.get("netWorth"));
-            } else {
-                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass"));
-                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
-                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(DriverManager.getDriver(), map.get("revenue"), map.get("records"));
-            }
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
-            boolean uwQuestionsAnswered = underwritingQuestionsPageActions.checkWhetherAllUWQuestionsAreAnswered(DriverManager.getDriver());
-            if (uwQuestionsAnswered) {
-                logger.info("continue button is enabled, means UW questions are answered");
-            } else {
-                logger.info("continue button is disabled, means UW questions are not answered");
-                underwritingQuestionsPageActions.answerUWQuestionButtons(DriverManager.getDriver(), map.get("uwQuestionsAnswer"));
-                underwritingQuestionsPageActions.answerUWQuestionDropdowns(DriverManager.getDriver(), map.get("uwQuestionsAnswer"), map.get("uwQuestionsOption"));
-            }
-            underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             quoteListPageActions.verifyStatusConfirmAndLockInProgress(DriverManager.getDriver());
@@ -139,7 +84,7 @@ public class UWPageTests extends BaseTest {
             underwritingQuestionsPageActions.clickUnderwritingQuestionsPageTab(DriverManager.getDriver());
             boolean isEditButtonVisible1 = underwritingQuestionsPageActions.checkEditButtonIsVisible(DriverManager.getDriver());
 
-            if (!isEditButtonVisible1) {
+            if(!isEditButtonVisible1) {
                 underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
             } else {
                 underwritingQuestionsPageActions.clickEditButtonIsVisible(DriverManager.getDriver());

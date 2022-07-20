@@ -71,7 +71,6 @@ public class DashboardPageTests extends BaseTest {
         LoginPageActions loginPageActions = dashboardPageActions.logoutApp(DriverManager.getDriver());
         String text = loginPageActions.getWelcomeText(DriverManager.getDriver());
         assert text.contentEquals(map.get("welcomeText"));
-
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
@@ -133,8 +132,6 @@ public class DashboardPageTests extends BaseTest {
         assert website.equals(ConstantVariable.EMPTY_STRING);
         dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, map.get("applicantName"), map.get("website"));
         dashboardPageActions.clickContinueButton(DriverManager.getDriver());
-        // waiting for clarification
-       // assert dashboardPageActions.websiteRequiredElement(DriverManager.getDriver()).isDisplayed();
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
