@@ -22,7 +22,7 @@ public class CreateApplicant {
         dashboardPageActions.clickNewQuote(driver);
         String newApplicantName = FakeDataHelper.fullName();
         String newApplicantWebsite = FakeDataHelper.website();
-        dashboardPageActions.CreateNewQuote(driver, ConstantVariable.PRODUCT, newApplicantName,newApplicantWebsite);
+        dashboardPageActions.createNewQuote(driver, ConstantVariable.PRODUCT, newApplicantName,newApplicantWebsite);
         TextFileReader.writeDataToTextFile(ConstantVariable.INSURED_DATA_FILEPATH, newApplicantName+";"+newApplicantWebsite);
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(driver);
         if (!insuredPageActions.isCreateNewInsuredTextDisplayed(driver)){
