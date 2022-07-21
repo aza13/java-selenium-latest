@@ -54,7 +54,7 @@ public class DashboardPageActions extends BaseTest {
     public void enterTextToSearchBox(WebDriver driver, String textInput) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, searchInputFiled);
         TextHelper.enterText(driver, searchInputFiled, textInput);
-        WaitHelper.pause(3000);
+        WaitHelper.pause(5000);
     }
 
     public void clickClearSearchButton(WebDriver driver) {
@@ -474,6 +474,7 @@ public class DashboardPageActions extends BaseTest {
             expectedStatus.add("Approved");
             expectedStatus.add("Cancelled");
             expectedStatus.add("Declined");
+            expectedStatus.add("Order Placed");
             for (String status : actualStatus) {
                 if (expectedStatus.contains(status)) {
                 } else {
@@ -632,8 +633,9 @@ public class DashboardPageActions extends BaseTest {
         return new ArrayList<>(dateFormatMap.values());
     }
 
-    public void clickSendRequestButton(WebDriver driver){
+    public void clickSendRequestButton(WebDriver driver) throws InterruptedException {
         ClickHelper.clickElement(driver, supportRequestSendButton);
+        WaitHelper.pause(4000);
     }
 
     public boolean supportTypeRequiredWarning(WebDriver driver){
@@ -654,12 +656,12 @@ public class DashboardPageActions extends BaseTest {
     }
 
     public boolean isSupportTicketCreatedSuccessfully(WebDriver driver){
-        WaitHelper.waitForElementVisibility(driver, supportTicketSuccessMessage);
+//        WaitHelper.waitForElementVisibility(driver, supportTicketSuccessMessage);
         return ClickHelper.isElementExist(driver, supportTicketSuccessMessage);
     }
 
     public void closeSuccessMessage(WebDriver driver){
-        WaitHelper.waitForElementVisibility(driver, closeSuccessMessageButton);
+//        WaitHelper.waitForElementVisibility(driver, closeSuccessMessageButton);
         ClickHelper.clickElement(driver, closeSuccessMessageButton);
     }
 

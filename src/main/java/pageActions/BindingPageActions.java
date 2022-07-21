@@ -67,36 +67,37 @@ public class BindingPageActions extends BaseTest {
         WaitHelper.pause(3000);
     }
 
-    public void uploadFileUsingSikuli(WebDriver driver, String imageToEnter, String filePath, String imageToSubmitted ) throws InterruptedException, FindFailed {
-        clickAndDragLink(driver);
-        String rootPath = System.getProperty("user.dir");
-        SikuliHelper.uploadFile(rootPath+imageToEnter, rootPath+filePath, rootPath+imageToSubmitted);
-    }
-
     public void uploadFile(WebDriver driver, String relativeFilePath) throws InterruptedException, AWTException {
         ClickHelper.clickElement(driver, clickAndDragLink);
         WaitHelper.pause(3000);
-        // creating object of Robot class
+
+        logger.info("creating object of Robot class");
         Robot rb = new Robot();
 
         String filePath = System.getProperty("user.dir")+relativeFilePath;
 
-        // copying File path to Clipboard
+        logger.info("copying File path to Clipboard");
         StringSelection str = new StringSelection(filePath);
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(str, null);
 
-        // press Contol+V for pasting
+        logger.info("press Contol+V for pasting");
         rb.keyPress(KeyEvent.VK_CONTROL);
         rb.keyPress(KeyEvent.VK_V);
 
-        // release Contol+V for pasting
+        logger.info("release Contol+V for pasting");
         rb.keyRelease(KeyEvent.VK_CONTROL);
         rb.keyRelease(KeyEvent.VK_V);
 
-        // for pressing and releasing Enter
+        logger.info("for pressing and releasing Enter");
         rb.keyPress(KeyEvent.VK_ENTER);
         rb.keyRelease(KeyEvent.VK_ENTER);
         WaitHelper.pause(3000);
+    }
+
+    public void uploadFileUsingSikuli(WebDriver driver, String imageToEnter, String filePath, String imageToSubmitted ) throws InterruptedException, FindFailed {
+        clickAndDragLink(driver);
+        String rootPath = System.getProperty("user.dir");
+        SikuliHelper.uploadFile(rootPath+imageToEnter, rootPath+filePath, rootPath+imageToSubmitted);
     }
 
     public boolean isFileTypeWarningDisplayed(WebDriver driver) throws InterruptedException {

@@ -30,7 +30,7 @@ public class DriverManager {
 
         WebDriver driver = DriverManager.threadDriver.get();
 
-        String browser = ConfigDataReader.configPropInit(ConstantVariable.CONFIG_PROP_FILEPATH).getProperty("browserType");
+        String browser = ConfigDataReader.getPropInstance(ConstantVariable.CONFIG_PROP_FILEPATH).getProperty("browserType");
 
         if (driver == null) {
             String operatingSystem = System.getProperty("os.name");

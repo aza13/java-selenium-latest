@@ -1,7 +1,6 @@
 package utils.fileReader;
 
 
-import constants.ConstantVariable;
 import org.apache.log4j.Logger;
 
 import java.io.*;
@@ -19,9 +18,9 @@ public class ConfigDataReader {
     }
 
 
-    public static Properties configPropInit(String filePath) {
+    public static Properties getPropInstance(String filePath) {
 
-        logger.info("Loading the properties file in :: configPropInit ");
+        logger.info("Loading the properties file in :: getPropInstance ");
 
         File file = new File(filePath);
 

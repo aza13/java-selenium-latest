@@ -24,10 +24,10 @@ public class DatabaseConnector {
 
 
     public DatabaseConnector(){
-        databaseUrl = ConfigDataReader.configPropInit(ConstantVariable.CONFIG_PROP_FILEPATH).getProperty("dbUrl");
-        databaseDriverName = ConfigDataReader.configPropInit(ConstantVariable.CONFIG_PROP_FILEPATH).getProperty("dbDriverName");
-        userName = ConfigDataReader.configPropInit(ConstantVariable.CONFIG_PROP_FILEPATH).getProperty("dbUserName");
-        password = ConfigDataReader.configPropInit(ConstantVariable.CONFIG_PROP_FILEPATH).getProperty("dbPassword");
+        databaseUrl = ConfigDataReader.getPropInstance(ConstantVariable.CONFIG_PROP_FILEPATH).getProperty("dbUrl");
+        databaseDriverName = ConfigDataReader.getPropInstance(ConstantVariable.CONFIG_PROP_FILEPATH).getProperty("dbDriverName");
+        userName = ConfigDataReader.getPropInstance(ConstantVariable.CONFIG_PROP_FILEPATH).getProperty("dbUserName");
+        password = ConfigDataReader.getPropInstance(ConstantVariable.CONFIG_PROP_FILEPATH).getProperty("dbPassword");
     }
 
     public Connection getConnection() {
