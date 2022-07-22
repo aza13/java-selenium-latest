@@ -60,7 +60,7 @@ public class DashboardPageObjects {
 
     public static final By quoteStatus = By.xpath("//div[@data-qa='quote_card']//p[@data-qa='status']");
 
-    public static final By quoteProductName = By.xpath("//p[@data-qa='name']");
+    public static final By quoteCoverageName = By.xpath("//p[@data-qa='name']");
 
     public static final By newQuoteButton = By.xpath("//button[text()='New Quote']/span");
 
@@ -74,7 +74,7 @@ public class DashboardPageObjects {
 
     public static final By continueButton = By.xpath("//button[text()='CONTINUE']/span");
 
-    public static final By genericProductOption = By.xpath("//li[@role='option']");
+    public static final By genericCoverageOption = By.xpath("//li[@role='option']");
 
     public static final By coverageRequiredText = By.xpath("//p[text()='Product is required']");
 

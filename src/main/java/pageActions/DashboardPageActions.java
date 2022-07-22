@@ -163,11 +163,11 @@ public class DashboardPageActions extends BaseTest {
         return element.getText();
     }
 
-    public List<String> getAllQuotesProductName(WebDriver driver) {
+    public List<String> getAllQuotesCoverageName(WebDriver driver) {
 
         List<String> names = new ArrayList<>();
 
-        List<WebElement> quoteNameElements = driver.findElements(quoteProductName);
+        List<WebElement> quoteNameElements = driver.findElements(quoteCoverageName);
 
         for (WebElement element : quoteNameElements) {
             names.add(element.getText());
@@ -195,7 +195,7 @@ public class DashboardPageActions extends BaseTest {
 
     public void createNewQuote(WebDriver driver, String product, String applicantName, String website) throws InterruptedException {
         WebElement element = driver.findElement(selectCoverageDropdown);
-        DropdownHelper.selectValueFromBootstrapDropdown(driver, element, genericProductOption, product);
+        DropdownHelper.selectValueFromBootstrapDropdown(driver, element, genericCoverageOption, product);
         TextHelper.enterText(driver, applicantNameField, applicantName);
         if(website.contentEquals("No website")){
             website = "";
@@ -532,14 +532,12 @@ public class DashboardPageActions extends BaseTest {
 
     public void enterCreateStartDate(WebDriver driver){
         WaitHelper.waitForElementVisibility(driver, createdStartDateField);
-        TextHelper.enterText(driver, createdStartDateField, "01/04/2022");
+        TextHelper.enterText(driver, createdStartDateField, "01/07/2022");
     }
 
     public void enterCreateEndDate(WebDriver driver){
-        TextHelper.enterText(driver, createdEndDateField, "04/04/2022");
+        TextHelper.enterText(driver, createdEndDateField, "04/07/2022");
     }
-
-
 
     public List<String> getQuoteCreatedDates(WebDriver driver){
         List<String> dates = new ArrayList<>();
@@ -623,7 +621,7 @@ public class DashboardPageActions extends BaseTest {
 
     public void selectSupportType(WebDriver driver, String supportType) throws InterruptedException {
         WebElement dropdown = driver.findElement(selectCoverageDropdown);
-        DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, genericProductOption, supportType);
+        DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, genericCoverageOption, supportType);
     }
 
     public void enterRequestDetails(WebDriver driver, String details){

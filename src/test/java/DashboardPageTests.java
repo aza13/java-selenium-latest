@@ -180,7 +180,7 @@ public class DashboardPageTests extends BaseTest {
             dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
             dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), coverage);
             dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
-            List<String> coverageNames = dashboardPageActions.getAllQuotesProductName(DriverManager.getDriver());
+            List<String> coverageNames = dashboardPageActions.getAllQuotesCoverageName(DriverManager.getDriver());
             if (coverageNames.size() > 0) {
                 for (String prod : coverageNames) {
                     assert prod.contentEquals(coverage);
@@ -207,7 +207,6 @@ public class DashboardPageTests extends BaseTest {
                     }else{
                         assert s.contentEquals(status);
                     }
-
                 }
             }
         }

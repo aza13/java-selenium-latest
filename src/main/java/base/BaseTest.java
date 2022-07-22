@@ -41,19 +41,15 @@ public class BaseTest {
 
         logger.info("Executing the @BeforeSuite - configSetUpMethod() in BaseTest ");
 
-        Properties prop = ConfigDataReader.getPropInstance(ConstantVariable.CONFIG_PROP_FILEPATH);
-
-        logger.info("Config Properties Initialised");
-
         logger.info("Selected browserType is: " + browserSelected);
 
-        appUrl = prop.getProperty("appUrl");
+        appUrl = ConfigDataReader.getInstance().getProperty("appUrl");
 
         logger.info("Given application URL is: " + appUrl);
 
-        userId = prop.getProperty("userId");
+        userId = ConfigDataReader.getInstance().getProperty("userId");
 
-        password = prop.getProperty("password");
+        password = ConfigDataReader.getInstance().getProperty("password");
 
         logger.info("Initialising extent report");
 
