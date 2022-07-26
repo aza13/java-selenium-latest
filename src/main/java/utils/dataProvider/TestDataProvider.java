@@ -26,7 +26,7 @@ public class TestDataProvider {
 
         logger.info("Executing dataProvider method");
 
-        testDataFilePath = ConfigDataReader.getPropInstance(ConstantVariable.CONFIG_PROP_FILEPATH).getProperty("testDataFilePath");
+        testDataFilePath = ConfigDataReader.getInstance().getProperty("testDataFilePath");
 
         logger.info("Test Data Path : " + testDataFilePath);
 

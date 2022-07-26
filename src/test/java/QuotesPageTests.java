@@ -54,8 +54,8 @@ public class  QuotesPageTests extends BaseTest {
 
         logger.info("Executing the testAddQuoteOption from QuoteOptionTests class :: testAddAndDeleteQuoteOption");
         dashboardPageActions.clickFilterList(DriverManager.getDriver());
-        dashboardPageActions.clickFilterByProductName(DriverManager.getDriver());
-        dashboardPageActions.selectProductInFilter(DriverManager.getDriver(), ConstantVariable.PRODUCT);
+        dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
+        dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), ConstantVariable.PRODUCT);
         dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
         dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), map.get("status"));
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
@@ -164,8 +164,8 @@ public class  QuotesPageTests extends BaseTest {
 
         logger.info("Executing the testDeleteQuoteOption from QuoteOptionTests class :: testAddQuote");
         dashboardPageActions.clickFilterList(DriverManager.getDriver());
-        dashboardPageActions.clickFilterByProductName(DriverManager.getDriver());
-        dashboardPageActions.selectProductInFilter(DriverManager.getDriver(), ConstantVariable.PRODUCT);
+        dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
+        dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), ConstantVariable.PRODUCT);
         dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
         dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), map.get("status"));
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
@@ -471,8 +471,8 @@ public class  QuotesPageTests extends BaseTest {
 
         logger.info("Executing the testAddQuoteOption from QuoteOptionTests class :: testUpdatedOptionMaxAggLimitAndPremium");
         dashboardPageActions.clickFilterList(DriverManager.getDriver());
-        dashboardPageActions.clickFilterByProductName(DriverManager.getDriver());
-        dashboardPageActions.selectProductInFilter(DriverManager.getDriver(), ConstantVariable.PRODUCT);
+        dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
+        dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), ConstantVariable.PRODUCT);
         dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
         dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), map.get("status"));
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
