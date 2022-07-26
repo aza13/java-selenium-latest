@@ -409,6 +409,7 @@ public class  QuotesPageTests extends BaseTest {
         }
     }
 
+
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
     public void testQuoteOptionCoverageGroupValidation(Map<String, String> map) throws InterruptedException {
         /***
@@ -496,6 +497,50 @@ public class  QuotesPageTests extends BaseTest {
 
         }
     }
+
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
+    public void testNotDisplayPremiumIfReviewRequired(Map<String, String> map) throws InterruptedException {
+        /***
+         this test verifies if premium should not displayed if review required
+         story - N2020-33454 and QAT-335
+         @author - Azamat Uulu
+         **/
+        logger.info("verifies if premium should not displayed if review required :: testNotDisplayPremiumIfReviewRequired");
+        CreateApplicant.createApplicant(DriverManager.getDriver());
+        if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
+            ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
+        }
+        if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
+            if (!quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
+                if (quoteListPageActions.checkIfQuotesTabIsDisabled(DriverManager.getDriver())) {
+                    quoteListPageActions.selectQuoteTemplateOption(DriverManager.getDriver(), 0);
+                } else {
+                    quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
+                }
+            }
+        }
+
+        if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
+            assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
+            quoteListPageActions.selectPerClaim(DriverManager.getDriver(), map.get("optionCount"), map.get("claim1"));
+            quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), Integer.parseInt(map.get("optionCount")), map.get("limit1"));
+            String premiumBefore = quoteListPageActions.getFirstOptionPremium(DriverManager.getDriver());
+            quoteListPageActions.selectPerClaim(DriverManager.getDriver(), map.get("optionCount"), map.get("claim2"));
+            quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), Integer.parseInt(map.get("optionCount")), map.get("limit2"));
+            String premiumAfter = "";
+            assert !Objects.equals(premiumAfter, premiumBefore);
+            boolean isTextVisible = quoteListPageActions.verifyOutsideBrokerPortalGuidelinesVisible(DriverManager.getDriver());
+            Assert.assertTrue(isTextVisible);
+
+
+
+        }
+    }
+
+
+
 
     @AfterClass(alwaysRun = true)
     public void tearDown() {
