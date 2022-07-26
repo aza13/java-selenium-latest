@@ -1,6 +1,7 @@
 package utils.fileReader;
 
 
+import constants.ConstantVariable;
 import org.apache.log4j.Logger;
 
 import java.io.*;
@@ -9,43 +10,41 @@ import java.util.Properties;
 public class ConfigDataReader {
 
     private static final Logger logger = Logger.getLogger(ConfigDataReader.class);
+    private static FileInputStream inputStream;
+    private static ConfigDataReader configDataReader;
+    private static final Properties prop = new Properties();
 
-    private static Properties prop;
-
-
-    private ConfigDataReader(){
-
+    private ConfigDataReader() throws IOException {
+        logger.info("Loading the properties file in :: getPropInstance ");
+        String filePath = ConstantVariable.CONFIG_PROP_FILEPATH;
+        try{
+            File file = new File(filePath);
+            inputStream = new FileInputStream(file);
+            prop.load(inputStream);
+        } catch (Exception e) {
+            logger.error("failed to load the config properties file");
+        }finally {
+            inputStream.close();
+        }
     }
 
-
-    public static Properties getPropInstance(String filePath) {
-
-        logger.info("Loading the properties file in :: getPropInstance ");
-
-        File file = new File(filePath);
-
-        if(prop == null){
-
-            prop = new Properties();
-
-            try (FileInputStream fis = new FileInputStream(file)) {
-
-                prop.load(fis);
-
-            } catch (IOException e) {
-
-                logger.error("Failed to load the properties file in :: ConfigPropInit ");
+    public static ConfigDataReader getInstance(){
+        if(configDataReader == null){
+            synchronized (ConfigDataReader.class){
+                try{
+                    configDataReader = new ConfigDataReader();
+                }catch (IOException e) {
+                    e.printStackTrace();
+                    logger.error("Failed to get the object of the config file reader "+e.getMessage());
+                }
             }
         }
-
-        return prop;
+        return configDataReader;
     }
 
-    public static void writeValuesPropFile(String filePath) throws FileNotFoundException {
-
-        File file = new File(filePath);
-        FileOutputStream fileOut = new FileOutputStream(filePath);
-
-
+    public String getProperty(String key){
+        return prop.getProperty(key);
     }
+
+
 }

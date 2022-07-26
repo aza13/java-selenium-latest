@@ -74,7 +74,7 @@ public class DashboardPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
-    public void testPoliciesDashboardUI(Map<String, String> map) throws InterruptedException {
+    public void testPoliciesDashboardUI(Map<String, String> map) {
         /**
          * this test verifies UI of My Policies dashboard
          story - N2020-28286
@@ -119,18 +119,18 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         logger.info("validating whether mandatory field text displayed or not");
-        assert dashboardPageActions.productRequiredElement(DriverManager.getDriver()).isDisplayed();
+        assert dashboardPageActions.getCoverageRequiredElement(DriverManager.getDriver()).isDisplayed();
         assert dashboardPageActions.nameRequiredElement(DriverManager.getDriver()).isDisplayed();
         dashboardPageActions.clickCancelButton(DriverManager.getDriver());
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         logger.info("validating whether the data entered is erased or not");
-        String product = dashboardPageActions.productDropdown(DriverManager.getDriver()).getText();
-        assert product.equals(map.get("productDefaultText"));
+        String coverage = dashboardPageActions.getCoverageDropdown(DriverManager.getDriver()).getText();
+        assert coverage.equals(map.get("productDefaultText"));
         String name = dashboardPageActions.getApplicantName(DriverManager.getDriver());
         assert name.equals(ConstantVariable.EMPTY_STRING);
         String website = dashboardPageActions.getWebsite(DriverManager.getDriver());
         assert website.equals(ConstantVariable.EMPTY_STRING);
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, map.get("applicantName"), map.get("website"));
+        dashboardPageActions.createNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, map.get("applicantName"), map.get("website"));
         dashboardPageActions.clickContinueButton(DriverManager.getDriver());
     }
 
@@ -143,7 +143,7 @@ public class DashboardPageTests extends BaseTest {
          **/
         logger.info("verifying creating new quote creation :: testCreateNewQuote");
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, map.get("applicantName"), map.get("website"));
+        dashboardPageActions.createNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, map.get("applicantName"), map.get("website"));
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         assert insuredPageActions.newInsuredButton(DriverManager.getDriver()).isDisplayed();
         assert insuredPageActions.searchAgainButton(DriverManager.getDriver()).isDisplayed();
@@ -158,7 +158,7 @@ public class DashboardPageTests extends BaseTest {
             dashboardPageActions.clickNewQuote(DriverManager.getDriver());
             String newInsuredName = FakeDataHelper.fullName();
             String newInsuredWebsite = FakeDataHelper.website();
-            dashboardPageActions.CreateNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName, newInsuredWebsite);
+            dashboardPageActions.createNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName, newInsuredWebsite);
             dashboardPageActions.clickContinueButton(DriverManager.getDriver());
             boolean value = insuredPageActions.isCreateNewInsuredTextDisplayed(DriverManager.getDriver());
             assert value;
@@ -174,22 +174,22 @@ public class DashboardPageTests extends BaseTest {
          @author - Venkat Kottapalli
          **/
         logger.info("verifying broker filtering the submission list :: testBrokerFilteringSubmissionsList");
-        String[] products = map.get("productName").split(ConstantVariable.SEMICOLON);
-        for (String product : products) {
+        String[] coverages = map.get("productName").split(ConstantVariable.SEMICOLON);
+        for (String coverage : coverages) {
             dashboardPageActions.clickFilterList(DriverManager.getDriver());
-            dashboardPageActions.clickFilterByProductName(DriverManager.getDriver());
-            dashboardPageActions.selectProductInFilter(DriverManager.getDriver(), product);
+            dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
+            dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), coverage);
             dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
-            List<String> productNames = dashboardPageActions.getAllQuotesProductName(DriverManager.getDriver());
-            if (productNames.size() > 0) {
-                for (String prod : productNames) {
-                    assert prod.contentEquals(product);
+            List<String> coverageNames = dashboardPageActions.getAllQuotesCoverageName(DriverManager.getDriver());
+            if (coverageNames.size() > 0) {
+                for (String prod : coverageNames) {
+                    assert prod.contentEquals(coverage);
                 }
             }
         }
         dashboardPageActions.clickFilterList(DriverManager.getDriver());
-        dashboardPageActions.clickFilterByProductName(DriverManager.getDriver());
-        dashboardPageActions.selectProductInFilter(DriverManager.getDriver(), map.get("productName"));
+        dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
+        dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), map.get("productName"));
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
         String[] statuses = map.get("status").split(ConstantVariable.SEMICOLON);
         for (String status : statuses) {
@@ -201,13 +201,12 @@ public class DashboardPageTests extends BaseTest {
             if (stat.size() > 0) {
                 for (String s : stat) {
                     if(status.contentEquals("Active")){
-                        if(s.contentEquals(status)||s.contentEquals("Order Placed")||s.contentEquals("In Review")){
+                        if(s.contentEquals(status)||s.contentEquals(ConstantVariable.ORDER_PLACED_STRING)||s.contentEquals(ConstantVariable.IN_REVIEW_STRING)){
                             assert true;
                         }
                     }else{
                         assert s.contentEquals(status);
                     }
-
                 }
             }
         }
@@ -289,7 +288,6 @@ public class DashboardPageTests extends BaseTest {
                 }
             }
         }
-
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
@@ -447,11 +445,11 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.clickSortBy(DriverManager.getDriver());
         dashboardPageActions.clickSortByExpiringSoon(DriverManager.getDriver());
         List<String> datesSortedByExpiringSoon = dashboardPageActions.getPolicyExpirationDates(DriverManager.getDriver());
-        List<String> sortedDatesByExpiringSoonAsc = dashboardPageActions.sortDates((ArrayList<String>) datesSortedByExpiringSoon);
+        List<String> sortedDatesByExpiringSoonAsc = dashboardPageActions.sortDates(datesSortedByExpiringSoon);
         dashboardPageActions.clickSortBy(DriverManager.getDriver());
         dashboardPageActions.clickSortByExpiringLater(DriverManager.getDriver());
         List<String> datesSortedByExpiringLater = dashboardPageActions.getPolicyExpirationDates(DriverManager.getDriver());
-        List<String> sortedDatesByExpiringLaterAsc = dashboardPageActions.sortDates((ArrayList<String>) datesSortedByExpiringLater);
+        List<String> sortedDatesByExpiringLaterAsc = dashboardPageActions.sortDates(datesSortedByExpiringLater);
         boolean isEqual = sortedDatesByExpiringLaterAsc.equals(sortedDatesByExpiringSoonAsc);
         if (!isEqual) {
             logger.info("======================== Sorting my policy is working as expected ========================================");
@@ -557,8 +555,8 @@ public class DashboardPageTests extends BaseTest {
          @author -Venkat Kottapalli
          **/
         dashboardPageActions.clickFilterList(DriverManager.getDriver());
-        dashboardPageActions.clickFilterByProductName(DriverManager.getDriver());
-        dashboardPageActions.selectProductInFilter(DriverManager.getDriver(), ConstantVariable.PRODUCT);
+        dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
+        dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), ConstantVariable.PRODUCT);
         dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
         dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), map.get("status"));
         dashboardPageActions.clickFilterByType(DriverManager.getDriver());
@@ -571,8 +569,8 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.clickClearFiltersButton(DriverManager.getDriver());
         logger.info("checking the selected values after applying filter");
         dashboardPageActions.clickFilterList(DriverManager.getDriver());
-        dashboardPageActions.clickFilterByProductName(DriverManager.getDriver());
-        String product = dashboardPageActions.getSelectedProductName(DriverManager.getDriver());
+        dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
+        String product = dashboardPageActions.getSelectedCoverageName(DriverManager.getDriver());
         assert product.contentEquals(map.get("defaultProductValue"));
         dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
         String quoteStatus = dashboardPageActions.getSelectedQuoteStatus(DriverManager.getDriver());

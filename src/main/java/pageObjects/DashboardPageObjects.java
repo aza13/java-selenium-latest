@@ -60,11 +60,11 @@ public class DashboardPageObjects {
 
     public static final By quoteStatus = By.xpath("//div[@data-qa='quote_card']//p[@data-qa='status']");
 
-    public static final By quoteProductName = By.xpath("//p[@data-qa='name']");
+    public static final By quoteCoverageName = By.xpath("//p[@data-qa='name']");
 
     public static final By newQuoteButton = By.xpath("//button[text()='New Quote']/span");
 
-    public static final By selectProductDropdown = By.id("demo-simple-select");
+    public static final By selectCoverageDropdown = By.id("demo-simple-select");
 
     public static final By applicantNameField = By.id("applicant-name");
 
@@ -74,10 +74,9 @@ public class DashboardPageObjects {
 
     public static final By continueButton = By.xpath("//button[text()='CONTINUE']/span");
 
-    public static final By genericProductOption = By.xpath("//li[@role='option']");
+    public static final By genericCoverageOption = By.xpath("//li[@role='option']");
 
-    public static final By productRequiredText = By.xpath("//p[text()='Product is required']");
-
+    public static final By coverageRequiredText = By.xpath("//p[text()='Product is required']");
 
     public static final By nameRequiredText = By.xpath("//p[text()='Name is required']");
 
@@ -87,15 +86,15 @@ public class DashboardPageObjects {
 
     public static final By filterList = By.id("listGridFilter");
 
-    public static final By filterByProductName = By.id("panel-header-1");
+    public static final By filterByCoverageName = By.id("panel-header-1");
 
     public static final By submissionFilterByStatus = By.id("panel-header-2");
 
     public static final By submissionFilterByDateRange = By.xpath("//p[text()='Date Range']");
 
-    public static final By allProductsDropdown = By.xpath("//label[text()='All Coverages']/following-sibling::div/div[@id='demo-simple-select']");
+    public static final By allCoveragesDropdown = By.xpath("//label[text()='All Coverages']/following-sibling::div/div[@id='demo-simple-select']");
 
-    public static final By productOptions = By.xpath("//ul/li[contains(@data-qa, 'menuItem')]");
+    public static final By coverageOptions = By.xpath("//ul/li[contains(@data-qa, 'menuItem')]");
 
     public static final By searchInputFiled = By.id("global_search");
 

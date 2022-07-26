@@ -1,6 +1,5 @@
 package base;
 
-import constants.ConstantVariable;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -13,7 +12,6 @@ import utils.fileReader.ConfigDataReader;
 
 import java.util.HashMap;
 import java.util.Map;
-
 
 
 public class DriverManager {
@@ -30,7 +28,7 @@ public class DriverManager {
 
         WebDriver driver = DriverManager.threadDriver.get();
 
-        String browser = ConfigDataReader.getPropInstance(ConstantVariable.CONFIG_PROP_FILEPATH).getProperty("browserType");
+        String browser = ConfigDataReader.getInstance().getProperty("browserType");
 
         if (driver == null) {
             String operatingSystem = System.getProperty("os.name");
@@ -39,7 +37,7 @@ public class DriverManager {
                     logger.info("Initialising the chrome browser");
                     WebDriverManager.chromedriver().setup();
 
-                    Map<String, Object> prefs = new HashMap<String, Object>();
+                    Map<String, Object> prefs = new HashMap<>();
                     //to turns off multiple download warning
                     prefs.put("profile.default_content_settings.popups", 0);
                     prefs.put("profile.content_settings.exceptions.automatic_downloads.*.setting", 1);
