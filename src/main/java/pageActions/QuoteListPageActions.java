@@ -275,6 +275,9 @@ public class QuoteListPageActions extends BaseTest {
     public boolean verifyQuoteIsVisible(WebDriver driver) {
         return WaitHelper.isElementEnabled(driver, quoteListPageHeader);
     }
+    public boolean verifyOutsideBrokerPortalGuidelinesVisible (WebDriver driver) {
+        return WaitHelper.isElementDisplayed(driver, valueOutsideBrokerPortalGuidelines);
+    }
 
     public void expandTheQuote(WebDriver driver){
         ClickHelper.clickElement(driver, quoteExpandMoreIcon);
