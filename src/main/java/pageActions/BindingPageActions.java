@@ -1,11 +1,7 @@
 package pageActions;
 
 import base.BaseTest;
-import constants.ConstantVariable;
-import helper.ClickHelper;
-import helper.SikuliHelper;
-import helper.TextHelper;
-import helper.WaitHelper;
+import helper.*;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -102,7 +98,8 @@ public class BindingPageActions extends BaseTest {
 
     public boolean isFileTypeWarningDisplayed(WebDriver driver) throws InterruptedException {
         WaitHelper.pause(3000);
-        return ClickHelper.isElementExist(driver, invalidFileTypeWarning);
+        ScrollHelper.scrollElementIntoView(driver, fileSizeExceededText);
+        return ClickHelper.isElementExist(driver, fileSizeExceededText);
     }
 
     public void EnterMessageToPreSubjectivitiesUnderWriterTextBox(WebDriver driver){
@@ -182,5 +179,11 @@ public class BindingPageActions extends BaseTest {
     public boolean verifyPreBinderText(WebDriver driver) throws InterruptedException{
         WaitHelper.pause(10000);
         return ClickHelper.isElementExist(driver, PreBinderText);
+    }
+
+    public boolean isFileSizeExceededWarningDisplayed(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(5000);
+        return ClickHelper.isElementExist(driver, fileSizeExceededText);
+
     }
 }

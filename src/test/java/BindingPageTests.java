@@ -3,7 +3,6 @@ import base.DriverManager;
 import base.PageObjectManager;
 import constants.ConstantVariable;
 import org.apache.log4j.Logger;
-import org.sikuli.script.FindFailed;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -49,7 +48,7 @@ public class BindingPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
-    public void testVerifyQuoteBinding(Map<String, String> map) throws InterruptedException, SQLException, AWTException, FindFailed {
+    public void testVerifyQuoteBinding(Map<String, String> map) throws InterruptedException, SQLException, AWTException {
         /*****************************************************************
          this test verifies quote option Binding and Subjectivity
          story - N2020-33007, 23922,32926, 32930, 32950, 32704
@@ -128,6 +127,52 @@ public class BindingPageTests extends BaseTest {
         }
     }
 
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
+    public void testFileSizeValidationForBinder(Map<String, String> map) throws InterruptedException, SQLException, AWTException {
+        /*****************************************************************
+         this test verifies maximum file size that can be uploaded to a Binder
+         story - N2020-33918
+         @author - Venkat Kottapalli
+         ******************************************************************/
+
+        logger.info("Executing the testVerifyQuoteBinding from BindingPageTests class :: testVerifyQuoteBinding");
+        String newInsuredName = CreateApplicant.createApplicant(DriverManager.getDriver());
+        if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
+            ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
+        }
+        if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
+        }
+        if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
+            String quoteId = quoteListPageActions.getOpenQuoteId(DriverManager.getDriver());
+            if (quoteListPageActions.clickConfirmAndLock(DriverManager.getDriver())) {
+                if (quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())) {
+                    quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
+                    quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
+                } else {
+                    quoteListPageActions.checkIfQuoteLockSuccessMessageDisplayed(DriverManager.getDriver());
+                    quoteListPageActions.verifyStatusConfirmAndLockReadyToPlaceOrder(DriverManager.getDriver());
+                    quoteListPageActions.clickPlaceOrderButton(DriverManager.getDriver());
+                    quoteListPageActions.submitOrderConfirmation(DriverManager.getDriver());
+                    assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
+                    if (!bindingPageActions.binderSubmitButton(DriverManager.getDriver()).isEnabled()) {
+                        bindingPageActions.EnterMessageToPreSubjectivitiesUnderWriterTextBox(DriverManager.getDriver());
+                        bindingPageActions.clickPostSubjectivitiesExpandButton(DriverManager.getDriver());
+                        bindingPageActions.EnterMessageToPostSubjectivitiesUnderWriterTextBox(DriverManager.getDriver());
+                        bindingPageActions.clickSubmitBinder(DriverManager.getDriver());
+                    }
+                    bindingPageActions.clickPreSubjSelectFilesButton(DriverManager.getDriver());
+                    for(int n=1; n<=12; n++) {
+                        bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.WORD_DOC_FILE_PATH);
+                    }
+                    bindingPageActions.clickAddFilesButton(DriverManager.getDriver());
+                    assert bindingPageActions.isFileTypeWarningDisplayed(DriverManager.getDriver());
+                }
+            }
+        }
+    }
+
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
     public void testSubjectivityStatus(Map<String, String> map) throws InterruptedException {
@@ -140,20 +185,20 @@ public class BindingPageTests extends BaseTest {
         logger.info("Executing the testVerifyQuoteBinding from BindingPageTests class :: testRejectSubjectivity");//dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("submissionName1"));
         dashboardPageActions.clickQuoteCardContinueButton(DriverManager.getDriver());
-        bindingPageActions.verifyWaivedStatus(DriverManager.getDriver());
+        assert bindingPageActions.verifyWaivedStatus(DriverManager.getDriver());
         bindingPageActions.clickPostSubjectivitiesExpandButton(DriverManager.getDriver());
-        bindingPageActions.verifyRejectedStatus(DriverManager.getDriver());
+        assert bindingPageActions.verifyRejectedStatus(DriverManager.getDriver());
         bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("submissionName2"));
         dashboardPageActions.clickQuoteCardContinueButton(DriverManager.getDriver());
-        bindingPageActions.verifyPreBinderText(DriverManager.getDriver());
-        bindingPageActions.verifyAcceptedStatus(DriverManager.getDriver());
+        assert bindingPageActions.verifyPreBinderText(DriverManager.getDriver());
+        assert bindingPageActions.verifyAcceptedStatus(DriverManager.getDriver());
         bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("submissionName3"));
         String quoteStatus = dashboardPageActions.getQuoteStatus(DriverManager.getDriver());
         assert quoteStatus.equals("Bound");
         dashboardPageActions.clickQuoteCardContinueButton(DriverManager.getDriver());
-        bindingPageActions.verifyBinderText(DriverManager.getDriver());
+        assert bindingPageActions.verifyBinderText(DriverManager.getDriver());
         bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
 
     }
