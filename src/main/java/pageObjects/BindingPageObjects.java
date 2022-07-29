@@ -36,6 +36,7 @@ public class BindingPageObjects {
     public static final By invalidFileTypeWarning = By.xpath("//p[contains(text(), 'Files can only be of the file types')]");
     public static final By BinderText = By.xpath("//p[contains(text(),'Binder has been issued')]");
     public static final By PreBinderText = By.xpath("//p[contains(text(),'Binder will be issued shortly')]");
-    public static final By fileSizeExceededText = By.xpath("//p[starts-with(text(), 'You have exceeded the maximum 10MB')]");
+    public static final By maximumFileSizeText = By.xpath("//p[starts-with(text(), 'Total file submission size cannot be larger than 5MB')]");
+    public static final By fileSizeExceededText = By.xpath("//p[starts-with(text(), 'You have exceeded the maximum 5MB file')]");
 
 }

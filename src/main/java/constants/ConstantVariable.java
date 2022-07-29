@@ -28,6 +28,7 @@ public class ConstantVariable {
     public static final String INVALID_FILE_TYPE = "\\src\\main\\resources\\invalidFileType.txt";
     public static final String FILE_NAME_FIELD_IMAGE = "\\src\\main\\resources\\fileNameTextBox.png";
     public static final String OPEN_BUTTON_IMAGE = "\\src\\main\\resources\\openButton.png";
+    public static final String PDF_2MB_DOC_FILE_PATH = "\\src\\main\\resources\\pdfDoc2mb.pdf";
 
     public static final String PRODUCT = "NetGuard® SELECT";
     //public static final String PRODUCT = "Ophthalmic Mutual Insurance Company (OMIC) - e-MD®/Broad Regulatory Protection Plus";

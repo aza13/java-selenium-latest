@@ -50,5 +50,6 @@ public class InsuredPageObjects {
     public static final By clearanceDialogTextArea = By.id("outlined-textarea");
     public static final By insuranceCardGenericLocator = By.xpath("//div[contains(@class, 'MuiCard')]");
     public static final By clickAndDragLink = By.xpath("//p[text()='Click or Drag Files to Upload']");
+    public static final By largerThan2MbFileSizeText = By.xpath("//p[text()='A single file cannot be larger than 2MB. Please remove the file that is larger than 2MB.']");
 
 }

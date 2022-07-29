@@ -58,7 +58,6 @@ public class InsuredPageActions extends BaseTest {
     public boolean verifyInsuredSearchResult(WebDriver driver, String applicantName, String website) {
 
         String websiteXpath = "//div/a[text()='" + website + "']";
-        String applicantXpath = "//div[text()='" + applicantName + "']";
         WebElement websiteLink = driver.findElement(By.xpath(websiteXpath));
         return websiteLink.isDisplayed();
     }
@@ -220,13 +219,17 @@ public class InsuredPageActions extends BaseTest {
     public void selectInsuredCardWithIndex(WebDriver driver, int index) throws InterruptedException {
         String selectButtonXpath = "(//button[@data-qa='insured_select'])[" + index + "]";
         driver.findElement(By.xpath(selectButtonXpath)).click();
-//        WaitHelper.waitForSpinnerIconInvisibility(driver, loadingSpinnerIcon);
-        WaitHelper.pause(12000);
+        WaitHelper.pause(10000);
     }
 
     public boolean isClearanceDialogModalDisplayed(WebDriver driver) {
 
         return ClickHelper.isElementExist(driver, clearanceDialogModal);
+    }
+
+    public boolean isClearanceSubmitButtonEnabled(WebDriver driver) {
+
+        return driver.findElement(clearanceDialogModal).isEnabled();
     }
 
     public void clickClearanceSubmitButton(WebDriver driver) {
@@ -268,12 +271,15 @@ public class InsuredPageActions extends BaseTest {
     }
 
     public boolean verifyValidPhoneNumberFormat(WebDriver driver){
-
         String phone = TextHelper.getText(driver, insuredPhoneNumberField, "value");
         Pattern pattern = Pattern.compile("^\\+[0-9]{1} \\([0-9]{3}\\) [0-9]{3}-[0-9]{4}$");
+        assert phone != null;
         Matcher matcher = pattern.matcher(phone);
-
         return matcher.matches();
     }
 
+    public boolean isFileSizeLagerThan2MbTextDisplayed(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(3000);
+        return ClickHelper.isElementExist(driver, largerThan2MbFileSizeText);
+    }
 }

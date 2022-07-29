@@ -163,6 +163,7 @@ public class BindingPageTests extends BaseTest {
                         bindingPageActions.clickSubmitBinder(DriverManager.getDriver());
                     }
                     bindingPageActions.clickPreSubjSelectFilesButton(DriverManager.getDriver());
+                    assert bindingPageActions.isFileMaximumSizeTextDisplayed(DriverManager.getDriver());
                     for(int n=1; n<=12; n++) {
                         bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.WORD_DOC_FILE_PATH);
                     }

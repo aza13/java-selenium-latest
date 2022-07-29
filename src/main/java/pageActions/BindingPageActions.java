@@ -96,6 +96,12 @@ public class BindingPageActions extends BaseTest {
         SikuliHelper.uploadFile(rootPath+imageToEnter, rootPath+filePath, rootPath+imageToSubmitted);
     }
 
+    public boolean isFileMaximumSizeTextDisplayed(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(3000);
+        ScrollHelper.scrollElementIntoView(driver, maximumFileSizeText);
+        return ClickHelper.isElementExist(driver, maximumFileSizeText);
+    }
+
     public boolean isFileTypeWarningDisplayed(WebDriver driver) throws InterruptedException {
         WaitHelper.pause(3000);
         ScrollHelper.scrollElementIntoView(driver, fileSizeExceededText);

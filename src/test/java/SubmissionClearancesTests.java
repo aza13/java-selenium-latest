@@ -153,6 +153,10 @@ public class SubmissionClearancesTests extends BaseTest {
         if(insuredPageActions.isClearanceDialogModalDisplayed(DriverManager.getDriver())){
             BindingPageActions bindingPageActions = PageObjectManager.getBindingPageActions();
             bindingPageActions.clickPreSubjSelectFilesButton(DriverManager.getDriver());
+            bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.PDF_2MB_DOC_FILE_PATH);
+            assert insuredPageActions.isFileSizeLagerThan2MbTextDisplayed(DriverManager.getDriver());
+            assert insuredPageActions.isClearanceSubmitButtonEnabled(DriverManager.getDriver());
+            bindingPageActions.clickFileDeleteIcon(DriverManager.getDriver());
             bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.PDF_DOC_FILE_PATH);
         }
         insuredPageActions.clickClearanceSubmitButton(DriverManager.getDriver());
