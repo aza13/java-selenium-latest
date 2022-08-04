@@ -26,12 +26,13 @@ public class ScrollHelper {
         }
     }
 
-    public static void scrollToBottom(WebDriver driver) {
+    public static void scrollToBottom(WebDriver driver) throws InterruptedException {
 
         logger.info("Scrolling to bottom of the page:: scrollElementIntoView");
         try {
             JavascriptExecutor js = (JavascriptExecutor) driver;
             js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+            WaitHelper.pause(3000);
         } catch (Exception e) {
             logger.error("Failed to scroll to bottom of the page:: scrollElementIntoView");
             throw (e);
