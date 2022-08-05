@@ -10,8 +10,6 @@ public class DashboardPageObjects {
 
     public static final By profileSettings = By.id("basic-button");
 
-    public static final By profileLink = By.id("action_item_profile");
-
     public static final By signOutLink = By.id("action_item_signout");
 
     public static final By supportLink = By.xpath("//ul//li[@id='action_item_support' and text()='Support']");
@@ -33,10 +31,6 @@ public class DashboardPageObjects {
     public static final By supportRequestDetailsRequired = By.id("outlined-error-helper-text-helper-text");
 
     public static final By brokerIdField = By.id("txt-brokerid");
-
-    public static final By agencyOfficeIdField = By.id("txt-AgencyOfficeId");
-
-    public static final By agencyIdField = By.id("txt-AgencyId");
 
     public static final By myQuotesTab = By.id("simple-tab-0");
 
@@ -135,6 +129,8 @@ public class DashboardPageObjects {
     public static final By policyExpirationDateGeneric = By.xpath("//p[@data-qa='expDate']");
 
     public static final By firstAvailableRenewButton = By.xpath("//p[@class='sc-ezbkAF fLaTpy MuiTypography-root MuiTypography-body1']/div[1]/div/div[7]/div/button");
+
+    public static final By policyRenewButtonGeneric = By.xpath("//button[text()='Renew']");
 
     public static final By quoteReferenceIdGenericLocator = By.xpath("//p[@data-qa='id']");
 

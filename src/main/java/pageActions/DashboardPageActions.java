@@ -347,8 +347,6 @@ public class DashboardPageActions extends BaseTest {
         }
     }
 
-
-
     public WebElement noPolicyFound(WebDriver driver) {
         WaitHelper.waitForElementVisibility(driver, noPolicyFoundText);
         return driver.findElement(noPolicyFoundText);
@@ -365,7 +363,7 @@ public class DashboardPageActions extends BaseTest {
 
     }
 
-    public String getFirstAvailableReferenceId(WebDriver driver) throws InterruptedException {
+    public String getFirstAvailableReferenceId(WebDriver driver) {
         WaitHelper.waitForElementVisibility(driver, getFirstAvailableReferenceId);
         return TextHelper.getText(driver, getFirstAvailableReferenceId, "text");
 
@@ -745,9 +743,20 @@ public class DashboardPageActions extends BaseTest {
         return driver.findElement(allTypesDropdown).getText();
     }
 
+
     public WebElement contactUnderwriter(WebDriver driver) {
 
         return driver.findElement(contactUnderwriter);
+    }
+
+    public WebElement getPolicyRenewButton(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(3000);
+        List<WebElement> renewButtons = driver.findElements(genericRenewButtonLocator);
+        if(!renewButtons.isEmpty()){
+            return renewButtons.get(0);
+        }
+        return null;
+
     }
 
 }
