@@ -745,4 +745,9 @@ public class DashboardPageActions extends BaseTest {
         return driver.findElement(allTypesDropdown).getText();
     }
 
+    public WebElement contactUnderwriter(WebDriver driver) {
+
+        return driver.findElement(contactUnderwriter);
+    }
+
 }
