@@ -24,9 +24,9 @@ public class InsuredPageActions extends BaseTest {
         return driver.findElement(searchAgainButton);
     }
 
-    public WebElement cancelInsuredSearch(WebDriver driver) {
+    public void clickCancelInsuredSearch(WebDriver driver) {
 
-        return driver.findElement(cancelInsuredSearchButton);
+        driver.findElement(cancelInsuredSearchButton).click();
     }
 
     public WebElement continueInsuredSearch(WebDriver driver) {

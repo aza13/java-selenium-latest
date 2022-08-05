@@ -3,7 +3,9 @@ import base.DriverManager;
 import base.PageObjectManager;
 import constants.ConstantVariable;
 import helper.FakeDataHelper;
+import helper.ScrollHelper;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
@@ -16,6 +18,7 @@ import utils.dataProvider.TestDataProvider;
 import utils.fileReader.TextFileReader;
 
 import java.awt.*;
+import java.sql.Driver;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -160,7 +163,57 @@ public class SubmissionClearancesTests extends BaseTest {
             bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.PDF_DOC_FILE_PATH);
         }
         insuredPageActions.clickClearanceSubmitButton(DriverManager.getDriver());
-
     }
 
+
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "InsuredPageData")
+    public void testRenewalPolicyClearanceValidation(Map<String, String> map) throws InterruptedException, AWTException {
+        /***
+         this test verifies resolving clearances for renewal policy
+         story - N2020-34674
+         @author - Venkat Kottapalli
+         ***/
+        dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
+        dashboardPageActions.clickFilterList(DriverManager.getDriver());
+        dashboardPageActions.clickPolicyFilterByStatus(DriverManager.getDriver());
+        dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), ConstantVariable.ACTIVE_STRING);
+        dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
+        for(int n=0; n<=10; n++){
+            WebElement element = dashboardPageActions.getPolicyRenewButton(DriverManager.getDriver());
+            if(element!=null){
+                String xpath = "(//button[text()='Renew'])[1]/parent::div/parent::div/preceding-sibling::div//div[@data-qa='legalname']";
+                String policyNumber = element.findElement(By.xpath("((//button[text()='Renew'])[1]/parent::div/parent::div/preceding-sibling::div)[2]//p")).getText().trim();
+                String applicantName = element.findElement(By.xpath("//parent::div/parent::div/preceding-sibling::div//div[@data-qa='legalname']")).getText().trim();
+                String product = element.findElement(By.xpath("((//button[text()='Renew'])[1]/parent::div/parent::div/preceding-sibling::div)[3]//p")).getText().trim();
+                dashboardPageActions.clickNewQuote(DriverManager.getDriver());
+                dashboardPageActions.createNewQuote(DriverManager.getDriver(), product, applicantName, "https://www.master.com/");
+                InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
+                insuredPageActions.clickContinueInsuredButton(DriverManager.getDriver());
+                if (!insuredPageActions.isCreateNewInsuredTextDisplayed(DriverManager.getDriver())){
+                    insuredPageActions.clickNewInsuredButton(DriverManager.getDriver());
+                }
+                insuredPageActions.enterEmailAddress(DriverManager.getDriver());
+                insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
+                insuredPageActions.enterPhysicalAddress(DriverManager.getDriver());
+                insuredPageActions.enterPhyCity(DriverManager.getDriver());
+                insuredPageActions.enterPhyZipcode(DriverManager.getDriver());
+                insuredPageActions.selectPhyState(DriverManager.getDriver());
+                insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
+                insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
+                insuredPageActions.clickCancelInsuredSearch(DriverManager.getDriver());
+                dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), policyNumber);
+                dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
+                WebElement renewButton = dashboardPageActions.getPolicyRenewButton(DriverManager.getDriver());
+                renewButton.click();
+                if(insuredPageActions.isClearanceDialogModalDisplayed(DriverManager.getDriver())){
+                    BindingPageActions bindingPageActions = PageObjectManager.getBindingPageActions();
+                    bindingPageActions.clickPreSubjSelectFilesButton(DriverManager.getDriver());
+                    bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.PDF_DOC_FILE_PATH);
+                }
+                insuredPageActions.clickClearanceSubmitButton(DriverManager.getDriver());
+            }else{
+                ScrollHelper.scrollToBottom(DriverManager.getDriver());
+            }
+        }
+    }
 }
