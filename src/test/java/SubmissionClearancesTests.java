@@ -181,7 +181,6 @@ public class SubmissionClearancesTests extends BaseTest {
         for(int n=0; n<=10; n++){
             WebElement element = dashboardPageActions.getPolicyRenewButton(DriverManager.getDriver());
             if(element!=null){
-                String xpath = "(//button[text()='Renew'])[1]/parent::div/parent::div/preceding-sibling::div//div[@data-qa='legalname']";
                 String policyNumber = element.findElement(By.xpath("((//button[text()='Renew'])[1]/parent::div/parent::div/preceding-sibling::div)[2]//p")).getText().trim();
                 String applicantName = element.findElement(By.xpath("//parent::div/parent::div/preceding-sibling::div//div[@data-qa='legalname']")).getText().trim();
                 String product = element.findElement(By.xpath("((//button[text()='Renew'])[1]/parent::div/parent::div/preceding-sibling::div)[3]//p")).getText().trim();
