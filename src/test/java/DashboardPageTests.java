@@ -590,7 +590,8 @@ public class DashboardPageTests extends BaseTest {
         logger.info("verifying ineligible policies :: testIneligiblePolicy");
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("policyNumber"));
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
-        dashboardPageActions.contactUnderwriter(DriverManager.getDriver()).isDisplayed();
+        assert dashboardPageActions.verifyContactUnderwriterExists(DriverManager.getDriver());
+
     }
 
 }

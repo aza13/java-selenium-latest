@@ -743,10 +743,14 @@ public class DashboardPageActions extends BaseTest {
         return driver.findElement(allTypesDropdown).getText();
     }
 
-
-    public WebElement contactUnderwriter(WebDriver driver) {
-
-        return driver.findElement(contactUnderwriter);
+    public boolean verifyContactUnderwriterExists(WebDriver driver){
+        try {
+            return driver.findElement(contactUnderwriter).isDisplayed();
+        }catch (Exception e){
+            testLogger.fail("failed to verify the contactUnderwriter :: verifyContactUnderwriterExists" + e.getMessage());
+            logger.error("failed to verify the contactUnderwriter :: verifyContactUnderwriterExists");
+            throw (e);
+        }
     }
 
     public WebElement getPolicyRenewButton(WebDriver driver) throws InterruptedException {
