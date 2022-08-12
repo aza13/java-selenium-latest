@@ -107,7 +107,7 @@ public class EndToEndTest extends BaseTest {
                     }
                     bindingPageActions.clickPreSubjSelectFilesButton(DriverManager.getDriver());
                     bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.INVALID_FILE_TYPE);
-                    assert bindingPageActions.isFileTypeWarningDisplayed(DriverManager.getDriver());
+                    assert bindingPageActions.isFileTypeWarningDisplayed2(DriverManager.getDriver());
                     bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.PDF_DOC_FILE_PATH);
                     bindingPageActions.clickFileDeleteIcon(DriverManager.getDriver());
                     assert bindingPageActions.getFileDeleteIcon(DriverManager.getDriver()).isDisplayed();

@@ -18,6 +18,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static constants.DatabaseQueries.GET_SUBMISSION_ID_WITH_QUOTE_ID;
 
@@ -128,7 +129,7 @@ public class BindingPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
-    public void testFileSizeValidationForBinder(Map<String, String> map) throws InterruptedException, SQLException, AWTException {
+    public void testFileSizeValidationForBinder(Map<String, String> map) throws InterruptedException, AWTException {
         /*****************************************************************
          this test verifies maximum file size that can be uploaded to a Binder
          story - N2020-33918
@@ -155,6 +156,9 @@ public class BindingPageTests extends BaseTest {
                     quoteListPageActions.verifyStatusConfirmAndLockReadyToPlaceOrder(DriverManager.getDriver());
                     quoteListPageActions.clickPlaceOrderButton(DriverManager.getDriver());
                     quoteListPageActions.submitOrderConfirmation(DriverManager.getDriver());
+                    if(Objects.equals(bindingPageActions.getPriorSubjectivityStatus(DriverManager.getDriver()), ConstantVariable.OPEN_STATUS_STRING)){
+                        assert !bindingPageActions.isBinderIssuedShortlyText(DriverManager.getDriver());
+                    }
                     assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
                     if (!bindingPageActions.binderSubmitButton(DriverManager.getDriver()).isEnabled()) {
                         bindingPageActions.EnterMessageToPreSubjectivitiesUnderWriterTextBox(DriverManager.getDriver());
@@ -183,7 +187,8 @@ public class BindingPageTests extends BaseTest {
          @author -  Sheetal
          ******************************************************************/
 
-        logger.info("Executing the testVerifyQuoteBinding from BindingPageTests class :: testRejectSubjectivity");//dashboardPageActions.clickNewQuote(DriverManager.getDriver());
+        logger.info("Executing the testVerifyQuoteBinding from BindingPageTests class :: testRejectSubjectivity");
+        //dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("submissionName1"));
         dashboardPageActions.clickQuoteCardContinueButton(DriverManager.getDriver());
         assert bindingPageActions.verifyWaivedStatus(DriverManager.getDriver());
