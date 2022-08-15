@@ -580,4 +580,18 @@ public class DashboardPageTests extends BaseTest {
         assert quoteBusinessType.contentEquals(map.get("defaultTypeValue"));
     }
 
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    public void testIneligiblePolicies(Map<String, String> map) throws InterruptedException {
+        /**
+         * this test verifies ineligible policy
+         story - N2020-33633
+         @author - Azamat Uulu
+         **/
+        logger.info("verifying ineligible policies :: testIneligiblePolicy");
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("policyNumber"));
+        dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
+        assert dashboardPageActions.verifyContactUnderwriterExists(DriverManager.getDriver());
+
+    }
+
 }

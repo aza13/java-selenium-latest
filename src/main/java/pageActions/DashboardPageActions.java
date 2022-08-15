@@ -743,6 +743,16 @@ public class DashboardPageActions extends BaseTest {
         return driver.findElement(allTypesDropdown).getText();
     }
 
+    public boolean verifyContactUnderwriterExists(WebDriver driver){
+        try {
+            return driver.findElement(contactUnderwriter).isDisplayed();
+        }catch (Exception e){
+            testLogger.fail("failed to verify the contactUnderwriter :: verifyContactUnderwriterExists" + e.getMessage());
+            logger.error("failed to verify the contactUnderwriter :: verifyContactUnderwriterExists");
+            throw (e);
+        }
+    }
+
     public WebElement getPolicyRenewButton(WebDriver driver) throws InterruptedException {
         WaitHelper.pause(3000);
         List<WebElement> renewButtons = driver.findElements(genericRenewButtonLocator);
@@ -750,6 +760,7 @@ public class DashboardPageActions extends BaseTest {
             return renewButtons.get(0);
         }
         return null;
+
     }
 
 }

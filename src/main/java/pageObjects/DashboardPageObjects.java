@@ -190,6 +190,8 @@ public class DashboardPageObjects {
 
     public static final By quoteitLogo = By.xpath("//img[@alt='hello']");
 
+    public static final By contactUnderwriter = By.xpath("//button[normalize-space()='Contact Underwriter']");
+
 
 
 
