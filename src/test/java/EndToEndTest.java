@@ -97,7 +97,7 @@ public class EndToEndTest extends BaseTest {
                     assert quoteStatus.contentEquals("Order Placed");
                     dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
                     assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
-                    bindingPageActions.VerifyQuoteHeaderInformationInBindingPage(DriverManager.getDriver(), newInsuredName, ConstantVariable.PRODUCT);
+                    bindingPageActions.VerifyQuoteHeaderInformationInBindingPage(DriverManager.getDriver(), newInsuredName, product);
                     bindingPageActions.clickPolicyCardExpandIconInBindingPage(DriverManager.getDriver());
                     if(!bindingPageActions.binderSubmitButton(DriverManager.getDriver()).isEnabled()){
                         bindingPageActions.EnterMessageToPreSubjectivitiesUnderWriterTextBox(DriverManager.getDriver());

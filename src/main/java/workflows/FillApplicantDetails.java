@@ -3,9 +3,11 @@ package workflows;
 import base.DriverManager;
 import base.PageObjectManager;
 import constants.ConstantVariable;
+import helper.WaitHelper;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import pageActions.RatingCriteriaPageActions;
+import utils.fileReader.ConfigDataReader;
 
 import java.util.Map;
 
@@ -19,11 +21,11 @@ public class FillApplicantDetails {
         logger.info("fill applicant details, Business class :: fillApplicantDetails");
         RatingCriteriaPageActions ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(driver)) {
-            if (ConstantVariable.PRODUCT.equals("NetGuard® SELECT")) {
+            if (ConfigDataReader.getInstance().getProperty("product").equals("NetGuard® SELECT")) {
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(driver, map.get("businessClass2"));
                 ratingCriteriaPageActions.clickBusinessClassOption(driver);
                 ratingCriteriaPageActions.enterNetWorth(driver, map.get("netWorth"));
-            }else if(ConstantVariable.PRODUCT.contains("Ophthalmic")){
+            }else if(ConfigDataReader.getInstance().getProperty("product").contains("Ophthalmic") || ConfigDataReader.getInstance().getProperty("product").contains("AAO")){
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(driver, map.get("businessClass3"));
                 ratingCriteriaPageActions.clickBusinessClassOption(driver);
                 ratingCriteriaPageActions.enterNoOfPhysicians(driver, map.get("physiciansCount"));
@@ -34,6 +36,6 @@ public class FillApplicantDetails {
                 ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(driver, map.get("revenue"), map.get("records"));
             }
         }
-
+        WaitHelper.pause(3000);
     }
 }

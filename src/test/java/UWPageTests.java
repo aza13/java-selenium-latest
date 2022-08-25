@@ -1,7 +1,6 @@
 import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
-import constants.ConstantVariable;
 import helper.FakeDataHelper;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
@@ -114,7 +113,7 @@ public class UWPageTests extends BaseTest {
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         String newInsuredName = FakeDataHelper.fullName();
         String newInsuredWebsite = FakeDataHelper.website();
-        dashboardPageActions.createNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName, newInsuredWebsite);
+        dashboardPageActions.createNewQuote(DriverManager.getDriver(), product, newInsuredName, newInsuredWebsite);
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         insuredPageActions.enterEmailAddress(DriverManager.getDriver());
         insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());

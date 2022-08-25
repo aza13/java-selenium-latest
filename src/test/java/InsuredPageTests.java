@@ -1,7 +1,6 @@
 import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
-import constants.ConstantVariable;
 import helper.FakeDataHelper;
 import org.apache.log4j.Logger;
 import org.testng.annotations.BeforeClass;
