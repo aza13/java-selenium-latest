@@ -65,7 +65,7 @@ public class BindingPageActions extends BaseTest {
 
     public void uploadFile(WebDriver driver, String relativeFilePath) throws InterruptedException, AWTException {
         ClickHelper.clickElement(driver, clickAndDragLink);
-        WaitHelper.pause(3000);
+        WaitHelper.pause(5000);
 
         logger.info("creating object of Robot class");
         Robot rb = new Robot();
@@ -106,6 +106,12 @@ public class BindingPageActions extends BaseTest {
         WaitHelper.pause(3000);
         ScrollHelper.scrollElementIntoView(driver, fileSizeExceededText);
         return ClickHelper.isElementExist(driver, fileSizeExceededText);
+    }
+
+    public boolean isFileTypeWarningDisplayed2(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(3000);
+        ScrollHelper.scrollElementIntoView(driver, invalidFileTypeWarning);
+        return ClickHelper.isElementExist(driver, invalidFileTypeWarning);
     }
 
     public void EnterMessageToPreSubjectivitiesUnderWriterTextBox(WebDriver driver){
@@ -178,18 +184,26 @@ public class BindingPageActions extends BaseTest {
     }
 
     public boolean verifyBinderText(WebDriver driver) throws InterruptedException{
-        WaitHelper.pause(10000);
+        WaitHelper.pause(5000);
         return ClickHelper.isElementExist(driver, BinderText);
     }
 
     public boolean verifyPreBinderText(WebDriver driver) throws InterruptedException{
-        WaitHelper.pause(10000);
+        WaitHelper.pause(3000);
         return ClickHelper.isElementExist(driver, PreBinderText);
     }
 
     public boolean isFileSizeExceededWarningDisplayed(WebDriver driver) throws InterruptedException {
-        WaitHelper.pause(5000);
+        WaitHelper.pause(3000);
         return ClickHelper.isElementExist(driver, fileSizeExceededText);
+    }
 
+    public boolean isBinderIssuedShortlyText(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(3000);
+        return ClickHelper.isElementExist(driver, bindersWillBeIssuedShortlyText);
+    }
+
+    public String getPriorSubjectivityStatus(WebDriver driver){
+        return TextHelper.getText(driver, priorSubjectivityStatus, "text");
     }
 }
