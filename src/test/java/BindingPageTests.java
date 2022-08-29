@@ -51,7 +51,7 @@ public class BindingPageTests extends BaseTest {
     public void testVerifyQuoteBinding(Map<String, String> map) throws InterruptedException, SQLException, AWTException {
         /*****************************************************************
          this test verifies quote option Binding and Subjectivity
-         story - N2020-33007, 23922,32926, 32930, 32950, 32704
+         story - N2020-33007, 23922,32926, 32930, 32950, 32704, 33690
          @author - Venkat Kottapalli, Sheetal
          ******************************************************************/
 
@@ -65,6 +65,7 @@ public class BindingPageTests extends BaseTest {
             AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
+            quoteListPageActions.checkEndorsementFlag(DriverManager.getDriver());
             String quoteId = quoteListPageActions.getOpenQuoteId(DriverManager.getDriver());
             if (quoteListPageActions.clickConfirmAndLock(DriverManager.getDriver())) {
                 if (quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())) {

@@ -58,4 +58,5 @@ public class QuoteListPageObjects {
     public static final By quoteExpiry = By.xpath("//div[contains(text(),'Expiration')]");
     public static final By fetchingOptionCoverages = By.xpath("//div[@data-qa='option_card_4']//div[contains(text(),'Fetching Option Coverages')]");
     public static final By valueOutsideBrokerPortalGuidelines = By.xpath("//div[contains(text(),'The highlighted selected value(s) are outside our ')]");
+    public static final By endorsementFlag = By.xpath("//p[contains(text(),'Based on the information provided')]");
 }
