@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import pageActions.DashboardPageActions;
 import pageActions.InsuredPageActions;
 import pageActions.RatingCriteriaPageActions;
+import utils.fileReader.ConfigDataReader;
 import utils.fileReader.TextFileReader;
 
 public class CreateApplicant {
@@ -22,7 +23,7 @@ public class CreateApplicant {
         dashboardPageActions.clickNewQuote(driver);
         String newApplicantName = FakeDataHelper.fullName();
         String newApplicantWebsite = FakeDataHelper.website();
-        dashboardPageActions.createNewQuote(driver, ConstantVariable.PRODUCT, newApplicantName,newApplicantWebsite);
+        dashboardPageActions.createNewQuote(driver, ConfigDataReader.getInstance().getProperty("product"), newApplicantName,newApplicantWebsite);
         TextFileReader.writeDataToTextFile(ConstantVariable.INSURED_DATA_FILEPATH, newApplicantName+";"+newApplicantWebsite);
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(driver);
         if (!insuredPageActions.isCreateNewInsuredTextDisplayed(driver)){

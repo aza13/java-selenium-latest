@@ -27,7 +27,7 @@ public class QuoteListPageObjects {
     public static final By quoteLockSuccessMessage = By.xpath("//div[@data-qa='alertTitle' and text()='Success']");
     public static final By quotesPageUnSelected = By.xpath("//button[@id='workflow-tab-3' and @aria-selected='false']");
     public static final By quotesPageSelected = By.xpath("//button[@id='workflow-tab-3' and @aria-selected='true']");
-    public static final By submitReviewDialog = By.xpath("//h2[text()='Submit for review']");
+    public static final By submitReviewDialog = By.xpath("//h2[text()='Submit for Review']");
     public static final By submitReviewTextArea = By.xpath("//textarea[@id='outlined-textarea']");
     public static final By submitReviewCancelButton = By.xpath("//button[@data-qa='cancel_alert_modal']");
     public static final By submitReviewReviseButton = By.xpath("//button[@data-qa='close_modal']");

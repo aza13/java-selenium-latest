@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import pageActions.QuoteListPageActions;
 import pageActions.UnderwritingQuestionsPageActions;
+import utils.fileReader.ConfigDataReader;
 
 import java.util.Map;
 
@@ -23,13 +24,19 @@ public class AnswerUnderwriterQuestions {
             logger.info("UW continue button is enabled, means UW questions are answered");
         } else {
             logger.info("UW continue button is disabled, means UW questions are not answered");
-            underwritingQuestionsPageActions.answerUWQuestionButtons(driver, map.get("uwQuestionsAnswer"));
-            underwritingQuestionsPageActions.answerUWQuestionDropdowns(driver, map.get("uwQuestionsAnswer"), map.get("uwQuestionsOption"));
+            if(ConfigDataReader.getInstance().getProperty("product").contains("NetGuard")){
+                underwritingQuestionsPageActions.answerUWQuestionButtons(driver, map.get("uwQuestionsAnswer"));
+                underwritingQuestionsPageActions.answerUWQuestionDropdowns(driver, map.get("uwQuestionsAnswer"), map.get("uwQuestionsOption"));
+            }else{
+                underwritingQuestionsPageActions.answerFirstUWQuestion(DriverManager.getDriver());
+                underwritingQuestionsPageActions.answerUWQuestionButtonsOMICProduct2(driver);
+            }
         }
         underwritingQuestionsPageActions.clickUWQuestionsContinueButton(driver);
         QuoteListPageActions quoteListPageActions = PageObjectManager.getQuoteListPageActions();
-        if (!quoteListPageActions.isQuoteListPageDisplayed(driver)) {
-            quoteListPageActions.clickQuotesTab(driver);
+        if (quoteListPageActions.checkIfSubmitReviewDialogDisplayed(driver)) {
+            quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
+            quoteListPageActions.clickSubmitForReview(driver);
         }
     }
 }

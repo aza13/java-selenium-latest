@@ -54,12 +54,16 @@ public class QuoteListPageActions extends BaseTest {
         WaitHelper.pause(10000);
     }
 
-    public void selectRetentionOption(WebDriver driver, int optionCount, String retention) throws InterruptedException {
-        String retentionOptionXpath = "//div[@data-qa='option_card_"+optionCount+"']//div[@data-qa='retentionGroup']/div";
+    public boolean selectRetentionOption(WebDriver driver, int optionCount, String retention) throws InterruptedException {
+        String retentionOptionXpath = "//div[@data-qa='option_card_"+optionCount+"']//div[@data-qa='retentionGroup']/div//input";
         By retentionDropdown = By.xpath(retentionOptionXpath);
-        WaitHelper.waitForElementVisibility(driver, retentionDropdown);
         WebElement dropdown = driver.findElement(retentionDropdown);
-        DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, perClaimOptionGenericLocator, retention);
+        if(dropdown.isEnabled()){
+            DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, perClaimOptionGenericLocator, retention);
+            return true;
+        }
+        return false;
+
     }
 
     public int getQuoteOptionCount(WebDriver driver){
@@ -294,7 +298,7 @@ public class QuoteListPageActions extends BaseTest {
         WaitHelper.waitForElementVisibility(driver, orderConfirmationDialog);
         TextHelper.enterText(driver, orderConfirmationTextArea, "Place Order Testing");
         ClickHelper.clickElement(driver, orderConfirmationSubmitButton);
-        WaitHelper.pause(10000);
+        WaitHelper.pause(5000);
     }
 
     public String getOpenQuoteId(WebDriver driver){

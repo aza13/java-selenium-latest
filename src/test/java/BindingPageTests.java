@@ -98,7 +98,7 @@ public class BindingPageTests extends BaseTest {
                     assert quoteStatus.contentEquals("Order Placed");
                     dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
                     assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
-                    bindingPageActions.VerifyQuoteHeaderInformationInBindingPage(DriverManager.getDriver(), newInsuredName, ConstantVariable.PRODUCT);
+                    bindingPageActions.VerifyQuoteHeaderInformationInBindingPage(DriverManager.getDriver(), newInsuredName, product);
                     bindingPageActions.clickPolicyCardExpandIconInBindingPage(DriverManager.getDriver());
                     if(!bindingPageActions.binderSubmitButton(DriverManager.getDriver()).isEnabled()){
                         bindingPageActions.EnterMessageToPreSubjectivitiesUnderWriterTextBox(DriverManager.getDriver());
@@ -107,13 +107,9 @@ public class BindingPageTests extends BaseTest {
                         bindingPageActions.clickSubmitBinder(DriverManager.getDriver());
                     }
                     bindingPageActions.clickPreSubjSelectFilesButton(DriverManager.getDriver());
-                    /*bindingPageActions.uploadFileUsingSikuli(DriverManager.getDriver(), ConstantVariable.FILE_NAME_FIELD_IMAGE,
-                            ConstantVariable.INVALID_FILE_TYPE, ConstantVariable.OPEN_BUTTON_IMAGE);*/
                     bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.INVALID_FILE_TYPE);
                     assert bindingPageActions.isFileTypeWarningDisplayed(DriverManager.getDriver());
                     bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.PDF_DOC_FILE_PATH);
-                    /*bindingPageActions.uploadFileUsingSikuli(DriverManager.getDriver(), ConstantVariable.FILE_NAME_FIELD_IMAGE,
-                            ConstantVariable.PDF_DOC_FILE_PATH, ConstantVariable.OPEN_BUTTON_IMAGE);*/
                     bindingPageActions.clickFileDeleteIcon(DriverManager.getDriver());
                     assert bindingPageActions.getFileDeleteIcon(DriverManager.getDriver()).isDisplayed();
                     assert bindingPageActions.getFilePresentIcon(DriverManager.getDriver()).isDisplayed();
@@ -137,7 +133,7 @@ public class BindingPageTests extends BaseTest {
          ******************************************************************/
 
         logger.info("Executing the testVerifyQuoteBinding from BindingPageTests class :: testVerifyQuoteBinding");
-        String newInsuredName = CreateApplicant.createApplicant(DriverManager.getDriver());
+        CreateApplicant.createApplicant(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
             FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
@@ -146,7 +142,6 @@ public class BindingPageTests extends BaseTest {
             AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
-            String quoteId = quoteListPageActions.getOpenQuoteId(DriverManager.getDriver());
             if (quoteListPageActions.clickConfirmAndLock(DriverManager.getDriver())) {
                 if (quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())) {
                     quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
