@@ -229,8 +229,7 @@ public class QuotesPageTests extends BaseTest {
                 quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
                 boolean pdfDownload = quoteListPageActions.clickPDFFileDownload(DriverManager.getDriver(), map.get("pdfFilename"));
                 Assert.assertTrue(pdfDownload);
-                boolean wordDownload = quoteListPageActions.clickWORDFileDownload(DriverManager.getDriver(), map.get("wordFilename"), map.get("wordPDFFilename"));
-                Assert.assertTrue(wordDownload);
+
             } else {
                 logger.info("No confirmed quotes available, to download the quote ");
             }
@@ -533,6 +532,40 @@ public class QuotesPageTests extends BaseTest {
             boolean isTextVisible = quoteListPageActions.verifyOutsideBrokerPortalGuidelinesVisible(DriverManager.getDriver());
             Assert.assertTrue(isTextVisible);
 
+
+        }
+    }
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
+    public void testDownloadApplicationInQuote(Map<String, String> map) throws InterruptedException, SQLException {
+        /***
+         this test verifies brokers can download application form
+         story - N2020-34254-QAT-434
+         @author - Azamat Uulu
+         **/
+        logger.info("verifying brokers can download application form :: testDownloadApplicationInQuote");
+        List<HashMap<Object, Object>> submissionIds =
+                databaseConnector.getResultSetToList(DatabaseQueries.GET_SUBMISSIONS_WITH_CONFIRMED_QUOTES);
+        int submissionCount = submissionIds.size();
+        boolean confirmedQuote = false;
+        String submissionId;
+        if (submissionCount > 0) {
+            for (HashMap<Object, Object> id : submissionIds) {
+                submissionId = id.get("id").toString();
+                dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
+                if (dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver())) {
+                    confirmedQuote = true;
+                    break;
+                }
+                dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
+            }
+            if (confirmedQuote) {
+                quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
+                boolean pdfDownload = quoteListPageActions.clickApplicationDownload(DriverManager.getDriver(), map.get("pdfFilename"));
+                Assert.assertTrue(pdfDownload);
+
+            } else {
+                logger.info("No confirmed quotes available, to download the quote ");
+            }
 
         }
     }
