@@ -67,7 +67,7 @@ public class BindingPageTests extends BaseTest {
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             String quoteId = quoteListPageActions.getOpenQuoteId(DriverManager.getDriver());
-            if (quoteListPageActions.clickConfirmAndLock(DriverManager.getDriver())) {
+            if (quoteListPageActions.clickConfirmAndLockButtonIfDisplayed(DriverManager.getDriver())) {
                 if (quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())) {
                     quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
                     quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
@@ -108,7 +108,7 @@ public class BindingPageTests extends BaseTest {
                     }
                     bindingPageActions.clickPreSubjSelectFilesButton(DriverManager.getDriver());
                     bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.INVALID_FILE_TYPE);
-                    assert bindingPageActions.isFileTypeWarningDisplayed(DriverManager.getDriver());
+                    assert bindingPageActions.isFileTypeWarningDisplayed2(DriverManager.getDriver());
                     bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.PDF_DOC_FILE_PATH);
                     bindingPageActions.clickFileDeleteIcon(DriverManager.getDriver());
                     assert bindingPageActions.getFileDeleteIcon(DriverManager.getDriver()).isDisplayed();
@@ -128,7 +128,7 @@ public class BindingPageTests extends BaseTest {
     public void testFileSizeValidationForBinder(Map<String, String> map) throws InterruptedException, AWTException {
         /*****************************************************************
          this test verifies maximum file size that can be uploaded to a Binder
-         story - N2020-33918
+         story - N2020-33918, N2020-34632
          @author - Venkat Kottapalli
          ******************************************************************/
 
@@ -142,7 +142,9 @@ public class BindingPageTests extends BaseTest {
             AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
-            if (quoteListPageActions.clickConfirmAndLock(DriverManager.getDriver())) {
+            quoteListPageActions.selectBRRPCoverageWithoutInvestigation(DriverManager.getDriver());
+            quoteListPageActions.selectBRRPCoverageWithInvestigation(DriverManager.getDriver());
+            if (quoteListPageActions.clickConfirmAndLockButtonIfDisplayed(DriverManager.getDriver())) {
                 if (quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())) {
                     quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
                     quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
@@ -153,6 +155,10 @@ public class BindingPageTests extends BaseTest {
                     quoteListPageActions.submitOrderConfirmation(DriverManager.getDriver());
                     if(Objects.equals(bindingPageActions.getPriorSubjectivityStatus(DriverManager.getDriver()), ConstantVariable.OPEN_STATUS_STRING)){
                         assert !bindingPageActions.isBinderIssuedShortlyText(DriverManager.getDriver());
+                    }else if(Objects.equals(bindingPageActions.getPriorSubjectivityStatus(DriverManager.getDriver()), ConstantVariable.ACCEPTED_STATUS_STRING)){
+                        assert bindingPageActions.isBinderIssuedShortlyText(DriverManager.getDriver());
+                    }else if(Objects.equals(bindingPageActions.getPriorSubjectivityStatus(DriverManager.getDriver()), ConstantVariable.WAIVED_STATUS_STRING)){
+                        assert bindingPageActions.isBinderIssuedShortlyText(DriverManager.getDriver());
                     }
                     assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
                     if (!bindingPageActions.binderSubmitButton(DriverManager.getDriver()).isEnabled()) {

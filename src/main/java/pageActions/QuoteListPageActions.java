@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import utils.fileDownload.FileDownloadUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import static pageObjects.QuoteListPageObjects.*;
 
@@ -28,12 +29,11 @@ public class QuoteListPageActions extends BaseTest {
     }
 
     public List<WebElement> getAllQuoteOptions(WebDriver driver){
-
         List<WebElement> elementList = driver.findElements(quoteOptionsGenericLocator);
-        if(elementList.size()>0){
+        if(!elementList.isEmpty()){
             return elementList;
         }else{
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -81,7 +81,6 @@ public class QuoteListPageActions extends BaseTest {
     }
 
     public String getGivenQuoteOptionPremium(WebDriver driver, int optionCount){
-
         String optionPremiumXpath = "//div[starts-with(@data-qa, 'option_card_"+optionCount+"')]//div[text()='Max. Policy Aggregate Limit']/preceding-sibling::div//span";
         By optionPremium = By.xpath(optionPremiumXpath);
         return TextHelper.getText(driver, optionPremium, "text");
@@ -103,10 +102,6 @@ public class QuoteListPageActions extends BaseTest {
         List<WebElement> deleteIcons = driver.findElements(deleteIconLocator);
         deleteIcons.get(0).click();
         WaitHelper.pause(5000);
-    }
-
-    public boolean addNewQuoteButton(WebDriver driver){
-        return ClickHelper.isElementExist(driver, addQuoteButton);
     }
 
     public void addNewQuote(WebDriver driver, String quoteType){
@@ -155,7 +150,7 @@ public class QuoteListPageActions extends BaseTest {
     public void selectQuoteTemplateOption(WebDriver driver, int index) throws InterruptedException {
         try{
             List<WebElement> templateOptions = driver.findElements(quoteTemplateOption);
-            if(templateOptions.size()>0){
+            if(!templateOptions.isEmpty()){
                 logger.info("selecting quote template option :: selectQuoteTemplateOption");
                 templateOptions.get(index).click();
                 WaitHelper.pause(7000);
@@ -194,9 +189,8 @@ public class QuoteListPageActions extends BaseTest {
         return driver.findElement(clickAsWordDownloadButton).isDisplayed();
     }
 
-    public void verifyStatusConfirmAndLockInProgress(WebDriver driver){
-        WaitHelper.waitForElementVisibility(driver, statusQuoteInProgress);
-        ClickHelper.isElementExist(driver, statusQuoteInProgress);
+    public boolean verifyStatusConfirmAndLockInProgress(WebDriver driver){
+        return ClickHelper.isElementExist(driver, statusQuoteInProgress);
 
     }
     public void verifyStatusConfirmAndLockReadyToPlaceOrder(WebDriver driver){
@@ -205,8 +199,8 @@ public class QuoteListPageActions extends BaseTest {
 
     }
 
-    public boolean clickConfirmAndLock(WebDriver driver) throws InterruptedException {
-        WaitHelper.pause(40000);
+    public boolean clickConfirmAndLockButtonIfDisplayed(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(30000);
         if(ClickHelper.isElementExist(driver, confirmAndLockDisabledButton)){
             logger.error("Confirm and Lock button is disabled");
             return false;
@@ -223,7 +217,8 @@ public class QuoteListPageActions extends BaseTest {
         return TextHelper.getText(driver, quoteLockSuccessMessage, "text");
     }
 
-    public boolean checkIfQuoteLockSuccessMessageDisplayed(WebDriver driver){
+    public boolean checkIfQuoteLockSuccessMessageDisplayed(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(3000);
         return ClickHelper.isElementExist(driver, quoteLockSuccessMessage);
     }
 
@@ -236,7 +231,7 @@ public class QuoteListPageActions extends BaseTest {
         WaitHelper.pause(5000);
         ClickHelper.clickElement(driver, quotePreviewButton);
         WaitHelper.pause(10000);
-        ArrayList<String> tabs2 = new ArrayList<String> (driver.getWindowHandles());
+        ArrayList<String> tabs2 = new ArrayList<> (driver.getWindowHandles());
         if(tabs2.size()>1){
             driver.switchTo().window(tabs2.get(1));
             String newTabPreviewWindow = driver.getTitle();
@@ -298,14 +293,13 @@ public class QuoteListPageActions extends BaseTest {
         WaitHelper.waitForElementVisibility(driver, orderConfirmationDialog);
         TextHelper.enterText(driver, orderConfirmationTextArea, "Place Order Testing");
         ClickHelper.clickElement(driver, orderConfirmationSubmitButton);
-        WaitHelper.pause(5000);
+        WaitHelper.pause(9000);
     }
 
     public String getOpenQuoteId(WebDriver driver){
         String quoteString = TextHelper.getText(driver, openQuoteIdLocator, "text");
         assert quoteString != null;
-        String quoteId = quoteString.split("#")[1];
-        return quoteId;
+        return quoteString.split("#")[1];
     }
 
     public void verifySoftDeclinePopup(WebDriver driver) throws InterruptedException {
@@ -318,14 +312,6 @@ public class QuoteListPageActions extends BaseTest {
 
     public boolean verifyDefaultCoverageCheckboxSelected(WebDriver driver){
         return ClickHelper.isElementExist(driver, coverageGroupCheckbox);
-    }
-
-    public void checkDefaultCoverageCheckboxSelectUnSelect(WebDriver driver) throws InterruptedException {
-        WaitHelper.waitForElementVisibility(driver, firstQuoteOptionPremium);
-        ClickHelper.clickElement(driver, coverageGroupCheckbox);
-        WaitHelper.pause(5000);
-        ClickHelper.clickElement(driver, coverageGroupCheckbox);
-        WaitHelper.waitForElementVisibility(driver, firstQuoteOptionPremium);
     }
 
     public boolean verifyOptionCoverageGroupUnSelect(WebDriver driver) throws InterruptedException {
@@ -343,7 +329,6 @@ public class QuoteListPageActions extends BaseTest {
     }
 
     public boolean verifyOptionCoverageGroupSelect(WebDriver driver) throws InterruptedException {
-
         boolean isFieldVisible = false;
         ClickHelper.clickElement(driver, coverageGroupCheckbox);
         WaitHelper.pause(5000);
@@ -357,7 +342,7 @@ public class QuoteListPageActions extends BaseTest {
         return isFieldVisible;
     }
 
-    public boolean verifyWarningMsgWhenUncheckedOptionCoverageGroup(WebDriver driver) throws InterruptedException {
+    public boolean verifyWarningMsgWhenUncheckedOptionCoverageGroup(WebDriver driver) {
         return ClickHelper.isElementExist(driver, warningMsg);
     }
 
@@ -372,10 +357,7 @@ public class QuoteListPageActions extends BaseTest {
     public boolean isSelectVisibleToNewAddOption(WebDriver driver) throws InterruptedException {
         WaitHelper.pause(3000);
         List<WebElement> optionDropDown = driver.findElements(selectDropDown);
-        if(optionDropDown.size()==3){
-                return true;
-        }
-        return false;
+        return optionDropDown.size() == 3;
     }
 
     public String clickClaimCheckbox(WebDriver driver, String selectCheckbox) throws InterruptedException {
@@ -423,5 +405,34 @@ public class QuoteListPageActions extends BaseTest {
 
     public boolean checkIfFetchingOptionCoveragesMessageDisplayed(WebDriver driver){
         return ClickHelper.isElementExist(driver, fetchingOptionCoverages);
+    }
+
+    public void selectBRRPCoverageWithoutInvestigation(WebDriver driver) throws InterruptedException {
+        try{
+            String eMDCheckbox = "//div[@data-qa='option_card_2']//div//p//span[@data-qa='coverageGroup_isSelected']/span";
+            if(driver.findElement(By.xpath(eMDCheckbox)).isDisplayed()){
+                driver.findElement(By.xpath(eMDCheckbox)).click();
+                selectPerClaim(driver, "2", "$ 250k");
+                selectAggregateLimit(driver, 2, "$ 500k");
+                WaitHelper.pause(5000);
+            }
+        }catch (Exception e){
+            logger.error("Unable to select the coverage " +e.getMessage());
+            throw(e);
+        }
+    }
+
+    public void selectBRRPCoverageWithInvestigation(WebDriver driver) throws InterruptedException {
+        try{
+            String eMDCheckbox = "//div[@data-qa='option_card_3']//div//p//span[@data-qa='coverageGroup_isSelected']/span";
+            if(driver.findElement(By.xpath(eMDCheckbox)).isDisplayed()){
+                driver.findElement(By.xpath(eMDCheckbox)).click();
+                selectPerClaim(driver, "3", "$ 250k");
+                selectAggregateLimit(driver, 3, "$ 500k");
+            }
+        }catch (Exception e){
+            logger.error("Unable to select the coverage " +e.getMessage());
+            throw(e);
+        }
     }
 }

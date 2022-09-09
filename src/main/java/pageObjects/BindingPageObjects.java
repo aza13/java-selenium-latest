@@ -37,6 +37,7 @@ public class BindingPageObjects {
     public static final By BinderText = By.xpath("//p[contains(text(),'Binder has been issued')]");
     public static final By PreBinderText = By.xpath("//p[contains(text(),'Binder will be issued shortly')]");
     public static final By maximumFileSizeText = By.xpath("//p[starts-with(text(), 'Total file submission size cannot be larger than 5MB')]");
+    public static final By singleFileMaximumSizeText = By.xpath("//p[starts-with(text(), 'A single file cannot be larger than 2MB ')]");
     public static final By fileSizeExceededText = By.xpath("//p[starts-with(text(), 'You have exceeded the maximum 5MB file')]");
     public static final By priorSubjectivityStatus = By.xpath("//p[text()='Status:']/following-sibling::p/div");
     public static final By bindersWillBeIssuedShortlyText = By.xpath("//p[text()='Binder will be issued shortly']");

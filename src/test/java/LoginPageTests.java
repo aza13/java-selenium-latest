@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 import pageActions.DashboardPageActions;
 import pageActions.LoginPageActions;
 import utils.dataProvider.TestDataProvider;
-
 import java.util.Map;
 
 public class LoginPageTests extends BaseTest {
@@ -27,9 +26,11 @@ public class LoginPageTests extends BaseTest {
     public void testLoginFunctionality(Map<String, String> map) throws InterruptedException {
         /***
          this test verifies login functionality
-         story - N2020-28282
+         story - N2020-28282, 35082
          **/
         logger.info("verifying login functionality :: testQuotesDashboardUI");
+        String description = loginPageActions.getLandingPageDescription(DriverManager.getDriver()).trim();
+        assert !description.contains("TMHCC") && !description.contains(".");
         DashboardPageActions dashboardPageActions = PageObjectManager.getDashboardPageActions();
         if (map.get("scenario").equalsIgnoreCase("validData")) {
             loginPageActions.loginApp(DriverManager.getDriver(), map.get("userId"), map.get("userPassword"));
@@ -49,11 +50,9 @@ public class LoginPageTests extends BaseTest {
             WaitHelper.pause(3000);
             loginPageActions.loginApp(DriverManager.getDriver(), map.get("userId"), map.get("userPassword"));
             dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
-            assert !dashboardPageActions.isBrokerIdDisplayed(DriverManager.getDriver());
             dashboardPageActions.signOutLink(DriverManager.getDriver()).click();
             String text = loginPageActions.getWelcomeText(DriverManager.getDriver());
             assert text.contentEquals("Welcome to QuoteIt");
-
         }
     }
 
