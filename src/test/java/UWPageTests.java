@@ -8,6 +8,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageActions.*;
 import utils.dataProvider.TestDataProvider;
+import utils.fileReader.ConfigDataReader;
 import workflows.AnswerUnderwriterQuestions;
 import workflows.CreateApplicant;
 import workflows.FillApplicantDetails;
@@ -70,19 +71,22 @@ public class UWPageTests extends BaseTest {
             AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
-            quoteListPageActions.verifyStatusConfirmAndLockInProgress(DriverManager.getDriver());
+            assert quoteListPageActions.verifyStatusConfirmAndLockInProgress(DriverManager.getDriver());
+            if(ConfigDataReader.getInstance().getProperty("product").contains("Ophthalmic")){
+                quoteListPageActions.selectBRRPCoverageWithoutInvestigation(DriverManager.getDriver());
+                quoteListPageActions.selectBRRPCoverageWithInvestigation(DriverManager.getDriver());
+            }
             quoteListPageActions.clickConfirmQuoteButton(DriverManager.getDriver());
-            if (quoteListPageActions.clickConfirmAndLock(DriverManager.getDriver())) {
+            if (quoteListPageActions.clickConfirmAndLockButtonIfDisplayed(DriverManager.getDriver())) {
                 if (quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())) {
                     quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
                     quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
                 } else {
-                    quoteListPageActions.checkIfQuoteLockSuccessMessageDisplayed(DriverManager.getDriver());
+                    assert quoteListPageActions.checkIfQuoteLockSuccessMessageDisplayed(DriverManager.getDriver());
                 }
             }
             underwritingQuestionsPageActions.clickUnderwritingQuestionsPageTab(DriverManager.getDriver());
             boolean isEditButtonVisible1 = underwritingQuestionsPageActions.checkEditButtonIsVisible(DriverManager.getDriver());
-
             if(!isEditButtonVisible1) {
                 underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
             } else {
@@ -110,29 +114,9 @@ public class UWPageTests extends BaseTest {
          **/
 
         logger.info("verifying :: hard decline after UW Questions");
-        dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        String newInsuredName = FakeDataHelper.fullName();
-        String newInsuredWebsite = FakeDataHelper.website();
-        dashboardPageActions.createNewQuote(DriverManager.getDriver(), product, newInsuredName, newInsuredWebsite);
-        InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
-        insuredPageActions.enterEmailAddress(DriverManager.getDriver());
-        insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
-        assert insuredPageActions.verifyValidPhoneNumberFormat(DriverManager.getDriver());
-        insuredPageActions.enterPhysicalAddress(DriverManager.getDriver());
-        insuredPageActions.enterPhyCity(DriverManager.getDriver());
-        insuredPageActions.enterPhyZipcode(DriverManager.getDriver());
-        insuredPageActions.selectPhyState(DriverManager.getDriver());
-        insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
-        insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
-
+        CreateApplicant.createApplicant(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            if (map.get("product").equals("NetGuard® SELECT")) {
-                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass2"));
-                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
-                ratingCriteriaPageActions.enterNetWorth(DriverManager.getDriver(), map.get("netWorth"));
-            } else {
-                ratingCriteriaPageActions.enterRatingCriteriaNoPhysiciansRevenueAndRecords(DriverManager.getDriver(), map.get("noPhysicians"), map.get("revenue"), map.get("records"));
-            }
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
@@ -141,8 +125,13 @@ public class UWPageTests extends BaseTest {
                 logger.info("continue button is enabled, means UW questions are answered");
             } else {
                 logger.info("continue button is disabled, means UW questions are not answered");
-                underwritingQuestionsPageActions.answerUWQuestionButtons(DriverManager.getDriver(), map.get("uwQuestionsAnswer"));
-                underwritingQuestionsPageActions.answerUWQuestionDropdowns(DriverManager.getDriver(), map.get("uwQuestionsAnswer"), map.get("uwQuestionsOption"));
+                if(ConfigDataReader.getInstance().getProperty("product").contains("NetGuard")){
+                    underwritingQuestionsPageActions.answerUWQuestionButtons(DriverManager.getDriver(), map.get("uwQuestionsAnswer"));
+                    underwritingQuestionsPageActions.answerUWQuestionDropdowns(DriverManager.getDriver(), map.get("uwQuestionsAnswer"), map.get("uwQuestionsOption"));
+                }else{
+                    underwritingQuestionsPageActions.answerFirstUWQuestion(DriverManager.getDriver());
+                    underwritingQuestionsPageActions.answerUWQuestionButtonsOMICProduct2(DriverManager.getDriver());
+                }
             }
             underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
             underwritingQuestionsPageActions.verifySoftDeclinePopupHeader(DriverManager.getDriver());

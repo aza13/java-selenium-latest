@@ -20,6 +20,10 @@ public class LoginPageActions extends BaseTest {
         return TextHelper.getText(driver, welcomeText, "text");
     }
 
+    public String getLandingPageDescription(WebDriver driver){
+        return TextHelper.getText(driver, landingPageDescription, "text");
+    }
+
     public DashboardPageActions loginApp(WebDriver driver, String email_id, String password) {
 
         TextHelper.enterText(driver, emailTextField, email_id);
@@ -39,7 +43,6 @@ public class LoginPageActions extends BaseTest {
     }
 
     public boolean  resetPassword (WebDriver driver, String email_id) {
-
         ClickHelper.clickElement(driver, forgetPasswordLink);
         TextHelper.enterText(driver, forgotEmailTextField, email_id);
         ClickHelper.clickElement(driver, sendForgotPasswordLink);

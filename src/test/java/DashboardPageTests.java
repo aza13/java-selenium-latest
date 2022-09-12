@@ -37,7 +37,7 @@ public class DashboardPageTests extends BaseTest {
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
     public void testQuotesDashboardUI(Map<String, String> map) throws InterruptedException {
         /**
-         * this test verifies UI of dashboard and Mu Quotes list
+         * this test verifies UI of dashboard and My Quotes list
          story - N2020-28285, N2020-28287, N2020-28631
          @author - Venkat Kottapalli
          **/
@@ -51,21 +51,21 @@ public class DashboardPageTests extends BaseTest {
         List<WebElement> quoteCardsList = dashboardPageActions.getQuoteCardsList(DriverManager.getDriver());
         if (quoteCardsList.size() > 0) {
             assert true;
+            List<WebElement> labels = dashboardPageActions.getQuoteTableLabels(DriverManager.getDriver());
+            if (labels.size() > 0) {
+                assert labels.get(0).getText().equals(map.get("submissionLabel"));
+                assert labels.get(1).getText().equals(map.get("dateLabel"));
+                assert labels.get(2).getText().equals(map.get("product"));
+                assert labels.get(3).getText().equals(map.get("startDateLabel"));
+                assert labels.get(4).getText().equals(map.get("endDateLabel"));
+                assert labels.get(5).getText().equals(map.get("statusLabel"));
+                logger.info("verify quote status color- In Progress");
+//            dashboardPageActions.validateQuoteStatusColorCoding(DriverManager.getDriver());
+                logger.info("verify quote correct status displayed");
+                assert dashboardPageActions.verifyQuoteStatusInTable(DriverManager.getDriver());
+            }
         } else {
             assert dashboardPageActions.noQuoteFound(DriverManager.getDriver()).isDisplayed();
-        }
-        List<WebElement> labels = dashboardPageActions.getQuoteTableLabels(DriverManager.getDriver());
-        if (labels.size() > 0) {
-            assert labels.get(0).getText().equals(map.get("submissionLabel"));
-            assert labels.get(1).getText().equals(map.get("dateLabel"));
-            assert labels.get(2).getText().equals(map.get("product"));
-            assert labels.get(3).getText().equals(map.get("startDateLabel"));
-            assert labels.get(4).getText().equals(map.get("endDateLabel"));
-            assert labels.get(5).getText().equals(map.get("statusLabel"));
-            logger.info("verify quote status color- In Progress");
-//            dashboardPageActions.validateQuoteStatusColorCoding(DriverManager.getDriver());
-            logger.info("verify quote correct status displayed");
-            assert dashboardPageActions.verifyQuoteStatusInTable(DriverManager.getDriver());
         }
         logger.info("verify logout functionality");
         LoginPageActions loginPageActions = dashboardPageActions.logoutApp(DriverManager.getDriver());
@@ -87,23 +87,23 @@ public class DashboardPageTests extends BaseTest {
         List<WebElement> policyCardsList = dashboardPageActions.getPolicyCardsList(DriverManager.getDriver());
         if (policyCardsList.size() > 0) {
             assert true;
+             /* Status color changes would be coming soon with Hexa codes
+        dashboardPageActions.validatePolicyStatusColorCoding(DriverManager.getDriver());*/
+            List<WebElement> labels = dashboardPageActions.getPolicyTableLabels(DriverManager.getDriver());
+            if (labels.size() > 0) {
+                String policyLabel = labels.get(0).getText();
+                assert policyLabel.equals(map.get("policyLabel"));
+                String coverage = labels.get(1).getText();
+                assert coverage.equals(map.get("product"));
+                String effDateLabel = labels.get(2).getText();
+                assert effDateLabel.equals(map.get("effDateLabel"));
+                String expDateLabel = labels.get(3).getText();
+                assert expDateLabel.equals(map.get("expDateLabel"));
+            } else {
+                throw new SkipException("No policies were found for the given broker");
+            }
         } else {
             assert dashboardPageActions.noPolicyFound(DriverManager.getDriver()).isDisplayed();
-        }
-        /* Status color changes would be coming soon with Hexa codes
-        dashboardPageActions.validatePolicyStatusColorCoding(DriverManager.getDriver());*/
-        List<WebElement> labels = dashboardPageActions.getPolicyTableLabels(DriverManager.getDriver());
-        if (labels.size() > 0) {
-            String policyLabel = labels.get(0).getText();
-            assert policyLabel.equals(map.get("policyLabel"));
-            String coverage = labels.get(1).getText();
-            assert coverage.equals(map.get("product"));
-            String effDateLabel = labels.get(2).getText();
-            assert effDateLabel.equals(map.get("effDateLabel"));
-            String expDateLabel = labels.get(3).getText();
-            assert expDateLabel.equals(map.get("expDateLabel"));
-        } else {
-            throw new SkipException("No policies were found for the given broker");
         }
 
     }

@@ -98,8 +98,8 @@ public class BindingPageActions extends BaseTest {
 
     public boolean isFileMaximumSizeTextDisplayed(WebDriver driver) throws InterruptedException {
         WaitHelper.pause(3000);
-        ScrollHelper.scrollElementIntoView(driver, maximumFileSizeText);
-        return ClickHelper.isElementExist(driver, maximumFileSizeText);
+        ScrollHelper.scrollElementIntoView(driver, singleFileMaximumSizeText);
+        return ClickHelper.isElementExist(driver, singleFileMaximumSizeText);
     }
 
     public boolean isFileTypeWarningDisplayed(WebDriver driver) throws InterruptedException {

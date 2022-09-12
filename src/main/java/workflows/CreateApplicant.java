@@ -43,8 +43,5 @@ public class CreateApplicant {
         }else{
             return null;
         }
-
     }
-
-
 }

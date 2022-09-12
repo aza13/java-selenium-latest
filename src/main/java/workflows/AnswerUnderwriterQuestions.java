@@ -28,7 +28,7 @@ public class AnswerUnderwriterQuestions {
                 underwritingQuestionsPageActions.answerUWQuestionButtons(driver, map.get("uwQuestionsAnswer"));
                 underwritingQuestionsPageActions.answerUWQuestionDropdowns(driver, map.get("uwQuestionsAnswer"), map.get("uwQuestionsOption"));
             }else{
-                underwritingQuestionsPageActions.answerFirstUWQuestion(DriverManager.getDriver());
+                underwritingQuestionsPageActions.answerFirstUWQuestion(driver);
                 underwritingQuestionsPageActions.answerUWQuestionButtonsOMICProduct2(driver);
             }
         }

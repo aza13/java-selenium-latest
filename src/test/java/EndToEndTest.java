@@ -66,7 +66,7 @@ public class EndToEndTest extends BaseTest {
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             String quoteId = quoteListPageActions.getOpenQuoteId(DriverManager.getDriver());
-            if (quoteListPageActions.clickConfirmAndLock(DriverManager.getDriver())) {
+            if (quoteListPageActions.clickConfirmAndLockButtonIfDisplayed(DriverManager.getDriver())) {
                 if (quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())) {
                     quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
                     quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
