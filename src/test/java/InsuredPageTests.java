@@ -9,6 +9,7 @@ import pageActions.DashboardPageActions;
 import pageActions.InsuredPageActions;
 import pageActions.RatingCriteriaPageActions;
 import utils.dataProvider.TestDataProvider;
+import utils.fileReader.ConfigDataReader;
 
 import java.util.Map;
 
@@ -33,7 +34,7 @@ public class InsuredPageTests extends BaseTest {
          **/
         logger.info("verifying creating new quote creation :: testCreateInsuredFieldsValidation");
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        dashboardPageActions.createNewQuote(DriverManager.getDriver(), map.get("product"), map.get("applicantName"), map.get("website"));
+        dashboardPageActions.createNewQuote(DriverManager.getDriver(), ConfigDataReader.getInstance().getProperty("product"), map.get("applicantName"), map.get("website"));
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         insuredPageActions.clickNewInsuredButton(DriverManager.getDriver());
         String insuredName = insuredPageActions.getInsuredName(DriverManager.getDriver());
@@ -59,7 +60,7 @@ public class InsuredPageTests extends BaseTest {
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         String newInsuredName = FakeDataHelper.fullName();
         String newInsuredWebsite = FakeDataHelper.website();
-        dashboardPageActions.createNewQuote(DriverManager.getDriver(), map.get("product"), newInsuredName,newInsuredWebsite);
+        dashboardPageActions.createNewQuote(DriverManager.getDriver(), ConfigDataReader.getInstance().getProperty("product"), newInsuredName,newInsuredWebsite);
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         if (!insuredPageActions.isCreateNewInsuredTextDisplayed(DriverManager.getDriver())){
             insuredPageActions.clickNewInsuredButton(DriverManager.getDriver());
@@ -84,9 +85,9 @@ public class InsuredPageTests extends BaseTest {
          story - N2020-29653
          @author - Venkat Kottapalli
          **/
-        logger.info("verifying modify search of insured :: testModifyInsuredSearch");
+        logger.info("verifying modify search of insured :: testSearchAgainFunctionality");
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        dashboardPageActions.createNewQuote(DriverManager.getDriver(), map.get("product"), map.get("applicantName"), map.get("website"));
+        dashboardPageActions.createNewQuote(DriverManager.getDriver(), ConfigDataReader.getInstance().getProperty("product"), map.get("applicantName"), map.get("website"));
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         assert insuredPageActions.validateSearchAgainButtonWithInsuredName(DriverManager.getDriver(), map.get("secondApplicant"));
         insuredPageActions.enterApplicantWebsite(DriverManager.getDriver(), map.get("secondWebsite"));
@@ -103,7 +104,7 @@ public class InsuredPageTests extends BaseTest {
          **/
         logger.info("verifying duplicate submissions :: testCheckDuplicateSubmission");
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        dashboardPageActions.createNewQuote(DriverManager.getDriver(), map.get("product"), map.get("applicantName"), map.get("website"));
+        dashboardPageActions.createNewQuote(DriverManager.getDriver(), ConfigDataReader.getInstance().getProperty("product"), map.get("applicantName"), map.get("website"));
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         insuredPageActions.selectInsuredCard(DriverManager.getDriver(), map.get("applicantName"));
         if(insuredPageActions.isClearanceDialogModalDisplayed(DriverManager.getDriver())){
@@ -128,11 +129,10 @@ public class InsuredPageTests extends BaseTest {
          **/
         logger.info("verifying Clicking QuoteIt Logo to Return to Dashboard :: testClickingLogoNavigatesToDashboardPage");
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        dashboardPageActions.createNewQuote(DriverManager.getDriver(), map.get("product"), map.get("applicantName"), map.get("website"));
-        InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
+        dashboardPageActions.createNewQuote(DriverManager.getDriver(), ConfigDataReader.getInstance().getProperty("product"), map.get("applicantName"), map.get("website"));
+        dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         dashboardPageActions.clickQuoteIt(DriverManager.getDriver());
         assert dashboardPageActions.myQuotesTab(DriverManager.getDriver()).isDisplayed();
-        
 
     }
 }

@@ -77,14 +77,13 @@ public class RatingCriteriaPageTests extends BaseTest {
         assert actualFirstStatus.equals("Declined");
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "RatingCriteriaPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "RatingCriteriaPageData", enabled = false)
     public void  testProposedPolicyPeriod(Map<String, String> map) throws InterruptedException {
         /***
-         this test Brokers can see proposed policy period  criteria
+         this test Brokers can see proposed policy period  criteria -- this needs to be verified
          story - N2020-28622
          @author - Azamat Uulu
          **/
-
         logger.info("verifying :: proposed policy period");
         CreateApplicant.createApplicant(DriverManager.getDriver());
         RatingCriteriaPageActions ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();

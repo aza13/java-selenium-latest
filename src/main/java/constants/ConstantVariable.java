@@ -23,6 +23,8 @@ public class ConstantVariable {
     public static final String APPROVED_STRING = "Approved";
     public static final String ORDER_PLACED_STRING = "Order Placed";
     public static final String OPEN_STATUS_STRING = "Open";
+    public static final String ACCEPTED_STATUS_STRING = "Accepted";
+    public static final String WAIVED_STATUS_STRING = "Waived";
     public static final String NEW_INSURED_DETAILS_FILE = ".//src//main//resources//newInsuredData.json";
     public static final String WORD_DOC_FILE_PATH = "\\src\\main\\resources\\wordDoc.docx";
     public static final String PDF_DOC_FILE_PATH = "\\src\\main\\resources\\pdfDoc.pdf";
