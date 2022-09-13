@@ -17,7 +17,7 @@ public class QuoteListPageObjects {
     public static final By confirmAndLockQuoteButton = By.xpath("//button[text()='Confirm and Lock']");
     public static final By quoteListContainer = By.xpath("//div[@data-qa='quote_list_container']");
     public static final By clickAsPDFDownloadButton = By.xpath("//*[@data-testid='PictureAsPdfIcon']");
-    public static final By clickAsApplicationButton = By.xpath("//*[name()='path' and contains(@d,'M18 2h-8L4')]");
+    public static final By clickAsApplicationButton = By.xpath("//div[@id='panel-header-1']//div[5]//*[name()='svg']");
     public static final By clickAsWordDownloadButton = By.xpath("//div[@aria-label='Download Word']//img");
     public static final By quotesTab = By.xpath("//button[text()='Quotes']");
     public static final By quotesTabDisabled = By.xpath("//button[text()='Quotes' and @disabled]");

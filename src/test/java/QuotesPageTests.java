@@ -539,6 +539,7 @@ public class QuotesPageTests extends BaseTest {
     public void testDownloadApplicationInQuote(Map<String, String> map) throws InterruptedException, SQLException {
         /***
          this test verifies brokers can download application form
+         This story works with 9.5 only
          story - N2020-34254-QAT-434
          @author - Azamat Uulu
          **/
@@ -561,7 +562,7 @@ public class QuotesPageTests extends BaseTest {
             if (confirmedQuote) {
                 quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
                 boolean pdfDownload = quoteListPageActions.clickApplicationDownload(DriverManager.getDriver(), map.get("pdfFilename"));
-                Assert.assertTrue(pdfDownload);
+                Assert.assertFalse(pdfDownload);
 
             } else {
                 logger.info("No confirmed quotes available, to download the quote ");
