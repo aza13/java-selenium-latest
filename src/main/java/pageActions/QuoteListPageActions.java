@@ -171,6 +171,16 @@ public class QuoteListPageActions extends BaseTest {
         return FileDownloadUtil.verifyPDFFileDownload(filename);
     }
 
+    public boolean clickApplicationDownload(WebDriver driver, String filename) throws InterruptedException {
+
+        FileDownloadUtil.checkFileExistInDownloadFolder();
+
+        ClickHelper.clickElement(driver, clickAsApplicationButton);
+        WaitHelper.pause(15000);
+
+        return FileDownloadUtil.verifyPDFFileDownload(filename);
+    }
+
     public boolean clickWORDFileDownload(WebDriver driver, String filename1, String filename2) throws InterruptedException {
 
         FileDownloadUtil.checkFileExistInDownloadFolder();
