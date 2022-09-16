@@ -1,14 +1,15 @@
 import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
-import constants.ConstantVariable;
-import helper.FakeDataHelper;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import pageActions.*;
+import pageActions.DashboardPageActions;
+import pageActions.QuoteListPageActions;
+import pageActions.RatingCriteriaPageActions;
+import pageActions.UnderwritingQuestionsPageActions;
 import utils.dataProvider.TestDataProvider;
 import utils.dbConnector.DatabaseConnector;
 import workflows.AnswerUnderwriterQuestions;
@@ -57,7 +58,7 @@ public class RatingCriteriaPageTests extends BaseTest {
         underwritingQuestionsPageActions.clickExitQuestion(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "RatingCriteriaPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "RatingCriteriaPageData", enabled = false)
     public void  testHardDeclineAfterRatingCriteria(Map<String, String> map) throws InterruptedException {
         /***
          this test hard decline after rating criteria

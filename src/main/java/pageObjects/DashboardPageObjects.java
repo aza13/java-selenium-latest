@@ -96,7 +96,7 @@ public class DashboardPageObjects {
 
     public static final By getFirstAvailableReferenceId = By.xpath("//*[@id='simple-tabpanel-0']/div/p/div[1]/div[1]/div[2]/div/p | //*[@id='simple-tabpanel-1']/div/p/div[1]/div/div[2]/div/p");
 
-    public static final By searchForNoResult = By.xpath("//p[contains(text(),'Your search has returned no results.')]");
+    public static final By noSearchResultsText = By.xpath("//p[contains(text(),'Your search has returned no results.')]");
 
     public static final By getFirstAvailableLegalName = By.xpath("(//div[@data-qa='quote_card']//div[text()='Applicant']/following-sibling::div)[1]");
 

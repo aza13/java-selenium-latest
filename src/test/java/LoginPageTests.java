@@ -8,6 +8,8 @@ import org.testng.annotations.Test;
 import pageActions.DashboardPageActions;
 import pageActions.LoginPageActions;
 import utils.dataProvider.TestDataProvider;
+import utils.fileReader.ConfigDataReader;
+
 import java.util.Map;
 
 public class LoginPageTests extends BaseTest {
@@ -33,12 +35,11 @@ public class LoginPageTests extends BaseTest {
         assert !description.contains("TMHCC") && !description.contains(".");
         DashboardPageActions dashboardPageActions = PageObjectManager.getDashboardPageActions();
         if (map.get("scenario").equalsIgnoreCase("validData")) {
-            loginPageActions.loginApp(DriverManager.getDriver(), map.get("userId"), map.get("userPassword"));
+            loginPageActions.loginApp(DriverManager.getDriver(), ConfigDataReader.getInstance().getProperty("userId"), ConfigDataReader.getInstance().getProperty("password"));
             WaitHelper.pause(3000);
             assert DriverManager.getDriver().getCurrentUrl().contains("dashboard");
             dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
             assert !dashboardPageActions.isBrokerIdDisplayed(DriverManager.getDriver());
-
         } else if (map.get("scenario").equalsIgnoreCase("invalidData")) {
             loginPageActions.loginApp(DriverManager.getDriver(), map.get("userId"), map.get("userPassword"));
             assert loginPageActions.invalidUserNamePasswordText(DriverManager.getDriver()).isDisplayed();
@@ -48,7 +49,7 @@ public class LoginPageTests extends BaseTest {
             assert loginPageActions.pleaseProvideEmailPasswordText(DriverManager.getDriver()).isDisplayed();
         } else if (map.get("scenario").equalsIgnoreCase("logout")) {
             WaitHelper.pause(3000);
-            loginPageActions.loginApp(DriverManager.getDriver(), map.get("userId"), map.get("userPassword"));
+            loginPageActions.loginApp(DriverManager.getDriver(), ConfigDataReader.getInstance().getProperty("userId"), ConfigDataReader.getInstance().getProperty("password"));
             dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
             dashboardPageActions.signOutLink(DriverManager.getDriver()).click();
             String text = loginPageActions.getWelcomeText(DriverManager.getDriver());
@@ -57,7 +58,7 @@ public class LoginPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "LoginPageData")
-    public void testResetPassword(Map<String, String> map) throws InterruptedException {
+    public void testResetPassword(Map<String, String> map) {
         /***
          this test verifies login functionality
          story - N2020-28284

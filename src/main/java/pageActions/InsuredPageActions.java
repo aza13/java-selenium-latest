@@ -152,9 +152,8 @@ public class InsuredPageActions extends BaseTest {
     }
 
     public void clickContinueInsuredFormButton(WebDriver driver) throws InterruptedException {
-
         ClickHelper.clickElement(driver, continueInsuredFormButton);
-        WaitHelper.pause(15000);
+        WaitHelper.waitForProgressbarInvisibility(driver);
     }
 
     public boolean validateSearchAgainButtonWithInsuredName(WebDriver driver, String name) {
@@ -229,7 +228,7 @@ public class InsuredPageActions extends BaseTest {
 
     public boolean isClearanceSubmitButtonEnabled(WebDriver driver) {
 
-        return driver.findElement(clearanceDialogModal).isEnabled();
+        return driver.findElement(clearanceSubmitButton).isEnabled();
     }
 
     public void clickClearanceSubmitButton(WebDriver driver) {

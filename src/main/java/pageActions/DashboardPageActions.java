@@ -357,10 +357,13 @@ public class DashboardPageActions extends BaseTest {
         return driver.findElement(noQuoteFoundText);
     }
 
+    public boolean verifyWhetherResultsDisplayed(WebDriver driver) {
+        return ClickHelper.isElementExist(driver, noSearchResultsText);
+    }
+
     public String getSearchForNoResult(WebDriver driver) throws InterruptedException {
         WaitHelper.pause(3000);
-        return TextHelper.getText(driver, searchForNoResult, "text");
-
+        return TextHelper.getText(driver, noSearchResultsText, "text");
     }
 
     public String getFirstAvailableReferenceId(WebDriver driver) {

@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import pageActions.*;
 import utils.dataProvider.TestDataProvider;
 import utils.dbConnector.DatabaseConnector;
+import utils.fileReader.ConfigDataReader;
 import workflows.AnswerUnderwriterQuestions;
 import workflows.CreateApplicant;
 import workflows.FillApplicantDetails;
@@ -142,8 +143,10 @@ public class BindingPageTests extends BaseTest {
             AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
-            quoteListPageActions.selectBRRPCoverageWithoutInvestigation(DriverManager.getDriver());
-            quoteListPageActions.selectBRRPCoverageWithInvestigation(DriverManager.getDriver());
+            if(ConfigDataReader.getInstance().getProperty("product").contains("Ophthalmic")){
+                quoteListPageActions.selectBRRPCoverageWithoutInvestigation(DriverManager.getDriver());
+                quoteListPageActions.selectBRRPCoverageWithInvestigation(DriverManager.getDriver());
+            }
             if (quoteListPageActions.clickConfirmAndLockButtonIfDisplayed(DriverManager.getDriver())) {
                 if (quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())) {
                     quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());

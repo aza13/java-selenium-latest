@@ -65,6 +65,7 @@ public class EndToEndTest extends BaseTest {
             AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
+            // add quote option and delete it
             String quoteId = quoteListPageActions.getOpenQuoteId(DriverManager.getDriver());
             if (quoteListPageActions.clickConfirmAndLockButtonIfDisplayed(DriverManager.getDriver())) {
                 if (quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())) {

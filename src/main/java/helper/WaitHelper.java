@@ -54,13 +54,21 @@ public class WaitHelper {
         }
     }
 
-    public static void waitForElementVisibility2(WebDriver driver, By elementLocator) {
+    public static void waitForProgressbarInvisibility(WebDriver driver) throws InterruptedException {
 
-        logger.info("Waiting for element visibility:: waitForElementVisibility");
+        logger.info("waiting for progressbar to invisible :: waitForProgressbarInvisibility");
         try {
-            WebDriverWait wait = new WebDriverWait(driver, 30);
-            wait.until(ExpectedConditions.visibilityOf(driver.findElement(elementLocator)));
-            logger.info("Element is visibility");
+            String progressbarXpath = "//span[@role='progressbar']/parent::div";
+            int n = 0;
+            while(n<10){
+                pause(3000);
+                String text = TextHelper.getText(driver, By.xpath(progressbarXpath), "style").trim();
+                if(text.contains("hidden")){
+                    break;
+                }
+                n++;
+            }
+            logger.info("element is visible, i.e progressbar is disappeared");
         } catch (Exception e) {
             logger.error("Failed - Element not visible or present :: waitForElementVisibility ",e);
             throw (e);
