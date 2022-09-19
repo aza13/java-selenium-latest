@@ -52,7 +52,7 @@ public class TextHelper {
             }else if(parameter.equals("value")){
                 return driver.findElement(elementLocator).getAttribute("value");
             }else{
-                return null;
+                return driver.findElement(elementLocator).getAttribute(parameter);
             }
         } catch (Exception e) {
             logger.error("Failed to get the text from the element " + elementLocator+" :: getText");

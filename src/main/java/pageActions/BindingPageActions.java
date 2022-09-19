@@ -69,7 +69,6 @@ public class BindingPageActions extends BaseTest {
 
         logger.info("creating object of Robot class");
         Robot rb = new Robot();
-
         String filePath = System.getProperty("user.dir")+relativeFilePath;
 
         logger.info("copying File path to Clipboard");

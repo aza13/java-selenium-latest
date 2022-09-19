@@ -51,19 +51,24 @@ public class QuoteListPageActions extends BaseTest {
         WaitHelper.waitForElementVisibility(driver, aggregateLimitDropdown);
         WebElement dropdown = driver.findElement(aggregateLimitDropdown);
         DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, perClaimOptionGenericLocator, aggLimit);
-        WaitHelper.pause(10000);
+        WaitHelper.pause(5000);
     }
 
     public boolean selectRetentionOption(WebDriver driver, int optionCount, String retention) throws InterruptedException {
-        String retentionOptionXpath = "//div[@data-qa='option_card_"+optionCount+"']//div[@data-qa='retentionGroup']/div//input";
+        String retentionOptionXpath = "//div[@data-qa='option_card_"+optionCount+"']//div[@data-qa='retentionGroup']/div";
+        String errorIconXpath = "//div[@data-qa='option_card_"+optionCount+"']//*[@data-testid='ErrorOutlineIcon']";
+        By errorIcon = By.xpath(errorIconXpath);
         By retentionDropdown = By.xpath(retentionOptionXpath);
         WebElement dropdown = driver.findElement(retentionDropdown);
-        if(dropdown.isEnabled()){
-            DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, perClaimOptionGenericLocator, retention);
-            return true;
-        }
-        return false;
 
+        if( !ClickHelper.isElementExist(driver, errorIcon)){
+            if(dropdown.isEnabled()){
+                DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, perClaimOptionGenericLocator, retention);
+            }
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public int getQuoteOptionCount(WebDriver driver){
