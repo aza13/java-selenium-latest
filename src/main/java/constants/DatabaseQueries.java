@@ -15,12 +15,12 @@ public class DatabaseQueries extends BaseTest {
             "            inner join snapqa_10.submission s\n" +
             "            on s.id=q.submission_id\n" +
             "            inner join auth.broker b on b.id=s.broker_id \n" +
-            "            where q.is_locked=1 and q.type='quote' and q.status='active' and s.broker_id=7504 and s.product_id=4992 and s.status='active' order by s.id desc;";
+            "            where q.is_locked=1 and q.type='quote' and q.status='active' and s.broker_id=7504 and s.product_id=4992 and s.status='active' AND s.is_option_ordered =0 order by s.id desc;";
     public static final String GET_SUBMISSIONS_WITH_BINDER_DOCUMENT = "SELECT b.id,s.id FROM snapqa_10.quote q \n" +
             "            inner join snapqa_10.submission s\n" +
             "            on s.id=q.submission_id\n" +
             "            inner join auth.broker b on b.id=s.broker_id \n" +
-            "            where q.is_locked=1 and q.type='quote' and q.status='Active' and s.broker_id=7504 and s.product_id=4992 and s.status='active' AND s.policy_id IS NOT null order by s.id desc;";
+            "            where q.is_locked=1 and q.type='quote' and q.status='Active' and s.broker_id=7504 and s.product_id=4992 and s.status='active' AND s.policy_id IS NOT null AND s.is_bound= 1 order by s.id desc;";
 
     public static final String GET_SUBMISSION_ID_WITH_QUOTE_ID = "select submission_id from "+ ConfigDataReader.getInstance().getProperty("dbSchema")+".quote where id=";
     public static final String UPDATE_IN_REVIEW_SUBMISSION_TO_ACTIVE = "update auth.submission set status='active' where id=";
