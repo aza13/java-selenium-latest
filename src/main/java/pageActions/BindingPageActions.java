@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.sikuli.script.FindFailed;
+import utils.fileDownload.FileDownloadUtil;
 
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
@@ -13,6 +14,7 @@ import java.awt.event.KeyEvent;
 import java.util.List;
 
 import static pageObjects.BindingPageObjects.*;
+import static pageObjects.QuoteListPageObjects.clickBinderPDFButton;
 import static pageObjects.QuoteListPageObjects.deleteIconLocator;
 
 public class BindingPageActions extends BaseTest {
@@ -204,5 +206,15 @@ public class BindingPageActions extends BaseTest {
 
     public String getPriorSubjectivityStatus(WebDriver driver){
         return TextHelper.getText(driver, priorSubjectivityStatus, "text");
+    }
+
+    public boolean clickBinderDownload(WebDriver driver, String filename) throws InterruptedException {
+
+        FileDownloadUtil.checkFileExistInDownloadFolder();
+
+        ClickHelper.clickElement(driver, clickBinderPDFButton);
+        WaitHelper.pause(15000);
+
+        return FileDownloadUtil.verifyPDFFileDownload(filename);
     }
 }
