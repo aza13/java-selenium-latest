@@ -14,7 +14,6 @@ import java.awt.event.KeyEvent;
 import java.util.List;
 
 import static pageObjects.BindingPageObjects.*;
-import static pageObjects.QuoteListPageObjects.clickBinderPDFButton;
 import static pageObjects.QuoteListPageObjects.deleteIconLocator;
 
 public class BindingPageActions extends BaseTest {
