@@ -41,5 +41,6 @@ public class BindingPageObjects {
     public static final By fileSizeExceededText = By.xpath("//p[starts-with(text(), 'You have exceeded the maximum 5MB file')]");
     public static final By priorSubjectivityStatus = By.xpath("//p[text()='Status:']/following-sibling::p/div");
     public static final By bindersWillBeIssuedShortlyText = By.xpath("//p[text()='Binder will be issued shortly']");
+    public static final By clickBinderPDFButton = By.xpath("(//*[name()='path'])[5]");
 
 }
