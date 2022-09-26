@@ -277,6 +277,14 @@ public class InsuredPageActions extends BaseTest {
         return matcher.matches();
     }
 
+    public boolean verifyValidZipCode(WebDriver driver){
+        String zipcode = TextHelper.getText(driver, insuredPhysicalZipCode, "value");
+        Pattern pattern = Pattern.compile("^[0-9]{5}(?:-[0-9]{4})?$");
+        assert zipcode != null;
+        Matcher matcher = pattern.matcher(zipcode);
+        return matcher.matches();
+    }
+
     public boolean isFileSizeLagerThan2MbTextDisplayed(WebDriver driver) throws InterruptedException {
         WaitHelper.pause(3000);
         return ClickHelper.isElementExist(driver, largerThan2MbFileSizeText);

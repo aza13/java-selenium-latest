@@ -71,6 +71,7 @@ public class InsuredPageTests extends BaseTest {
         insuredPageActions.enterPhysicalAddress(DriverManager.getDriver());
         insuredPageActions.enterPhyCity(DriverManager.getDriver());
         insuredPageActions.enterPhyZipcode(DriverManager.getDriver());
+        assert insuredPageActions.verifyValidZipCode(DriverManager.getDriver());
         insuredPageActions.selectPhyState(DriverManager.getDriver());
         insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
         insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
