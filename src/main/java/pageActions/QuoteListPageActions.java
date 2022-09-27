@@ -1,12 +1,14 @@
 package pageActions;
 
 import base.BaseTest;
+import base.DriverManager;
 import helper.*;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import utils.fileDownload.FileDownloadUtil;
+import utils.fileReader.ConfigDataReader;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -169,20 +171,16 @@ public class QuoteListPageActions extends BaseTest {
     public boolean clickPDFFileDownload(WebDriver driver, String filename) throws InterruptedException {
 
         FileDownloadUtil.checkFileExistInDownloadFolder();
-
         ClickHelper.clickElement(driver, clickAsPDFDownloadButton);
         WaitHelper.pause(15000);
-
         return FileDownloadUtil.verifyPDFFileDownload(filename);
     }
 
     public boolean clickApplicationDownload(WebDriver driver, String filename) throws InterruptedException {
 
         FileDownloadUtil.checkFileExistInDownloadFolder();
-
         ClickHelper.clickElement(driver, clickAsApplicationButton);
         WaitHelper.pause(15000);
-
         return FileDownloadUtil.verifyPDFFileDownload(filename);
     }
 
@@ -215,14 +213,22 @@ public class QuoteListPageActions extends BaseTest {
     }
 
     public boolean clickConfirmAndLockButtonIfDisplayed(WebDriver driver) throws InterruptedException {
-        WaitHelper.pause(30000);
         if(ClickHelper.isElementExist(driver, confirmAndLockDisabledButton)){
             logger.error("Confirm and Lock button is disabled");
-            return false;
+            if(ConfigDataReader.getInstance().getProperty("product").contains("Ophthalmic")){
+                selectBRRPCoverageWithoutInvestigation(DriverManager.getDriver());
+                selectBRRPCoverageWithInvestigation(DriverManager.getDriver());
+                WaitHelper.waitForElementVisibility(driver, confirmAndLockButton);
+                ClickHelper.clickElement(driver, confirmAndLockButton);
+                WaitHelper.waitForProgressbarInvisibility(driver);
+                return true;
+            }else{
+                return false;
+            }
         }else{
             WaitHelper.waitForElementVisibility(driver, confirmAndLockButton);
             ClickHelper.clickElement(driver, confirmAndLockButton);
-            WaitHelper.pause(30000);
+            WaitHelper.waitForProgressbarInvisibility(driver);
             return true;
         }
     }
@@ -300,7 +306,8 @@ public class QuoteListPageActions extends BaseTest {
     public void clickPlaceOrderButton(WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, quotePlaceOrderButton);
         ClickHelper.clickElement(driver, quotePlaceOrderButton);
-        WaitHelper.pause(5000);
+        WaitHelper.waitForProgressbarInvisibility(driver);
+//        WaitHelper.pause(5000);
 
     }
 
@@ -308,7 +315,8 @@ public class QuoteListPageActions extends BaseTest {
         WaitHelper.waitForElementVisibility(driver, orderConfirmationDialog);
         TextHelper.enterText(driver, orderConfirmationTextArea, "Place Order Testing");
         ClickHelper.clickElement(driver, orderConfirmationSubmitButton);
-        WaitHelper.pause(9000);
+        WaitHelper.waitForProgressbarInvisibility(driver);
+//        WaitHelper.pause(9000);
     }
 
     public String getOpenQuoteId(WebDriver driver){

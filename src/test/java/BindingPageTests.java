@@ -99,7 +99,7 @@ public class BindingPageTests extends BaseTest {
                     assert quoteStatus.contentEquals("Order Placed");
                     dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
                     assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
-                    bindingPageActions.VerifyQuoteHeaderInformationInBindingPage(DriverManager.getDriver(), newInsuredName, product);
+                    bindingPageActions.verifyQuoteHeaderInformationInBindingPage(DriverManager.getDriver(), newInsuredName, product);
                     bindingPageActions.clickPolicyCardExpandIconInBindingPage(DriverManager.getDriver());
                     if(!bindingPageActions.binderSubmitButton(DriverManager.getDriver()).isEnabled()){
                         bindingPageActions.EnterMessageToPreSubjectivitiesUnderWriterTextBox(DriverManager.getDriver());
@@ -143,10 +143,6 @@ public class BindingPageTests extends BaseTest {
             AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
-            if(ConfigDataReader.getInstance().getProperty("product").contains("Ophthalmic")){
-                quoteListPageActions.selectBRRPCoverageWithoutInvestigation(DriverManager.getDriver());
-                quoteListPageActions.selectBRRPCoverageWithInvestigation(DriverManager.getDriver());
-            }
             if (quoteListPageActions.clickConfirmAndLockButtonIfDisplayed(DriverManager.getDriver())) {
                 if (quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())) {
                     quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());

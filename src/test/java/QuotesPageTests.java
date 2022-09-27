@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 import pageActions.*;
 import utils.dataProvider.TestDataProvider;
 import utils.dbConnector.DatabaseConnector;
+import utils.fileReader.ConfigDataReader;
 import workflows.AnswerUnderwriterQuestions;
 import workflows.CreateApplicant;
 import workflows.FillApplicantDetails;
@@ -234,9 +235,6 @@ public class QuotesPageTests extends BaseTest {
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
             AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
-            if (!quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
-                quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
-            }
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             String quoteId = quoteListPageActions.getOpenQuoteId(DriverManager.getDriver());
@@ -517,7 +515,7 @@ public class QuotesPageTests extends BaseTest {
 
         }
     }
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData", enabled = false)
     public void testDownloadApplicationInQuote(Map<String, String> map) throws InterruptedException, SQLException {
         /***
          this test verifies brokers can download application form

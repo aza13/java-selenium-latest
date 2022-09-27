@@ -87,12 +87,10 @@ public class WaitHelper {
     }
 
     public static void waitForElementClickable(WebDriver driver, By elementLocator) {
-
         logger.info("Waiting for the element till it is clickable :: waitForElementClickable");
         try {
-            WebElement element = driver.findElement(elementLocator);
             WebDriverWait wait = new WebDriverWait(driver, 30);
-            wait.until(ExpectedConditions.elementToBeClickable(element));
+            wait.until(ExpectedConditions.elementToBeClickable(elementLocator));
         } catch (Exception e) {
             logger.error("Failed to wait till the element is clickable :: waitForElementClickable::" + elementLocator);
             throw (e);

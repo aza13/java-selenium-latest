@@ -117,7 +117,6 @@ public class InsuredPageTests extends BaseTest {
             insuredPageActions.clickDuplicateCancelButton(DriverManager.getDriver());
             dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
         }
-
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "InsuredPageData")
