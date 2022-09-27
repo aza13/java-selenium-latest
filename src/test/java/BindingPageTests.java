@@ -2,6 +2,7 @@ import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
 import constants.ConstantVariable;
+import constants.DatabaseQueries;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -207,5 +208,39 @@ public class BindingPageTests extends BaseTest {
         assert bindingPageActions.verifyBinderText(DriverManager.getDriver());
         bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
 
+    }
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
+    public void testDownloadBinder(Map<String, String> map) throws InterruptedException, SQLException {
+        /***
+         this test verifies brokers can download Binder
+         story - N2020-32942 -QAT-463
+         @author - Azamat Uulu
+         **/
+        logger.info("verifying brokers can download binder document :: testDownloadBinder");
+        List<HashMap<Object, Object>> submissionIds =
+                databaseConnector.getResultSetToList(DatabaseQueries.GET_SUBMISSIONS_WITH_BINDER_DOCUMENT);
+        int submissionCount = submissionIds.size();
+        boolean bindingPage = false;
+        String submissionId;
+        if (submissionCount > 0) {
+            for (HashMap<Object, Object> id : submissionIds) {
+                submissionId = id.get("id").toString();
+                dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
+                if (dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver())) {
+                    bindingPage = true;
+                    break;
+                }
+                dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
+            }
+            if (bindingPage) {
+                assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
+                boolean pdfDownload = bindingPageActions.clickBinderDownload(DriverManager.getDriver(), map.get("pdfFilename"));
+                Assert.assertTrue(pdfDownload);
+
+            } else {
+                logger.info("No binder available, to download the binder ");
+            }
+
+        }
     }
 }
