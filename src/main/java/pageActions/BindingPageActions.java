@@ -30,7 +30,7 @@ public class BindingPageActions extends BaseTest {
         return ClickHelper.isElementExist(driver, bindingTabSelected);
     }
 
-    public void VerifyQuoteHeaderInformationInBindingPage(WebDriver driver, String applicant, String product){
+    public void verifyQuoteHeaderInformationInBindingPage(WebDriver driver, String applicant, String product){
 
         List<WebElement> elements = driver.findElements(quoteHeaderInformation);
         assert elements.size() == 3;

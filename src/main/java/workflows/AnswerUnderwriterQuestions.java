@@ -2,6 +2,7 @@ package workflows;
 
 import base.DriverManager;
 import base.PageObjectManager;
+import helper.WaitHelper;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import pageActions.QuoteListPageActions;
@@ -33,6 +34,7 @@ public class AnswerUnderwriterQuestions {
             }
         }
         underwritingQuestionsPageActions.clickUWQuestionsContinueButton(driver);
+        WaitHelper.waitForProgressbarInvisibility(driver);
         QuoteListPageActions quoteListPageActions = PageObjectManager.getQuoteListPageActions();
         if (quoteListPageActions.checkIfSubmitReviewDialogDisplayed(driver)) {
             quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
