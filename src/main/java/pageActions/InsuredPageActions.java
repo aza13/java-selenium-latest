@@ -2,6 +2,7 @@ package pageActions;
 
 import base.BaseTest;
 import helper.*;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -48,6 +49,7 @@ public class InsuredPageActions extends BaseTest {
     public void clickNewInsuredButton(WebDriver driver) {
 
         ClickHelper.clickElement(driver, newInsuredButton);
+
     }
 
     public WebElement modifySearchButton(WebDriver driver) {
@@ -224,6 +226,10 @@ public class InsuredPageActions extends BaseTest {
     public boolean isClearanceDialogModalDisplayed(WebDriver driver) {
 
         return ClickHelper.isElementExist(driver, clearanceDialogModal);
+    }
+
+   public boolean isQuotePageDisabled (WebDriver driver) {
+        return driver.findElement(disabledQuoteTab).isEnabled();
     }
 
     public boolean isClearanceSubmitButtonEnabled(WebDriver driver) {
