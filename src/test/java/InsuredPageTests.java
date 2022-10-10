@@ -37,6 +37,7 @@ public class InsuredPageTests extends BaseTest {
         dashboardPageActions.createNewQuote(DriverManager.getDriver(), ConfigDataReader.getInstance().getProperty("product"), map.get("applicantName"), map.get("website"));
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         insuredPageActions.clickNewInsuredButton(DriverManager.getDriver());
+        assert !insuredPageActions.isQuotePageDisabled(DriverManager.getDriver());
         String insuredName = insuredPageActions.getInsuredName(DriverManager.getDriver());
         assert insuredName.contentEquals(map.get("applicantName"));
         String insuredWebsite = insuredPageActions.getInsuredWebsite(DriverManager.getDriver());

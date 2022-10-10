@@ -48,6 +48,7 @@ public class InsuredPageActions extends BaseTest {
     public void clickNewInsuredButton(WebDriver driver) {
 
         ClickHelper.clickElement(driver, newInsuredButton);
+
     }
 
     public WebElement modifySearchButton(WebDriver driver) {
@@ -224,6 +225,11 @@ public class InsuredPageActions extends BaseTest {
     public boolean isClearanceDialogModalDisplayed(WebDriver driver) {
 
         return ClickHelper.isElementExist(driver, clearanceDialogModal);
+    }
+
+   public boolean isQuotePageDisabled (WebDriver driver) {
+
+        return WaitHelper.isElementEnabled(driver, disabledQuoteTab);
     }
 
     public boolean isClearanceSubmitButtonEnabled(WebDriver driver) {
