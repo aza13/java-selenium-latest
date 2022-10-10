@@ -228,7 +228,8 @@ public class InsuredPageActions extends BaseTest {
     }
 
    public boolean isQuotePageDisabled (WebDriver driver) {
-        return driver.findElement(disabledQuoteTab).isEnabled();
+
+        return WaitHelper.isElementEnabled(driver, disabledQuoteTab);
     }
 
     public boolean isClearanceSubmitButtonEnabled(WebDriver driver) {
