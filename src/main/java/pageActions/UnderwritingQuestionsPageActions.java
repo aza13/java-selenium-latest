@@ -282,6 +282,24 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
         WaitHelper.pause(5000);
     }
 
+    public void answerEachSectionUWQuestionsRansome(WebDriver driver, int dropdownCount, String sectionXpath) throws InterruptedException {
+        List<WebElement> descriptions = driver.findElements(By.xpath(sectionXpath + "//p"));
+        int count = descriptions.size()-dropdownCount;
+        for (int i = 0; i < count; i++) {
+            WebElement description = descriptions.get(i);
+            String text = description.getText();
+            int n = i + 1;
+            if (text.contains("third")) {
+                String yesXpath = "(" + sectionXpath + "//button[text()='Yes'])" + "[" + n + "]";
+                driver.findElement(By.xpath(yesXpath)).click();
+            } else {
+                String noXpath = "(" + sectionXpath + "//button[text()='Yes'])" + "[" + n + "]";
+                driver.findElement(By.xpath(noXpath)).click();
+            }
+        }
+        WaitHelper.pause(5000);
+    }
+
     public void answerUWQuestionButtonsOMICProduct2(WebDriver driver) throws InterruptedException {
         int count = 0;
         String generalInformationXpath = "//h5[text()='General Information']/parent::div/parent::div/following-sibling::div";
@@ -310,10 +328,10 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
         }
 
         String ransomwareXpath = "//h5[text()='Ransomware Controls']/parent::div/parent::div/following-sibling::div";
-        answerEachSectionUWQuestions(driver, 0, ransomwareXpath);
+        answerEachSectionUWQuestionsRansome(driver, 0, ransomwareXpath);
 
         String phishingXpath = "//h5[text()='Phishing Controls']/parent::div/parent::div/following-sibling::div";
-        answerEachSectionUWQuestions(driver, 0, phishingXpath);
+        answerEachSectionUWQuestionsRansome(driver, 0, phishingXpath);
 
         String cyberLossXpath = "//h5[text()='Cyber/Privacy Loss History']/parent::div/parent::div/following-sibling::div";
         answerEachSectionUWQuestions(driver, 0,cyberLossXpath);

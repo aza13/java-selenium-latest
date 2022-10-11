@@ -25,6 +25,7 @@ public class BindingPageObjects {
     public static final By messageToPostSubjectivitiesUnderWriterTextBox =By.xpath("//p[contains(text(),'Subjectivities due within 7 days of effective date')]/../../..//textarea[1]");
     public static final By preSubjSelectFilesButton = By.xpath("(//button[@id='btn-search-again'])[1]");
     public static final By postSubjSelectFilesButton = By.xpath("(//button[@id='btn-search-again'])[2]");
+    public static final By generateBinderButton = By.xpath("//button[text()='Generate Binder']/span");
 
     public static final By clickAndDragLink = By.xpath("//p[contains(text(), 'Click or Drag')]");
     public static final By addFilesButton = By.xpath("//button[text()='Add File(s)']");
