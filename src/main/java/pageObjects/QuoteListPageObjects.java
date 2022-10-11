@@ -18,7 +18,7 @@ public class QuoteListPageObjects {
     public static final By quoteListContainer = By.xpath("//div[@data-qa='quote_list_container']");
     public static final By clickAsPDFDownloadButton = By.xpath("//*[@data-testid='PictureAsPdfIcon']");
     public static final By clickAsApplicationButton = By.xpath("//div[@id='panel-header-1']//div[5]//*[name()='svg']");
-    public static final By clickAsWordDownloadButton = By.xpath("//div[@aria-label='Download Word']//img");
+    public static final By clickAsWordDownloadButton = By.xpath("//div[@aria-label='Download Quote Word']//img");
     public static final By quotesTab = By.xpath("//button[text()='Quotes']");
     public static final By quotesTabDisabled = By.xpath("//button[text()='Quotes' and @disabled]");
     public static final By statusQuoteInProgress = By.xpath("//div[contains(text(),'In Progress')]");
@@ -38,8 +38,13 @@ public class QuoteListPageObjects {
     public static final By inactiveQuote = By.xpath("//div[contains(text(),'Inactive')]");
     public static final By quoteTemplateOption = By.xpath("//ul[@role='menu']/li");
     public static final By quoteExpandMoreIcon = By.xpath("//div[@data-qa='quote_list_container']//*[@data-testid='ExpandMoreIcon']");
-    public static final By quotePlaceOrderButton = By.xpath("//button[text()='Place Order']");
+    public static final By confirmDatesAndPlaceOrderButton = By.xpath("//button[text()='Confirm Dates & Place Order']");
     public static final By orderConfirmationDialog = By.xpath("//h2[@id='alert-dialog-title' and text()='Order Confirmation']");
+    public static final By confirmDatesModal = By.xpath("//h2[@id='alert-dialog-title' and text()='Confirm Dates']");
+    public static final By confirmDatesModalTitle = By.xpath("//p[@id='alert-dialog-description']//h5");
+    public static final By confirmDatesModalDescription = By.xpath("//p[@id='alert-dialog-description']//p");
+    public static final By confirmDatesEffectiveDate = By.id("mui-17");
+    public static final By confirmDatesExpirationDate = By.id("mui-18");
     public static final By orderConfirmationTextArea = By.xpath("//textarea[@id='outlined-textarea']");
     public static final By orderConfirmationSubmitButton = By.xpath("//button[@data-qa='submit_alert_modal']");
     public static final By openQuoteIdLocator = By.xpath("//*[@data-testid='LockOpenIcon']/parent::div");
@@ -59,4 +64,6 @@ public class QuoteListPageObjects {
     public static final By quoteExpiry = By.xpath("//div[contains(text(),'Expiration')]");
     public static final By fetchingOptionCoverages = By.xpath("//div[@data-qa='option_card_4']//div[contains(text(),'Fetching Option Coverages')]");
     public static final By valueOutsideBrokerPortalGuidelines = By.xpath("//div[contains(text(),'The highlighted selected value(s) are outside our ')]");
+    public static final By contactUnderwriterButton = By.xpath("//button[text()='Contact Underwriter']/span");
+    public static final By submitForReviewModal = By.xpath("//h2[text()='Submit For Review']");
 }

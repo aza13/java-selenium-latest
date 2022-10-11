@@ -16,6 +16,7 @@ import java.util.List;
 import static pageObjects.BindingPageObjects.*;
 import static pageObjects.QuoteListPageObjects.deleteIconLocator;
 
+
 public class BindingPageActions extends BaseTest {
 
     private static final Logger logger = Logger.getLogger(BindingPageActions.class);
@@ -104,17 +105,15 @@ public class BindingPageActions extends BaseTest {
 
     public boolean isFileTypeWarningDisplayed(WebDriver driver) throws InterruptedException {
         WaitHelper.pause(3000);
-        ScrollHelper.scrollElementIntoView(driver, fileSizeExceededText);
         return ClickHelper.isElementExist(driver, fileSizeExceededText);
     }
 
     public boolean isFileTypeWarningDisplayed2(WebDriver driver) throws InterruptedException {
         WaitHelper.pause(3000);
-        ScrollHelper.scrollElementIntoView(driver, invalidFileTypeWarning);
         return ClickHelper.isElementExist(driver, invalidFileTypeWarning);
     }
 
-    public void EnterMessageToPreSubjectivitiesUnderWriterTextBox(WebDriver driver){
+    public void enterMessageToPreSubjectivitiesUnderWriterTextBox(WebDriver driver){
 
         TextHelper.enterText(driver, firstMessageToUWTextArea, "Sample text automation verification");
     }
@@ -140,7 +139,7 @@ public class BindingPageActions extends BaseTest {
         ClickHelper.clickElement(driver, postSubjectivitiesExpandButton);
     }
 
-    public void EnterMessageToPostSubjectivitiesUnderWriterTextBox(WebDriver driver) throws InterruptedException{
+    public void enterMessageToPostSubjectivitiesUnderWriterTextBox(WebDriver driver) throws InterruptedException{
         WaitHelper.pause(3000);
         TextHelper.enterText(driver, messageToPostSubjectivitiesUnderWriterTextBox, "Sample text automation verification");
     }
@@ -150,9 +149,9 @@ public class BindingPageActions extends BaseTest {
         ClickHelper.clickElement(driver, addFilesButton);
     }
 
-    public void clickFileDeleteIcon(WebDriver driver){
-
+    public void clickFileDeleteIcon(WebDriver driver) throws InterruptedException {
         ClickHelper.clickElement(driver, fileDeleteIcon);
+        WaitHelper.waitForProgressbarInvisibility(driver);
     }
 
     public WebElement getFileDeleteIcon(WebDriver driver){
@@ -176,6 +175,15 @@ public class BindingPageActions extends BaseTest {
     public boolean verifyAcceptedStatus(WebDriver driver) throws InterruptedException{
         WaitHelper.pause(10000);
         return ClickHelper.isElementExist(driver, AcceptedStatus);
+    }
+
+    public void clickGenerateBinderButton(WebDriver driver){
+        try{
+            ClickHelper.clickElement(driver, generateBinderButton);
+        }catch (Exception e){
+            logger.error("Failed to click on Generate Binder button "+e.getMessage());
+            throw e;
+        }
     }
 
     public void clickSubmitBinder(WebDriver driver){

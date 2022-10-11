@@ -76,7 +76,7 @@ public class EndToEndTest extends BaseTest {
                     quoteListPageActions.verifyStatusConfirmAndLockReadyToPlaceOrder(DriverManager.getDriver());
                     assert quoteListPageActions.verifyPDFFileAvailable(DriverManager.getDriver());
                     assert quoteListPageActions.verifyWORDFileAvailable(DriverManager.getDriver());
-                    quoteListPageActions.clickPlaceOrderButton(DriverManager.getDriver());
+                    quoteListPageActions.clickConfirmDatesAndPlaceOrderButton(DriverManager.getDriver());
                     quoteListPageActions.submitOrderConfirmation(DriverManager.getDriver());
                     assert bindingPageActions.isPreSubjectivitiesDisplayed(DriverManager.getDriver());
                     assert bindingPageActions.isPostSubjectivitiesDisplayed(DriverManager.getDriver());
@@ -101,9 +101,9 @@ public class EndToEndTest extends BaseTest {
                     bindingPageActions.verifyQuoteHeaderInformationInBindingPage(DriverManager.getDriver(), newInsuredName, product);
                     bindingPageActions.clickPolicyCardExpandIconInBindingPage(DriverManager.getDriver());
                     if(!bindingPageActions.binderSubmitButton(DriverManager.getDriver()).isEnabled()){
-                        bindingPageActions.EnterMessageToPreSubjectivitiesUnderWriterTextBox(DriverManager.getDriver());
+                        bindingPageActions.enterMessageToPreSubjectivitiesUnderWriterTextBox(DriverManager.getDriver());
                         bindingPageActions.clickPostSubjectivitiesExpandButton(DriverManager.getDriver());
-                        bindingPageActions.EnterMessageToPostSubjectivitiesUnderWriterTextBox(DriverManager.getDriver());
+                        bindingPageActions.enterMessageToPostSubjectivitiesUnderWriterTextBox(DriverManager.getDriver());
                         bindingPageActions.clickSubmitBinder(DriverManager.getDriver());
                     }
                     bindingPageActions.clickPreSubjSelectFilesButton(DriverManager.getDriver());

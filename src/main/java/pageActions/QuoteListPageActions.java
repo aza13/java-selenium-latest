@@ -13,6 +13,8 @@ import utils.fileReader.ConfigDataReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+
 import static pageObjects.QuoteListPageObjects.*;
 
 
@@ -269,6 +271,10 @@ public class QuoteListPageActions extends BaseTest {
         return ClickHelper.isElementExist(driver, submitReviewDialog);
     }
 
+    public boolean checkIfSubmitReviewDialogDisplayed2(WebDriver driver){
+        return ClickHelper.isElementExist(driver, submitForReviewModal);
+    }
+
     public void enterQuoteReviewText(WebDriver driver){
         TextHelper.enterText(driver, submitReviewTextArea, "Quote Review Text");
     }
@@ -276,6 +282,16 @@ public class QuoteListPageActions extends BaseTest {
     public void clickSubmitForReview(WebDriver driver){
         WaitHelper.waitForElementVisibility(driver, submitReviewSubmitButton);
         ClickHelper.clickElement(driver, submitReviewSubmitButton);
+    }
+
+    public WebElement submitReviewCancelButton(WebDriver driver){
+        try{
+            return driver.findElement(submitReviewCancelButton);
+        }catch (Exception e){
+            logger.error("Failed to return cancel button of Submit for Review modal "+e.getMessage());
+            throw e;
+        }
+
     }
 
     public boolean isInactiveTextDisplayed(WebDriver driver){
@@ -303,12 +319,10 @@ public class QuoteListPageActions extends BaseTest {
         ClickHelper.clickElement(driver, quoteExpandMoreIcon);
     }
 
-    public void clickPlaceOrderButton(WebDriver driver) throws InterruptedException {
-        WaitHelper.waitForElementVisibility(driver, quotePlaceOrderButton);
-        ClickHelper.clickElement(driver, quotePlaceOrderButton);
+    public void clickConfirmDatesAndPlaceOrderButton(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibility(driver, confirmDatesAndPlaceOrderButton);
+        ClickHelper.clickElement(driver, confirmDatesAndPlaceOrderButton);
         WaitHelper.waitForProgressbarInvisibility(driver);
-//        WaitHelper.pause(5000);
-
     }
 
     public void submitOrderConfirmation(WebDriver driver) throws InterruptedException {
@@ -316,7 +330,47 @@ public class QuoteListPageActions extends BaseTest {
         TextHelper.enterText(driver, orderConfirmationTextArea, "Place Order Testing");
         ClickHelper.clickElement(driver, orderConfirmationSubmitButton);
         WaitHelper.waitForProgressbarInvisibility(driver);
-//        WaitHelper.pause(9000);
+    }
+
+    public void clickConfirmDatesConfirmButton(WebDriver driver) throws InterruptedException {
+        try{
+            ClickHelper.clickElement(driver, orderConfirmationSubmitButton);
+            WaitHelper.waitForProgressbarInvisibility(driver);
+        }catch (Exception e){
+            logger.error("Failed to click on the confirm button "+ e.getMessage());
+            throw e;
+        }
+    }
+
+    public boolean isConfirmDatesEffectiveDateDisplayed(WebDriver driver){
+        try{
+            return driver.findElement(confirmDatesEffectiveDate).isDisplayed();
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    public boolean isConfirmDatesExpirationDateDisplayed(WebDriver driver){
+        try{
+            return driver.findElement(confirmDatesExpirationDate).isDisplayed();
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    public boolean validateConfirmDatesModal(WebDriver driver) {
+        try{
+            WaitHelper.waitForElementVisibility(driver, confirmDatesModal);
+            String title = TextHelper.getText(driver, confirmDatesModalTitle, "text");
+            assert Objects.equals(title, "Please confirm dates to place order");
+            String description = TextHelper.getText(driver, confirmDatesModalDescription, "text");
+            assert description.trim().startsWith("If you'd like an Effective Date or Expiration Date that is not selectable in QuoteIt");
+            assert isConfirmDatesEffectiveDateDisplayed(driver);
+            assert isConfirmDatesExpirationDateDisplayed(driver);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 
     public String getOpenQuoteId(WebDriver driver){
@@ -455,6 +509,16 @@ public class QuoteListPageActions extends BaseTest {
             }
         }catch (Exception e){
             logger.error("Unable to select the coverage " +e.getMessage());
+            throw(e);
+        }
+    }
+
+    public void clickContactUnderwriter(WebDriver driver) throws InterruptedException {
+        try{
+            ClickHelper.clickElement(driver, contactUnderwriterButton);
+            WaitHelper.pause(5000);
+        }catch (Exception e){
+            logger.error("Failed click on the  Contact Underwriter button  " +e.getMessage());
             throw(e);
         }
     }

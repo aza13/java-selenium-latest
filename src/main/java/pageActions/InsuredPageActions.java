@@ -231,8 +231,9 @@ public class InsuredPageActions extends BaseTest {
         return driver.findElement(clearanceSubmitButton).isEnabled();
     }
 
-    public void clickClearanceSubmitButton(WebDriver driver) {
+    public void clickClearanceSubmitButton(WebDriver driver) throws InterruptedException {
         ClickHelper.clickElement(driver, clearanceSubmitButton);
+        WaitHelper.waitForProgressbarInvisibility(driver);
     }
 
     public void clickClearanceCancelQuoteButton(WebDriver driver) throws InterruptedException {

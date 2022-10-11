@@ -247,7 +247,7 @@ public class QuotesPageTests extends BaseTest {
                     quoteListPageActions.verifyStatusConfirmAndLockReadyToPlaceOrder(DriverManager.getDriver());
                     assert quoteListPageActions.verifyPDFFileAvailable(DriverManager.getDriver());
                     assert quoteListPageActions.verifyWORDFileAvailable(DriverManager.getDriver());
-                    quoteListPageActions.clickPlaceOrderButton(DriverManager.getDriver());
+                    quoteListPageActions.clickConfirmDatesAndPlaceOrderButton(DriverManager.getDriver());
                     quoteListPageActions.submitOrderConfirmation(DriverManager.getDriver());
                     String query = GET_SUBMISSION_ID_WITH_QUOTE_ID + quoteId + ";";
                     List<HashMap<Object, Object>> submissionIds =
@@ -332,7 +332,7 @@ public class QuotesPageTests extends BaseTest {
                     quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
                     if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
                         quoteListPageActions.expandTheQuote(DriverManager.getDriver());
-                        quoteListPageActions.clickPlaceOrderButton(DriverManager.getDriver());
+                        quoteListPageActions.clickConfirmDatesAndPlaceOrderButton(DriverManager.getDriver());
                         quoteListPageActions.submitOrderConfirmation(DriverManager.getDriver());
                     }
                     dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
@@ -378,7 +378,7 @@ public class QuotesPageTests extends BaseTest {
             } else {
                 quoteListPageActions.checkIfQuoteLockSuccessMessageDisplayed(DriverManager.getDriver());
                 quoteListPageActions.verifyStatusConfirmAndLockReadyToPlaceOrder(DriverManager.getDriver());
-                quoteListPageActions.clickPlaceOrderButton(DriverManager.getDriver());
+                quoteListPageActions.clickConfirmDatesAndPlaceOrderButton(DriverManager.getDriver());
                 quoteListPageActions.submitOrderConfirmation(DriverManager.getDriver());
                 quoteListPageActions.verifySoftDeclinePopup(DriverManager.getDriver());
                 String actualFirstStatus = dashboardPageActions.firstAvailableStatus(DriverManager.getDriver());
