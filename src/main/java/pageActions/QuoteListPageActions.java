@@ -208,9 +208,14 @@ public class QuoteListPageActions extends BaseTest {
         return ClickHelper.isElementExist(driver, statusQuoteInProgress);
 
     }
-    public void verifyStatusConfirmAndLockReadyToPlaceOrder(WebDriver driver){
-        WaitHelper.waitForElementVisibility(driver,  statusQuoteReadyToPlaceOrder);
-        ClickHelper.isElementExist(driver,  statusQuoteReadyToPlaceOrder);
+    public String getQuoteStatus(WebDriver driver){
+        try{
+            WaitHelper.waitForElementVisibility(driver,  statusQuoteReadyToPlaceOrder);
+            return TextHelper.getText(driver,  statusQuoteReadyToPlaceOrder, "text");
+        }catch (Exception e){
+            logger.error("Failed to get quote status in Quotes List page "+e.getMessage());
+            throw e;
+        }
 
     }
 
@@ -321,8 +326,16 @@ public class QuoteListPageActions extends BaseTest {
 
     public void clickConfirmDatesAndPlaceOrderButton(WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, confirmDatesAndPlaceOrderButton);
-        ClickHelper.clickElement(driver, confirmDatesAndPlaceOrderButton);
-        WaitHelper.waitForProgressbarInvisibility(driver);
+        try{
+            WebElement button = driver.findElement(confirmDatesAndPlaceOrderButton);
+            if(button.isDisplayed()){
+                button.click();
+                WaitHelper.waitForProgressbarInvisibility(driver);
+            }
+        }catch (Exception e){
+            logger.error("Failed to click on Confirm dates and Place order button "+e.getMessage());
+            throw e;
+        }
     }
 
     public void submitOrderConfirmation(WebDriver driver) throws InterruptedException {

@@ -20,6 +20,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static constants.DatabaseQueries.GET_SUBMISSION_ID_WITH_QUOTE_ID;
 
@@ -79,10 +80,12 @@ public class BindingPageTests extends BaseTest {
                     quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
                 } else {
                     quoteListPageActions.checkIfQuoteLockSuccessMessageDisplayed(DriverManager.getDriver());
-                    quoteListPageActions.verifyStatusConfirmAndLockReadyToPlaceOrder(DriverManager.getDriver());
+                    String status = quoteListPageActions.getQuoteStatus(DriverManager.getDriver());
+                    assert Objects.equals(status, "Ready to Place Order");
                     assert quoteListPageActions.verifyPDFFileAvailable(DriverManager.getDriver());
                     assert quoteListPageActions.verifyWORDFileAvailable(DriverManager.getDriver());
                     quoteListPageActions.clickConfirmDatesAndPlaceOrderButton(DriverManager.getDriver());
+                    // Scripts need to be updated as per the latest changes
                     quoteListPageActions.submitOrderConfirmation(DriverManager.getDriver());
                     assert bindingPageActions.isPreSubjectivitiesDisplayed(DriverManager.getDriver());
                     assert bindingPageActions.isPostSubjectivitiesDisplayed(DriverManager.getDriver());
@@ -154,7 +157,8 @@ public class BindingPageTests extends BaseTest {
                     quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
                 } else {
                     quoteListPageActions.checkIfQuoteLockSuccessMessageDisplayed(DriverManager.getDriver());
-                    quoteListPageActions.verifyStatusConfirmAndLockReadyToPlaceOrder(DriverManager.getDriver());
+                    String status = quoteListPageActions.getQuoteStatus(DriverManager.getDriver());
+                    assert status.contentEquals("Ready to Place Order");
                     quoteListPageActions.clickConfirmDatesAndPlaceOrderButton(DriverManager.getDriver());
                     assert quoteListPageActions.validateConfirmDatesModal(DriverManager.getDriver());
                     quoteListPageActions.clickConfirmDatesConfirmButton(DriverManager.getDriver());
