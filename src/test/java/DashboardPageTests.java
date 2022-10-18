@@ -2,6 +2,7 @@ import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
 import constants.ConstantVariable;
+import constants.DatabaseQueries;
 import helper.ClickHelper;
 import helper.FakeDataHelper;
 import org.apache.log4j.Logger;
@@ -15,8 +16,10 @@ import pageActions.DashboardPageActions;
 import pageActions.InsuredPageActions;
 import pageActions.LoginPageActions;
 import utils.dataProvider.TestDataProvider;
+import utils.dbConnector.DatabaseConnector;
 import workflows.CreateApplicant;
 
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,12 +30,14 @@ public class DashboardPageTests extends BaseTest {
 
     private static final Logger logger = Logger.getLogger(DashboardPageTests.class);
     private DashboardPageActions dashboardPageActions;
+    private DatabaseConnector databaseConnector;
 
     @BeforeClass(alwaysRun = true)
     public void beforeClassSetUp() {
         classLogger = extentReport.createTest("DashboardPageTests");
         logger.info("Creating object for DashboardPageTests :: beforeClassSetUp");
         dashboardPageActions = PageObjectManager.getDashboardPageActions();
+        databaseConnector = new DatabaseConnector();
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
@@ -580,17 +585,26 @@ public class DashboardPageTests extends BaseTest {
         assert quoteBusinessType.contentEquals(map.get("defaultTypeValue"));
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", enabled = false)
-    public void testIneligiblePolicies(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    public void  testIneligiblePolicies(Map<String, String> map) throws InterruptedException, SQLException {
         /**
          * this test verifies ineligible policy
-         story - N2020-33633
+         story - N2020-33633 -N2020-34868
          @author - Azamat Uulu
          **/
         logger.info("verifying ineligible policies :: testIneligiblePolicy");
-        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("policyNumber"));
-        dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
-        assert dashboardPageActions.verifyContactUnderwriterExists(DriverManager.getDriver());
+        List<HashMap<Object, Object>> policyIds =
+                databaseConnector.getResultSetToList(DatabaseQueries. GET_INELIGIBLE_POLICIES);
+        int policyCount = policyIds.size();
+        String policyId;
+        if (policyCount > 0) {
+            for (HashMap<Object, Object> id : policyIds) {
+                policyId = id.get("number").toString();
+                dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), policyId);
+                assert dashboardPageActions.verifyContactUnderwriterExists(DriverManager.getDriver());
+                break;
+            }
+        }else logger.info("No Ineligible Policies available");
     }
 
 }

@@ -24,4 +24,8 @@ public class DatabaseQueries extends BaseTest {
 
     public static final String GET_SUBMISSION_ID_WITH_QUOTE_ID = "select submission_id from "+ ConfigDataReader.getInstance().getProperty("dbSchema")+".quote where id=";
     public static final String UPDATE_IN_REVIEW_SUBMISSION_TO_ACTIVE = "update auth.submission set status='active' where id=";
+    public static final String GET_INELIGIBLE_POLICIES ="SELECT  p.number\n" +
+            "FROM snapqa_10.submission AS s \n" +
+            "JOIN policy AS p ON p.id = s.policy_id\n" +
+            "WHERE p.status = 'active' AND s.is_quoteit_ineligible =1 and s.broker_id=7504  and s.status='active'";
 }
