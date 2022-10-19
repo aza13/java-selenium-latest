@@ -322,7 +322,7 @@ public class QuotesPageTests extends BaseTest {
             assert quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver());
             quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
             quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
-            // this part will be modified as per the future stories
+            // the below part will be modified as per the future stories
             quoteListPageActions.clickOnExitDashboard(DriverManager.getDriver());
             String query = GET_SUBMISSION_ID_WITH_QUOTE_ID + quoteId + ";";
             List<HashMap<Object, Object>> submissionIds =
