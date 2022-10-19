@@ -5,6 +5,7 @@ import helper.*;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Wait;
 import org.sikuli.script.FindFailed;
 import utils.fileDownload.FileDownloadUtil;
 
@@ -26,13 +27,40 @@ public class BindingPageActions extends BaseTest {
         ClickHelper.clickElement(driver, exitToDashboard);
     }
 
-    public boolean isBindingTabSelected(WebDriver driver){
-
+    public boolean isBindingTabSelected(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(10000);
         return ClickHelper.isElementExist(driver, bindingTabSelected);
     }
 
-    public void verifyQuoteHeaderInformationInBindingPage(WebDriver driver, String applicant, String product){
+    public WebElement getGenerateBinderButton(WebDriver driver){
+        try{
+            return driver.findElement(generateBinderButton);
+        }catch (Exception e){
+            logger.error("Failed to click on Generate Binder button "+e.getMessage());
+            throw e;
+        }
+    }
 
+    public String getQuoteOptionStatus(WebDriver driver){
+        try{
+            return TextHelper.getText(driver, quoteOptionStatus, "text");
+        }catch (Exception e){
+            logger.error("Failed to get the quote option status in binder page "+e.getMessage());
+            throw e;
+        }
+
+    }
+
+    public void clickGenerateBinderButton(WebDriver driver){
+        try{
+            ClickHelper.clickElement(driver, generateBinderButton);
+        }catch (Exception e){
+            logger.error("Failed to click on Generate Binder button "+e.getMessage());
+            throw e;
+        }
+    }
+
+    public void verifyQuoteHeaderInformationInBindingPage(WebDriver driver, String applicant, String product){
         List<WebElement> elements = driver.findElements(quoteHeaderInformation);
         assert elements.size() == 3;
         assert elements.get(0).getText().equals(applicant);
@@ -45,13 +73,11 @@ public class BindingPageActions extends BaseTest {
         ClickHelper.clickElement(driver, policyExpandMoreIcon);
     }
 
-    public boolean isPreSubjectivitiesDisplayed(WebDriver driver) throws InterruptedException{
-        WaitHelper.pause(5000);
+    public boolean isPreSubjectivitiesDisplayed(WebDriver driver){
         return ClickHelper.isElementExist(driver, preSubjectivities);
     }
 
-    public boolean isPostSubjectivitiesDisplayed(WebDriver driver) throws InterruptedException{
-        WaitHelper.pause(5000);
+    public boolean isPostSubjectivitiesDisplayed(WebDriver driver){
         return ClickHelper.isElementExist(driver, postSubjectivities);
     }
 
@@ -177,18 +203,24 @@ public class BindingPageActions extends BaseTest {
         return ClickHelper.isElementExist(driver, AcceptedStatus);
     }
 
-    public void clickGenerateBinderButton(WebDriver driver){
-        try{
-            ClickHelper.clickElement(driver, generateBinderButton);
-        }catch (Exception e){
-            logger.error("Failed to click on Generate Binder button "+e.getMessage());
-            throw e;
-        }
-    }
-
     public void clickSubmitBinder(WebDriver driver){
 
         ClickHelper.clickElement(driver, enabledSubmitButton);
+    }
+
+    public void enableBinderSubmitButton(WebDriver driver) throws InterruptedException {
+        try{
+            if (!binderSubmitButton(driver).isEnabled()) {
+                enterMessageToPreSubjectivitiesUnderWriterTextBox(driver);
+                clickPostSubjectivitiesExpandButton(driver);
+                enterMessageToPostSubjectivitiesUnderWriterTextBox(driver);
+                clickSubmitBinder(driver);
+            }
+        }catch (Exception e){
+            logger.info("Failed to enable binder submit button :: enableBinderSubmitButton");
+            throw e;
+        }
+
     }
 
     public boolean verifyBinderText(WebDriver driver) throws InterruptedException{

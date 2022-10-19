@@ -38,6 +38,8 @@ public class QuoteListPageObjects {
     public static final By inactiveQuote = By.xpath("//div[contains(text(),'Inactive')]");
     public static final By quoteTemplateOption = By.xpath("//ul[@role='menu']/li");
     public static final By quoteExpandMoreIcon = By.xpath("//div[@data-qa='quote_list_container']//*[@data-testid='ExpandMoreIcon']");
+
+    /*** confirm dates modal ***/
     public static final By confirmDatesAndPlaceOrderButton = By.xpath("//button[text()='Confirm Dates & Place Order']");
     public static final By orderConfirmationDialog = By.xpath("//h2[@id='alert-dialog-title' and text()='Order Confirmation']");
     public static final By confirmDatesModal = By.xpath("//h2[@id='alert-dialog-title' and text()='Confirm Dates']");
@@ -45,6 +47,9 @@ public class QuoteListPageObjects {
     public static final By confirmDatesModalDescription = By.xpath("//p[@id='alert-dialog-description']//p");
     public static final By confirmDatesEffectiveDate = By.id("mui-17");
     public static final By confirmDatesExpirationDate = By.id("mui-18");
+    public static final By confirmDatesConfirmButton = By.xpath("//button[@data-qa='submit_alert_modal']");
+    public static final By confirmDatesCancelButton = By.xpath("//button[@data-qa='cancel_alert_modal']");
+
     public static final By orderConfirmationTextArea = By.xpath("//textarea[@id='outlined-textarea']");
     public static final By orderConfirmationSubmitButton = By.xpath("//button[@data-qa='submit_alert_modal']");
     public static final By openQuoteIdLocator = By.xpath("//*[@data-testid='LockOpenIcon']/parent::div");
@@ -66,4 +71,5 @@ public class QuoteListPageObjects {
     public static final By valueOutsideBrokerPortalGuidelines = By.xpath("//div[contains(text(),'The highlighted selected value(s) are outside our ')]");
     public static final By contactUnderwriterButton = By.xpath("//button[text()='Contact Underwriter']/span");
     public static final By submitForReviewModal = By.xpath("//h2[text()='Submit For Review']");
+    public static final By exitToDashboard =By.id("quote_builder_exit");
 }
