@@ -45,8 +45,8 @@ public class QuoteListPageObjects {
     public static final By confirmDatesModal = By.xpath("//h2[@id='alert-dialog-title' and text()='Confirm Dates']");
     public static final By confirmDatesModalTitle = By.xpath("//p[@id='alert-dialog-description']//h5");
     public static final By confirmDatesModalDescription = By.xpath("//p[@id='alert-dialog-description']//p");
-    public static final By confirmDatesEffectiveDate = By.id("mui-17");
-    public static final By confirmDatesExpirationDate = By.id("mui-18");
+    public static final By confirmDatesEffectiveDate = By.xpath("//label[text()='Effective Date']/following-sibling::div/input");
+    public static final By confirmDatesExpirationDate = By.xpath("//label[text()='Expiration Date']/following-sibling::div/input");
     public static final By confirmDatesConfirmButton = By.xpath("//button[@data-qa='submit_alert_modal']");
     public static final By confirmDatesCancelButton = By.xpath("//button[@data-qa='cancel_alert_modal']");
 

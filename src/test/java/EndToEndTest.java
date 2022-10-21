@@ -80,7 +80,7 @@ public class EndToEndTest extends BaseTest {
                     assert quoteListPageActions.verifyWORDFileAvailable(DriverManager.getDriver());
                     quoteListPageActions.clickConfirmDatesAndPlaceOrderButton(DriverManager.getDriver());
                     quoteListPageActions.submitOrderConfirmation(DriverManager.getDriver());
-                    assert bindingPageActions.isPreSubjectivitiesDisplayed(DriverManager.getDriver());
+                    assert bindingPageActions.isPriorSubjectivitiesDisplayed(DriverManager.getDriver());
                     assert bindingPageActions.isPostSubjectivitiesDisplayed(DriverManager.getDriver());
                     assert bindingPageActions.isMessageToUnderWriterDisplayed(DriverManager.getDriver());
                     bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());

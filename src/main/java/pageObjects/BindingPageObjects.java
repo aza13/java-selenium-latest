@@ -12,7 +12,7 @@ public class BindingPageObjects {
     public static final By quoteHeaderInformation = By.xpath("//div[@id='simple-tabpanel-4']//h4");
     public static final By policyExpandMoreIcon = By.xpath("(//*[@data-testid='ExpandMoreIcon'])[1]");
 
-    public static final By preSubjectivities =By.xpath("//p[contains(text(),'Subjectivities due prior to binding')]");
+    public static final By priorSubjectivities =By.xpath("//p[contains(text(),'Subjectivities due prior to binding')]");
     public static final By postSubjectivities =By.xpath("//p[contains(text(),'Subjectivities due within 7 days of effective date')]");
     public static final By firstMessageToUWTextArea = By.xpath("(//div[@id='panel1a-content']//textarea)[1]");
     public static final By disabledSubmitButton = By.xpath("//button[@id='underwriter_message_submit' and @disabled]");

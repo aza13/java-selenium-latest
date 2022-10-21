@@ -209,9 +209,9 @@ public class QuoteListPageActions extends BaseTest {
         return ClickHelper.isElementExist(driver, statusQuoteInProgress);
 
     }
-    public String getQuoteStatus(WebDriver driver){
+    public String getQuoteStatus(WebDriver driver) throws InterruptedException {
         try{
-            WaitHelper.waitForElementVisibility(driver,  statusQuoteReadyToPlaceOrder);
+            WaitHelper.pause(10000);
             return TextHelper.getText(driver,  statusQuoteReadyToPlaceOrder, "text");
         }catch (Exception e){
             logger.error("Failed to get quote status in Quotes List page "+e.getMessage());
@@ -221,7 +221,7 @@ public class QuoteListPageActions extends BaseTest {
     }
 
     public boolean clickConfirmAndLockButtonIfDisplayed(WebDriver driver) throws InterruptedException {
-        WaitHelper.pause(5000);
+        WaitHelper.pause(10000);
         if(ClickHelper.isElementExist(driver, confirmAndLockDisabledButton)){
             logger.error("Confirm and Lock button is disabled");
             if(ConfigDataReader.getInstance().getProperty("product").contains("Ophthalmic")){

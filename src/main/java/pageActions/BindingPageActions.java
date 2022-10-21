@@ -3,6 +3,7 @@ package pageActions;
 import base.BaseTest;
 import helper.*;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Wait;
@@ -32,6 +33,10 @@ public class BindingPageActions extends BaseTest {
         return ClickHelper.isElementExist(driver, bindingTabSelected);
     }
 
+    public boolean isGenerateBinderButtonExist(WebDriver driver) {
+        return ClickHelper.isElementExist(driver, bindingTabSelected);
+    }
+
     public WebElement getGenerateBinderButton(WebDriver driver){
         try{
             return driver.findElement(generateBinderButton);
@@ -41,14 +46,14 @@ public class BindingPageActions extends BaseTest {
         }
     }
 
-    public String getQuoteOptionStatus(WebDriver driver){
+    public String getQuoteStatus(WebDriver driver) throws InterruptedException {
         try{
+            WaitHelper.pause(10000);
             return TextHelper.getText(driver, quoteOptionStatus, "text");
         }catch (Exception e){
             logger.error("Failed to get the quote option status in binder page "+e.getMessage());
             throw e;
         }
-
     }
 
     public void clickGenerateBinderButton(WebDriver driver){
@@ -73,8 +78,8 @@ public class BindingPageActions extends BaseTest {
         ClickHelper.clickElement(driver, policyExpandMoreIcon);
     }
 
-    public boolean isPreSubjectivitiesDisplayed(WebDriver driver){
-        return ClickHelper.isElementExist(driver, preSubjectivities);
+    public boolean isPriorSubjectivitiesDisplayed(WebDriver driver){
+        return ClickHelper.isElementExist(driver, priorSubjectivities);
     }
 
     public boolean isPostSubjectivitiesDisplayed(WebDriver driver){

@@ -90,49 +90,6 @@ public class QuotesPageTests extends BaseTest {
         }
     }
 
-
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
-    public void testLockQuote(Map<String, String> map) throws InterruptedException {
-        /***
-         this verifies whether applicant can lock a quote
-         story - N2020-28633 and N2020-28708
-         @author - Venkat Kottapalli
-         **/
-        logger.info("test verifying locking a quote :: testLockQuote");
-        CreateApplicant.createApplicant(DriverManager.getDriver());
-        ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
-        if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
-            ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
-        }
-        if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
-            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
-            if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
-                if (quoteListPageActions.checkIfOpenQuoteExist(DriverManager.getDriver())) {
-                    assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
-                    if (quoteListPageActions.clickConfirmAndLockButtonIfDisplayed(DriverManager.getDriver())) {
-                        if (quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())) {
-                            quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
-                            quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
-                        } else {
-                            quoteListPageActions.checkIfQuoteLockSuccessMessageDisplayed(DriverManager.getDriver());
-                            assert quoteListPageActions.isQuoteExpiryDisplayed(DriverManager.getDriver());
-                            assert quoteListPageActions.verifyIfLockedQuoteExist(DriverManager.getDriver());
-                            assert quoteListPageActions.verifyPDFFileAvailable(DriverManager.getDriver());
-                            assert quoteListPageActions.verifyWORDFileAvailable(DriverManager.getDriver());
-                            quoteListPageActions.expandTheQuote(DriverManager.getDriver());
-                        }
-                    } else {
-                        Assert.fail("Confirm and quote button is disabled for some reason, some of the quotes missing premium");
-                    }
-                }
-            }
-        } else {
-            Assert.fail("Underwriter questions not displayed after clicking Continue button on Rating Criteria");
-        }
-
-    }
-
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
     public void testAddQuote(Map<String, String> map) throws InterruptedException {
         /***
@@ -342,11 +299,11 @@ public class QuotesPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
-    public void testConfirmAndLockQuoteOption(Map<String, String> map) throws InterruptedException, SQLException {
+    public void testLockingQuote(Map<String, String> map) throws InterruptedException, SQLException {
         /***
-         this verifies whether broker can click and confirm lock quote option
-         story - N2020-28645, 28655 -QAT-174
-         @author - Azamat Uulu
+         this verifies whether broker can lock the quote using confirm lock button
+         story - N2020-28645, 28655 -QAT-174, N2020-28633 and N2020-28708
+         @author - Azamat Uulu, Venkat Kottapalli
          **/
         logger.info("Executing the testConfirmAndLockQuoteOption from QuoteTests class :: testConfirmAndLockQuoteOption");
         CreateApplicant.createApplicant(DriverManager.getDriver());
@@ -362,11 +319,16 @@ public class QuotesPageTests extends BaseTest {
         assert quoteLocked;
         String status = quoteListPageActions.getQuoteStatus(DriverManager.getDriver());
         assert status.contentEquals(map.get("quoteStatus"));
+        assert quoteListPageActions.isQuoteExpiryDisplayed(DriverManager.getDriver());
+        assert quoteListPageActions.verifyIfLockedQuoteExist(DriverManager.getDriver());
         assert quoteListPageActions.verifyPDFFileAvailable(DriverManager.getDriver());
         assert quoteListPageActions.verifyWORDFileAvailable(DriverManager.getDriver());
+//        quoteListPageActions.expandTheQuote(DriverManager.getDriver());
         logger.info("placing the quote order and verifying it;s status in dashboard");
         quoteListPageActions.clickConfirmDatesAndPlaceOrderButton(DriverManager.getDriver());
-        quoteListPageActions.submitOrderConfirmation(DriverManager.getDriver());
+        BindingPageActions bindingPageActions = quoteListPageActions.clickConfirmDatesConfirmButton(DriverManager.getDriver());
+        String quoteOptionStatus = bindingPageActions.getQuoteStatus(DriverManager.getDriver());
+        assert quoteOptionStatus.contentEquals(map.get("quoteStatusBinder"));
         String query = GET_SUBMISSION_ID_WITH_QUOTE_ID + quoteId + ";";
         List<HashMap<Object, Object>> submissionIds =
                 databaseConnector.getResultSetToList(query);
@@ -378,11 +340,10 @@ public class QuotesPageTests extends BaseTest {
                 break;
             }
         }
-        BindingPageActions bindingPageActions = PageObjectManager.getBindingPageActions();
         bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
         String quoteStatus = dashboardPageActions.getQuoteStatus(DriverManager.getDriver());
-        assert quoteStatus.contentEquals("Order Placed");
+        assert quoteStatus.contentEquals(map.get("quoteStatusDashboard"));
     }
 
 
