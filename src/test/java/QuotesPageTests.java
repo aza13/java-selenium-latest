@@ -371,6 +371,7 @@ public class QuotesPageTests extends BaseTest {
                 }
             }
         }
+        logger.info("verifying quote preview icons");
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
             assert quoteListPageActions.verifyQuotePreview(DriverManager.getDriver());

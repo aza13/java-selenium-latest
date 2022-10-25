@@ -56,7 +56,7 @@ public class BindingPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
-    public void testVerifyQuoteBinding(Map<String, String> map) throws InterruptedException, SQLException, AWTException {
+    public void testVerifyQuoteBinding(Map<String, String> map) throws InterruptedException, SQLException {
         /*****************************************************************
          this test verifies quote option Binding and Subjectivity
          story - N2020-33007, 23922,32926, 32930, 32950, 32704
@@ -135,18 +135,6 @@ public class BindingPageTests extends BaseTest {
             bindingPageActions.enterMessageToPostSubjectivitiesUnderWriterTextBox(DriverManager.getDriver());
             bindingPageActions.clickSubmitBinder(DriverManager.getDriver());
         }
-        bindingPageActions.clickPreSubjSelectFilesButton(DriverManager.getDriver());
-        logger.info("validating the invalid file type warning & valid file upload functionality");
-        bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.INVALID_FILE_TYPE);
-        assert bindingPageActions.isFileTypeWarningDisplayed2(DriverManager.getDriver());
-        bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.PDF_DOC_FILE_PATH);
-        bindingPageActions.clickFileDeleteIcon(DriverManager.getDriver());
-        assert bindingPageActions.getFileDeleteIcon(DriverManager.getDriver()).isDisplayed();
-        assert bindingPageActions.getFilePresentIcon(DriverManager.getDriver()).isDisplayed();
-        bindingPageActions.clickAddFilesButton(DriverManager.getDriver());
-        bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
-        bindingPageActions.clickConfirmationContinueButton(DriverManager.getDriver());
-        assert dashboardPageActions.myQuotesTab(DriverManager.getDriver()).isDisplayed();
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
@@ -198,7 +186,7 @@ public class BindingPageTests extends BaseTest {
          @author - Venkat Kottapalli
          ******************************************************************/
 
-        logger.info("Executing the testVerifyQuoteBinding from BindingPageTests class :: testVerifyQuoteBinding");
+        logger.info("Executing the testFileUploadValidationsInBinder from BindingPageTests class :: testFileUploadValidationsInBinder");
         CreateApplicant.createApplicant(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
             FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
