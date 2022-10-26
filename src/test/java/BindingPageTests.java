@@ -3,6 +3,7 @@ import base.DriverManager;
 import base.PageObjectManager;
 import constants.ConstantVariable;
 import constants.DatabaseQueries;
+import helper.WaitHelper;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -23,6 +24,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import static constants.DatabaseQueries.GET_SUBMISSION_ID_WITH_QUOTE_ID;
+import static constants.DatabaseQueries.UPDATE_SUBJECTIVITY_STATUS;
 
 public class BindingPageTests extends BaseTest {
 
@@ -93,7 +95,7 @@ public class BindingPageTests extends BaseTest {
             String priorSubjStatus = bindingPageActions.getPriorSubjectivityStatus(DriverManager.getDriver());
             assert Objects.equals(priorSubjStatus, "Open");
             logger.info("generate binder button should not be displayed");
-            assert !bindingPageActions.getGenerateBinderButton(DriverManager.getDriver()).isDisplayed();
+            assert !bindingPageActions.isGenerateBinderDisplayed(DriverManager.getDriver());
         }
         String quoteStatus = bindingPageActions.getQuoteStatus(DriverManager.getDriver());
         assert quoteStatus.contentEquals(map.get("quoteStatus"));
@@ -106,7 +108,6 @@ public class BindingPageTests extends BaseTest {
         assert bindingPageActions.isPriorSubjectivitiesDisplayed(DriverManager.getDriver());
         assert bindingPageActions.isPostSubjectivitiesDisplayed(DriverManager.getDriver());
         assert bindingPageActions.isMessageToUnderWriterDisplayed(DriverManager.getDriver());
-        bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
         logger.info("fetching the submission using quote from db");
         String query = GET_SUBMISSION_ID_WITH_QUOTE_ID + quoteId + ";";
         List<HashMap<Object, Object>> submissionIds =
@@ -119,14 +120,6 @@ public class BindingPageTests extends BaseTest {
                 break;
             }
         }
-        logger.info("validating the status of the submission");
-        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
-        String quoteStatusDashboard = dashboardPageActions.getQuoteStatus(DriverManager.getDriver());
-        assert quoteStatusDashboard.contentEquals("Order Placed");
-        dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
-
-        assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
-        bindingPageActions.verifyQuoteHeaderInformationInBindingPage(DriverManager.getDriver(), newInsuredName, product);
         bindingPageActions.clickPolicyCardExpandIconInBindingPage(DriverManager.getDriver());
         logger.info("enabling the binder submit button if disabled");
         if (!bindingPageActions.binderSubmitButton(DriverManager.getDriver()).isEnabled()) {
@@ -135,12 +128,28 @@ public class BindingPageTests extends BaseTest {
             bindingPageActions.enterMessageToPostSubjectivitiesUnderWriterTextBox(DriverManager.getDriver());
             bindingPageActions.clickSubmitBinder(DriverManager.getDriver());
         }
+        logger.info("validating the status of the submission");
+        bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
+        String quoteStatusDashboard = dashboardPageActions.getQuoteStatus(DriverManager.getDriver());
+        assert quoteStatusDashboard.contentEquals("Order Placed");
+        String subjectivityStatusQuery = UPDATE_SUBJECTIVITY_STATUS+quoteId+";";
+        int queryResult = databaseConnector.update(subjectivityStatusQuery);
+        if(queryResult == 1){
+            WaitHelper.pause(30000);
+            dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
+            assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
+            bindingPageActions.verifyQuoteHeaderInformationInBindingPage(DriverManager.getDriver(), newInsuredName, product);
+        }else{
+            System.out.print("query not executed successfully");
+        }
+
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
     public void testGenerateBinderButtonValidations(Map<String, String> map) throws InterruptedException {
         /*****************************************************************
-         this test validates the generate button presence in different conditions
+         this test validates the generate button presence in different conditions'
          story - QAT-550
          @author - Venkat Kottapalli
          ******************************************************************/

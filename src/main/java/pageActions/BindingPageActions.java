@@ -3,10 +3,8 @@ package pageActions;
 import base.BaseTest;
 import helper.*;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Wait;
 import org.sikuli.script.FindFailed;
 import utils.fileDownload.FileDownloadUtil;
 
@@ -44,6 +42,10 @@ public class BindingPageActions extends BaseTest {
             logger.error("Failed to click on Generate Binder button "+e.getMessage());
             throw e;
         }
+    }
+
+    public boolean isGenerateBinderDisplayed(WebDriver driver){
+        return ClickHelper.isElementExist(driver, generateBinderButton);
     }
 
     public String getQuoteStatus(WebDriver driver) throws InterruptedException {
@@ -208,9 +210,10 @@ public class BindingPageActions extends BaseTest {
         return ClickHelper.isElementExist(driver, AcceptedStatus);
     }
 
-    public void clickSubmitBinder(WebDriver driver){
+    public void clickSubmitBinder(WebDriver driver) throws InterruptedException {
 
         ClickHelper.clickElement(driver, enabledSubmitButton);
+        WaitHelper.waitForProgressbarInvisibility(driver);
     }
 
     public void enableBinderSubmitButton(WebDriver driver) throws InterruptedException {

@@ -221,24 +221,26 @@ public class QuoteListPageActions extends BaseTest {
     }
 
     public boolean clickConfirmAndLockButtonIfDisplayed(WebDriver driver) throws InterruptedException {
-        WaitHelper.pause(10000);
-        if(ClickHelper.isElementExist(driver, confirmAndLockDisabledButton)){
-            logger.error("Confirm and Lock button is disabled");
+//        WaitHelper.pause(10000);
+        try{
             if(ConfigDataReader.getInstance().getProperty("product").contains("Ophthalmic")){
                 selectBRRPCoverageWithoutInvestigation(DriverManager.getDriver());
                 selectBRRPCoverageWithInvestigation(DriverManager.getDriver());
-                WaitHelper.waitForElementVisibility(driver, confirmAndLockButton);
-                ClickHelper.clickElement(driver, confirmAndLockButton);
-                WaitHelper.waitForProgressbarInvisibility(driver);
-                return true;
             }else{
-                return false;
+                int n=0;
+                while(ClickHelper.isElementExist(driver, confirmAndLockDisabledButton)){
+                    WaitHelper.pause(3000);
+                    n++;
+                    if(n==12) break;
+                }
             }
-        }else{
             WaitHelper.waitForElementVisibility(driver, confirmAndLockButton);
             ClickHelper.clickElement(driver, confirmAndLockButton);
             WaitHelper.waitForProgressbarInvisibility(driver);
             return true;
+        }catch (Exception e){
+            logger.error("failed to click the confirm and lock button "+e.getMessage());
+            return false;
         }
     }
 
