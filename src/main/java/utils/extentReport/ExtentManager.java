@@ -32,8 +32,7 @@ public class ExtentManager {
 
         Date date = new Date();
 
-        String reportPath = System.getProperty("user.dir") + "\\extent-report\\" + dateFormat.format(date) + "_Quoteit_Automation_Results.html";
-//        String reportPath = System.getProperty("user.dir") + "\\extent-report\\"+"Quoteit_Automation_Results.html";
+        String reportPath = System.getProperty("user.dir") + "/extent-report/" + dateFormat.format(date) + "_Quoteit_Automation_Results.html";
 
         ExtentSparkReporter sparkReporter  = new ExtentSparkReporter(reportPath);
 
