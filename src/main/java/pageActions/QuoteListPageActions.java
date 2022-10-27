@@ -220,8 +220,7 @@ public class QuoteListPageActions extends BaseTest {
 
     }
 
-    public boolean clickConfirmAndLockButtonIfDisplayed(WebDriver driver) throws InterruptedException {
-//        WaitHelper.pause(10000);
+    public boolean clickConfirmAndLockButtonIfDisplayed(WebDriver driver) {
         try{
             if(ConfigDataReader.getInstance().getProperty("product").contains("Ophthalmic")){
                 selectBRRPCoverageWithoutInvestigation(DriverManager.getDriver());
@@ -244,7 +243,7 @@ public class QuoteListPageActions extends BaseTest {
         }
     }
 
-    public boolean lockTheQuote(WebDriver driver) throws InterruptedException {
+    public boolean lockTheQuote(WebDriver driver) {
         /***
          * This method clicks on the confirm and lock button
          * on successful quote lock it returns true, otherwise false

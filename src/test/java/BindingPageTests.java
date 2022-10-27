@@ -174,16 +174,16 @@ public class BindingPageTests extends BaseTest {
         logger.info("the generate binding button displayed when there no pre-binding subjectivities" +
                 " or all pre-binding subjectivities status is either Accepted or Waived");
         boolean priorSubj = bindingPageActions.isPriorSubjectivitiesDisplayed(DriverManager.getDriver());
-        if (!priorSubj) {
-            logger.info("if prior subjectivity not displayed");
-            assert bindingPageActions.getGenerateBinderButton(DriverManager.getDriver()).isDisplayed();
-            assert bindingPageActions.getGenerateBinderButton(DriverManager.getDriver()).isEnabled();
-        } else {
-            // need to revisit this part
+        if (priorSubj) {
+            logger.info("if prior subjectivity is displayed");
             String priorSubjStatus = bindingPageActions.getPriorSubjectivityStatus(DriverManager.getDriver());
-            assert Objects.equals(priorSubjStatus, "Open");
-            logger.info("generate binder button should not be displayed");
-            assert !bindingPageActions.isGenerateBinderButtonExist(DriverManager.getDriver());
+            if(Objects.equals(priorSubjStatus, "Accepted") || Objects.equals(priorSubjStatus, "Waived")){
+                assert bindingPageActions.isGenerateBinderButtonExist(DriverManager.getDriver());
+            }else if(Objects.equals(priorSubjStatus, "Open")){
+                assert !bindingPageActions.isGenerateBinderButtonExist(DriverManager.getDriver());
+            }
+        } else {
+            assert bindingPageActions.isGenerateBinderButtonExist(DriverManager.getDriver());
         }
     }
 

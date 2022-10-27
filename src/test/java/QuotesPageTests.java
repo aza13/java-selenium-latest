@@ -231,12 +231,12 @@ public class QuotesPageTests extends BaseTest {
             AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
+            String quoteId = quoteListPageActions.getOpenQuoteId(DriverManager.getDriver());
             quoteListPageActions.clickContactUnderwriter(DriverManager.getDriver());
             assert quoteListPageActions.checkIfSubmitReviewDialogDisplayed2(DriverManager.getDriver());
             quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
             assert quoteListPageActions.submitReviewCancelButton(DriverManager.getDriver()).isDisplayed();
             quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
-            String quoteId = quoteListPageActions.getOpenQuoteId(DriverManager.getDriver());
             String query = GET_SUBMISSION_ID_WITH_QUOTE_ID + quoteId + ";";
             List<HashMap<Object, Object>> submissionIds =
                     databaseConnector.getResultSetToList(query);
@@ -347,7 +347,7 @@ public class QuotesPageTests extends BaseTest {
     }
 
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData", enabled = false)
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
     public void testQuotePreview(Map<String, String> map) throws InterruptedException {
         /***
          this verifies whether broker can click preview quote option

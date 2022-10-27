@@ -32,7 +32,7 @@ public class BindingPageActions extends BaseTest {
     }
 
     public boolean isGenerateBinderButtonExist(WebDriver driver) {
-        return ClickHelper.isElementExist(driver, bindingTabSelected);
+        return ClickHelper.isElementExist(driver, generateBinderButton);
     }
 
     public WebElement getGenerateBinderButton(WebDriver driver){
