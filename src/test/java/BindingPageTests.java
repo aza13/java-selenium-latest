@@ -82,32 +82,15 @@ public class BindingPageTests extends BaseTest {
         assert quoteListPageActions.validateConfirmDatesModalFields(DriverManager.getDriver());
         bindingPageActions = quoteListPageActions.clickConfirmDatesConfirmButton(DriverManager.getDriver());
         assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
-        logger.info(("validating the Generate Binder button - 35242, QAT-550"));
-        logger.info("the generate binding button displayed when there no pre-binding subjectivities" +
-                " or all pre-binding subjectivities status is either Accepted or Waived");
-        boolean priorSubj = bindingPageActions.isPriorSubjectivitiesDisplayed(DriverManager.getDriver());
-        if(!priorSubj){
-            logger.info("if prior subjectivity not displayed");
-            assert bindingPageActions.getGenerateBinderButton(DriverManager.getDriver()).isDisplayed();
-            assert bindingPageActions.getGenerateBinderButton(DriverManager.getDriver()).isEnabled();
-        }else{
-            // need to revisit this part
-            String priorSubjStatus = bindingPageActions.getPriorSubjectivityStatus(DriverManager.getDriver());
-            assert Objects.equals(priorSubjStatus, "Open");
-            logger.info("generate binder button should not be displayed");
-            assert !bindingPageActions.isGenerateBinderDisplayed(DriverManager.getDriver());
-        }
         String quoteStatus = bindingPageActions.getQuoteStatus(DriverManager.getDriver());
         assert quoteStatus.contentEquals(map.get("quoteStatus"));
-        // here either no pre-binding subjectivities or their status should be Accepted or Waived
-        //to-do status should be verified
-        //if status of the subjectivity changed from Accepted or Waived Generate Binder will not be displayed
+        // inorder to bind the quote
+        // 1. check if Generate Binder is displayed
+            // if displayed click on it and proceed to Bind
+        // 2. if generate binder button not displayed
+            // execute the DB query to change the subj status
+            // Generate binder button should be displayed
 
-        //bindingPageActions = quoteListPageActions.submitOrderConfirmation(DriverManager.getDriver());
-        logger.info("validating subjectivities on binder page");
-        assert bindingPageActions.isPriorSubjectivitiesDisplayed(DriverManager.getDriver());
-        assert bindingPageActions.isPostSubjectivitiesDisplayed(DriverManager.getDriver());
-        assert bindingPageActions.isMessageToUnderWriterDisplayed(DriverManager.getDriver());
         logger.info("fetching the submission using quote from db");
         String query = GET_SUBMISSION_ID_WITH_QUOTE_ID + quoteId + ";";
         List<HashMap<Object, Object>> submissionIds =
@@ -120,6 +103,32 @@ public class BindingPageTests extends BaseTest {
                 break;
             }
         }
+        boolean generateBinder = bindingPageActions.isGenerateBinderButtonExist(DriverManager.getDriver());
+        if (!generateBinder) {
+            logger.info("generate binder button not displayed, trying to change the subj status");
+            String subjectivityStatusQuery = UPDATE_SUBJECTIVITY_STATUS + quoteId + ";";
+            int queryResult = databaseConnector.update(subjectivityStatusQuery);
+            if (queryResult == 1) {
+                WaitHelper.pause(30000);
+                bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
+                dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
+                String quoteStatusDashboard = dashboardPageActions.getQuoteStatus(DriverManager.getDriver());
+                assert quoteStatusDashboard.contentEquals("Order Placed");
+                dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
+                assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
+                bindingPageActions.verifyQuoteHeaderInformationInBindingPage(DriverManager.getDriver(), newInsuredName, product);
+            } else {
+                logger.error("query not executed successfully");
+                assert false;
+            }
+        }
+        assert bindingPageActions.getGenerateBinderButton(DriverManager.getDriver()).isEnabled();
+        bindingPageActions.getGenerateBinderButton(DriverManager.getDriver()).click();
+        logger.info("validating subjectivities on binder page");
+        assert bindingPageActions.isPriorSubjectivitiesDisplayed(DriverManager.getDriver());
+        assert bindingPageActions.isPostSubjectivitiesDisplayed(DriverManager.getDriver());
+        assert bindingPageActions.isMessageToUnderWriterDisplayed(DriverManager.getDriver());
+
         bindingPageActions.clickPolicyCardExpandIconInBindingPage(DriverManager.getDriver());
         logger.info("enabling the binder submit button if disabled");
         if (!bindingPageActions.binderSubmitButton(DriverManager.getDriver()).isEnabled()) {
@@ -133,17 +142,16 @@ public class BindingPageTests extends BaseTest {
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
         String quoteStatusDashboard = dashboardPageActions.getQuoteStatus(DriverManager.getDriver());
         assert quoteStatusDashboard.contentEquals("Order Placed");
-        String subjectivityStatusQuery = UPDATE_SUBJECTIVITY_STATUS+quoteId+";";
-        int queryResult = databaseConnector.update(subjectivityStatusQuery);
-        if(queryResult == 1){
-            WaitHelper.pause(30000);
-            dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
-            assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
-            bindingPageActions.verifyQuoteHeaderInformationInBindingPage(DriverManager.getDriver(), newInsuredName, product);
-        }else{
-            System.out.print("query not executed successfully");
-        }
-
+//        String subjectivityStatusQuery = UPDATE_SUBJECTIVITY_STATUS+quoteId+";";
+//        int queryResult = databaseConnector.update(subjectivityStatusQuery);
+//        if(queryResult == 1){
+//            WaitHelper.pause(30000);
+//            dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
+//            assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
+//            bindingPageActions.verifyQuoteHeaderInformationInBindingPage(DriverManager.getDriver(), newInsuredName, product);
+//        }else{
+//            System.out.print("query not executed successfully");
+//        }
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
