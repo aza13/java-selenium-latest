@@ -140,7 +140,7 @@ public class BindingPageTests extends BaseTest {
          @author - Venkat Kottapalli
          ******************************************************************/
 
-        logger.info("Executing the testVerifyQuoteBinding from BindingPageTests class :: testVerifyQuoteBinding");
+        logger.info("Executing the testValidateSubjectivitiesAndQuoteStatus from BindingPageTests class :: testValidateSubjectivitiesAndQuoteStatus");
         CreateApplicant.createApplicant(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
             FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
