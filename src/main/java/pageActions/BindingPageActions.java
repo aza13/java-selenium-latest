@@ -44,10 +44,6 @@ public class BindingPageActions extends BaseTest {
         }
     }
 
-    public boolean isGenerateBinderDisplayed(WebDriver driver){
-        return ClickHelper.isElementExist(driver, generateBinderButton);
-    }
-
     public String getQuoteStatus(WebDriver driver) throws InterruptedException {
         try{
             WaitHelper.pause(10000);
@@ -62,7 +58,7 @@ public class BindingPageActions extends BaseTest {
         try{
             ClickHelper.clickElement(driver, generateBinderButton);
         }catch (Exception e){
-            logger.error("Failed to click on Generate Binder button "+e.getMessage());
+            logger.error("Failed to click on Generate Binder button :: clickGenerateBinderButton"+e.getMessage());
             throw e;
         }
     }
@@ -214,21 +210,6 @@ public class BindingPageActions extends BaseTest {
 
         ClickHelper.clickElement(driver, enabledSubmitButton);
         WaitHelper.waitForProgressbarInvisibility(driver);
-    }
-
-    public void enableBinderSubmitButton(WebDriver driver) throws InterruptedException {
-        try{
-            if (!binderSubmitButton(driver).isEnabled()) {
-                enterMessageToPreSubjectivitiesUnderWriterTextBox(driver);
-                clickPostSubjectivitiesExpandButton(driver);
-                enterMessageToPostSubjectivitiesUnderWriterTextBox(driver);
-                clickSubmitBinder(driver);
-            }
-        }catch (Exception e){
-            logger.info("Failed to enable binder submit button :: enableBinderSubmitButton");
-            throw e;
-        }
-
     }
 
     public boolean verifyBinderText(WebDriver driver) throws InterruptedException{

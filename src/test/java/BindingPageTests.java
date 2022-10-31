@@ -97,7 +97,7 @@ public class BindingPageTests extends BaseTest {
             }
         }
         logger.info("fetching new quote Id using the submission Id from db");
-        String newQuoteIdQuery = GET_QUOTE_ID_WITH_SUBMISSION_ID+submissionId+"' ORDER BY id DESC LIMIT 1;";
+        String newQuoteIdQuery = GET_QUOTE_ID_WITH_SUBMISSION_ID + submissionId + "' ORDER BY id DESC LIMIT 1;";
         List<HashMap<Object, Object>> newQuoteIds =
                 databaseConnector.getResultSetToList(newQuoteIdQuery);
         int quoteIdsCount = newQuoteIds.size();
@@ -128,11 +128,48 @@ public class BindingPageTests extends BaseTest {
             }
         }
         assert bindingPageActions.getGenerateBinderButton(DriverManager.getDriver()).isEnabled();
-        bindingPageActions.getGenerateBinderButton(DriverManager.getDriver()).click();
+        bindingPageActions.clickGenerateBinderButton(DriverManager.getDriver());
         String quoteStatusAfterBinding = bindingPageActions.getQuoteStatus(DriverManager.getDriver());
         assert quoteStatusAfterBinding.contentEquals(map.get("boundStatus"));
+    }
 
-       /* logger.info("validating subjectivities on binder page");
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
+    public void testValidateSubjectivitiesAndQuoteStatus(Map<String, String> map) throws InterruptedException, SQLException {
+        /*****************************************************************
+         this test verifies subjectivities in Binding page & Quote Status in the Dashboard page
+         @author - Venkat Kottapalli
+         ******************************************************************/
+
+        logger.info("Executing the testVerifyQuoteBinding from BindingPageTests class :: testVerifyQuoteBinding");
+        CreateApplicant.createApplicant(DriverManager.getDriver());
+        if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
+            ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
+        }
+        if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
+        }
+        String quoteId = quoteListPageActions.getOpenQuoteId(DriverManager.getDriver());
+        logger.info("validating download icons of quote list page");
+        boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
+        assert quoteLocked;
+        quoteListPageActions.clickConfirmDatesAndPlaceOrderButton(DriverManager.getDriver());
+        assert quoteListPageActions.validateConfirmDatesModalFields(DriverManager.getDriver());
+        bindingPageActions = quoteListPageActions.clickConfirmDatesConfirmButton(DriverManager.getDriver());
+        assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
+        logger.info("fetching the submission Id using initial quote Id from db");
+        String query = GET_SUBMISSION_ID_WITH_QUOTE_ID + quoteId + ";";
+        List<HashMap<Object, Object>> submissionIds =
+                databaseConnector.getResultSetToList(query);
+        int submissionCount = submissionIds.size();
+        String submissionId = null;
+        if (submissionCount > 0) {
+            for (HashMap<Object, Object> id : submissionIds) {
+                submissionId = id.get("submission_id").toString();
+                break;
+            }
+        }
+        logger.info("validating subjectivities on binder page");
         assert bindingPageActions.isPriorSubjectivitiesDisplayed(DriverManager.getDriver());
         assert bindingPageActions.isPostSubjectivitiesDisplayed(DriverManager.getDriver());
         assert bindingPageActions.isMessageToUnderWriterDisplayed(DriverManager.getDriver());
@@ -149,7 +186,7 @@ public class BindingPageTests extends BaseTest {
         bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
         String quoteStatusDashboard = dashboardPageActions.getQuoteStatus(DriverManager.getDriver());
-        assert quoteStatusDashboard.contentEquals("Order Placed");*/
+        assert quoteStatusDashboard.contentEquals("Order Placed");
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
@@ -183,9 +220,9 @@ public class BindingPageTests extends BaseTest {
         if (priorSubj) {
             logger.info("if prior subjectivity is displayed");
             String priorSubjStatus = bindingPageActions.getPriorSubjectivityStatus(DriverManager.getDriver());
-            if(Objects.equals(priorSubjStatus, "Accepted") || Objects.equals(priorSubjStatus, "Waived")){
+            if (Objects.equals(priorSubjStatus, "Accepted") || Objects.equals(priorSubjStatus, "Waived")) {
                 assert bindingPageActions.isGenerateBinderButtonExist(DriverManager.getDriver());
-            }else if(Objects.equals(priorSubjStatus, "Open")){
+            } else if (Objects.equals(priorSubjStatus, "Open")) {
                 assert !bindingPageActions.isGenerateBinderButtonExist(DriverManager.getDriver());
             }
         } else {
@@ -220,20 +257,15 @@ public class BindingPageTests extends BaseTest {
         bindingPageActions = quoteListPageActions.clickConfirmDatesConfirmButton(DriverManager.getDriver());
         assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
 
-        String quoteStatus = bindingPageActions.getQuoteStatus(DriverManager.getDriver());
-        assert quoteStatus.contentEquals(map.get("quoteStatus"));
-
-        //quoteListPageActions.submitOrderConfirmation(DriverManager.getDriver());
         logger.info("validating the status of the prior subj status");
-                    /*if(Objects.equals(bindingPageActions.getPriorSubjectivityStatus(DriverManager.getDriver()), ConstantVariable.OPEN_STATUS_STRING)){
-                        assert !bindingPageActions.isBinderIssuedShortlyText(DriverManager.getDriver());
-                    }else if(Objects.equals(bindingPageActions.getPriorSubjectivityStatus(DriverManager.getDriver()), ConstantVariable.ACCEPTED_STATUS_STRING)){
-                        assert bindingPageActions.isBinderIssuedShortlyText(DriverManager.getDriver());
-                    }else if(Objects.equals(bindingPageActions.getPriorSubjectivityStatus(DriverManager.getDriver()), ConstantVariable.WAIVED_STATUS_STRING)){
-                        assert bindingPageActions.isBinderIssuedShortlyText(DriverManager.getDriver());
-                    }*/
+        String priorSubjStatus = bindingPageActions.getPriorSubjectivityStatus(DriverManager.getDriver());
+        if (Objects.equals(priorSubjStatus, ConstantVariable.OPEN_STATUS_STRING)) {
+            assert !bindingPageActions.isBinderIssuedShortlyText(DriverManager.getDriver());
+        } else if (Objects.equals(priorSubjStatus, ConstantVariable.ACCEPTED_STATUS_STRING) || Objects.equals(priorSubjStatus, ConstantVariable.WAIVED_STATUS_STRING)) {
+            assert bindingPageActions.isBinderIssuedShortlyText(DriverManager.getDriver());
+        }
         bindingPageActions.clickPreSubjSelectFilesButton(DriverManager.getDriver());
-        if(map.get("fileType").contentEquals("fileTypeValidation")){
+        if (map.get("fileType").contentEquals("fileTypeValidation")) {
             logger.info("validating the invalid file type warning & valid file upload functionality");
             bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.INVALID_FILE_TYPE);
             assert bindingPageActions.isFileTypeWarningDisplayed2(DriverManager.getDriver());
@@ -242,7 +274,7 @@ public class BindingPageTests extends BaseTest {
             assert bindingPageActions.getFileDeleteIcon(DriverManager.getDriver()).isDisplayed();
             assert bindingPageActions.getFilePresentIcon(DriverManager.getDriver()).isDisplayed();
             bindingPageActions.clickAddFilesButton(DriverManager.getDriver());
-        }else if(map.get("fileType").contentEquals("fileSizeValidation")){
+        } else if (map.get("fileType").contentEquals("fileSizeValidation")) {
             bindingPageActions.clickPreSubjSelectFilesButton(DriverManager.getDriver());
             logger.info("validating the maximum file upload size warning");
             assert bindingPageActions.isFileMaximumSizeTextDisplayed(DriverManager.getDriver());
@@ -264,7 +296,6 @@ public class BindingPageTests extends BaseTest {
          ******************************************************************/
 
         logger.info("Executing the testVerifyQuoteBinding from BindingPageTests class :: testRejectSubjectivity");
-        //dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("submissionName1"));
         dashboardPageActions.clickQuoteCardContinueButton(DriverManager.getDriver());
         assert bindingPageActions.verifyWaivedStatus(DriverManager.getDriver());
@@ -287,11 +318,11 @@ public class BindingPageTests extends BaseTest {
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
     public void testDownloadBinder(Map<String, String> map) throws InterruptedException, SQLException {
-        /***
+        /*******
          this test verifies brokers can download Binder
          story - N2020-32942 -QAT-463
          @author - Azamat Uulu
-         **/
+         ****************/
         logger.info("verifying brokers can download binder document :: testDownloadBinder");
         List<HashMap<Object, Object>> submissionIds =
                 databaseConnector.getResultSetToList(DatabaseQueries.GET_SUBMISSIONS_WITH_BINDER_DOCUMENT);
@@ -319,7 +350,6 @@ public class BindingPageTests extends BaseTest {
 
         }
     }
-
 
 
 }

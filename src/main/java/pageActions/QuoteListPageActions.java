@@ -24,7 +24,7 @@ public class QuoteListPageActions extends BaseTest {
     private static final Logger logger = Logger.getLogger(QuoteListPageActions.class);
 
     public boolean isQuoteListPageDisplayed(WebDriver driver) throws InterruptedException {
-        WaitHelper.pause(5000);
+        WaitHelper.pause(10000);
        return ClickHelper.isElementExist(driver, quotesPageSelected);
     }
 
