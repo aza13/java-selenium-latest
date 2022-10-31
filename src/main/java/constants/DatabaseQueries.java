@@ -27,4 +27,6 @@ public class DatabaseQueries extends BaseTest {
 
     // update subjectivity status
     public static final String UPDATE_SUBJECTIVITY_STATUS = "UPDATE "+ConfigDataReader.getInstance().getProperty("dbSchema")+".quote_subjectivity SET STATUS='accepted' WHERE status!='deleted' AND is_due_before_binding=1 AND quote_id=";
+    public static final String GET_QUOTE_ID_WITH_SUBMISSION_ID = "Select id from "+ConfigDataReader.getInstance().getProperty("dbSchema")+".quote where submission_id='";
+
 }

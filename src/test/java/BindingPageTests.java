@@ -23,8 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static constants.DatabaseQueries.GET_SUBMISSION_ID_WITH_QUOTE_ID;
-import static constants.DatabaseQueries.UPDATE_SUBJECTIVITY_STATUS;
+import static constants.DatabaseQueries.*;
 
 public class BindingPageTests extends BaseTest {
 
@@ -84,14 +83,8 @@ public class BindingPageTests extends BaseTest {
         assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
         String quoteStatus = bindingPageActions.getQuoteStatus(DriverManager.getDriver());
         assert quoteStatus.contentEquals(map.get("quoteStatus"));
-        // inorder to bind the quote
-        // 1. check if Generate Binder is displayed
-            // if displayed click on it and proceed to Bind
-        // 2. if generate binder button not displayed
-            // execute the DB query to change the subj status
-            // Generate binder button should be displayed
 
-        logger.info("fetching the submission using quote from db");
+        logger.info("fetching the submission Id using initial quote Id from db");
         String query = GET_SUBMISSION_ID_WITH_QUOTE_ID + quoteId + ";";
         List<HashMap<Object, Object>> submissionIds =
                 databaseConnector.getResultSetToList(query);
@@ -103,13 +96,25 @@ public class BindingPageTests extends BaseTest {
                 break;
             }
         }
+        logger.info("fetching new quote Id using the submission Id from db");
+        String newQuoteIdQuery = GET_QUOTE_ID_WITH_SUBMISSION_ID+submissionId+"' ORDER BY id DESC LIMIT 1;";
+        List<HashMap<Object, Object>> newQuoteIds =
+                databaseConnector.getResultSetToList(newQuoteIdQuery);
+        int quoteIdsCount = newQuoteIds.size();
+        String newQuoteId = null;
+        if (quoteIdsCount > 0) {
+            for (HashMap<Object, Object> id : newQuoteIds) {
+                newQuoteId = id.get("id").toString();
+                break;
+            }
+        }
         boolean generateBinder = bindingPageActions.isGenerateBinderButtonExist(DriverManager.getDriver());
         if (!generateBinder) {
             logger.info("generate binder button not displayed, trying to change the subj status");
-            String subjectivityStatusQuery = UPDATE_SUBJECTIVITY_STATUS + quoteId + ";";
+            String subjectivityStatusQuery = UPDATE_SUBJECTIVITY_STATUS + newQuoteId + ";";
             int queryResult = databaseConnector.update(subjectivityStatusQuery);
             if (queryResult == 1) {
-                WaitHelper.pause(30000);
+                WaitHelper.pause(15000);
                 bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
                 dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
                 String quoteStatusDashboard = dashboardPageActions.getQuoteStatus(DriverManager.getDriver());
@@ -124,7 +129,10 @@ public class BindingPageTests extends BaseTest {
         }
         assert bindingPageActions.getGenerateBinderButton(DriverManager.getDriver()).isEnabled();
         bindingPageActions.getGenerateBinderButton(DriverManager.getDriver()).click();
-        logger.info("validating subjectivities on binder page");
+        String quoteStatusAfterBinding = bindingPageActions.getQuoteStatus(DriverManager.getDriver());
+        assert quoteStatusAfterBinding.contentEquals(map.get("boundStatus"));
+
+       /* logger.info("validating subjectivities on binder page");
         assert bindingPageActions.isPriorSubjectivitiesDisplayed(DriverManager.getDriver());
         assert bindingPageActions.isPostSubjectivitiesDisplayed(DriverManager.getDriver());
         assert bindingPageActions.isMessageToUnderWriterDisplayed(DriverManager.getDriver());
@@ -137,21 +145,11 @@ public class BindingPageTests extends BaseTest {
             bindingPageActions.enterMessageToPostSubjectivitiesUnderWriterTextBox(DriverManager.getDriver());
             bindingPageActions.clickSubmitBinder(DriverManager.getDriver());
         }
-        logger.info("validating the status of the submission");
+        logger.info("validating the status of the submission in dashboard");
         bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
         String quoteStatusDashboard = dashboardPageActions.getQuoteStatus(DriverManager.getDriver());
-        assert quoteStatusDashboard.contentEquals("Order Placed");
-//        String subjectivityStatusQuery = UPDATE_SUBJECTIVITY_STATUS+quoteId+";";
-//        int queryResult = databaseConnector.update(subjectivityStatusQuery);
-//        if(queryResult == 1){
-//            WaitHelper.pause(30000);
-//            dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
-//            assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
-//            bindingPageActions.verifyQuoteHeaderInformationInBindingPage(DriverManager.getDriver(), newInsuredName, product);
-//        }else{
-//            System.out.print("query not executed successfully");
-//        }
+        assert quoteStatusDashboard.contentEquals("Order Placed");*/
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")

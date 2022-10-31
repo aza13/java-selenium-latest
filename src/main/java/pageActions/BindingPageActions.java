@@ -51,7 +51,7 @@ public class BindingPageActions extends BaseTest {
     public String getQuoteStatus(WebDriver driver) throws InterruptedException {
         try{
             WaitHelper.pause(10000);
-            return TextHelper.getText(driver, quoteOptionStatus, "text");
+            return TextHelper.getText(driver, quoteStatus, "text").trim();
         }catch (Exception e){
             logger.error("Failed to get the quote option status in binder page "+e.getMessage());
             throw e;
