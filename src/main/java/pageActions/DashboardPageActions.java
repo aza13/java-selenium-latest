@@ -201,7 +201,6 @@ public class DashboardPageActions extends BaseTest {
             website = "";
         }
         TextHelper.enterText(driver, websiteField,website);
-
     }
 
     public InsuredPageActions clickContinueButton(WebDriver driver) throws InterruptedException {

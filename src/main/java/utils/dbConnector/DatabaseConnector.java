@@ -81,7 +81,7 @@ public class DatabaseConnector {
 
     public Integer update(String query){
         //  Auto-commit is set to true, we do not need stmt.commit();
-        Integer row = 0;
+        int row = 0;
         try{
             stmt = getConnection().createStatement();
             row = stmt.executeUpdate(query);

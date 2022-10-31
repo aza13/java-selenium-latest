@@ -26,13 +26,44 @@ public class BindingPageActions extends BaseTest {
         ClickHelper.clickElement(driver, exitToDashboard);
     }
 
-    public boolean isBindingTabSelected(WebDriver driver){
-
+    public boolean isBindingTabSelected(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(10000);
         return ClickHelper.isElementExist(driver, bindingTabSelected);
     }
 
-    public void verifyQuoteHeaderInformationInBindingPage(WebDriver driver, String applicant, String product){
+    public boolean isGenerateBinderButtonExist(WebDriver driver) {
+        return ClickHelper.isElementExist(driver, generateBinderButton);
+    }
 
+    public WebElement getGenerateBinderButton(WebDriver driver){
+        try{
+            return driver.findElement(generateBinderButton);
+        }catch (Exception e){
+            logger.error("Failed to click on Generate Binder button "+e.getMessage());
+            throw e;
+        }
+    }
+
+    public String getQuoteStatus(WebDriver driver) throws InterruptedException {
+        try{
+            WaitHelper.pause(20000);
+            return TextHelper.getText(driver, quoteStatus, "text").trim();
+        }catch (Exception e){
+            logger.error("Failed to get the quote option status in binder page "+e.getMessage());
+            throw e;
+        }
+    }
+
+    public void clickGenerateBinderButton(WebDriver driver){
+        try{
+            ClickHelper.clickElement(driver, generateBinderButton);
+        }catch (Exception e){
+            logger.error("Failed to click on Generate Binder button :: clickGenerateBinderButton"+e.getMessage());
+            throw e;
+        }
+    }
+
+    public void verifyQuoteHeaderInformationInBindingPage(WebDriver driver, String applicant, String product){
         List<WebElement> elements = driver.findElements(quoteHeaderInformation);
         assert elements.size() == 3;
         assert elements.get(0).getText().equals(applicant);
@@ -45,13 +76,11 @@ public class BindingPageActions extends BaseTest {
         ClickHelper.clickElement(driver, policyExpandMoreIcon);
     }
 
-    public boolean isPreSubjectivitiesDisplayed(WebDriver driver) throws InterruptedException{
-        WaitHelper.pause(5000);
-        return ClickHelper.isElementExist(driver, preSubjectivities);
+    public boolean isPriorSubjectivitiesDisplayed(WebDriver driver){
+        return ClickHelper.isElementExist(driver, priorSubjectivities);
     }
 
-    public boolean isPostSubjectivitiesDisplayed(WebDriver driver) throws InterruptedException{
-        WaitHelper.pause(5000);
+    public boolean isPostSubjectivitiesDisplayed(WebDriver driver){
         return ClickHelper.isElementExist(driver, postSubjectivities);
     }
 
@@ -177,18 +206,10 @@ public class BindingPageActions extends BaseTest {
         return ClickHelper.isElementExist(driver, AcceptedStatus);
     }
 
-    public void clickGenerateBinderButton(WebDriver driver){
-        try{
-            ClickHelper.clickElement(driver, generateBinderButton);
-        }catch (Exception e){
-            logger.error("Failed to click on Generate Binder button "+e.getMessage());
-            throw e;
-        }
-    }
-
-    public void clickSubmitBinder(WebDriver driver){
+    public void clickSubmitBinder(WebDriver driver) throws InterruptedException {
 
         ClickHelper.clickElement(driver, enabledSubmitButton);
+        WaitHelper.waitForProgressbarInvisibility(driver);
     }
 
     public boolean verifyBinderText(WebDriver driver) throws InterruptedException{

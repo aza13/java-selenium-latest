@@ -2,6 +2,7 @@ package pageActions;
 
 import base.BaseTest;
 import base.DriverManager;
+import base.PageObjectManager;
 import helper.*;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
@@ -10,11 +11,11 @@ import org.openqa.selenium.WebElement;
 import utils.fileDownload.FileDownloadUtil;
 import utils.fileReader.ConfigDataReader;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
+import static pageObjects.BindingPageObjects.exitToDashboard;
 import static pageObjects.QuoteListPageObjects.*;
 
 
@@ -23,7 +24,7 @@ public class QuoteListPageActions extends BaseTest {
     private static final Logger logger = Logger.getLogger(QuoteListPageActions.class);
 
     public boolean isQuoteListPageDisplayed(WebDriver driver) throws InterruptedException {
-        WaitHelper.pause(5000);
+        WaitHelper.pause(10000);
        return ClickHelper.isElementExist(driver, quotesPageSelected);
     }
 
@@ -208,30 +209,55 @@ public class QuoteListPageActions extends BaseTest {
         return ClickHelper.isElementExist(driver, statusQuoteInProgress);
 
     }
-    public void verifyStatusConfirmAndLockReadyToPlaceOrder(WebDriver driver){
-        WaitHelper.waitForElementVisibility(driver,  statusQuoteReadyToPlaceOrder);
-        ClickHelper.isElementExist(driver,  statusQuoteReadyToPlaceOrder);
+    public String getQuoteStatus(WebDriver driver) throws InterruptedException {
+        try{
+            WaitHelper.pause(10000);
+            return TextHelper.getText(driver,  statusQuoteReadyToPlaceOrder, "text");
+        }catch (Exception e){
+            logger.error("Failed to get quote status in Quotes List page "+e.getMessage());
+            throw e;
+        }
 
     }
 
-    public boolean clickConfirmAndLockButtonIfDisplayed(WebDriver driver) throws InterruptedException {
-        if(ClickHelper.isElementExist(driver, confirmAndLockDisabledButton)){
-            logger.error("Confirm and Lock button is disabled");
+    public boolean clickConfirmAndLockButtonIfDisplayed(WebDriver driver) {
+        try{
             if(ConfigDataReader.getInstance().getProperty("product").contains("Ophthalmic")){
                 selectBRRPCoverageWithoutInvestigation(DriverManager.getDriver());
                 selectBRRPCoverageWithInvestigation(DriverManager.getDriver());
-                WaitHelper.waitForElementVisibility(driver, confirmAndLockButton);
-                ClickHelper.clickElement(driver, confirmAndLockButton);
-                WaitHelper.waitForProgressbarInvisibility(driver);
-                return true;
             }else{
-                return false;
+                int n=0;
+                while(ClickHelper.isElementExist(driver, confirmAndLockDisabledButton)){
+                    WaitHelper.pause(3000);
+                    n++;
+                    if(n==12) break;
+                }
             }
-        }else{
             WaitHelper.waitForElementVisibility(driver, confirmAndLockButton);
             ClickHelper.clickElement(driver, confirmAndLockButton);
             WaitHelper.waitForProgressbarInvisibility(driver);
             return true;
+        }catch (Exception e){
+            logger.error("failed to click the confirm and lock button "+e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean lockTheQuote(WebDriver driver) {
+        /***
+         * This method clicks on the confirm and lock button
+         * on successful quote lock it returns true, otherwise false
+         */
+        logger.info("This method clicks on the confirm and lock button");
+        if (clickConfirmAndLockButtonIfDisplayed(driver)) {
+            if (checkIfSubmitReviewDialogDisplayed(driver)) {
+                enterQuoteReviewText(driver);
+                clickSubmitForReview(driver);
+            }
+            return true;
+        }else{
+            logger.error("locking the quote is failed");
+            return false;
         }
     }
 
@@ -321,62 +347,120 @@ public class QuoteListPageActions extends BaseTest {
 
     public void clickConfirmDatesAndPlaceOrderButton(WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, confirmDatesAndPlaceOrderButton);
-        ClickHelper.clickElement(driver, confirmDatesAndPlaceOrderButton);
-        WaitHelper.waitForProgressbarInvisibility(driver);
+        try{
+            WebElement button = driver.findElement(confirmDatesAndPlaceOrderButton);
+            if(button.isDisplayed()){
+                button.click();
+                WaitHelper.waitForProgressbarInvisibility(driver);
+            }
+        }catch (Exception e){
+            logger.error("Failed to click on Confirm dates and Place order button "+e.getMessage());
+            throw e;
+        }
     }
 
-    public void submitOrderConfirmation(WebDriver driver) throws InterruptedException {
+    public BindingPageActions submitOrderConfirmation(WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, orderConfirmationDialog);
         TextHelper.enterText(driver, orderConfirmationTextArea, "Place Order Testing");
         ClickHelper.clickElement(driver, orderConfirmationSubmitButton);
         WaitHelper.waitForProgressbarInvisibility(driver);
+        return PageObjectManager.getBindingPageActions();
     }
 
-    public void clickConfirmDatesConfirmButton(WebDriver driver) throws InterruptedException {
+    public BindingPageActions clickConfirmDatesConfirmButton(WebDriver driver) throws InterruptedException {
         try{
-            ClickHelper.clickElement(driver, orderConfirmationSubmitButton);
+            ClickHelper.clickElement(driver, confirmDatesConfirmButton);
             WaitHelper.waitForProgressbarInvisibility(driver);
+            return PageObjectManager.getBindingPageActions();
         }catch (Exception e){
             logger.error("Failed to click on the confirm button "+ e.getMessage());
             throw e;
         }
     }
 
-    public boolean isConfirmDatesEffectiveDateDisplayed(WebDriver driver){
+    public WebElement getConfirmDatesEffectiveDate(WebDriver driver){
         try{
-            return driver.findElement(confirmDatesEffectiveDate).isDisplayed();
+            return driver.findElement(confirmDatesEffectiveDate);
         }catch (Exception e){
-            return false;
+            logger.error("failed get the effective date field from confirm dates :: getConfirmDatesEffectiveDate"+e.getMessage());
+            throw (e);
         }
     }
 
-    public boolean isConfirmDatesExpirationDateDisplayed(WebDriver driver){
+    public WebElement getConfirmDatesExpirationDate(WebDriver driver){
         try{
-            return driver.findElement(confirmDatesExpirationDate).isDisplayed();
+            return driver.findElement(confirmDatesExpirationDate);
         }catch (Exception e){
-            return false;
+            logger.error("failed get the expiration date field from confirm dates :: getConfirmDatesExpirationDate"+e.getMessage());
+            throw (e);
         }
     }
 
-    public boolean validateConfirmDatesModal(WebDriver driver) {
+    public String getEffectiveDate(WebDriver driver){
+        try{
+            String effDate = getConfirmDatesEffectiveDate(driver).getAttribute("value");
+            return effDate;
+        }catch (Exception e){
+            logger.info("Failed to get the eff date of confirm dates modal :: getEffectiveDate"+e.getMessage());
+            throw e;
+        }
+    }
+
+    public WebElement getConfirmDatesCancelButton(WebDriver driver){
+        try{
+            return driver.findElement(confirmDatesCancelButton);
+        }catch (Exception e){
+            logger.error("failed get the expiration date field from confirm dates :: getConfirmDatesExpirationDate"+e.getMessage());
+            throw (e);
+        }
+    }
+
+    public boolean validateConfirmDatesModalFields(WebDriver driver) {
         try{
             WaitHelper.waitForElementVisibility(driver, confirmDatesModal);
             String title = TextHelper.getText(driver, confirmDatesModalTitle, "text");
             assert Objects.equals(title, "Please confirm dates to place order");
             String description = TextHelper.getText(driver, confirmDatesModalDescription, "text");
             assert description.trim().startsWith("If you'd like an Effective Date or Expiration Date that is not selectable in QuoteIt");
-            assert isConfirmDatesEffectiveDateDisplayed(driver);
-            assert isConfirmDatesExpirationDateDisplayed(driver);
+            if (!getConfirmDatesExpirationDate(driver).isDisplayed()) throw new AssertionError();
+            if (!getConfirmDatesExpirationDate(driver).isDisplayed()) throw new AssertionError();
+            if (!getConfirmDatesCancelButton(driver).isDisplayed()) throw new AssertionError();
             return true;
         }catch (Exception e){
             return false;
         }
     }
 
-    public String getOpenQuoteId(WebDriver driver){
-        String quoteString = TextHelper.getText(driver, openQuoteIdLocator, "text");
-        assert quoteString != null;
-        return quoteString.split("#")[1];
+    public long validateEffectiveDate(WebDriver driver) throws ParseException {
+        try{
+            String effDate = getEffectiveDate(driver);
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+            Date date1=formatter.parse(effDate);
+            String date = formatter.format(new Date());
+            Date date2=formatter.parse(date);
+            long differenceInTime = date2.getTime() - date1.getTime();
+            long differenceInDays
+                    = (differenceInTime
+                    / (1000 * 60 * 60 * 24))
+                    % 365;
+            return differenceInDays;
+        }catch (Exception e){
+            logger.info("failed to validate the eff date :: validateEffectiveDate"+e.getMessage());
+            throw e;
+        }
+    }
+
+    public String getOpenQuoteId(WebDriver driver) throws InterruptedException {
+        try{
+            boolean quotePage = isQuoteListPageDisplayed(driver);
+            assert quotePage;
+            String quoteString = TextHelper.getText(driver, openQuoteIdLocator, "text");
+            assert quoteString != null;
+            return quoteString.split("#")[1];
+        }catch (Exception e){
+            logger.info("this method returns quote id :: getOpenQuoteId"+e.getMessage());
+            throw e;
+        }
     }
 
     public void verifySoftDeclinePopup(WebDriver driver) throws InterruptedException {
@@ -515,10 +599,21 @@ public class QuoteListPageActions extends BaseTest {
 
     public void clickContactUnderwriter(WebDriver driver) throws InterruptedException {
         try{
+            WaitHelper.pause(5000);
             ClickHelper.clickElement(driver, contactUnderwriterButton);
             WaitHelper.pause(5000);
         }catch (Exception e){
             logger.error("Failed click on the  Contact Underwriter button  " +e.getMessage());
+            throw(e);
+        }
+    }
+
+    public void clickOnExitDashboard(WebDriver driver) throws InterruptedException {
+        try{
+            WaitHelper.pause(10000);
+            ClickHelper.clickElement(driver, exitToDashboard);
+        }catch (Exception e){
+            logger.error("Failed to click on exit button :: clickOnExitDashboard" +e.getMessage());
             throw(e);
         }
     }

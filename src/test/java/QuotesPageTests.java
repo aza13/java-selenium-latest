@@ -11,12 +11,12 @@ import org.testng.annotations.Test;
 import pageActions.*;
 import utils.dataProvider.TestDataProvider;
 import utils.dbConnector.DatabaseConnector;
-import utils.fileReader.ConfigDataReader;
 import workflows.AnswerUnderwriterQuestions;
 import workflows.CreateApplicant;
 import workflows.FillApplicantDetails;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,49 +88,6 @@ public class QuotesPageTests extends BaseTest {
                 }
             }
         }
-    }
-
-
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
-    public void testLockQuote(Map<String, String> map) throws InterruptedException {
-        /***
-         this verifies whether applicant can lock a quote
-         story - N2020-28633 and N2020-28708
-         @author - Venkat Kottapalli
-         **/
-        logger.info("test verifying locking a quote :: testLockQuote");
-        CreateApplicant.createApplicant(DriverManager.getDriver());
-        ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
-        if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
-            ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
-        }
-        if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
-            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
-            if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
-                if (quoteListPageActions.checkIfOpenQuoteExist(DriverManager.getDriver())) {
-                    assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
-                    if (quoteListPageActions.clickConfirmAndLockButtonIfDisplayed(DriverManager.getDriver())) {
-                        if (quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())) {
-                            quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
-                            quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
-                        } else {
-                            quoteListPageActions.checkIfQuoteLockSuccessMessageDisplayed(DriverManager.getDriver());
-                            assert quoteListPageActions.isQuoteExpiryDisplayed(DriverManager.getDriver());
-                            assert quoteListPageActions.verifyIfLockedQuoteExist(DriverManager.getDriver());
-                            assert quoteListPageActions.verifyPDFFileAvailable(DriverManager.getDriver());
-                            assert quoteListPageActions.verifyWORDFileAvailable(DriverManager.getDriver());
-                            quoteListPageActions.expandTheQuote(DriverManager.getDriver());
-                        }
-                    } else {
-                        Assert.fail("Confirm and quote button is disabled for some reason, some of the quotes missing premium");
-                    }
-                }
-            }
-        } else {
-            Assert.fail("Underwriter questions not displayed after clicking Continue button on Rating Criteria");
-        }
-
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
@@ -221,13 +178,50 @@ public class QuotesPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
-    public void testConfirmAndLockQuoteOption(Map<String, String> map) throws InterruptedException, SQLException {
-        /***
-         this verifies whether broker can click and confirm lock quote option
-         story - N2020-28645, 28655 -QAT-174
-         @author - Azamat Uulu
-         **/
-        logger.info("Executing the testConfirmAndLockQuoteOption from QuoteTests class :: testConfirmAndLockQuoteOption");
+    public void testConfirmDatesModal(Map<String, String> map) throws InterruptedException, ParseException {
+        /*****************************************************************
+         this test validates confirm dates modal
+         story - N2020-35623
+         @author - Venkat Kottapalli
+         ******************************************************************/
+
+        logger.info("Executing the testConfirmDatesModal from BindingPageTests class :: testVerifyQuoteBinding");
+        CreateApplicant.createApplicant(DriverManager.getDriver());
+        if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
+            ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
+        }
+        if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
+        }
+        logger.info("validating download icons of quote list page");
+        boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
+        assert quoteLocked;
+        String status = quoteListPageActions.getQuoteStatus(DriverManager.getDriver());
+        assert status.contentEquals(map.get("quoteStatus"));
+        quoteListPageActions.clickConfirmDatesAndPlaceOrderButton(DriverManager.getDriver());
+        assert quoteListPageActions.validateConfirmDatesModalFields(DriverManager.getDriver());
+        String effDate = quoteListPageActions.getEffectiveDate(DriverManager.getDriver());
+        long dateDifference = quoteListPageActions.validateEffectiveDate(DriverManager.getDriver());
+        if (dateDifference > 7){
+            // eff date defaults to empty/null
+            assert effDate == null;
+        }else{
+            // then the date defaults to the Effective Date that was entered on the rating criteria
+            assert effDate != null;
+        }
+        quoteListPageActions.clickConfirmDatesConfirmButton(DriverManager.getDriver());
+    }
+
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
+    public void testContactUnderwriterModalBeforeLock(Map<String, String> map) throws InterruptedException, SQLException {
+        /*****************************************************************
+         this test verifies contact underwriter modal
+         story - N2020-33999
+         @author - Venkat Kottapalli
+         ******************************************************************/
+
+        logger.info("Executing the testVerifyQuoteBinding from BindingPageTests class :: testVerifyQuoteBinding");
         CreateApplicant.createApplicant(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
             FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
@@ -238,42 +232,122 @@ public class QuotesPageTests extends BaseTest {
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             String quoteId = quoteListPageActions.getOpenQuoteId(DriverManager.getDriver());
-            if (quoteListPageActions.clickConfirmAndLockButtonIfDisplayed(DriverManager.getDriver())) {
-                if (quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())) {
-                    quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
-                    quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
-                } else {
-                    quoteListPageActions.checkIfQuoteLockSuccessMessageDisplayed(DriverManager.getDriver());
-                    quoteListPageActions.verifyStatusConfirmAndLockReadyToPlaceOrder(DriverManager.getDriver());
-                    assert quoteListPageActions.verifyPDFFileAvailable(DriverManager.getDriver());
-                    assert quoteListPageActions.verifyWORDFileAvailable(DriverManager.getDriver());
-                    quoteListPageActions.clickConfirmDatesAndPlaceOrderButton(DriverManager.getDriver());
-                    quoteListPageActions.submitOrderConfirmation(DriverManager.getDriver());
-                    String query = GET_SUBMISSION_ID_WITH_QUOTE_ID + quoteId + ";";
-                    List<HashMap<Object, Object>> submissionIds =
-                            databaseConnector.getResultSetToList(query);
-                    int submissionCount = submissionIds.size();
-                    String submissionId = null;
-                    if (submissionCount > 0) {
-                        for (HashMap<Object, Object> id : submissionIds) {
-                            submissionId = id.get("submission_id").toString();
-                            break;
-                        }
-                    }
-                    BindingPageActions bindingPageActions = PageObjectManager.getBindingPageActions();
-                    bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
-                    dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
-                    String quoteStatus = dashboardPageActions.getQuoteStatus(DriverManager.getDriver());
-                    assert quoteStatus.contentEquals("Order Placed");
+            quoteListPageActions.clickContactUnderwriter(DriverManager.getDriver());
+            assert quoteListPageActions.checkIfSubmitReviewDialogDisplayed2(DriverManager.getDriver());
+            quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
+            assert quoteListPageActions.submitReviewCancelButton(DriverManager.getDriver()).isDisplayed();
+            quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
+            String query = GET_SUBMISSION_ID_WITH_QUOTE_ID + quoteId + ";";
+            List<HashMap<Object, Object>> submissionIds =
+                    databaseConnector.getResultSetToList(query);
+            int submissionCount = submissionIds.size();
+            String submissionId = null;
+            if (submissionCount > 0) {
+                for (HashMap<Object, Object> id : submissionIds) {
+                    submissionId = id.get("submission_id").toString();
+                    break;
                 }
-            } else {
-                Assert.fail("Confirm and quote button is disabled for some reason");
             }
+            dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
+            String quoteStatus = dashboardPageActions.getQuoteStatus(DriverManager.getDriver());
+            assert quoteStatus.contentEquals("In Review");
         }
     }
 
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
+    public void testContactUnderwriterModalAfterLock(Map<String, String> map) throws InterruptedException, SQLException {
+        /*****************************************************************
+         this test verifies contact underwriter modal
+         story - N2020-35238 - QAT-546
+         @author - Venkat Kottapalli
+         ******************************************************************/
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData", enabled = false)
+        logger.info("Executing the testVerifyQuoteBinding from BindingPageTests class :: testVerifyQuoteBinding");
+        CreateApplicant.createApplicant(DriverManager.getDriver());
+        if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
+            ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
+        }
+        if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
+        }
+        if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
+            String quoteId = quoteListPageActions.getOpenQuoteId(DriverManager.getDriver());
+            boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
+            assert quoteLocked;
+            quoteListPageActions.clickContactUnderwriter(DriverManager.getDriver());
+            assert quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver());
+            quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
+            quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
+            // the below part will be modified as per the future stories
+            quoteListPageActions.clickOnExitDashboard(DriverManager.getDriver());
+            String query = GET_SUBMISSION_ID_WITH_QUOTE_ID + quoteId + ";";
+            List<HashMap<Object, Object>> submissionIds =
+                    databaseConnector.getResultSetToList(query);
+            int submissionCount = submissionIds.size();
+            String submissionId = null;
+            if (submissionCount > 0) {
+                for (HashMap<Object, Object> id : submissionIds) {
+                    submissionId = id.get("submission_id").toString();
+                    break;
+                }
+            }
+            dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
+            String quoteStatus = dashboardPageActions.getQuoteStatus(DriverManager.getDriver());
+            assert quoteStatus.contentEquals("Active");
+        }
+    }
+
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
+    public void testLockingQuote(Map<String, String> map) throws InterruptedException, SQLException {
+        /***
+         this verifies whether broker can lock the quote using confirm lock button
+         story - N2020-28645, 28655 -QAT-174, N2020-28633 and N2020-28708
+         @author - Azamat Uulu, Venkat Kottapalli
+         **/
+        logger.info("Executing the testConfirmAndLockQuoteOption from QuoteTests class :: testConfirmAndLockQuoteOption");
+        CreateApplicant.createApplicant(DriverManager.getDriver());
+        if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
+            ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
+        }
+        if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
+        }
+        String quoteId = quoteListPageActions.getOpenQuoteId(DriverManager.getDriver());
+        boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
+        assert quoteLocked;
+        String status = quoteListPageActions.getQuoteStatus(DriverManager.getDriver());
+        assert status.contentEquals(map.get("quoteStatus"));
+        assert quoteListPageActions.isQuoteExpiryDisplayed(DriverManager.getDriver());
+        assert quoteListPageActions.verifyIfLockedQuoteExist(DriverManager.getDriver());
+        assert quoteListPageActions.verifyPDFFileAvailable(DriverManager.getDriver());
+        assert quoteListPageActions.verifyWORDFileAvailable(DriverManager.getDriver());
+//        quoteListPageActions.expandTheQuote(DriverManager.getDriver());
+        logger.info("placing the quote order and verifying it;s status in dashboard");
+        quoteListPageActions.clickConfirmDatesAndPlaceOrderButton(DriverManager.getDriver());
+        BindingPageActions bindingPageActions = quoteListPageActions.clickConfirmDatesConfirmButton(DriverManager.getDriver());
+        String quoteOptionStatus = bindingPageActions.getQuoteStatus(DriverManager.getDriver());
+        assert quoteOptionStatus.contentEquals(map.get("quoteStatusBinder"));
+        String query = GET_SUBMISSION_ID_WITH_QUOTE_ID + quoteId + ";";
+        List<HashMap<Object, Object>> submissionIds =
+                databaseConnector.getResultSetToList(query);
+        int submissionCount = submissionIds.size();
+        String submissionId = null;
+        if (submissionCount > 0) {
+            for (HashMap<Object, Object> id : submissionIds) {
+                submissionId = id.get("submission_id").toString();
+                break;
+            }
+        }
+        bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
+        String quoteStatus = dashboardPageActions.getQuoteStatus(DriverManager.getDriver());
+        assert quoteStatus.contentEquals(map.get("quoteStatusDashboard"));
+    }
+
+
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
     public void testQuotePreview(Map<String, String> map) throws InterruptedException {
         /***
          this verifies whether broker can click preview quote option
@@ -297,6 +371,7 @@ public class QuotesPageTests extends BaseTest {
                 }
             }
         }
+        logger.info("verifying quote preview icons");
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
             assert quoteListPageActions.verifyQuotePreview(DriverManager.getDriver());
@@ -377,7 +452,8 @@ public class QuotesPageTests extends BaseTest {
                 quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
             } else {
                 quoteListPageActions.checkIfQuoteLockSuccessMessageDisplayed(DriverManager.getDriver());
-                quoteListPageActions.verifyStatusConfirmAndLockReadyToPlaceOrder(DriverManager.getDriver());
+                String status = quoteListPageActions.getQuoteStatus(DriverManager.getDriver());
+                assert Objects.equals(status, "Ready to Place Order");
                 quoteListPageActions.clickConfirmDatesAndPlaceOrderButton(DriverManager.getDriver());
                 quoteListPageActions.submitOrderConfirmation(DriverManager.getDriver());
                 quoteListPageActions.verifySoftDeclinePopup(DriverManager.getDriver());

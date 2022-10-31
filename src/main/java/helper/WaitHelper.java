@@ -60,7 +60,7 @@ public class WaitHelper {
         try {
             String progressbarXpath = "//span[@role='progressbar']/parent::div";
             int n = 0;
-            while(n<10){
+            while(n<12){
                 pause(3000);
                 String text = TextHelper.getText(driver, By.xpath(progressbarXpath), "style").trim();
                 if(text.contains("hidden")){
