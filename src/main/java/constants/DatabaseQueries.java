@@ -29,4 +29,8 @@ public class DatabaseQueries extends BaseTest {
     public static final String UPDATE_SUBJECTIVITY_STATUS = "UPDATE "+ConfigDataReader.getInstance().getProperty("dbSchema")+".quote_subjectivity SET STATUS='accepted' WHERE status!='deleted' AND is_due_before_binding=1 AND quote_id=";
     public static final String GET_QUOTE_ID_WITH_SUBMISSION_ID = "Select id from "+ConfigDataReader.getInstance().getProperty("dbSchema")+".quote where submission_id='";
 
+    public static final String GET_INELIGIBLE_POLICIES ="SELECT  p.number\n" +
+            "FROM snapqa_10.submission AS s \n" +
+            "JOIN policy AS p ON p.id = s.policy_id\n" +
+            "WHERE p.status = 'active' AND s.is_quoteit_ineligible =1 and s.broker_id=7504  and s.status='active'";
 }
