@@ -7,7 +7,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.opera.OperaDriver;
 import utils.fileReader.ConfigDataReader;
 
 import java.util.HashMap;
@@ -64,21 +63,21 @@ public class DriverManager {
                     driver = new EdgeDriver();
                     threadDriver.set(driver);
                     break;
-                case "OPERA":
-                    logger.info("Initialising the opera browser");
-                    WebDriverManager.operadriver().setup();
-                    driver = new OperaDriver();
-                    threadDriver.set(driver);
-                    break;
                 default:
                     logger.info("No browser is matching");
             }
         }
+        assert driver != null;
         return driver;
     }
 
     static void quitDriver() {
-        getDriver().quit();
+        try{
+            getDriver().quit();
+        }catch (NullPointerException e){
+            logger.error("WebDriver instance is null, either it not initialized or closed already "+e.getMessage());
+            throw e;
+        }
         DriverManager.threadDriver.remove();
     }
 }
