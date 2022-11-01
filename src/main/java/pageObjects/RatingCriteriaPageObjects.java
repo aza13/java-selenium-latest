@@ -31,7 +31,9 @@ public class RatingCriteriaPageObjects {
     public static final By ratingCriteriaInputBox2 = By.xpath("//input[@placeholder='Total Commercial Square Feet']");
     public static final By ratingCriteriaEffectiveDateSelectionButton = By.xpath("//*[@id='panel1a-content']/div/div[1]/div[2]/div[1]/div[1]/div/div/button");
     public static final By ratingCriteriaEffectiveActualDateChoose = By.xpath("//button[normalize-space()='"+enterDate+"']");
-    public static final By ratingCriteriaExpirationExpectedDateShow = By.xpath("//input[@value='"+expectDate+"']");
+    public static final By ratingCriteriaExpirationDateField= By.xpath("//*[@id='panel1a-content']/div/div[1]/div[2]/div[1]/div[2]/div/div/button");
+    public static final By dropDownOnExpirationDatePicker = By.xpath("//button[@aria-label='calendar view is open, switch to year view']//*[name()='svg']");
+    public static final By nextYearInExpirationDatePicker = By.xpath("//body/div[@role='dialog']/div/div/div/div[1]/div[2]/div/div/div[2]/button");
     public static final By ratingCriteriaCancelButton = By.xpath("//button[@id='rating_criteria-cancel']");
     public static final By detailsPageUnSelected = By.xpath("//button[@id='workflow-tab-1' and @aria-selected='false']");
     public static final By detailsPageSelected = By.xpath("//button[@id='workflow-tab-1' and @aria-selected='true']");
@@ -44,6 +46,7 @@ public class RatingCriteriaPageObjects {
     public static final By hardDeclineMsg = By.cssSelector("p[id='alert-dialog-description'] div div p");
     public static final By hardDeclineOKButton = By.xpath("//button[normalize-space()='OK']");
     public static final By noOfPhysicians = By.name("Number of Physicians");
+    public static final By clickNextMonth = By.xpath("//button[@title='Next month']//*[name()='svg']");
 
 
 }

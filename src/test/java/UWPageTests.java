@@ -99,9 +99,9 @@ public class UWPageTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "UWQuestionsPageData", enabled = false)
-    public void testSoftDeclineAfterUWQuestions(Map<String, String> map) throws InterruptedException {
 
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "UWQuestionsPageData")
+    public void testSoftDeclineAfterUWQuestions(Map<String, String> map) throws InterruptedException {
         /***
          this test soft decline after UW Questions
          story - /N2020-28674 -QAT-184
