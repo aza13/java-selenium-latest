@@ -18,8 +18,7 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
 
 
     private static final Logger logger = Logger.getLogger(UnderwritingQuestionsPageActions.class);
-    public static int globalIndex=0;
-    public static int dropdownsIndex =0;
+    public static int dropdownsIndex = 0;
 
     public boolean isUnderwritingQuestionsPageDisplayed(WebDriver driver) throws InterruptedException {
         WaitHelper.pause(3000);
@@ -119,7 +118,7 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
         WaitHelper.waitForElementVisibility(driver, networkSecValue);
         ClickHelper.clickElement(driver, networkSecValue);
         WaitHelper.pause(6000);
-        ScrollHelper.scrollElementIntoView(DriverManager.getDriver(),itPersonnel);
+        ScrollHelper.scrollElementIntoView(DriverManager.getDriver(), itPersonnel);
         ScrollHelper.scrollElementIntoView(DriverManager.getDriver(), itPersonnel);
         WaitHelper.waitForElementVisibility(driver, itPersonnel);
         ClickHelper.clickElement(driver, itPersonnel);
@@ -186,10 +185,10 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
     public boolean checkWhetherAllUWQuestionsAreAnswered(WebDriver driver) {
         String xpath = "//button[@id='underwriting-continue' and @disabled]";
         By disableLocator = By.xpath(xpath);
-        if(ClickHelper.isElementExist(driver, disableLocator)){
+        if (ClickHelper.isElementExist(driver, disableLocator)) {
             logger.info("UW continue button is disabled, need to answer UW questions");
             return false;
-        }else{
+        } else {
             logger.info("UW continue button is enabled, UW questions are answered");
             return true;
         }
@@ -201,36 +200,183 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
     }
 
     public void answerUWQuestionButtons(WebDriver driver, String uwQuestionAnswer) throws InterruptedException {
+        String firstQuestionNoButtonXpath = "(//div[@id='underwriting-questions-header' and @role='region']//div//p/parent::div//div//button[text()='No'])[1]";
+        driver.findElement(By.xpath(firstQuestionNoButtonXpath)).click();
+        WaitHelper.pause(3000);
         String buttonXpath = "//div[@id='underwriting-questions-header']//button[text()='" + uwQuestionAnswer + "']";
         try {
             List<WebElement> allNoButtons = driver.findElements(By.xpath(buttonXpath));
             int count = allNoButtons.size();
-            if(count>0){
+            if (count > 0) {
                 logger.info("UW question buttons exist :: answerUWQuestionButtons");
                 for (WebElement allNoButton : allNoButtons) {
                     logger.info("clicking on each yes/no button in each UW section");
                     WaitHelper.pause(5000);
                     allNoButton.click();
                 }
-            }else{
+            } else {
                 logger.info("UW question buttons doesn't exist :: answerUWQuestionButtons");
             }
-        }catch (StaleElementReferenceException e) {
+        } catch (StaleElementReferenceException e) {
             logger.warn("StaleElementReference exception occurred :: answerUWQuestionButtons");
             WaitHelper.pause(3000);
             answerUWQuestionButtons(driver, uwQuestionAnswer);
         }
-
     }
+
+    public void answerUWQuestionButtonsOMICProduct(WebDriver driver) throws InterruptedException {
+        String firstQuestionNoButtonXpath = "(//div[@id='underwriting-questions-header' and @role='region']//div//p/parent::div//div//button[text()='No'])[1]";
+        driver.findElement(By.xpath(firstQuestionNoButtonXpath)).click();
+        WaitHelper.pause(3000);
+        String questionDescriptionXpath = "//div[@id='underwriting-questions-header' and @role='region']/div/div";
+        List<WebElement> allDescriptions = driver.findElements(By.xpath(questionDescriptionXpath));
+        int count = allDescriptions.size();
+        int n = 0;
+        String questionDescriptionText = null;
+        String noButtonXpath;
+        if (count > 0) {
+            for (int i = 0; i < count; i++) {
+                try {
+                    WebElement questionDescription = allDescriptions.get(i);
+                    questionDescriptionText = questionDescription.getText();
+                    n = i + 1;
+                    if (questionDescriptionText.toLowerCase().contains("third")) {
+                        noButtonXpath = "(//div//button[text()='Yes'])[" + n + "]";
+                    } else {
+                        noButtonXpath = "(//div//button[text()='No'])[" + n + "]";
+                    }
+                    driver.findElement(By.xpath(noButtonXpath)).click();
+                    WaitHelper.pause(5000);
+                } catch (StaleElementReferenceException e) {
+                    logger.warn("StaleElementReference exception occurred :: answerUWQuestionButtons");
+                    WaitHelper.pause(10000);
+                    answerUWQuestionButtonsOMICProduct(driver);
+                }
+            }
+        } else {
+            logger.info("UW question buttons doesn't exist :: answerUWQuestionButtonsOMICProduct");
+        }
+    }
+
+    public void answerFirstUWQuestion(WebDriver driver) throws InterruptedException {
+        String secondQuestionYesBtnXpath = "(//h5[text()='e-MD']/parent::div/parent::div/following-sibling::div//button[text()='Yes'])[1]";
+        driver.findElement(By.xpath(secondQuestionYesBtnXpath)).click();
+        WaitHelper.pause(3000);
+    }
+
+    public void answerEachSectionUWQuestions(WebDriver driver, int dropdownCount, String sectionXpath) throws InterruptedException {
+        List<WebElement> descriptions = driver.findElements(By.xpath(sectionXpath + "//p"));
+        int count = descriptions.size()-dropdownCount;
+        for (int i = 0; i < count; i++) {
+            WebElement description = descriptions.get(i);
+            String text = description.getText();
+            int n = i + 1;
+            if (text.contains("third")) {
+                String yesXpath = "(" + sectionXpath + "//button[text()='Yes'])" + "[" + n + "]";
+                driver.findElement(By.xpath(yesXpath)).click();
+            } else {
+                String noXpath = "(" + sectionXpath + "//button[text()='No'])" + "[" + n + "]";
+                driver.findElement(By.xpath(noXpath)).click();
+            }
+        }
+        WaitHelper.pause(5000);
+    }
+
+    public void answerEachSectionUWQuestionsRansome(WebDriver driver, int dropdownCount, String sectionXpath) throws InterruptedException {
+        List<WebElement> descriptions = driver.findElements(By.xpath(sectionXpath + "//p"));
+        int count = descriptions.size()-dropdownCount;
+        for (int i = 0; i < count; i++) {
+            WebElement description = descriptions.get(i);
+            String text = description.getText();
+            int n = i + 1;
+            if (text.contains("third")) {
+                String yesXpath = "(" + sectionXpath + "//button[text()='Yes'])" + "[" + n + "]";
+                driver.findElement(By.xpath(yesXpath)).click();
+            } else {
+                String noXpath = "(" + sectionXpath + "//button[text()='Yes'])" + "[" + n + "]";
+                driver.findElement(By.xpath(noXpath)).click();
+            }
+        }
+        WaitHelper.pause(5000);
+    }
+
+    public void answerUWQuestionButtonsOMICProduct2(WebDriver driver) throws InterruptedException {
+        int count = 0;
+        String generalInformationXpath = "//h5[text()='General Information']/parent::div/parent::div/following-sibling::div";
+        answerEachSectionUWQuestions(driver, 0, generalInformationXpath);
+
+        String eMDXpath = "//h5[text()='e-MD']/parent::div/parent::div/following-sibling::div";
+        List<WebElement> eMDDropdowns = driver.findElements(By.xpath(eMDXpath+"//input/preceding-sibling::div"));
+        if(!eMDDropdowns.isEmpty()){
+            for (WebElement dropdown : eMDDropdowns){
+                DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, uwQuestionsDropdownsOption, "None");
+            }
+        }
+        List<WebElement> eMDDescriptions = driver.findElements(By.xpath(eMDXpath + "//p"));
+        count = eMDDescriptions.size()-eMDDropdowns.size();
+        for (int i = 0; i < count; i++) {
+            WebElement description = eMDDescriptions.get(i);
+            String text = description.getText();
+            int n = i + 1;
+            if (text.contains("e-MD")) {
+                String yesXpath = "(" + eMDXpath + "//button[text()='Yes'])" + "[" + n + "]";
+                driver.findElement(By.xpath(yesXpath)).click();
+            } else {
+                String noXpath = "(" + eMDXpath + "//button[text()='Yes'])" + "[" + n + "]";
+                driver.findElement(By.xpath(noXpath)).click();
+            }
+        }
+
+        String ransomwareXpath = "//h5[text()='Ransomware Controls']/parent::div/parent::div/following-sibling::div";
+        answerEachSectionUWQuestionsRansome(driver, 0, ransomwareXpath);
+
+        String phishingXpath = "//h5[text()='Phishing Controls']/parent::div/parent::div/following-sibling::div";
+        answerEachSectionUWQuestionsRansome(driver, 0, phishingXpath);
+
+        String cyberLossXpath = "//h5[text()='Cyber/Privacy Loss History']/parent::div/parent::div/following-sibling::div";
+        answerEachSectionUWQuestions(driver, 0,cyberLossXpath);
+
+        String boardRegulatoryXpath = "//h5[text()='Broad Regulatory Risk Protection Plus']/parent::div/parent::div/following-sibling::div";
+        List<WebElement> boardRegulatoryDropdowns = driver.findElements(By.xpath(boardRegulatoryXpath+"//input/preceding-sibling::div"));
+        if(!boardRegulatoryDropdowns.isEmpty()){
+            for (WebElement dropdown : boardRegulatoryDropdowns){
+                DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, uwQuestionsDropdownsOption, "None");
+            }
+        }
+        answerEachSectionUWQuestions(driver, boardRegulatoryDropdowns.size(), boardRegulatoryXpath);
+
+        String billingComplianceXpath = "//h5[text()='Billing and Compliance']/parent::div/parent::div/following-sibling::div";
+        List<WebElement> billingComplianceDescriptions = driver.findElements(By.xpath(billingComplianceXpath + "//p"));
+        count = billingComplianceDescriptions.size();
+        for (int i = 0; i < count; i++) {
+            WebElement description = billingComplianceDescriptions.get(i);
+            String text = description.getText();
+            int n = i + 1;
+            String inputFieldXpath = "(" + billingComplianceXpath + "//input)" + "[" + n + "]";
+            if(ClickHelper.isElementExist(driver, By.xpath(inputFieldXpath))){
+                logger.info("do nothing");
+            }else if (text.contains("third")) {
+                String yesXpath = "(" + billingComplianceXpath + "//button[text()='Yes'])" + "[" + n + "]";
+                driver.findElement(By.xpath(yesXpath)).click();
+            } else {
+                String noXpath = "(" + billingComplianceXpath + "//button[text()='No'])" + "[" + n + "]";
+                driver.findElement(By.xpath(noXpath)).click();
+            }
+        }
+
+        String regulatoryLossXpath = "//h5[text()='Regulatory Loss History']/parent::div/parent::div/following-sibling::div";
+        answerEachSectionUWQuestions(driver, 0, regulatoryLossXpath);
+    }
+
 
     public void answerUWQuestionDropdowns(WebDriver driver, String answer, String dropdownOption) throws InterruptedException {
 
         String[] dropdownIds = {"General-select", "Required Questions-select", "IT Department-select"};
-        try{
+        try {
             logger.info("selecting UW questions dropdowns");
             for (String dropdownId : dropdownIds) {
                 List<WebElement> dropdowns = driver.findElements(By.id(dropdownId));
-                if (dropdowns.size() > 0) {
+                if (!dropdowns.isEmpty()) {
                     logger.info("UW questions dropdowns exists :: answerUWQuestionDropdowns");
                     for (WebElement dropdown : dropdowns) {
                         logger.info("selecting the value from UW dropdown");
@@ -240,7 +386,7 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
                     }
                 }
             }
-        }catch (StaleElementReferenceException e) {
+        } catch (StaleElementReferenceException e) {
             logger.warn("StaleElementReference exception occurred in :: answerUWQuestionDropdowns");
             WaitHelper.pause(3000);
             answerUWQuestionDropdowns(driver, answer, dropdownOption);
@@ -268,7 +414,7 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
         WaitHelper.pause(10000);
     }
 
-    public boolean checkEditButtonIsVisible(WebDriver driver){
+    public boolean checkEditButtonIsVisible(WebDriver driver) {
         return ClickHelper.isElementExist(driver, clickEditOnQuestions);
     }
 
@@ -289,11 +435,11 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
         WaitHelper.pause(3000);
     }
 
-    public boolean verifyQuestionIsVisible(WebDriver driver){
+    public boolean verifyQuestionIsVisible(WebDriver driver) {
         return WaitHelper.isElementEnabled(driver, underwritingQuestionsTab);
     }
 
-    public boolean verifySoftDeclinePopupHeader(WebDriver driver){
+    public boolean verifySoftDeclinePopupHeader(WebDriver driver) {
         return WaitHelper.isElementDisplayed(driver, softDeclineHeader);
     }
 

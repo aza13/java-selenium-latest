@@ -201,7 +201,6 @@ public class DashboardPageActions extends BaseTest {
             website = "";
         }
         TextHelper.enterText(driver, websiteField,website);
-
     }
 
     public InsuredPageActions clickContinueButton(WebDriver driver) throws InterruptedException {
@@ -357,10 +356,13 @@ public class DashboardPageActions extends BaseTest {
         return driver.findElement(noQuoteFoundText);
     }
 
+    public boolean verifyWhetherResultsDisplayed(WebDriver driver) {
+        return ClickHelper.isElementExist(driver, noSearchResultsText);
+    }
+
     public String getSearchForNoResult(WebDriver driver) throws InterruptedException {
         WaitHelper.pause(3000);
-        return TextHelper.getText(driver, searchForNoResult, "text");
-
+        return TextHelper.getText(driver, noSearchResultsText, "text");
     }
 
     public String getFirstAvailableReferenceId(WebDriver driver) {
@@ -745,6 +747,7 @@ public class DashboardPageActions extends BaseTest {
 
     public boolean verifyContactUnderwriterExists(WebDriver driver){
         try {
+            WaitHelper.waitForElementVisibility(driver, contactUnderwriter);
             return driver.findElement(contactUnderwriter).isDisplayed();
         }catch (Exception e){
             testLogger.fail("failed to verify the contactUnderwriter :: verifyContactUnderwriterExists" + e.getMessage());

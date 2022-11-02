@@ -2,6 +2,7 @@ import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
 import constants.ConstantVariable;
+import constants.DatabaseQueries;
 import helper.ClickHelper;
 import helper.FakeDataHelper;
 import org.apache.log4j.Logger;
@@ -15,7 +16,10 @@ import pageActions.DashboardPageActions;
 import pageActions.InsuredPageActions;
 import pageActions.LoginPageActions;
 import utils.dataProvider.TestDataProvider;
+import utils.dbConnector.DatabaseConnector;
+import workflows.CreateApplicant;
 
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,18 +30,20 @@ public class DashboardPageTests extends BaseTest {
 
     private static final Logger logger = Logger.getLogger(DashboardPageTests.class);
     private DashboardPageActions dashboardPageActions;
+    private DatabaseConnector databaseConnector;
 
     @BeforeClass(alwaysRun = true)
     public void beforeClassSetUp() {
         classLogger = extentReport.createTest("DashboardPageTests");
         logger.info("Creating object for DashboardPageTests :: beforeClassSetUp");
         dashboardPageActions = PageObjectManager.getDashboardPageActions();
+        databaseConnector = new DatabaseConnector();
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
     public void testQuotesDashboardUI(Map<String, String> map) throws InterruptedException {
         /**
-         * this test verifies UI of dashboard and Mu Quotes list
+         * this test verifies UI of dashboard and My Quotes list
          story - N2020-28285, N2020-28287, N2020-28631
          @author - Venkat Kottapalli
          **/
@@ -51,21 +57,21 @@ public class DashboardPageTests extends BaseTest {
         List<WebElement> quoteCardsList = dashboardPageActions.getQuoteCardsList(DriverManager.getDriver());
         if (quoteCardsList.size() > 0) {
             assert true;
+            List<WebElement> labels = dashboardPageActions.getQuoteTableLabels(DriverManager.getDriver());
+            if (labels.size() > 0) {
+                assert labels.get(0).getText().equals(map.get("submissionLabel"));
+                assert labels.get(1).getText().equals(map.get("dateLabel"));
+                assert labels.get(2).getText().equals(map.get("product"));
+                assert labels.get(3).getText().equals(map.get("startDateLabel"));
+                assert labels.get(4).getText().equals(map.get("endDateLabel"));
+                assert labels.get(5).getText().equals(map.get("statusLabel"));
+                logger.info("verify quote status color- In Progress");
+//            dashboardPageActions.validateQuoteStatusColorCoding(DriverManager.getDriver());
+                logger.info("verify quote correct status displayed");
+                assert dashboardPageActions.verifyQuoteStatusInTable(DriverManager.getDriver());
+            }
         } else {
             assert dashboardPageActions.noQuoteFound(DriverManager.getDriver()).isDisplayed();
-        }
-        List<WebElement> labels = dashboardPageActions.getQuoteTableLabels(DriverManager.getDriver());
-        if (labels.size() > 0) {
-            assert labels.get(0).getText().equals(map.get("submissionLabel"));
-            assert labels.get(1).getText().equals(map.get("dateLabel"));
-            assert labels.get(2).getText().equals(map.get("product"));
-            assert labels.get(3).getText().equals(map.get("startDateLabel"));
-            assert labels.get(4).getText().equals(map.get("endDateLabel"));
-            assert labels.get(5).getText().equals(map.get("statusLabel"));
-            logger.info("verify quote status color- In Progress");
-//            dashboardPageActions.validateQuoteStatusColorCoding(DriverManager.getDriver());
-            logger.info("verify quote correct status displayed");
-            assert dashboardPageActions.verifyQuoteStatusInTable(DriverManager.getDriver());
         }
         logger.info("verify logout functionality");
         LoginPageActions loginPageActions = dashboardPageActions.logoutApp(DriverManager.getDriver());
@@ -87,23 +93,23 @@ public class DashboardPageTests extends BaseTest {
         List<WebElement> policyCardsList = dashboardPageActions.getPolicyCardsList(DriverManager.getDriver());
         if (policyCardsList.size() > 0) {
             assert true;
+             /* Status color changes would be coming soon with Hexa codes
+        dashboardPageActions.validatePolicyStatusColorCoding(DriverManager.getDriver());*/
+            List<WebElement> labels = dashboardPageActions.getPolicyTableLabels(DriverManager.getDriver());
+            if (labels.size() > 0) {
+                String policyLabel = labels.get(0).getText();
+                assert policyLabel.equals(map.get("policyLabel"));
+                String coverage = labels.get(1).getText();
+                assert coverage.equals(map.get("product"));
+                String effDateLabel = labels.get(2).getText();
+                assert effDateLabel.equals(map.get("effDateLabel"));
+                String expDateLabel = labels.get(3).getText();
+                assert expDateLabel.equals(map.get("expDateLabel"));
+            } else {
+                throw new SkipException("No policies were found for the given broker");
+            }
         } else {
             assert dashboardPageActions.noPolicyFound(DriverManager.getDriver()).isDisplayed();
-        }
-        /* Status color changes would be coming soon with Hexa codes
-        dashboardPageActions.validatePolicyStatusColorCoding(DriverManager.getDriver());*/
-        List<WebElement> labels = dashboardPageActions.getPolicyTableLabels(DriverManager.getDriver());
-        if (labels.size() > 0) {
-            String policyLabel = labels.get(0).getText();
-            assert policyLabel.equals(map.get("policyLabel"));
-            String coverage = labels.get(1).getText();
-            assert coverage.equals(map.get("product"));
-            String effDateLabel = labels.get(2).getText();
-            assert effDateLabel.equals(map.get("effDateLabel"));
-            String expDateLabel = labels.get(3).getText();
-            assert expDateLabel.equals(map.get("expDateLabel"));
-        } else {
-            throw new SkipException("No policies were found for the given broker");
         }
 
     }
@@ -130,7 +136,7 @@ public class DashboardPageTests extends BaseTest {
         assert name.equals(ConstantVariable.EMPTY_STRING);
         String website = dashboardPageActions.getWebsite(DriverManager.getDriver());
         assert website.equals(ConstantVariable.EMPTY_STRING);
-        dashboardPageActions.createNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, map.get("applicantName"), map.get("website"));
+        dashboardPageActions.createNewQuote(DriverManager.getDriver(), product, map.get("applicantName"), map.get("website"));
         dashboardPageActions.clickContinueButton(DriverManager.getDriver());
     }
 
@@ -143,7 +149,7 @@ public class DashboardPageTests extends BaseTest {
          **/
         logger.info("verifying creating new quote creation :: testCreateNewQuote");
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        dashboardPageActions.createNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, map.get("applicantName"), map.get("website"));
+        dashboardPageActions.createNewQuote(DriverManager.getDriver(), product, map.get("applicantName"), map.get("website"));
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         assert insuredPageActions.newInsuredButton(DriverManager.getDriver()).isDisplayed();
         assert insuredPageActions.searchAgainButton(DriverManager.getDriver()).isDisplayed();
@@ -155,18 +161,12 @@ public class DashboardPageTests extends BaseTest {
         } else {
             logger.info("Can't continue to insured search page, duplicate submission displayed");
             insuredPageActions.clickDuplicateCancelButton(DriverManager.getDriver());
-            dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-            String newInsuredName = FakeDataHelper.fullName();
-            String newInsuredWebsite = FakeDataHelper.website();
-            dashboardPageActions.createNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName, newInsuredWebsite);
-            dashboardPageActions.clickContinueButton(DriverManager.getDriver());
-            boolean value = insuredPageActions.isCreateNewInsuredTextDisplayed(DriverManager.getDriver());
-            assert value;
+            CreateApplicant.createApplicant(DriverManager.getDriver());
         }
 
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", enabled = false)
     public void testBrokerFilteringSubmissionsList(Map<String, String> map) throws InterruptedException, ParseException {
         /**
          * this test verifies broker filtering the submissions list
@@ -240,7 +240,7 @@ public class DashboardPageTests extends BaseTest {
 
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", enabled = false)
     public void testBrokerFilteringPoliciesList(Map<String, String> map) throws InterruptedException, ParseException {
         /**
          * this test verifies broker filtering the policies list
@@ -362,22 +362,27 @@ public class DashboardPageTests extends BaseTest {
         logger.info("verifying broker can search for related records :: testBrokerSearchRelatedRecords");
         String actualReferenceId = dashboardPageActions.getFirstAvailableReferenceId(DriverManager.getDriver());
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), actualReferenceId);
-        String expectedReferenceId = dashboardPageActions.getFirstAvailableReferenceId(DriverManager.getDriver());
-        assert actualReferenceId.equals(expectedReferenceId);
+        if(!dashboardPageActions.verifyWhetherResultsDisplayed(DriverManager.getDriver())){
+            String expectedReferenceId = dashboardPageActions.getFirstAvailableReferenceId(DriverManager.getDriver());
+            assert actualReferenceId.equals(expectedReferenceId);
+        }
 
         dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
         String actualQuoteName = dashboardPageActions.getFirstQuoteLegalName(DriverManager.getDriver());
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), actualQuoteName);
-        String expectedQuoteName = dashboardPageActions.getFirstQuoteLegalName(DriverManager.getDriver());
-        assert actualQuoteName.equals(expectedQuoteName);
+        if(!dashboardPageActions.verifyWhetherResultsDisplayed(DriverManager.getDriver())){
+            String expectedQuoteName = dashboardPageActions.getFirstQuoteLegalName(DriverManager.getDriver());
+            assert actualQuoteName.equals(expectedQuoteName);
+        }
 
         dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
         String actualPolicyName = dashboardPageActions.getFirstPolicyLegalName(DriverManager.getDriver());
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), actualPolicyName);
-        String expectedPolicyName = dashboardPageActions.getFirstPolicyLegalName(DriverManager.getDriver());
-        assert dashboardPageActions.getAllPolicyLegalNames(DriverManager.getDriver(), expectedPolicyName);
-//        assert actualPolicyName.contains(expectedPolicyName);
+        if(!dashboardPageActions.verifyWhetherResultsDisplayed(DriverManager.getDriver())){
+            String expectedPolicyName = dashboardPageActions.getFirstPolicyLegalName(DriverManager.getDriver());
+            assert dashboardPageActions.getAllPolicyLegalNames(DriverManager.getDriver(), expectedPolicyName);
+        }
 
         dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
         String actualPolicyNumber = dashboardPageActions.getFirstAvailableReferenceId(DriverManager.getDriver());
@@ -547,7 +552,7 @@ public class DashboardPageTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", enabled = false)
     public void  testClearFiltersButtonFunctionality(Map<String, String> map) throws InterruptedException {
         /***
          this test verifies clear filters button functionality
@@ -556,7 +561,7 @@ public class DashboardPageTests extends BaseTest {
          **/
         dashboardPageActions.clickFilterList(DriverManager.getDriver());
         dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
-        dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), ConstantVariable.PRODUCT);
+        dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), product);
         dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
         dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), map.get("status"));
         dashboardPageActions.clickFilterByType(DriverManager.getDriver());
@@ -581,17 +586,25 @@ public class DashboardPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
-    public void testIneligiblePolicies(Map<String, String> map) throws InterruptedException {
+    public void  testIneligiblePolicies(Map<String, String> map) throws InterruptedException, SQLException {
         /**
          * this test verifies ineligible policy
-         story - N2020-33633
+         story - N2020-33633 -N2020-34868
          @author - Azamat Uulu
          **/
         logger.info("verifying ineligible policies :: testIneligiblePolicy");
-        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("policyNumber"));
-        dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
-        assert dashboardPageActions.verifyContactUnderwriterExists(DriverManager.getDriver());
-
+        List<HashMap<Object, Object>> policyIds =
+                databaseConnector.getResultSetToList(DatabaseQueries. GET_INELIGIBLE_POLICIES);
+        int policyCount = policyIds.size();
+        String policyId;
+        if (policyCount > 0) {
+            for (HashMap<Object, Object> id : policyIds) {
+                policyId = id.get("number").toString();
+                dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), policyId);
+                assert dashboardPageActions.verifyContactUnderwriterExists(DriverManager.getDriver());
+                break;
+            }
+        }else logger.info("No Ineligible Policies available");
     }
 
 }

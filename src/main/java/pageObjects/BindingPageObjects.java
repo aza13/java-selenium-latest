@@ -12,7 +12,7 @@ public class BindingPageObjects {
     public static final By quoteHeaderInformation = By.xpath("//div[@id='simple-tabpanel-4']//h4");
     public static final By policyExpandMoreIcon = By.xpath("(//*[@data-testid='ExpandMoreIcon'])[1]");
 
-    public static final By preSubjectivities =By.xpath("//p[contains(text(),'Subjectivities due prior to binding')]");
+    public static final By priorSubjectivities =By.xpath("//p[contains(text(),'Subjectivities due prior to binding')]");
     public static final By postSubjectivities =By.xpath("//p[contains(text(),'Subjectivities due within 7 days of effective date')]");
     public static final By firstMessageToUWTextArea = By.xpath("(//div[@id='panel1a-content']//textarea)[1]");
     public static final By disabledSubmitButton = By.xpath("//button[@id='underwriter_message_submit' and @disabled]");
@@ -26,6 +26,10 @@ public class BindingPageObjects {
     public static final By preSubjSelectFilesButton = By.xpath("(//button[@id='btn-search-again'])[1]");
     public static final By postSubjSelectFilesButton = By.xpath("(//button[@id='btn-search-again'])[2]");
 
+    /** generate binder **/
+    public static final By generateBinderButton = By.xpath("//button[text()='Generate Binder']");
+    public static final  By quoteStatus = By.xpath("(//div[@id='panel1bh-header']//p)[last()]");
+
     public static final By clickAndDragLink = By.xpath("//p[contains(text(), 'Click or Drag')]");
     public static final By addFilesButton = By.xpath("//button[text()='Add File(s)']");
     public static final By fileDeleteIcon = By.xpath("//*[@data-testid='DeleteOutlineIcon']");
@@ -37,8 +41,10 @@ public class BindingPageObjects {
     public static final By BinderText = By.xpath("//p[contains(text(),'Binder has been issued')]");
     public static final By PreBinderText = By.xpath("//p[contains(text(),'Binder will be issued shortly')]");
     public static final By maximumFileSizeText = By.xpath("//p[starts-with(text(), 'Total file submission size cannot be larger than 5MB')]");
+    public static final By singleFileMaximumSizeText = By.xpath("//p[starts-with(text(), 'A single file cannot be larger than 2MB ')]");
     public static final By fileSizeExceededText = By.xpath("//p[starts-with(text(), 'You have exceeded the maximum 5MB file')]");
     public static final By priorSubjectivityStatus = By.xpath("//p[text()='Status:']/following-sibling::p/div");
     public static final By bindersWillBeIssuedShortlyText = By.xpath("//p[text()='Binder will be issued shortly']");
+    public static final By clickBinderPDFButton = By.xpath("(//*[name()='path'])[5]");
 
 }

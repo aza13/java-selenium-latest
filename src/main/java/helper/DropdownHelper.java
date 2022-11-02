@@ -5,7 +5,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.Wait;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,13 +53,11 @@ public class DropdownHelper {
         }
     }
 
-    public static int sizeOfSelectedDropdown(WebDriver driver, By elementLocator) throws InterruptedException {
+    public static int sizeOfSelectedDropdown(WebDriver driver, By elementLocator) {
         logger.info("Returning  the default or first selected option of a dropdown :: selectByIndexFromDropdown " + elementLocator);
         try {
             List<String> listOfOption = getDropdownValues(driver, elementLocator);
-
             return listOfOption.size();
-
         } catch (Exception e) {
             logger.error("Failed to select option from dropdown using index :: selectByIndexFromDropdown");
             throw (e);
@@ -79,7 +76,7 @@ public class DropdownHelper {
         }
     }
 
-    public static List<String> getDropdownValues(WebDriver driver, By elementLocator) throws InterruptedException {
+    public static List<String> getDropdownValues(WebDriver driver, By elementLocator) {
         logger.info("Getting the options from dropdown:: getDropdownValues " + elementLocator);
         try {
             Select dropdown = new Select(driver.findElement(elementLocator));

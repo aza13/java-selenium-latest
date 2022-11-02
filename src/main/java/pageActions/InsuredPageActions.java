@@ -48,6 +48,7 @@ public class InsuredPageActions extends BaseTest {
     public void clickNewInsuredButton(WebDriver driver) {
 
         ClickHelper.clickElement(driver, newInsuredButton);
+
     }
 
     public WebElement modifySearchButton(WebDriver driver) {
@@ -152,9 +153,8 @@ public class InsuredPageActions extends BaseTest {
     }
 
     public void clickContinueInsuredFormButton(WebDriver driver) throws InterruptedException {
-
         ClickHelper.clickElement(driver, continueInsuredFormButton);
-        WaitHelper.pause(15000);
+        WaitHelper.waitForProgressbarInvisibility(driver);
     }
 
     public boolean validateSearchAgainButtonWithInsuredName(WebDriver driver, String name) {
@@ -227,13 +227,19 @@ public class InsuredPageActions extends BaseTest {
         return ClickHelper.isElementExist(driver, clearanceDialogModal);
     }
 
-    public boolean isClearanceSubmitButtonEnabled(WebDriver driver) {
+   public boolean isQuotePageDisabled (WebDriver driver) {
 
-        return driver.findElement(clearanceDialogModal).isEnabled();
+        return WaitHelper.isElementEnabled(driver, disabledQuoteTab);
     }
 
-    public void clickClearanceSubmitButton(WebDriver driver) {
+    public boolean isClearanceSubmitButtonEnabled(WebDriver driver) {
+
+        return driver.findElement(clearanceSubmitButton).isEnabled();
+    }
+
+    public void clickClearanceSubmitButton(WebDriver driver) throws InterruptedException {
         ClickHelper.clickElement(driver, clearanceSubmitButton);
+        WaitHelper.waitForProgressbarInvisibility(driver);
     }
 
     public void clickClearanceCancelQuoteButton(WebDriver driver) throws InterruptedException {
@@ -275,6 +281,14 @@ public class InsuredPageActions extends BaseTest {
         Pattern pattern = Pattern.compile("^\\+[0-9]{1} \\([0-9]{3}\\) [0-9]{3}-[0-9]{4}$");
         assert phone != null;
         Matcher matcher = pattern.matcher(phone);
+        return matcher.matches();
+    }
+
+    public boolean verifyValidZipCode(WebDriver driver){
+        String zipcode = TextHelper.getText(driver, insuredPhysicalZipCode, "value");
+        Pattern pattern = Pattern.compile("^[0-9]{5}(?:-[0-9]{4})?$");
+        assert zipcode != null;
+        Matcher matcher = pattern.matcher(zipcode);
         return matcher.matches();
     }
 

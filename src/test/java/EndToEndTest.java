@@ -18,6 +18,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static constants.DatabaseQueries.GET_SUBMISSION_ID_WITH_QUOTE_ID;
 
@@ -65,19 +66,21 @@ public class EndToEndTest extends BaseTest {
             AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
+            // add quote option and delete it
             String quoteId = quoteListPageActions.getOpenQuoteId(DriverManager.getDriver());
-            if (quoteListPageActions.clickConfirmAndLock(DriverManager.getDriver())) {
+            if (quoteListPageActions.clickConfirmAndLockButtonIfDisplayed(DriverManager.getDriver())) {
                 if (quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())) {
                     quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
                     quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
                 } else {
                     quoteListPageActions.checkIfQuoteLockSuccessMessageDisplayed(DriverManager.getDriver());
-                    quoteListPageActions.verifyStatusConfirmAndLockReadyToPlaceOrder(DriverManager.getDriver());
+                    String status = quoteListPageActions.getQuoteStatus(DriverManager.getDriver());
+                    assert Objects.equals(status, "Ready to Place Order");
                     assert quoteListPageActions.verifyPDFFileAvailable(DriverManager.getDriver());
                     assert quoteListPageActions.verifyWORDFileAvailable(DriverManager.getDriver());
-                    quoteListPageActions.clickPlaceOrderButton(DriverManager.getDriver());
+                    quoteListPageActions.clickConfirmDatesAndPlaceOrderButton(DriverManager.getDriver());
                     quoteListPageActions.submitOrderConfirmation(DriverManager.getDriver());
-                    assert bindingPageActions.isPreSubjectivitiesDisplayed(DriverManager.getDriver());
+                    assert bindingPageActions.isPriorSubjectivitiesDisplayed(DriverManager.getDriver());
                     assert bindingPageActions.isPostSubjectivitiesDisplayed(DriverManager.getDriver());
                     assert bindingPageActions.isMessageToUnderWriterDisplayed(DriverManager.getDriver());
                     bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
@@ -97,12 +100,12 @@ public class EndToEndTest extends BaseTest {
                     assert quoteStatus.contentEquals("Order Placed");
                     dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
                     assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
-                    bindingPageActions.VerifyQuoteHeaderInformationInBindingPage(DriverManager.getDriver(), newInsuredName, ConstantVariable.PRODUCT);
+                    bindingPageActions.verifyQuoteHeaderInformationInBindingPage(DriverManager.getDriver(), newInsuredName, product);
                     bindingPageActions.clickPolicyCardExpandIconInBindingPage(DriverManager.getDriver());
                     if(!bindingPageActions.binderSubmitButton(DriverManager.getDriver()).isEnabled()){
-                        bindingPageActions.EnterMessageToPreSubjectivitiesUnderWriterTextBox(DriverManager.getDriver());
+                        bindingPageActions.enterMessageToPreSubjectivitiesUnderWriterTextBox(DriverManager.getDriver());
                         bindingPageActions.clickPostSubjectivitiesExpandButton(DriverManager.getDriver());
-                        bindingPageActions.EnterMessageToPostSubjectivitiesUnderWriterTextBox(DriverManager.getDriver());
+                        bindingPageActions.enterMessageToPostSubjectivitiesUnderWriterTextBox(DriverManager.getDriver());
                         bindingPageActions.clickSubmitBinder(DriverManager.getDriver());
                     }
                     bindingPageActions.clickPreSubjSelectFilesButton(DriverManager.getDriver());

@@ -1,19 +1,19 @@
 import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
-import constants.ConstantVariable;
-import helper.FakeDataHelper;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import pageActions.*;
+import pageActions.DashboardPageActions;
+import pageActions.QuoteListPageActions;
+import pageActions.RatingCriteriaPageActions;
+import pageActions.UnderwritingQuestionsPageActions;
 import utils.dataProvider.TestDataProvider;
+import utils.fileReader.ConfigDataReader;
 import workflows.AnswerUnderwriterQuestions;
 import workflows.CreateApplicant;
 import workflows.FillApplicantDetails;
-
-import java.sql.SQLException;
 import java.util.Map;
 
 public class UWPageTests extends BaseTest {
@@ -37,7 +37,7 @@ public class UWPageTests extends BaseTest {
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "UWQuestionsPageData")
     public void testBrokerAnswersUnderWriterQuestions(Map<String, String> map) throws InterruptedException {
         /***
-         this test Brokers can answers all underwriter questions
+         this test verifies whether Brokers can answer all underwriter questions
          story - N2020-28623-QAT-165
          @author - Azamat Uulu
          **/
@@ -71,26 +71,25 @@ public class UWPageTests extends BaseTest {
             AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
-            quoteListPageActions.verifyStatusConfirmAndLockInProgress(DriverManager.getDriver());
-            quoteListPageActions.clickConfirmQuoteButton(DriverManager.getDriver());
-            if (quoteListPageActions.clickConfirmAndLock(DriverManager.getDriver())) {
+            assert quoteListPageActions.verifyStatusConfirmAndLockInProgress(DriverManager.getDriver());
+            if(ConfigDataReader.getInstance().getProperty("product").contains("Ophthalmic")){
+                quoteListPageActions.selectBRRPCoverageWithoutInvestigation(DriverManager.getDriver());
+                quoteListPageActions.selectBRRPCoverageWithInvestigation(DriverManager.getDriver());
+            }
+//            quoteListPageActions.clickConfirmQuoteButton(DriverManager.getDriver());
+            if (quoteListPageActions.clickConfirmAndLockButtonIfDisplayed(DriverManager.getDriver())) {
                 if (quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())) {
                     quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
                     quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
-                } else {
-                    quoteListPageActions.checkIfQuoteLockSuccessMessageDisplayed(DriverManager.getDriver());
                 }
             }
             underwritingQuestionsPageActions.clickUnderwritingQuestionsPageTab(DriverManager.getDriver());
             boolean isEditButtonVisible1 = underwritingQuestionsPageActions.checkEditButtonIsVisible(DriverManager.getDriver());
-
-            if(!isEditButtonVisible1) {
-                underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
-            } else {
+            if (isEditButtonVisible1) {
                 underwritingQuestionsPageActions.clickEditButtonIsVisible(DriverManager.getDriver());
                 underwritingQuestionsPageActions.checkEditConfirmMsgIsVisible(DriverManager.getDriver());
-                underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
             }
+            underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
             boolean inactiveTextPresent = quoteListPageActions.isInactiveTextDisplayed(DriverManager.getDriver());
             Assert.assertTrue(inactiveTextPresent);
             boolean pdfFileIconValue = quoteListPageActions.isPDFFileIconDisplayed(DriverManager.getDriver());
@@ -100,8 +99,8 @@ public class UWPageTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "UWQuestionsPageData")
-    public void testSoftDeclineAfterUWQuestions(Map<String, String> map) throws InterruptedException, SQLException {
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "UWQuestionsPageData", enabled = false)
+    public void testSoftDeclineAfterUWQuestions(Map<String, String> map) throws InterruptedException {
 
         /***
          this test soft decline after UW Questions
@@ -111,29 +110,9 @@ public class UWPageTests extends BaseTest {
          **/
 
         logger.info("verifying :: hard decline after UW Questions");
-        dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        String newInsuredName = FakeDataHelper.fullName();
-        String newInsuredWebsite = FakeDataHelper.website();
-        dashboardPageActions.createNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName, newInsuredWebsite);
-        InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
-        insuredPageActions.enterEmailAddress(DriverManager.getDriver());
-        insuredPageActions.enterInsuredPhoneNumber(DriverManager.getDriver());
-        assert insuredPageActions.verifyValidPhoneNumberFormat(DriverManager.getDriver());
-        insuredPageActions.enterPhysicalAddress(DriverManager.getDriver());
-        insuredPageActions.enterPhyCity(DriverManager.getDriver());
-        insuredPageActions.enterPhyZipcode(DriverManager.getDriver());
-        insuredPageActions.selectPhyState(DriverManager.getDriver());
-        insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
-        insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
-
+        CreateApplicant.createApplicant(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            if (map.get("product").equals("NetGuard® SELECT")) {
-                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(DriverManager.getDriver(), map.get("businessClass2"));
-                ratingCriteriaPageActions.clickBusinessClassOption(DriverManager.getDriver());
-                ratingCriteriaPageActions.enterNetWorth(DriverManager.getDriver(), map.get("netWorth"));
-            } else {
-                ratingCriteriaPageActions.enterRatingCriteriaNoPhysiciansRevenueAndRecords(DriverManager.getDriver(), map.get("noPhysicians"), map.get("revenue"), map.get("records"));
-            }
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
@@ -142,8 +121,13 @@ public class UWPageTests extends BaseTest {
                 logger.info("continue button is enabled, means UW questions are answered");
             } else {
                 logger.info("continue button is disabled, means UW questions are not answered");
-                underwritingQuestionsPageActions.answerUWQuestionButtons(DriverManager.getDriver(), map.get("uwQuestionsAnswer"));
-                underwritingQuestionsPageActions.answerUWQuestionDropdowns(DriverManager.getDriver(), map.get("uwQuestionsAnswer"), map.get("uwQuestionsOption"));
+                if(ConfigDataReader.getInstance().getProperty("product").contains("NetGuard")){
+                    underwritingQuestionsPageActions.answerUWQuestionButtons(DriverManager.getDriver(), map.get("uwQuestionsAnswer"));
+                    underwritingQuestionsPageActions.answerUWQuestionDropdowns(DriverManager.getDriver(), map.get("uwQuestionsAnswer"), map.get("uwQuestionsOption"));
+                }else{
+                    underwritingQuestionsPageActions.answerFirstUWQuestion(DriverManager.getDriver());
+                    underwritingQuestionsPageActions.answerUWQuestionButtonsOMICProduct2(DriverManager.getDriver());
+                }
             }
             underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
             underwritingQuestionsPageActions.verifySoftDeclinePopupHeader(DriverManager.getDriver());

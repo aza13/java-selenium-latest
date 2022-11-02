@@ -5,7 +5,6 @@ import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
-import constants.ConstantVariable;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.OutputType;
@@ -20,7 +19,6 @@ import utils.fileReader.ConfigDataReader;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 
@@ -32,6 +30,7 @@ public class BaseTest {
     protected static ExtentTest testLogger;
     private static String userId;
     private static String password;
+    public static String product = null;
 
     private static final Logger logger = Logger.getLogger(BaseTest.class);
 
@@ -46,6 +45,10 @@ public class BaseTest {
         appUrl = ConfigDataReader.getInstance().getProperty("appUrl");
 
         logger.info("Given application URL is: " + appUrl);
+
+        product = ConfigDataReader.getInstance().getProperty("product");
+
+        logger.info("selected product is: " + product);
 
         userId = ConfigDataReader.getInstance().getProperty("userId");
 
@@ -82,7 +85,7 @@ public class BaseTest {
         File src = takesScreenshot.getScreenshotAs(OutputType.FILE);
 
         try {
-            screenShotPath = System.getProperty("user.dir") + "\\extent-report\\screenshots\\" + testName + "_screenshot.png";
+            screenShotPath = System.getProperty("user.dir") + "/extent-report/screenshots/" + testName + "_screenshot.png";
 
             logger.info("The screenshot is saved at " + screenShotPath);
 

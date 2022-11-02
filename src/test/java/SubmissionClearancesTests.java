@@ -15,10 +15,10 @@ import pageActions.DashboardPageActions;
 import pageActions.InsuredPageActions;
 import pageActions.RatingCriteriaPageActions;
 import utils.dataProvider.TestDataProvider;
+import utils.fileReader.ConfigDataReader;
 import utils.fileReader.TextFileReader;
 
 import java.awt.*;
-import java.sql.Driver;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -47,7 +47,7 @@ public class SubmissionClearancesTests extends BaseTest {
 
         logger.info("verifying submission clearance results :: testClearancesSubmissionFunctionality");
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        dashboardPageActions.createNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT,  map.get("name"),  map.get("website"));
+        dashboardPageActions.createNewQuote(DriverManager.getDriver(), ConfigDataReader.getInstance().getProperty("product"),  map.get("name"),  map.get("website"));
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
         List<WebElement> insuranceCards = insuredPageActions.getAllInsuredNames(DriverManager.getDriver());
@@ -72,7 +72,6 @@ public class SubmissionClearancesTests extends BaseTest {
                             assert true;
                         }
                     }
-
             }  else {
                 logger.info("No insureds displayed, skipping the test");
                 throw new SkipException("No insureds displayed, skipping the test");
@@ -89,7 +88,7 @@ public class SubmissionClearancesTests extends BaseTest {
          **/
         logger.info("verifying submission clearance results :: testCancelClearancesFunctionality");
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        dashboardPageActions.createNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT,  map.get("name"),  map.get("website"));
+        dashboardPageActions.createNewQuote(DriverManager.getDriver(), ConfigDataReader.getInstance().getProperty("product"),  map.get("name"),  map.get("website"));
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
         List<WebElement> insuranceCards = insuredPageActions.getAllInsuredNames(DriverManager.getDriver());
@@ -126,13 +125,13 @@ public class SubmissionClearancesTests extends BaseTest {
     public void testClearancesReviewFunctionality(Map<String, String> map) throws InterruptedException, AWTException {
         /***
          this test verifies clearances review
-         story - N2020-32093
+         story - N2020-32093, 34636, 34137
          @author - Venkat Kottapalli
          **/
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         String newInsuredName = FakeDataHelper.fullName();
         String newInsuredWebsite = FakeDataHelper.website();
-        dashboardPageActions.createNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT_2, newInsuredName,newInsuredWebsite);
+        dashboardPageActions.createNewQuote(DriverManager.getDriver(), ConfigDataReader.getInstance().getProperty("product_2"), newInsuredName,newInsuredWebsite);
         TextFileReader.writeDataToTextFile(ConstantVariable.INSURED_DATA_FILEPATH, newInsuredName+";"+newInsuredWebsite);
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         if (!insuredPageActions.isCreateNewInsuredTextDisplayed(DriverManager.getDriver())){
@@ -150,17 +149,21 @@ public class SubmissionClearancesTests extends BaseTest {
         assert ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver());
         ratingCriteriaPageActions.ratingCriteriaExitButton(DriverManager.getDriver()).click();
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        dashboardPageActions.createNewQuote(DriverManager.getDriver(), ConstantVariable.PRODUCT, newInsuredName,newInsuredWebsite);
+        dashboardPageActions.createNewQuote(DriverManager.getDriver(), ConfigDataReader.getInstance().getProperty("product"), newInsuredName,newInsuredWebsite);
         dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         insuredPageActions.selectInsuredCard(DriverManager.getDriver(), newInsuredName);
         if(insuredPageActions.isClearanceDialogModalDisplayed(DriverManager.getDriver())){
             BindingPageActions bindingPageActions = PageObjectManager.getBindingPageActions();
-            bindingPageActions.clickPreSubjSelectFilesButton(DriverManager.getDriver());
             bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.PDF_2MB_DOC_FILE_PATH);
             assert insuredPageActions.isFileSizeLagerThan2MbTextDisplayed(DriverManager.getDriver());
-            assert insuredPageActions.isClearanceSubmitButtonEnabled(DriverManager.getDriver());
+            assert !insuredPageActions.isClearanceSubmitButtonEnabled(DriverManager.getDriver());
+            bindingPageActions.clickFileDeleteIcon(DriverManager.getDriver());
+            bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.INVALID_FILE_TYPE);
+            assert bindingPageActions.isFileTypeWarningDisplayed2(DriverManager.getDriver());
+            assert !insuredPageActions.isClearanceSubmitButtonEnabled(DriverManager.getDriver());
             bindingPageActions.clickFileDeleteIcon(DriverManager.getDriver());
             bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.PDF_DOC_FILE_PATH);
+            assert !bindingPageActions.isFileTypeWarningDisplayed2(DriverManager.getDriver());
         }
         insuredPageActions.clickClearanceSubmitButton(DriverManager.getDriver());
     }
@@ -185,7 +188,7 @@ public class SubmissionClearancesTests extends BaseTest {
                 String applicantName = element.findElement(By.xpath("//parent::div/parent::div/preceding-sibling::div//div[@data-qa='legalname']")).getText().trim();
                 String product = element.findElement(By.xpath("((//button[text()='Renew'])[1]/parent::div/parent::div/preceding-sibling::div)[3]//p")).getText().trim();
                 dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-                dashboardPageActions.createNewQuote(DriverManager.getDriver(), product, applicantName, "https://www.master.com/");
+                dashboardPageActions.createNewQuote(DriverManager.getDriver(), ConfigDataReader.getInstance().getProperty("product"), applicantName, "https://www.master.com/");
                 InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
                 insuredPageActions.clickContinueInsuredButton(DriverManager.getDriver());
                 if (!insuredPageActions.isCreateNewInsuredTextDisplayed(DriverManager.getDriver())){
