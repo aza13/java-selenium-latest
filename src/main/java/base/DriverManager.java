@@ -37,7 +37,7 @@ public class DriverManager {
                     WebDriverManager.chromedriver().setup();
 
                     Map<String, Object> prefs = new HashMap<>();
-                    //to turns off multiple download warning
+                    logger.info("to turns off multiple download warning");
                     prefs.put("profile.default_content_settings.popups", 0);
                     prefs.put("profile.content_settings.exceptions.automatic_downloads.*.setting", 1);
                     prefs.put("download.prompt_for_download", false);
