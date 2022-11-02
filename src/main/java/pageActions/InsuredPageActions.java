@@ -56,8 +56,7 @@ public class InsuredPageActions extends BaseTest {
         return driver.findElement(modifySearchButton);
     }
 
-    public boolean verifyInsuredSearchResult(WebDriver driver, String applicantName, String website) {
-
+    public boolean verifyInsuredSearchResult(WebDriver driver, String website) {
         String websiteXpath = "//div/a[text()='" + website + "']";
         WebElement websiteLink = driver.findElement(By.xpath(websiteXpath));
         return websiteLink.isDisplayed();
@@ -178,7 +177,7 @@ public class InsuredPageActions extends BaseTest {
 
     public void clickSearchAgainButton(WebDriver driver) throws InterruptedException {
         ClickHelper.clickElement(driver, searchAgainButton);
-        WaitHelper.pause(3000);
+        WaitHelper.pause(5000);
     }
 
     public boolean duplicateSubmissionDialog(WebDriver driver) {

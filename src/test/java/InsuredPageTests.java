@@ -94,7 +94,7 @@ public class InsuredPageTests extends BaseTest {
         assert insuredPageActions.validateSearchAgainButtonWithInsuredName(DriverManager.getDriver(), map.get("secondApplicant"));
         insuredPageActions.enterApplicantWebsite(DriverManager.getDriver(), map.get("secondWebsite"));
         insuredPageActions.clickSearchAgainButton(DriverManager.getDriver());
-        assert insuredPageActions.verifyInsuredSearchResult(DriverManager.getDriver(), map.get("secondApplicant"), map.get("secondWebsite"));
+        assert insuredPageActions.verifyInsuredSearchResult(DriverManager.getDriver(), map.get("secondWebsite"));
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "InsuredPageData")
