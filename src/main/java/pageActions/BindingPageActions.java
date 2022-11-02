@@ -5,7 +5,6 @@ import helper.*;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.sikuli.script.FindFailed;
 import utils.fileDownload.FileDownloadUtil;
 
 import java.awt.*;
@@ -118,12 +117,6 @@ public class BindingPageActions extends BaseTest {
         rb.keyPress(KeyEvent.VK_ENTER);
         rb.keyRelease(KeyEvent.VK_ENTER);
         WaitHelper.pause(3000);
-    }
-
-    public void uploadFileUsingSikuli(WebDriver driver, String imageToEnter, String filePath, String imageToSubmitted ) throws InterruptedException, FindFailed {
-        clickAndDragLink(driver);
-        String rootPath = System.getProperty("user.dir");
-        SikuliHelper.uploadFile(rootPath+imageToEnter, rootPath+filePath, rootPath+imageToSubmitted);
     }
 
     public boolean isFileMaximumSizeTextDisplayed(WebDriver driver) throws InterruptedException {

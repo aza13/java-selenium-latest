@@ -2,9 +2,10 @@ package helper;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class WaitHelper {
 
@@ -15,37 +16,13 @@ public class WaitHelper {
 
     public static void pause(long millis) throws InterruptedException {
 
-      Thread.sleep(millis);
-    }
-
-    public static void waitForSpinnerIconInvisibility(WebDriver driver, By elementLocator) {
-
-        WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 30).ignoring(NoSuchElementException.class);
-        wait.until(ExpectedConditions.invisibilityOf(driver.findElement(elementLocator)));
-    }
-
-    public static void waitForElementPresent(WebDriver driver, By elementLocator) {
-
-        logger.info("Waiting for the element till it is present :: waitForElementPresent");
-        try {
-
-            WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 30).ignoring(StaleElementReferenceException.class);
-            wait.until((ExpectedCondition<Boolean>) webDriver -> {
-                assert webDriver != null;
-                WebElement element = webDriver.findElement(elementLocator);
-                return element != null && element.isDisplayed();
-            });
-        } catch (Exception e) {
-            logger.error("Failed to wait till the element is present :: waitForElementPresent::" + elementLocator);
-            throw (e);
-        }
+        Thread.sleep(millis);
     }
 
     public static void waitForElementVisibility(WebDriver driver, By elementLocator) {
-
         logger.info("Waiting for element visibility:: waitForElementVisibility");
         try {
-            WebDriverWait wait = new WebDriverWait(driver, 30);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
             wait.until(ExpectedConditions.visibilityOfElementLocated(elementLocator));
             logger.info("Element is visible");
         } catch (Exception e) {
@@ -70,7 +47,7 @@ public class WaitHelper {
             }
             logger.info("element is visible, i.e progressbar is disappeared");
         } catch (Exception e) {
-            logger.error("Failed - Element not visible or present :: waitForElementVisibility ",e);
+            logger.error("Failed - Element not visible or present :: waitForElementVisibility "+e.getMessage());
             throw (e);
         }
     }
@@ -89,7 +66,7 @@ public class WaitHelper {
     public static void waitForElementClickable(WebDriver driver, By elementLocator) {
         logger.info("Waiting for the element till it is clickable :: waitForElementClickable");
         try {
-            WebDriverWait wait = new WebDriverWait(driver, 30);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
             wait.until(ExpectedConditions.elementToBeClickable(elementLocator));
         } catch (Exception e) {
             logger.error("Failed to wait till the element is clickable :: waitForElementClickable::" + elementLocator);
@@ -98,7 +75,6 @@ public class WaitHelper {
     }
 
     public static boolean isElementDisplayed(WebDriver driver, By elementLocator) {
-
         logger.info("Checking whether element displayed or not in :: isElementDisplayed");
         try {
             WebElement element = driver.findElement(elementLocator);
@@ -112,7 +88,6 @@ public class WaitHelper {
     }
 
     public static boolean isElementEnabled(WebDriver driver, By elementLocator) {
-
         logger.info("Checking whether element enabled or not in :: isElementEnabled");
         try {
             WebElement element = driver.findElement(elementLocator);
