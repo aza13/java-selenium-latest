@@ -94,47 +94,20 @@ public class ContactUnderWriterTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
-    public void testContactUnderwriterModalAfterLock(Map<String, String> map) throws InterruptedException, SQLException {
+    public void testContactUnderwriterModalAfterLock(Map<String, String> map) throws InterruptedException {
         /*****************************************************************
          this test verifies contact underwriter modal
          story - N2020-35238 - QAT-546
          @author - Venkat Kottapalli
          ******************************************************************/
-
         logger.info("Executing the testVerifyQuoteBinding from BindingPageTests class :: testVerifyQuoteBinding");
-        CreateApplicant.createApplicant(DriverManager.getDriver());
-        if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
-            ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
-        }
-        if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
-            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
-        }
-        if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
-            String quoteId = quoteListPageActions.getOpenQuoteId(DriverManager.getDriver());
-            boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
-            assert quoteLocked;
-            quoteListPageActions.clickContactUnderwriter(DriverManager.getDriver());
-            assert quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver());
-            quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
-            quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
-            // the below part will be modified as per the future stories
-            quoteListPageActions.clickOnExitDashboard(DriverManager.getDriver());
-            String query = GET_SUBMISSION_ID_WITH_QUOTE_ID + quoteId + ";";
-            List<HashMap<Object, Object>> submissionIds =
-                    databaseConnector.getResultSetToList(query);
-            int submissionCount = submissionIds.size();
-            String submissionId = null;
-            if (submissionCount > 0) {
-                for (HashMap<Object, Object> id : submissionIds) {
-                    submissionId = id.get("submission_id").toString();
-                    break;
-                }
-            }
-            dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
-            String quoteStatus = dashboardPageActions.getQuoteStatus(DriverManager.getDriver());
-            assert quoteStatus.contentEquals("Active");
-        }
+        assert quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver());
+        boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
+        assert quoteLocked;
+        quoteListPageActions.clickContactUnderwriter(DriverManager.getDriver());
+        assert quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver());
+        quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
+        quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
     }
 
 

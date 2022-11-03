@@ -90,22 +90,12 @@ public class QuoteListPageActions extends BaseTest {
         WaitHelper.pause(10000);
     }
 
-    public String getGivenQuoteOptionPremium(WebDriver driver, int optionCount){
-        String optionPremiumXpath = "//div[starts-with(@data-qa, 'option_card_"+optionCount+"')]//div[text()='Max. Policy Aggregate Limit']/preceding-sibling::div//span";
-        By optionPremium = By.xpath(optionPremiumXpath);
-        return TextHelper.getText(driver, optionPremium, "text");
-    }
-
     public boolean checkIfOpenQuoteExist(WebDriver driver){
         return ClickHelper.isElementExist(driver, lockIconOpenLocator);
     }
 
     public boolean verifyIfLockedQuoteExist(WebDriver driver){
         return ClickHelper.isElementExist(driver, lockIconLocator);
-    }
-
-    public boolean checkIfQuoteListContainerDisplayed(WebDriver driver){
-        return ClickHelper.isElementExist(driver, quoteListContainer);
     }
 
     public void deleteQuoteOption(WebDriver driver) throws InterruptedException {
@@ -129,17 +119,6 @@ public class QuoteListPageActions extends BaseTest {
             }
         }catch (Exception e){
             logger.error("failed to add the quote to submission based on the quote type"+e.getMessage());
-            throw e;
-        }
-    }
-
-    public void clickConfirmQuoteButton(WebDriver driver) throws InterruptedException {
-        logger.info("clicking on confirm quote button :: clickConfirmQuoteButton");
-        try{
-            ClickHelper.clickElement(driver, confirmAndLockQuoteButton);
-            WaitHelper.pause(20000);
-        }catch (Exception e){
-            logger.error("failed to click the confirm quote button :: clickConfirmQuoteButton"+e.getMessage());
             throw e;
         }
     }
@@ -398,8 +377,7 @@ public class QuoteListPageActions extends BaseTest {
 
     public String getEffectiveDate(WebDriver driver){
         try{
-            String effDate = getConfirmDatesEffectiveDate(driver).getAttribute("value");
-            return effDate;
+            return getConfirmDatesEffectiveDate(driver).getAttribute("value");
         }catch (Exception e){
             logger.info("Failed to get the eff date of confirm dates modal :: getEffectiveDate"+e.getMessage());
             throw e;
@@ -439,11 +417,9 @@ public class QuoteListPageActions extends BaseTest {
             String date = formatter.format(new Date());
             Date date2=formatter.parse(date);
             long differenceInTime = date2.getTime() - date1.getTime();
-            long differenceInDays
-                    = (differenceInTime
+            return (differenceInTime
                     / (1000 * 60 * 60 * 24))
                     % 365;
-            return differenceInDays;
         }catch (Exception e){
             logger.info("failed to validate the eff date :: validateEffectiveDate"+e.getMessage());
             throw e;
@@ -593,6 +569,16 @@ public class QuoteListPageActions extends BaseTest {
             }
         }catch (Exception e){
             logger.error("Unable to select the coverage " +e.getMessage());
+            throw(e);
+        }
+    }
+
+    public void verifyContactUnderwriter(WebDriver driver) throws InterruptedException {
+        try{
+            WaitHelper.pause(5000);
+            ClickHelper.clickElement(driver, contactUnderwriterButton);
+        }catch (Exception e){
+            logger.error("Failed click on the  Contact Underwriter button  " +e.getMessage());
             throw(e);
         }
     }
