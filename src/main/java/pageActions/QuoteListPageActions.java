@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static org.openqa.selenium.support.locators.RelativeLocator.with;
 import static pageObjects.BindingPageObjects.exitToDashboard;
 import static pageObjects.QuoteListPageObjects.*;
 
@@ -39,6 +40,24 @@ public class QuoteListPageActions extends BaseTest {
             return elementList;
         }else{
             return Collections.emptyList();
+        }
+    }
+
+    public boolean verifyIfAggregateLimitIsDisabled(WebDriver driver){
+        try{
+            return !driver.findElement(aggregateLimitLocator).isEnabled();
+        }catch (Exception e){
+            logger.error("failed to verify if the aggregate limit dropdown is disabled");
+            throw (e);
+        }
+    }
+
+    public boolean verifyIfDeductibleIsDisabled(WebDriver driver){
+        try{
+            return !driver.findElement(deductibleLocator).isEnabled();
+        }catch (Exception e){
+            logger.error("failed to verify if the deductible dropdown is disabled");
+            throw (e);
         }
     }
 
@@ -104,9 +123,10 @@ public class QuoteListPageActions extends BaseTest {
         WaitHelper.pause(5000);
     }
 
-    public void addNewQuote(WebDriver driver, String quoteType){
+    public void addNewQuote(WebDriver driver, String quoteType) throws InterruptedException {
         logger.info("adding quote to the submission based on quote type custom/4 option/6 options ");
         try{
+            WaitHelper.pause(5000);
             ClickHelper.clickElement(driver, addQuoteButton);
             String newQuoteXpath = "//ul//li";
             By newQuoteOption = By.xpath(newQuoteXpath);
@@ -117,6 +137,7 @@ public class QuoteListPageActions extends BaseTest {
                     break;
                 }
             }
+            WaitHelper.waitForProgressbarInvisibility(driver);
         }catch (Exception e){
             logger.error("failed to add the quote to submission based on the quote type"+e.getMessage());
             throw e;
@@ -201,10 +222,20 @@ public class QuoteListPageActions extends BaseTest {
 
     public boolean clickConfirmAndLockButtonIfDisplayed(WebDriver driver) {
         try{
+            boolean clicked = false;
             if(ConfigDataReader.getInstance().getProperty("product").contains("Ophthalmic")){
+                logger.info("if the product is Ophthalmic, selects BRRP coverages");
                 selectBRRPCoverageWithoutInvestigation(DriverManager.getDriver());
                 selectBRRPCoverageWithInvestigation(DriverManager.getDriver());
+            }else if(verifyIfAggregateLimitIsDisabled(driver) || verifyIfDeductibleIsDisabled(driver)){
+                logger.info("if aggregate limit or deductible is disabled then select the values");
+                int optionCount = getQuoteOptionCount(driver);
+                selectPerClaim(driver, Integer.toString(optionCount),"$ 500k");
+                selectAggregateLimit(driver, optionCount, "$ 500k");
+                selectRetentionOption(driver, optionCount, "$ 1,000");
+                WaitHelper.pause(5000);
             }else{
+                logger.info("it waits for maximum 36 seconds for all the options");
                 int n=0;
                 while(ClickHelper.isElementExist(driver, confirmAndLockDisabledButton)){
                     WaitHelper.pause(3000);
@@ -212,10 +243,12 @@ public class QuoteListPageActions extends BaseTest {
                     if(n==12) break;
                 }
             }
-            WaitHelper.waitForElementVisibility(driver, confirmAndLockButton);
-            ClickHelper.clickElement(driver, confirmAndLockButton);
-            WaitHelper.waitForProgressbarInvisibility(driver);
-            return true;
+            if(driver.findElement(confirmAndLockButton).isDisplayed()){
+                ClickHelper.clickElement(driver, confirmAndLockButton);
+                WaitHelper.waitForProgressbarInvisibility(driver);
+                clicked = true;
+            }
+            return clicked;
         }catch (Exception e){
             logger.error("failed to click the confirm and lock button "+e.getMessage());
             return false;
@@ -245,7 +278,7 @@ public class QuoteListPageActions extends BaseTest {
         return TextHelper.getText(driver, quoteLockSuccessMessage, "text");
     }
 
-    public boolean checkIfQuoteLockSuccessMessageDisplayed(WebDriver driver) throws InterruptedException {
+    public boolean verifyQuoteLockSuccessMessageDisplayed(WebDriver driver) throws InterruptedException {
         WaitHelper.pause(3000);
         return ClickHelper.isElementExist(driver, quoteLockSuccessMessage);
     }
@@ -274,6 +307,15 @@ public class QuoteListPageActions extends BaseTest {
 
     public boolean checkIfSubmitReviewDialogDisplayed(WebDriver driver){
         return ClickHelper.isElementExist(driver, submitReviewDialog);
+    }
+
+    public String getSubmitReviewDialogText(WebDriver driver){
+        try{
+            return TextHelper.getText(driver, submitReviewDialogText, "text").trim();
+        }catch (Exception e){
+            logger.error("failed to get the text of submit review tex :: getSubmitReviewDialogText "+e.getMessage());
+            throw (e);
+        }
     }
 
     public boolean checkIfSubmitReviewDialogDisplayed2(WebDriver driver){
@@ -573,12 +615,13 @@ public class QuoteListPageActions extends BaseTest {
         }
     }
 
-    public void verifyContactUnderwriter(WebDriver driver) throws InterruptedException {
+    public boolean verifyContactUnderwriter(WebDriver driver) throws InterruptedException {
+        logger.info("this method verifies that contact UW button present left to the add quote button");
         try{
             WaitHelper.pause(5000);
-            ClickHelper.clickElement(driver, contactUnderwriterButton);
+            return driver.findElement(with(By.tagName("button")).toLeftOf(addQuoteButton)).isDisplayed();
         }catch (Exception e){
-            logger.error("Failed click on the  Contact Underwriter button  " +e.getMessage());
+            logger.error("Failed click on the  Contact Underwriter button " +e.getMessage());
             throw(e);
         }
     }
@@ -596,7 +639,7 @@ public class QuoteListPageActions extends BaseTest {
 
     public void clickOnExitDashboard(WebDriver driver) throws InterruptedException {
         try{
-            WaitHelper.pause(10000);
+            WaitHelper.pause(5000);
             ClickHelper.clickElement(driver, exitToDashboard);
         }catch (Exception e){
             logger.error("Failed to click on exit button :: clickOnExitDashboard" +e.getMessage());

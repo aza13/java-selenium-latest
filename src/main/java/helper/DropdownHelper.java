@@ -113,6 +113,7 @@ public class DropdownHelper {
             }else{
                 options.get(1).click();
             }
+            WaitHelper.pause(2000);
         } catch (Exception e) {
             logger.error("Failed to select value from dropdown:: selectValueFromBootstrapDropdown " + e.getMessage());
             throw (e);

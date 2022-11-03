@@ -19,6 +19,7 @@ import utils.fileReader.ConfigDataReader;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 
@@ -66,7 +67,7 @@ public class BaseTest {
         testLogger = classLogger.createNode(method.getName());
         DriverManager.getDriver().manage().window().maximize();
         DriverManager.getDriver().navigate().to(appUrl);
-        DriverManager.getDriver().manage().timeouts().pageLoadTimeout(15, TimeUnit.SECONDS);
+        DriverManager.getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
         if(!method.getName().equals("testLoginFunctionality")){
             PageObjectManager.getLoginPageActions().loginApp(DriverManager.getDriver(), userId, password);
         }
