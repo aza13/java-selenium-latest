@@ -61,6 +61,24 @@ public class QuoteListPageActions extends BaseTest {
         }
     }
 
+    public String getSelectedClaim(WebDriver driver){
+        try{
+            return driver.findElement(perClaimLocator).getAttribute("value");
+        }catch (Exception e){
+            logger.error("failed to get the selected per claim from the dropdown "+e.getMessage());
+            throw (e);
+        }
+    }
+
+    public String getSelectedAggregateLimit(WebDriver driver){
+        try{
+            return driver.findElement(aggregateLimitLocator).getAttribute("value");
+        }catch (Exception e){
+            logger.error("failed to get the aggregate limit dropdown "+e.getMessage());
+            throw (e);
+        }
+    }
+
     public void selectPerClaim(WebDriver driver, String optionCount, String claim) throws InterruptedException {
         String perClaimDropdownXpath = "//div[@data-qa='option_card_"+optionCount+"']//div[@data-qa='groupLimit']/div";
         By perClaimDropdown = By.xpath(perClaimDropdownXpath);
@@ -95,6 +113,12 @@ public class QuoteListPageActions extends BaseTest {
         }
     }
 
+    public int getQuotesCount(WebDriver driver){
+        logger.info("this method returns number of quotes in the quote list page");
+        List<WebElement> elementList = driver.findElements(By.xpath("//div[contains(@data-qa, 'quote_builder_card_')]"));
+        return elementList.size();
+    }
+
     public int getQuoteOptionCount(WebDriver driver){
         List<WebElement> elementList = getAllQuoteOptions(driver);
         return elementList.size();
@@ -126,7 +150,7 @@ public class QuoteListPageActions extends BaseTest {
     public void addNewQuote(WebDriver driver, String quoteType) throws InterruptedException {
         logger.info("adding quote to the submission based on quote type custom/4 option/6 options ");
         try{
-            WaitHelper.pause(5000);
+            WaitHelper.pause(15000);
             ClickHelper.clickElement(driver, addQuoteButton);
             String newQuoteXpath = "//ul//li";
             By newQuoteOption = By.xpath(newQuoteXpath);
@@ -223,16 +247,15 @@ public class QuoteListPageActions extends BaseTest {
     public boolean clickConfirmAndLockButtonIfDisplayed(WebDriver driver) {
         try{
             boolean clicked = false;
-            if(ConfigDataReader.getInstance().getProperty("product").contains("Ophthalmic")){
+            if(ConfigDataReader.getInstance().getProperty("product").contains("Ophthalmic")) {
                 logger.info("if the product is Ophthalmic, selects BRRP coverages");
                 selectBRRPCoverageWithoutInvestigation(DriverManager.getDriver());
                 selectBRRPCoverageWithInvestigation(DriverManager.getDriver());
-            }else if(verifyIfAggregateLimitIsDisabled(driver) || verifyIfDeductibleIsDisabled(driver)){
-                logger.info("if aggregate limit or deductible is disabled then select the values");
+            }else if(getSelectedClaim(driver)!=null || getSelectedClaim(driver)==null) {
                 int optionCount = getQuoteOptionCount(driver);
-                selectPerClaim(driver, Integer.toString(optionCount),"$ 500k");
+                selectPerClaim(driver, Integer.toString(optionCount), "$ 500k");
                 selectAggregateLimit(driver, optionCount, "$ 500k");
-                selectRetentionOption(driver, optionCount, "$ 1,000");
+                selectRetentionOption(driver, optionCount, "$ 10,000");
                 WaitHelper.pause(5000);
             }else{
                 logger.info("it waits for maximum 36 seconds for all the options");

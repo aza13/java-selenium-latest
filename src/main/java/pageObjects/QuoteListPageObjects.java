@@ -9,6 +9,7 @@ public class QuoteListPageObjects {
     public static final By quoteListPageHeader = By.xpath("(//button[normalize-space()='Quotes'])[1]");
     public static final By addOptionButton = By.xpath("//button[text()='Add Option']/span");
     public static final By quoteOptionsGenericLocator = By.xpath("//div[starts-with(@data-qa, 'option_card_')]");
+    public static final By perClaimLocator = By.xpath("//div[@data-qa='groupLimit']//input");
     public static final By aggregateLimitLocator = By.xpath("//div[@data-qa='aggregateLimit']//input");
     public static final By deductibleLocator = By.xpath("//div[@data-qa='retentionGroup']//input");
     public static final By perClaimOptionGenericLocator = By.xpath("//ul/li[starts-with(@data-qa, 'menuItem_')]");
