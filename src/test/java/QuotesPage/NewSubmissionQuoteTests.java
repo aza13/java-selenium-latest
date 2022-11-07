@@ -69,14 +69,6 @@ public class NewSubmissionQuoteTests extends BaseTest {
          @author - Venkat Kottapalli
          ******************************************************************/
         logger.info("Executing the testConfirmDatesModal from BindingPageTests class :: testAddingQuoteToNewSubmission");
-        CreateApplicant.createApplicant(DriverManager.getDriver());
-        if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
-            ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
-        }
-        if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
-            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
-        }
         logger.info("validating download icons of quote list page");
         boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
         assert quoteLocked;

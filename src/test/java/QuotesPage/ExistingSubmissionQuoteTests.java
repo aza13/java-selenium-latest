@@ -258,7 +258,7 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData", enabled = false)
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
     public void testDownloadApplicationInQuote(Map<String, String> map) throws InterruptedException, SQLException {
         /***
          this test verifies brokers can download application form
@@ -274,7 +274,7 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
         String submissionId;
         if (submissionCount > 0) {
             for (HashMap<Object, Object> id : submissionIds) {
-                submissionId = id.get("id").toString();
+                submissionId = id.get("submission_id").toString();
                 dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
                 if (dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver())) {
                     confirmedQuote = true;
