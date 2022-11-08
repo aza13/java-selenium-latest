@@ -53,7 +53,7 @@ public class DashboardPageActions extends BaseTest {
     public void enterTextToSearchBox(WebDriver driver, String textInput) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, searchInputFiled);
         TextHelper.enterText(driver, searchInputFiled, textInput);
-        WaitHelper.pause(5000);
+        WaitHelper.pause(10000);
     }
 
     public void clickClearSearchButton(WebDriver driver) {
@@ -274,7 +274,16 @@ public class DashboardPageActions extends BaseTest {
                 }
             }
         }
+    }
 
+    public String getPolicyStatus(WebDriver driver){
+        logger.info("this method returns first policy status");
+        try{
+            return TextHelper.getText(driver, policyStatus, "text").trim();
+        }catch (Exception e){
+            logger.error("failed to get the status of the policy :: getPolicyStatus "+e.getMessage());
+            throw e;
+        }
     }
 
     public void validatePolicyStatusColorCoding(WebDriver driver) {
@@ -752,6 +761,16 @@ public class DashboardPageActions extends BaseTest {
         }catch (Exception e){
             testLogger.fail("failed to verify the contactUnderwriter :: verifyContactUnderwriterExists" + e.getMessage());
             logger.error("failed to verify the contactUnderwriter :: verifyContactUnderwriterExists");
+            throw (e);
+        }
+    }
+
+    public void clickContactUnderwriter(WebDriver driver){
+        try {
+            ClickHelper.clickElement(driver, contactUnderwriter);
+        }catch (Exception e){
+            testLogger.fail("failed to click on the contact underwriter button " + e.getMessage());
+            logger.error("failed to click on the contact underwriter button " + e.getMessage());
             throw (e);
         }
     }

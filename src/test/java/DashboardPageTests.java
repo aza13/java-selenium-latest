@@ -607,4 +607,19 @@ public class DashboardPageTests extends BaseTest {
         }else logger.info("No Ineligible Policies available");
     }
 
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    public void  testContactUnderwriterInDashboard(Map<String, String> map) throws InterruptedException, SQLException {
+        /**
+         * this test validates Contact UW button in dashboard page
+         story - N2020-34125
+         @author - Venkat Kottapalli
+         **/
+        logger.info("validating Contact UW button in dashboard page :: testContactUnderwriterInDashboard");
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), "H21OMC20131-00");
+        dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
+        String policyStatus = dashboardPageActions.getPolicyStatus(DriverManager.getDriver());
+        assert dashboardPageActions.verifyContactUnderwriterExists(DriverManager.getDriver());
+        dashboardPageActions.clickContactUnderwriter(DriverManager.getDriver());
+    }
+
 }
