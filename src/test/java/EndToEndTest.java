@@ -73,7 +73,7 @@ public class EndToEndTest extends BaseTest {
                     quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
                     quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
                 } else {
-                    quoteListPageActions.checkIfQuoteLockSuccessMessageDisplayed(DriverManager.getDriver());
+                    quoteListPageActions.verifyQuoteLockSuccessMessageDisplayed(DriverManager.getDriver());
                     String status = quoteListPageActions.getQuoteStatus(DriverManager.getDriver());
                     assert Objects.equals(status, "Ready to Place Order");
                     assert quoteListPageActions.verifyPDFFileAvailable(DriverManager.getDriver());

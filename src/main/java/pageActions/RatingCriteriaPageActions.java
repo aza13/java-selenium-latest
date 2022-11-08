@@ -1,6 +1,7 @@
 package pageActions;
 
 import base.BaseTest;
+import base.PageObjectManager;
 import helper.ClickHelper;
 import helper.DropdownHelper;
 import helper.TextHelper;
@@ -40,10 +41,11 @@ public class RatingCriteriaPageActions extends BaseTest {
         ClickHelper.clickElement(driver, ratingCriteriaButton);
     }
 
-    public void clickRatingCriteriaContinueButton (WebDriver driver) throws InterruptedException {
+    public UnderwritingQuestionsPageActions clickRatingCriteriaContinueButton (WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementClickable(driver, ratingCriteriaContinueButton);
         ClickHelper.javaScriptExecutorClick(driver, ratingCriteriaContinueButton);
         WaitHelper.pause(20000);
+        return PageObjectManager.getUnderwritingQuestionsPageActions();
     }
 
     public void clickBusinessClassDropdown(WebDriver driver) {
