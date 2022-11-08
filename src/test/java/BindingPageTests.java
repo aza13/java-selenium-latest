@@ -51,11 +51,6 @@ public class BindingPageTests extends BaseTest {
         bindingPageActions = PageObjectManager.getBindingPageActions();
     }
 
-    @BeforeMethod
-    public void beforeMethod() {
-
-    }
-
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
     public void testVerifyQuoteBinding(Map<String, String> map) throws InterruptedException, SQLException {
         /*****************************************************************
