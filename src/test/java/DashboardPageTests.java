@@ -153,7 +153,7 @@ public class DashboardPageTests extends BaseTest {
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         assert insuredPageActions.newInsuredButton(DriverManager.getDriver()).isDisplayed();
         assert insuredPageActions.searchAgainButton(DriverManager.getDriver()).isDisplayed();
-        assert insuredPageActions.verifyInsuredSearchResult(DriverManager.getDriver(), map.get("applicantName"), map.get("website"));
+        assert insuredPageActions.verifyInsuredSearchResult(DriverManager.getDriver(), map.get("website"));
         insuredPageActions.clickContinueInsuredButton(DriverManager.getDriver());
         boolean duplicateDialog = insuredPageActions.duplicateSubmissionDialog(DriverManager.getDriver());
         if (!duplicateDialog) {
