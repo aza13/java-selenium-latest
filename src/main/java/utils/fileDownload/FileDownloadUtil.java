@@ -27,6 +27,7 @@ public class FileDownloadUtil {
         assert totalFiles != null;
         for (File file : totalFiles) {
             if (file.getName().contains("TMHCC_")) {
+
                 file.delete();
             }
         }
@@ -62,5 +63,6 @@ public class FileDownloadUtil {
         }
         return fileDownloadStatus;
     }
+
 
 }
