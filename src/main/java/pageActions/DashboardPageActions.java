@@ -747,8 +747,8 @@ public class DashboardPageActions extends BaseTest {
 
     public boolean verifyContactUnderwriterExists(WebDriver driver){
         try {
-            WaitHelper.waitForElementVisibility(driver, contactUnderwriter);
-            return driver.findElement(contactUnderwriter).isDisplayed();
+//            WaitHelper.waitForElementVisibility(driver, contactUnderwriter);
+            return ClickHelper.isElementExist(driver, contactUnderwriter);
         }catch (Exception e){
             testLogger.fail("failed to verify the contactUnderwriter :: verifyContactUnderwriterExists" + e.getMessage());
             logger.error("failed to verify the contactUnderwriter :: verifyContactUnderwriterExists");
