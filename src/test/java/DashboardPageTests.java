@@ -4,7 +4,6 @@ import base.PageObjectManager;
 import constants.ConstantVariable;
 import constants.DatabaseQueries;
 import helper.ClickHelper;
-import helper.FakeDataHelper;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -416,7 +415,7 @@ public class DashboardPageTests extends BaseTest {
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
     public void testSortQuoteList(Map<String, String> map) {
         /***
-         this test Sort the My Quotes List
+         this tests Sort of Quotes List
          story - N2020-29952
          @author -Azamat Uulu
          **/
@@ -605,6 +604,42 @@ public class DashboardPageTests extends BaseTest {
                 break;
             }
         }else logger.info("No Ineligible Policies available");
+    }
+
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    public void  testContactUnderwriterInDashboard(Map<String, String> map) throws InterruptedException {
+        /***
+         * this test validates Contact UW button in dashboard page
+         story - N2020-34125
+         @author - Venkat Kottapalli
+         ***/
+        logger.info("validating Contact UW button in dashboard page :: testContactUnderwriterInDashboard");
+        dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), "H22OMC20048-01");
+        assert dashboardPageActions.verifyIfPolicySearchResultsDisplayed(DriverManager.getDriver());
+        String policyBefore = dashboardPageActions.getPolicyStatus(DriverManager.getDriver());
+        assert dashboardPageActions.verifyContactUnderwriterExists(DriverManager.getDriver());
+        dashboardPageActions.clickContactUnderwriter(DriverManager.getDriver());
+        String dialogDescription = dashboardPageActions.getSubmitForReviewDesc(DriverManager.getDriver());
+        assert dialogDescription.contentEquals(map.get("dialogDescription"));
+        dashboardPageActions.clickSubmitForReviewCancel(DriverManager.getDriver());
+        assert dashboardPageActions.verifyIfPolicySearchResultsDisplayed(DriverManager.getDriver());
+        dashboardPageActions.clickContactUnderwriter(DriverManager.getDriver());
+        dashboardPageActions.enterAdditionalInfoSubmitForReview(DriverManager.getDriver());
+        dashboardPageActions.clickSubmitForReviewSubmit(DriverManager.getDriver());
+        String policyAfter = dashboardPageActions.getPolicyStatus(DriverManager.getDriver());
+        if(policyBefore.contentEquals(ConstantVariable.RENEWED_STRING) || policyBefore.contentEquals(ConstantVariable.RENEWAL_STARTED_STRING)){
+            assert policyAfter.contentEquals("Renewal Started");
+            assert !dashboardPageActions.verifyContactUnderwriterExists(DriverManager.getDriver());
+            dashboardPageActions.clickQuotesTab(DriverManager.getDriver());
+            dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
+            dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), "H22OMC20048-01");
+            String quoteStatus = dashboardPageActions.getQuoteStatus(DriverManager.getDriver());
+            assert quoteStatus.contentEquals(ConstantVariable.IN_REVIEW_STRING);
+        } else if (policyBefore.contentEquals(ConstantVariable.ACTIVE_STRING) ) {
+            assert policyAfter.contentEquals(ConstantVariable.ACTIVE_STRING);
+            assert dashboardPageActions.verifyUnderwriterReviewingButtonDisplayed(DriverManager.getDriver());
+        }
     }
 
 }

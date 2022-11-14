@@ -61,7 +61,7 @@ public class SubmissionClearancesTests extends BaseTest {
                         if (insuredPageActions.isClearanceDialogModalDisplayed(DriverManager.getDriver())) {
                             insuredPageActions.enterClearanceText(DriverManager.getDriver(), map.get("clearanceText"));
                             insuredPageActions.clickClearanceSubmitButton(DriverManager.getDriver());
-                            assert dashboardPageActions.myQuotesTab(DriverManager.getDriver()).isDisplayed();
+                            assert dashboardPageActions.clickQuotesTab(DriverManager.getDriver()).isDisplayed();
                         } else if (insuredPageActions.duplicateSubmissionDialog(DriverManager.getDriver())) {
                             insuredPageActions.clickDuplicateCancelButton(DriverManager.getDriver());
                             logger.info("No clearance associated with insured, Rating criteria page displayed");
@@ -102,7 +102,7 @@ public class SubmissionClearancesTests extends BaseTest {
                         if (insuredPageActions.isClearanceDialogModalDisplayed(DriverManager.getDriver())) {
                             insuredPageActions.enterClearanceText(DriverManager.getDriver(), map.get("clearanceText"));
                             insuredPageActions.clickClearanceCancelQuoteButton(DriverManager.getDriver());
-                            assert dashboardPageActions.myQuotesTab(DriverManager.getDriver()).isDisplayed();
+                            assert dashboardPageActions.clickQuotesTab(DriverManager.getDriver()).isDisplayed();
                         } else if (insuredPageActions.duplicateSubmissionDialog(DriverManager.getDriver())) {
                             insuredPageActions.clickDuplicateCancelButton(DriverManager.getDriver());
                             logger.info("Duplicate submission was displayed");
