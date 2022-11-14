@@ -118,7 +118,7 @@ public class EndToEndTest extends BaseTest {
                     bindingPageActions.clickAddFilesButton(DriverManager.getDriver());
                     bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
                     bindingPageActions.clickConfirmationContinueButton(DriverManager.getDriver());
-                    assert dashboardPageActions.myQuotesTab(DriverManager.getDriver()).isDisplayed();
+                    assert dashboardPageActions.clickQuotesTab(DriverManager.getDriver()).isDisplayed();
                 }
             } else {
                 Assert.fail("Confirm and quote button is disabled for some reason");

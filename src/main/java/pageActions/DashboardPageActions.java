@@ -71,13 +71,13 @@ public class DashboardPageActions extends BaseTest {
         driver.findElement(supportLink).click();
     }
 
-    public WebElement myQuotesTab(WebDriver driver) {
+    public WebElement clickQuotesTab(WebDriver driver) {
         try {
             WaitHelper.waitForElementVisibility(driver, myQuotesTab);
             return driver.findElement(myQuotesTab);
         } catch (Exception e) {
-            testLogger.fail("failed to verify the my quote tab :: clickMyQuoteTab" + e.getMessage());
-            logger.error("failed to verify the my quote tab :: clickMyQuoteTab");
+            testLogger.fail("failed to verify the my quote tab :: clickQuotesTab" + e.getMessage());
+            logger.error("failed to verify the my quote tab :: clickQuotesTab");
             throw (e);
         }
     }
@@ -276,9 +276,10 @@ public class DashboardPageActions extends BaseTest {
         }
     }
 
-    public String getPolicyStatus(WebDriver driver){
+    public String getPolicyStatus(WebDriver driver) throws InterruptedException {
         logger.info("this method returns first policy status");
         try{
+            WaitHelper.pause(5000);
             return TextHelper.getText(driver, policyStatus, "text").trim();
         }catch (Exception e){
             logger.error("failed to get the status of the policy :: getPolicyStatus "+e.getMessage());
@@ -775,6 +776,60 @@ public class DashboardPageActions extends BaseTest {
         }
     }
 
+    public String getSubmitForReviewDesc(WebDriver driver) throws InterruptedException {
+        try {
+            WaitHelper.pause(3000);
+            return TextHelper.getText(driver, submitForReviewDesc, "text");
+        }catch (Exception e){
+            testLogger.fail("failed to get the text from Submit for Review Dialog " + e.getMessage());
+            logger.error("failed to get the text from Submit for Review Dialog " + e.getMessage());
+            throw (e);
+        }
+    }
+
+    public void clickSubmitForReviewCancel(WebDriver driver){
+        try {
+            ClickHelper.clickElement(driver, submitForReviewCancel);
+        }catch (Exception e){
+            testLogger.fail("failed to click Submit for Review cancel button " + e.getMessage());
+            logger.error("failed to click Submit for Review cancel button " + e.getMessage());
+            throw (e);
+        }
+    }
+
+    public void clickSubmitForReviewSubmit(WebDriver driver){
+        try {
+            ClickHelper.clickElement(driver, submitForReviewSubmit);
+        }catch (Exception e){
+            testLogger.fail("failed to click Submit for Review submit button " + e.getMessage());
+            logger.error("failed to click Submit for Review submit button " + e.getMessage());
+            throw (e);
+        }
+    }
+
+    public void enterAdditionalInfoSubmitForReview(WebDriver driver){
+        try {
+            TextHelper.enterText(driver, clearanceDialogTextArea, ConstantVariable.SAMPLE_TEXT);
+        }catch (Exception e){
+            testLogger.fail("failed to enter additional info to Submit for Review dialog " + e.getMessage());
+            logger.error("failed to enter additional info to Submit for Review dialog " + e.getMessage());
+            throw (e);
+        }
+    }
+
+    public boolean verifyUnderwriterReviewingButtonDisplayed(WebDriver driver){
+        try {
+            return ClickHelper.isElementExist(driver, underwriterReviewingButton);
+        }catch (Exception e){
+            testLogger.fail("failed to check whether underwriter reviewing button displayed or not " + e.getMessage());
+            logger.error("failed to check whether underwriter reviewing button displayed or not  " + e.getMessage());
+            throw (e);
+        }
+    }
+
+
+
+
     public WebElement getPolicyRenewButton(WebDriver driver) throws InterruptedException {
         WaitHelper.pause(3000);
         List<WebElement> renewButtons = driver.findElements(genericRenewButtonLocator);
@@ -782,7 +837,18 @@ public class DashboardPageActions extends BaseTest {
             return renewButtons.get(0);
         }
         return null;
+    }
 
+    public boolean verifyIfPolicySearchResultsDisplayed(WebDriver driver){
+        try{
+            List<WebElement> results = driver.findElements(policySearchResults);
+            if(!results.isEmpty()){
+                return true;
+            }
+        }catch (Exception e){
+            return false;
+        }
+        return false;
     }
 
 }

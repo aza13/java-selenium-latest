@@ -190,9 +190,15 @@ public class DashboardPageObjects {
 
     public static final By quoteitLogo = By.xpath("//img[@alt='hello']");
 
+    public static final By policySearchResults = By.xpath("//p[text()='Search results']/following-sibling::div[contains(@class, 'policy_card')]");
+
+    /*** Submit for Review ***/
     public static final By contactUnderwriter = By.xpath("//button[normalize-space()='Contact Underwriter']");
+    public static final By submitForReviewDesc = By.xpath("//p[@id='alert-dialog-description']//h1");
+    public static final By submitForReviewCancel = By.xpath("//button[@data-qa='cancel_alert_modal']");
+    public static final By submitForReviewSubmit = By.xpath("//button[@data-qa='submit_alert_modal']");
 
-
+    public static final By underwriterReviewingButton = By.xpath("//button[text()='Underwriter Reviewing']");
 
 
 }
