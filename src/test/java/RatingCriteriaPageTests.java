@@ -78,7 +78,9 @@ public class RatingCriteriaPageTests extends BaseTest {
         assert actualFirstStatus.equals("Declined");
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "RatingCriteriaPageData", enabled = false)
+
+
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "RatingCriteriaPageData")
     public void  testProposedPolicyPeriod(Map<String, String> map) throws InterruptedException {
         /***
          this test Brokers can see proposed policy period  criteria -- this needs to be verified
@@ -89,9 +91,8 @@ public class RatingCriteriaPageTests extends BaseTest {
         CreateApplicant.createApplicant(DriverManager.getDriver());
         RatingCriteriaPageActions ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
         assert ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver());
-        ratingCriteriaPageActions.clickRatingCriteriaEffectiveDateCalenderButton(DriverManager.getDriver());
-        boolean val = ratingCriteriaPageActions.viewRatingCriteriaExpirationDateField(DriverManager.getDriver());
-        Assert.assertTrue(val);
+        ratingCriteriaPageActions.verifyEffectiveDateField(DriverManager.getDriver());
+        ratingCriteriaPageActions.verifyExpirationDate(DriverManager.getDriver());
         ratingCriteriaPageActions.clickRatingCriteriaExitButton(DriverManager.getDriver());
         dashboardPageActions.getMyQuotesTabTitle(DriverManager.getDriver());
     }

@@ -1,6 +1,7 @@
 package pageActions;
 
 import base.BaseTest;
+import base.PageObjectManager;
 import helper.ClickHelper;
 import helper.DropdownHelper;
 import helper.TextHelper;
@@ -40,10 +41,11 @@ public class RatingCriteriaPageActions extends BaseTest {
         ClickHelper.clickElement(driver, ratingCriteriaButton);
     }
 
-    public void clickRatingCriteriaContinueButton (WebDriver driver) throws InterruptedException {
+    public UnderwritingQuestionsPageActions clickRatingCriteriaContinueButton (WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementClickable(driver, ratingCriteriaContinueButton);
         ClickHelper.javaScriptExecutorClick(driver, ratingCriteriaContinueButton);
         WaitHelper.pause(20000);
+        return PageObjectManager.getUnderwritingQuestionsPageActions();
     }
 
     public void clickBusinessClassDropdown(WebDriver driver) {
@@ -120,18 +122,28 @@ public class RatingCriteriaPageActions extends BaseTest {
         ClickHelper.clickElement(driver, businessClassOption);
     }
 
-    public void clickRatingCriteriaEffectiveDateCalenderButton (WebDriver driver) throws InterruptedException {
+    public void verifyEffectiveDateField (WebDriver driver) throws InterruptedException {
 
         WaitHelper.waitForElementClickable(driver, ratingCriteriaEffectiveDateSelectionButton);
         ClickHelper.clickElement(driver, ratingCriteriaEffectiveDateSelectionButton);
+        WaitHelper.waitForElementClickable(driver, clickNextMonth);
+        ClickHelper.clickElement(driver, clickNextMonth );
+        WaitHelper.isElementEnabled(driver, clickNextMonth);
         WaitHelper.pause(2000);
         ClickHelper.clickElement(driver,ratingCriteriaEffectiveActualDateChoose);
     }
 
-    public boolean viewRatingCriteriaExpirationDateField (WebDriver driver) {
+    public void verifyExpirationDate (WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementClickable(driver, ratingCriteriaExpirationDateField);
+        ClickHelper.clickElement(driver, ratingCriteriaExpirationDateField);
+        WaitHelper.pause(1000);
+        WaitHelper.waitForElementClickable(driver, dropDownOnExpirationDatePicker );
+        ClickHelper.clickElement(driver, dropDownOnExpirationDatePicker);
+        WaitHelper.waitForElementClickable(driver, nextYearInExpirationDatePicker);
+        ClickHelper.clickElement(driver, nextYearInExpirationDatePicker);
+        WaitHelper.isElementEnabled(driver, clickNextMonth);
 
-        WaitHelper.waitForElementClickable(driver, ratingCriteriaExpirationExpectedDateShow);
-        return driver.findElement(ratingCriteriaExpirationExpectedDateShow).isDisplayed();
+
     }
 
     public void clickRatingCriteriaExitButton (WebDriver driver) throws InterruptedException {

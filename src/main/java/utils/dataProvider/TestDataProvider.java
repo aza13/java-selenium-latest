@@ -1,12 +1,11 @@
 package utils.dataProvider;
 
-import constants.ConstantVariable;
-import utils.fileReader.ConfigDataReader;
-import utils.fileReader.ExcelDataReader;
 import org.apache.log4j.Logger;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import utils.fileReader.ConfigDataReader;
+import utils.fileReader.ExcelDataReader;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -19,7 +18,8 @@ public class TestDataProvider {
 
     private static String testDataFilePath;
 
-    private TestDataProvider(){}
+    private TestDataProvider() {
+    }
 
     @DataProvider(name = "ask-me")
     public static Object[][] dataProvider(Method method) {
@@ -40,15 +40,15 @@ public class TestDataProvider {
 
         logger.info("TestDataProvider Invoked for test-" + testCaseName + " and sheet-" + dataSheetName);
 
-        Object[][] data = null;
+        Object[][] data;
         try {
             data = getTestData(dataSheetName, testCaseName);
 
         } catch (Exception e) {
-            logger.error("Failed to get the test data from:: getTestData in:: dataProvider ");
+            logger.error("Failed to get the test data for the test " + testCaseName + " due to :: " + e.getMessage());
+            throw (e);
         }
         return data;
-
     }
 
 
@@ -71,17 +71,19 @@ public class TestDataProvider {
         int currentTestRowNum = ExcelDataReader.getCurrentTestCaseRow(currentDataSheet, testName);
 
         if (currentTestRowNum != -1) {
-
+            logger.info("firstDataSet of test case will be after rows from test case name");
             int firstDataSetRowNum = currentTestRowNum + 2;
 
-            int[] dataSetsCounts = ExcelDataReader.getTestDataSetsCount(currentDataSheet,currentTestRowNum);
+            logger.info("counting number of data sets the test case has");
+            int[] dataSetsCounts = ExcelDataReader.getTestDataSetsCount(currentDataSheet, currentTestRowNum);
 
             int lastDataSetRowNum = currentTestRowNum + dataSetsCounts[0] + 1;
 
             int parametersCount;
-
+            logger.info("getting total number of parameters that test case has");
             parametersCount = currentDataSheet.getRow(currentTestRowNum + 1).getLastCellNum();
 
+            logger.info("creating two dimension array with number of rows equal to number of enabled data sets");
             Object[][] excelData = new Object[dataSetsCounts[1]][1];
 
             int set = 0;
@@ -111,10 +113,5 @@ public class TestDataProvider {
             logger.info("Test data is not present for " + testName + " in the test data sheet :: getTestDataNew");
             return new Object[0][];
         }
-    }
-
-    public static List<String> getTestDescription() {
-
-        return testDescription;
     }
 }

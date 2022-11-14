@@ -127,8 +127,10 @@ public class ExcelDataReader {
                 currentTestRowNum++;
                 row = excelSheet.getRow(currentTestRowNum);
             }
+            logger.info("dataSetCounts[0] - gives total data sets of the test case");
             dataSetsCounts[0] = totalDataSetsCount;
 
+            logger.info("dataSetCounts[1] - gives only enabled data sets of the test case");
             dataSetsCounts[1] = enabledDataSetsCount;
 
             logger.info("The total  number of test data sets are " + totalDataSetsCount + " :: getTestDataSetsCount");

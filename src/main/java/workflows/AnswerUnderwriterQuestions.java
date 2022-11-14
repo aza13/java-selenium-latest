@@ -17,7 +17,7 @@ public class AnswerUnderwriterQuestions {
     
     private AnswerUnderwriterQuestions(){}
     
-    public static void answerUnderwriterQuestions(WebDriver driver, Map<String, String> map) throws InterruptedException {
+    public static QuoteListPageActions answerUnderwriterQuestions(WebDriver driver, Map<String, String> map) throws InterruptedException {
         
         UnderwritingQuestionsPageActions underwritingQuestionsPageActions = PageObjectManager.getUnderwritingQuestionsPageActions();
         boolean uwQuestionsAnswered = underwritingQuestionsPageActions.checkWhetherAllUWQuestionsAreAnswered(driver);
@@ -40,5 +40,6 @@ public class AnswerUnderwriterQuestions {
             quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
             quoteListPageActions.clickSubmitForReview(driver);
         }
+        return quoteListPageActions;
     }
 }
