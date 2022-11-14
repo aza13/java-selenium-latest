@@ -29,6 +29,7 @@ public class BindingPageObjects {
     /** generate binder **/
     public static final By generateBinderButton = By.xpath("//button[text()='Generate Binder']");
     public static final  By quoteStatus = By.xpath("(//div[@id='panel1bh-header']//p)[last()]");
+    public static final By quoteStatus2 = By.xpath("//div[@id='panel1bh-header']//div[contains(@class, 'mnUOn')]");
 
     public static final By clickAndDragLink = By.xpath("//p[contains(text(), 'Click or Drag')]");
     public static final By addFilesButton = By.xpath("//button[text()='Add File(s)']");

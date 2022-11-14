@@ -1,6 +1,7 @@
 package pageActions;
 
 import base.BaseTest;
+import base.PageObjectManager;
 import helper.*;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -20,9 +21,10 @@ public class BindingPageActions extends BaseTest {
 
     private static final Logger logger = Logger.getLogger(BindingPageActions.class);
 
-    public void clickOnExitDashboard(WebDriver driver){
+    public DashboardPageActions clickOnExitDashboard(WebDriver driver){
         WaitHelper.waitForElementClickable(driver, exitToDashboard);
         ClickHelper.clickElement(driver, exitToDashboard);
+        return PageObjectManager.getDashboardPageActions();
     }
 
     public boolean isBindingTabSelected(WebDriver driver) throws InterruptedException {
@@ -46,7 +48,7 @@ public class BindingPageActions extends BaseTest {
     public String getQuoteStatus(WebDriver driver) throws InterruptedException {
         try{
             WaitHelper.pause(20000);
-            return TextHelper.getText(driver, quoteStatus, "text").trim();
+            return TextHelper.getText(driver, quoteStatus2, "text").trim();
         }catch (Exception e){
             logger.error("Failed to get the quote option status in binder page "+e.getMessage());
             throw e;

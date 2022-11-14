@@ -92,7 +92,7 @@ public class BindingPageTests extends BaseTest {
             int queryResult = databaseConnector.update(subjectivityStatusQuery);
             if (queryResult == 1) {
                 WaitHelper.pause(15000);
-                bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
+                dashboardPageActions = bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
                 dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
                 String quoteStatusDashboard = dashboardPageActions.getQuoteStatus(DriverManager.getDriver());
                 assert quoteStatusDashboard.contentEquals("Order Placed");
