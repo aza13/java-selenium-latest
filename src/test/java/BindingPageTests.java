@@ -55,7 +55,6 @@ public class BindingPageTests extends BaseTest {
         boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
         assert quoteLocked;
         quoteListPageActions.clickConfirmDatesAndPlaceOrderButton(DriverManager.getDriver());
-        assert quoteListPageActions.validateConfirmDatesModalFields(DriverManager.getDriver());
         bindingPageActions = quoteListPageActions.clickConfirmDatesConfirmButton(DriverManager.getDriver());
         assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
         String quoteStatus = bindingPageActions.getQuoteStatus(DriverManager.getDriver());
@@ -123,7 +122,6 @@ public class BindingPageTests extends BaseTest {
         boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
         assert quoteLocked;
         quoteListPageActions.clickConfirmDatesAndPlaceOrderButton(DriverManager.getDriver());
-        assert quoteListPageActions.validateConfirmDatesModalFields(DriverManager.getDriver());
         bindingPageActions = quoteListPageActions.clickConfirmDatesConfirmButton(DriverManager.getDriver());
         assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
         logger.info("fetching the submission Id using initial quote Id from db");
@@ -171,7 +169,6 @@ public class BindingPageTests extends BaseTest {
         boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
         assert quoteLocked;
         quoteListPageActions.clickConfirmDatesAndPlaceOrderButton(DriverManager.getDriver());
-        assert quoteListPageActions.validateConfirmDatesModalFields(DriverManager.getDriver());
         bindingPageActions = quoteListPageActions.clickConfirmDatesConfirmButton(DriverManager.getDriver());
         assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
         logger.info(("validating the Generate Binder button - 35242, QAT-550"));
@@ -205,7 +202,6 @@ public class BindingPageTests extends BaseTest {
         String status = quoteListPageActions.getQuoteStatus(DriverManager.getDriver());
         assert status.contentEquals("Ready to Place Order");
         quoteListPageActions.clickConfirmDatesAndPlaceOrderButton(DriverManager.getDriver());
-        assert quoteListPageActions.validateConfirmDatesModalFields(DriverManager.getDriver());
         bindingPageActions = quoteListPageActions.clickConfirmDatesConfirmButton(DriverManager.getDriver());
         assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
 
@@ -300,8 +296,30 @@ public class BindingPageTests extends BaseTest {
             } else {
                 logger.info("No binder available, to download the binder ");
             }
-
         }
+    }
+
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
+    public void testValidateConfirmDatesPlaceOrderFunctionality(Map<String, String> map) throws InterruptedException, SQLException {
+        /*****************************************************************
+         this test verifies the functionality of Confirm Dates and Place Order Button
+         story - N2020-35641, QAT-645
+         @author - Venkat Kottapalli
+         ******************************************************************/
+        logger.info("Executing the testValidateConfirmDatesPlaceOrderFunctionality :: BindingPageTests");
+        quoteListPageActions = CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map);
+        logger.info("validating download icons of quote list page");
+        boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
+        assert quoteLocked;
+        quoteListPageActions.clickConfirmDatesAndPlaceOrderButton(DriverManager.getDriver());
+        assert quoteListPageActions.validateConfirmDatesModalFields(DriverManager.getDriver());
+        String effDate = quoteListPageActions.getConfirmDatesEffectiveDate(DriverManager.getDriver()).getAttribute("value");;
+        String expDate = quoteListPageActions.getConfirmDatesExpirationDate(DriverManager.getDriver()).getAttribute("value");
+        bindingPageActions = quoteListPageActions.clickConfirmDatesConfirmButton(DriverManager.getDriver());
+        assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
+        String policyPeriod = bindingPageActions.getProposedPolicyPeriod(DriverManager.getDriver());
+        assert policyPeriod.contains(effDate);
+        assert policyPeriod.contains(expDate);
     }
 
 

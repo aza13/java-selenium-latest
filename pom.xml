@@ -9,7 +9,7 @@
     <version>1.0-SNAPSHOT</version>
 
     <name>selenium-framework</name>
-    <url>https://bp07srv.qa.nasinsurance.com/</url>
+    <url>https://bp10srv.qa.nasinsurance.com/</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

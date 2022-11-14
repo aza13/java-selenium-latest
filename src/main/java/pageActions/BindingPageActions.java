@@ -217,11 +217,6 @@ public class BindingPageActions extends BaseTest {
         return ClickHelper.isElementExist(driver, PreBinderText);
     }
 
-    public boolean isFileSizeExceededWarningDisplayed(WebDriver driver) throws InterruptedException {
-        WaitHelper.pause(3000);
-        return ClickHelper.isElementExist(driver, fileSizeExceededText);
-    }
-
     public boolean isBinderIssuedShortlyText(WebDriver driver) throws InterruptedException {
         WaitHelper.pause(3000);
         return ClickHelper.isElementExist(driver, bindersWillBeIssuedShortlyText);
@@ -232,12 +227,22 @@ public class BindingPageActions extends BaseTest {
     }
 
     public boolean clickBinderDownload(WebDriver driver, String filename) throws InterruptedException {
-
         FileDownloadUtil.checkFileExistInDownloadFolder();
-
         ClickHelper.clickElement(driver, clickBinderPDFButton);
         WaitHelper.pause(15000);
-
         return FileDownloadUtil.verifyPDFFileDownload(filename);
+    }
+
+    public String getProposedPolicyPeriod(WebDriver driver) throws InterruptedException {
+        try{
+            ScrollHelper.scrollToPageTop(driver);
+            String text = TextHelper.getText(driver, proposedPolicyPeriod, "text");
+            assert text != null;
+            String dates = text.split(":")[1].trim();
+            return dates;
+        }catch (Exception e){
+            logger.info("failed to get the policy period text :: getProposedPolicyPeriod "+e.getMessage());
+            throw e;
+        }
     }
 }

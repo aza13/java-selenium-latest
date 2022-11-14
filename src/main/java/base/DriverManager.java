@@ -47,7 +47,7 @@ public class DriverManager {
                         options.addArguments("--headless");
                     }
                     options.addArguments("--incognito");
-                    options.setExperimentalOption("preferences", preferences);
+                    options.setExperimentalOption("prefs", preferences);
                     driver = new ChromeDriver(options);
                     threadDriver.set(driver);
                     break;

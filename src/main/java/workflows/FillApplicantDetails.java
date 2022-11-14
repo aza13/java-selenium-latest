@@ -19,7 +19,7 @@ public class FillApplicantDetails {
         logger.info("fill applicant details, Business class :: fillApplicantDetails");
         RatingCriteriaPageActions ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(driver)) {
-            if (ConfigDataReader.getInstance().getProperty("product").equals("Catholic Mutual - NetGuard® Plus")) {
+            if (ConfigDataReader.getInstance().getProperty("product").equals("NetGuard® SELECT")) {
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(driver, map.get("businessClass2"));
                 ratingCriteriaPageActions.clickBusinessClassOption(driver);
                 ratingCriteriaPageActions.enterNetWorth(driver, map.get("netWorth"));
