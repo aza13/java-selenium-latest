@@ -48,11 +48,11 @@ public class TextHelper {
         logger.info("Getting the text from the given element "+elementLocator+" :: getText: ");
         try {
             if (parameter.equals("text")) {
-                return driver.findElement(elementLocator).getText();
+                return driver.findElement(elementLocator).getText().trim();
             }else if(parameter.equals("value")){
-                return driver.findElement(elementLocator).getAttribute("value");
+                return driver.findElement(elementLocator).getAttribute("value").trim();
             }else{
-                return driver.findElement(elementLocator).getAttribute(parameter);
+                return driver.findElement(elementLocator).getAttribute(parameter).trim();
             }
         } catch (Exception e) {
             logger.error("Failed to get the text from the element " + elementLocator+" :: getText");
