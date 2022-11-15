@@ -8,7 +8,9 @@ import org.apache.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import pageActions.*;
+import pageActions.BindingPageActions;
+import pageActions.DashboardPageActions;
+import pageActions.QuoteListPageActions;
 import utils.dataProvider.TestDataProvider;
 import utils.dbConnector.DatabaseConnector;
 import workflows.CreateSubmission;
@@ -180,9 +182,7 @@ public class BindingPageTests extends BaseTest {
             String priorSubjStatus = bindingPageActions.getPriorSubjectivityStatus(DriverManager.getDriver());
             if (Objects.equals(priorSubjStatus, "Accepted") || Objects.equals(priorSubjStatus, "Waived")) {
                 assert bindingPageActions.isGenerateBinderButtonExist(DriverManager.getDriver());
-            } else if (Objects.equals(priorSubjStatus, "Open")) {
-                assert !bindingPageActions.isGenerateBinderButtonExist(DriverManager.getDriver());
-            }
+            } else assert !Objects.equals(priorSubjStatus, "Open") || !bindingPageActions.isGenerateBinderButtonExist(DriverManager.getDriver());
         } else {
             assert bindingPageActions.isGenerateBinderButtonExist(DriverManager.getDriver());
         }
@@ -209,9 +209,7 @@ public class BindingPageTests extends BaseTest {
         String priorSubjStatus = bindingPageActions.getPriorSubjectivityStatus(DriverManager.getDriver());
         if (Objects.equals(priorSubjStatus, ConstantVariable.OPEN_STATUS_STRING)) {
             assert !bindingPageActions.isBinderIssuedShortlyText(DriverManager.getDriver());
-        } else if (Objects.equals(priorSubjStatus, ConstantVariable.ACCEPTED_STATUS_STRING) || Objects.equals(priorSubjStatus, ConstantVariable.WAIVED_STATUS_STRING)) {
-            assert bindingPageActions.isBinderIssuedShortlyText(DriverManager.getDriver());
-        }
+        } else assert !Objects.equals(priorSubjStatus, ConstantVariable.ACCEPTED_STATUS_STRING) && !Objects.equals(priorSubjStatus, ConstantVariable.WAIVED_STATUS_STRING) || bindingPageActions.isBinderIssuedShortlyText(DriverManager.getDriver());
         bindingPageActions.clickPreSubjSelectFilesButton(DriverManager.getDriver());
         if (map.get("fileType").contentEquals("fileTypeValidation")) {
             logger.info("validating the invalid file type warning & valid file upload functionality");
@@ -300,7 +298,7 @@ public class BindingPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
-    public void testValidateConfirmDatesPlaceOrderFunctionality(Map<String, String> map) throws InterruptedException, SQLException {
+    public void testValidateConfirmDatesPlaceOrderFunctionality(Map<String, String> map) throws InterruptedException {
         /*****************************************************************
          this test verifies the functionality of Confirm Dates and Place Order Button
          story - N2020-35641, QAT-645
@@ -313,7 +311,7 @@ public class BindingPageTests extends BaseTest {
         assert quoteLocked;
         quoteListPageActions.clickConfirmDatesAndPlaceOrderButton(DriverManager.getDriver());
         assert quoteListPageActions.validateConfirmDatesModalFields(DriverManager.getDriver());
-        String effDate = quoteListPageActions.getConfirmDatesEffectiveDate(DriverManager.getDriver()).getAttribute("value");;
+        String effDate = quoteListPageActions.getConfirmDatesEffectiveDate(DriverManager.getDriver()).getAttribute("value");
         String expDate = quoteListPageActions.getConfirmDatesExpirationDate(DriverManager.getDriver()).getAttribute("value");
         bindingPageActions = quoteListPageActions.clickConfirmDatesConfirmButton(DriverManager.getDriver());
         assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());

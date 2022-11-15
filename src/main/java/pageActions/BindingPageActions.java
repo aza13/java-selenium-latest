@@ -237,7 +237,6 @@ public class BindingPageActions extends BaseTest {
         try{
             ScrollHelper.scrollToPageTop(driver);
             String text = TextHelper.getText(driver, proposedPolicyPeriod, "text");
-            assert text != null;
             String dates = text.split(":")[1].trim();
             return dates;
         }catch (Exception e){
