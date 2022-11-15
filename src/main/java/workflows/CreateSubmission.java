@@ -15,8 +15,8 @@ public class CreateSubmission {
 
     private CreateSubmission(){}
     
-    public static void createSubmissionTillQuotePage(WebDriver driver, Map<String, String> map) throws InterruptedException {
-
+    public static QuoteListPageActions createSubmissionTillQuotePage(WebDriver driver, Map<String, String> map) throws InterruptedException {
+        logger.info("creating the submission till quote list page :: createSubmissionTillQuotePage");
         CreateApplicant.createApplicant(driver);
         RatingCriteriaPageActions ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
         if (!ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(driver)) throw new AssertionError();
@@ -25,5 +25,6 @@ public class CreateSubmission {
         if (!underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(driver)) throw new AssertionError();
         QuoteListPageActions quoteListPageActions = AnswerUnderwriterQuestions.answerUnderwriterQuestions(driver, map);
         if (!quoteListPageActions.isQuoteListPageDisplayed(driver)) throw new AssertionError();
+        return quoteListPageActions;
     }
 }

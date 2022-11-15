@@ -1,8 +1,6 @@
 package workflows;
 
-import base.DriverManager;
 import base.PageObjectManager;
-import constants.ConstantVariable;
 import helper.WaitHelper;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;

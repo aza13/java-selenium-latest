@@ -6,6 +6,7 @@ import base.PageObjectManager;
 import helper.*;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import utils.fileDownload.FileDownloadUtil;
@@ -471,6 +472,7 @@ public class QuoteListPageActions extends BaseTest {
             if (!getConfirmDatesCancelButton(driver).isDisplayed()) throw new AssertionError();
             return true;
         }catch (Exception e){
+            logger.error("failed to validate Confirm Dates Modal :: validateConfirmDatesModalFields"+e.getMessage());
             return false;
         }
     }
@@ -492,12 +494,29 @@ public class QuoteListPageActions extends BaseTest {
         }
     }
 
+    public void enterEffectiveDate(WebDriver driver) throws ParseException {
+        try{
+            String effDate = getEffectiveDate(driver);
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+            Date date1=formatter.parse(effDate);
+            Calendar c = Calendar.getInstance();
+            c.setTime(date1);
+            logger.info("increasing the date by 1 dy");
+            c.add(Calendar.DATE, 1);
+            date1 = c.getTime();
+            String date = formatter.format(date1);
+            TextHelper.enterText(driver, confirmDatesEffectiveDate, date);
+        }catch (Exception e){
+            logger.info("failed to validate the eff date :: validateEffectiveDate"+e.getMessage());
+            throw e;
+        }
+    }
+
     public String getOpenQuoteId(WebDriver driver) throws InterruptedException {
         try{
             boolean quotePage = isQuoteListPageDisplayed(driver);
             assert quotePage;
             String quoteString = TextHelper.getText(driver, openQuoteIdLocator, "text");
-            assert quoteString != null;
             return quoteString.split("#")[1];
         }catch (Exception e){
             logger.info("this method returns quote id :: getOpenQuoteId"+e.getMessage());

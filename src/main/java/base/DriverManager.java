@@ -36,18 +36,18 @@ public class DriverManager {
                     logger.info("Initialising the chrome browser");
                     WebDriverManager.chromedriver().setup();
 
-                    Map<String, Object> prefs = new HashMap<>();
+                    Map<String, Object> preferences = new HashMap<>();
                     logger.info("to turns off multiple download warning");
-                    prefs.put("profile.default_content_settings.popups", 0);
-                    prefs.put("profile.content_settings.exceptions.automatic_downloads.*.setting", 1);
-                    prefs.put("download.prompt_for_download", false);
+                    preferences.put("profile.default_content_settings.popups", 0);
+                    preferences.put("profile.content_settings.exceptions.automatic_downloads.*.setting", 1);
+                    preferences.put("download.prompt_for_download", false);
 
                     ChromeOptions options = new ChromeOptions();
                     if (!operatingSystem.contains("Windows")) {
                         options.addArguments("--headless");
                     }
                     options.addArguments("--incognito");
-                    options.setExperimentalOption("prefs", prefs);
+                    options.setExperimentalOption("prefs", preferences);
                     driver = new ChromeDriver(options);
                     threadDriver.set(driver);
                     break;

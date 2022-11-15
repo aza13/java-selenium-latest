@@ -31,5 +31,7 @@ public class DatabaseQueries extends BaseTest {
     public static final String GET_INELIGIBLE_POLICIES ="SELECT  p.number\n" +
             "FROM snapqa_10.submission AS s \n" +
             "JOIN policy AS p ON p.id = s.policy_id\n" +
-            "WHERE p.status = 'active' AND s.is_quoteit_ineligible =1 and s.broker_id=7504  and s.status='active'";
+            "WHERE p.status = 'active' AND s.is_quoteit_ineligible =1 and s.broker_id=12369  and s.status='active'";
+
+    public static final String GET_INELIGIBLE_POLICIES_2 = "select policy_id from "+ConfigDataReader.getInstance().getProperty("dbSchema")+".submission where broker_id="+ConfigDataReader.getInstance().getProperty("brokerId")+" and status='active' and is_quoteit_ineligible=1 order by id DESC;";
 }
