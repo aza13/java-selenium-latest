@@ -47,7 +47,7 @@ public class InsuredPageTests extends BaseTest {
         assert insuredPageActions.validatePhysicalAddressFields(DriverManager.getDriver());
         assert insuredPageActions.validateMailingAddressFields(DriverManager.getDriver());
         insuredPageActions.cancelInsuredFormButton(DriverManager.getDriver());
-        assert dashboardPageActions.myQuotesTab(DriverManager.getDriver()).isDisplayed();
+        assert dashboardPageActions.clickQuotesTab(DriverManager.getDriver()).isDisplayed();
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "InsuredPageData")
@@ -133,7 +133,7 @@ public class InsuredPageTests extends BaseTest {
         dashboardPageActions.createNewQuote(DriverManager.getDriver(), ConfigDataReader.getInstance().getProperty("product"), map.get("applicantName"), map.get("website"));
         dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         dashboardPageActions.clickQuoteIt(DriverManager.getDriver());
-        assert dashboardPageActions.myQuotesTab(DriverManager.getDriver()).isDisplayed();
+        assert dashboardPageActions.clickQuotesTab(DriverManager.getDriver()).isDisplayed();
 
     }
 }
