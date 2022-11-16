@@ -84,9 +84,8 @@ public class DashboardPageActions extends BaseTest {
 
     public void clickMyPoliciesTab(WebDriver driver) {
         try {
-            WaitHelper.waitForElementVisibility(driver, myPoliciesTab);
             driver.findElement(myPoliciesTab).click();
-            WaitHelper.pause(3000);
+            WaitHelper.pause(7000);
         } catch (Exception e) {
             testLogger.fail("failed to verify the my quote tab :: clickMyPoliciesTab" + e.getMessage());
             logger.error("failed to verify the my quote tab :: clickMyPoliciesTab");

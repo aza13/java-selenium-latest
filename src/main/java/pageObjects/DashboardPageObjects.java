@@ -46,11 +46,9 @@ public class DashboardPageObjects {
 
     public static final By policyListLabels = By.xpath("(//div[contains(@class,'policy_card')])[1]//p/preceding-sibling::div");
 
-    public static final By policyCard = By.className("policy_card");
+    public static final By policyCard = By.xpath("//div[contains(@class, 'policy_card')]");
 
     public static final By noPolicyFoundText = By.xpath("//p[text()='Adjusting filters may return results.']");
-
-    public static final By quotesRefLabel = By.xpath("//div[text()='Reference']");
 
     public static final By quoteStatus = By.xpath("//div[@data-qa='quote_card']//p[@data-qa='status']");
 

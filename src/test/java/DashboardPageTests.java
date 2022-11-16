@@ -78,10 +78,10 @@ public class DashboardPageTests extends BaseTest {
         assert text.contentEquals(map.get("welcomeText"));
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 1)
     public void testPoliciesDashboardUI(Map<String, String> map) {
         /**
-         * this test verifies UI of My Policies dashboard
+         * this test verifies UI of My Policy dashboard
          story - N2020-28286
          @author - Venkat Kottapalli
          **/
@@ -92,7 +92,7 @@ public class DashboardPageTests extends BaseTest {
         List<WebElement> policyCardsList = dashboardPageActions.getPolicyCardsList(DriverManager.getDriver());
         if (policyCardsList.size() > 0) {
             assert true;
-             /* Status color changes would be coming soon with Hexa codes
+             /* Status color changes would be coming soon with color codes
         dashboardPageActions.validatePolicyStatusColorCoding(DriverManager.getDriver());*/
             List<WebElement> labels = dashboardPageActions.getPolicyTableLabels(DriverManager.getDriver());
             if (labels.size() > 0) {
@@ -113,7 +113,7 @@ public class DashboardPageTests extends BaseTest {
 
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 16)
     public void testNewQuoteFieldsValidation(Map<String, String> map) throws InterruptedException {
         /**
          * this test verifies the New Quote dialog fields validation
@@ -139,7 +139,7 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.clickContinueButton(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 17)
     public void testCreateNewQuote(Map<String, String> map) throws InterruptedException {
         /**
          * this test verifies creation of new quote
@@ -165,7 +165,7 @@ public class DashboardPageTests extends BaseTest {
 
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", enabled = false)
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 2)
     public void testBrokerFilteringSubmissionsList(Map<String, String> map) throws InterruptedException, ParseException {
         /**
          * this test verifies broker filtering the submissions list
@@ -239,7 +239,7 @@ public class DashboardPageTests extends BaseTest {
 
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", enabled = false)
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 3)
     public void testBrokerFilteringPoliciesList(Map<String, String> map) throws InterruptedException, ParseException {
         /**
          * this test verifies broker filtering the policies list
@@ -289,7 +289,7 @@ public class DashboardPageTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 4)
     public void testPresenceOfContinueButtonOnQuotes(Map<String, String> map) throws InterruptedException {
         /**
          * this test verifies whether continue button should be displayed or not quotes in MY QUOTES
@@ -351,7 +351,7 @@ public class DashboardPageTests extends BaseTest {
 
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 5)
     public void testBrokerSearchRelatedRecords(Map<String, String> map) throws InterruptedException {
         /**
          * this test verifies search results for related Records
@@ -396,7 +396,7 @@ public class DashboardPageTests extends BaseTest {
     }
 
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 6)
     public void testSubmissionRenewal(Map<String, String> map) throws InterruptedException {
         /***
          this test verifies submission renewal
@@ -412,7 +412,7 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.renewSubmission(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 7)
     public void testSortQuoteList(Map<String, String> map) {
         /***
          this tests Sort of Quotes List
@@ -436,7 +436,7 @@ public class DashboardPageTests extends BaseTest {
 
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 8)
     public void testSortPolicyList(Map<String, String> map) throws InterruptedException, ParseException {
         /***
          this test Sort my Policy List
@@ -462,7 +462,7 @@ public class DashboardPageTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 9)
     public void testSupportRequestFunctionality(Map<String, String> map) throws InterruptedException {
         /***
          this test verifies sup of new insured
@@ -486,7 +486,7 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", enabled = false)
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", enabled = false, priority = 10)
     public void testBrokersCanContinueRenewalSubmission() throws InterruptedException {
         /***
          this test Brokers can continue a Renewal Submission
@@ -500,7 +500,7 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.clickExitRatingCriteria(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 11)
     public void testHideRenewButtonOnPolicyList(Map<String, String> map) throws InterruptedException {
         /***
          this test Hide Renew Button on Policy list for Ineligible Policies
@@ -528,7 +528,7 @@ public class DashboardPageTests extends BaseTest {
         assert dashboardPageActions.verifyPoliciesExists(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 12)
     public void  testQuotesByBusinessType(Map<String, String> map) throws InterruptedException {
         /***
          this test verifies quotes by business type
@@ -551,7 +551,7 @@ public class DashboardPageTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", enabled = false)
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", enabled = false, priority = 13)
     public void  testClearFiltersButtonFunctionality(Map<String, String> map) throws InterruptedException {
         /***
          this test verifies clear filters button functionality
@@ -584,7 +584,7 @@ public class DashboardPageTests extends BaseTest {
         assert quoteBusinessType.contentEquals(map.get("defaultTypeValue"));
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 14)
     public void  testIneligiblePolicies(Map<String, String> map) throws InterruptedException, SQLException {
         /**
          * this test verifies ineligible policy
@@ -607,10 +607,10 @@ public class DashboardPageTests extends BaseTest {
         }else logger.info("No Ineligible Policies available");
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 15)
     public void  testContactUnderwriterInDashboard(Map<String, String> map) throws InterruptedException {
         /***
-         * this test validates Contact UW button in dashboard page
+         * this test validates Contact Underwriter button in dashboard page
          story - N2020-34125
          @author - Venkat Kottapalli
          ***/
