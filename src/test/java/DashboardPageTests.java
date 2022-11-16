@@ -389,7 +389,6 @@ public class DashboardPageTests extends BaseTest {
         String expectedPolicyNumber = dashboardPageActions.getFirstAvailableReferenceId(DriverManager.getDriver());
         assert actualPolicyNumber.equals(expectedPolicyNumber);
 
-        dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("noSuchARecord"));
         String searchForNoResult = dashboardPageActions.getSearchForNoResult(DriverManager.getDriver());
         assert searchForNoResult.contentEquals(map.get("expForNoSuchARecord"));
@@ -413,7 +412,7 @@ public class DashboardPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 7)
-    public void testSortQuoteList(Map<String, String> map) {
+    public void testSortQuoteList(Map<String, String> map) throws InterruptedException {
         /***
          this tests Sort of Quotes List
          story - N2020-29952
@@ -421,15 +420,15 @@ public class DashboardPageTests extends BaseTest {
          **/
         logger.info("verifying sort my quote list ::  sortQuoteList");
         String actual = dashboardPageActions.getFirstAvailableCreatedDate(DriverManager.getDriver());
-        dashboardPageActions.clickSortBy(DriverManager.getDriver());
+        dashboardPageActions.clickQuoteSortBy(DriverManager.getDriver());
         dashboardPageActions.clickSortByNewest(DriverManager.getDriver());
         dashboardPageActions.getFirstAvailableCreatedDate(DriverManager.getDriver());
         String expected = dashboardPageActions.getFirstAvailableCreatedDate(DriverManager.getDriver());
         assert actual.equals(expected);
-        dashboardPageActions.clickSortBy(DriverManager.getDriver());
+        dashboardPageActions.clickQuoteSortBy(DriverManager.getDriver());
         dashboardPageActions.clickSortByOldest(DriverManager.getDriver());
         String actualOldestDate = dashboardPageActions.getFirstAvailableCreatedDate(DriverManager.getDriver());
-        dashboardPageActions.clickSortBy(DriverManager.getDriver());
+        dashboardPageActions.clickQuoteSortBy(DriverManager.getDriver());
         dashboardPageActions.clickSortByOldest(DriverManager.getDriver());
         String expectedOldestDate = dashboardPageActions.getFirstAvailableCreatedDate(DriverManager.getDriver());
         assert actualOldestDate.equals(expectedOldestDate);
@@ -446,11 +445,11 @@ public class DashboardPageTests extends BaseTest {
 
         logger.info("verifying sort my quote list ::  sortPolicyList");
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
-        dashboardPageActions.clickSortBy(DriverManager.getDriver());
+        dashboardPageActions.clickPolicySortBy(DriverManager.getDriver());
         dashboardPageActions.clickSortByExpiringSoon(DriverManager.getDriver());
         List<String> datesSortedByExpiringSoon = dashboardPageActions.getPolicyExpirationDates(DriverManager.getDriver());
         List<String> sortedDatesByExpiringSoonAsc = dashboardPageActions.sortDates(datesSortedByExpiringSoon);
-        dashboardPageActions.clickSortBy(DriverManager.getDriver());
+        dashboardPageActions.clickPolicySortBy(DriverManager.getDriver());
         dashboardPageActions.clickSortByExpiringLater(DriverManager.getDriver());
         List<String> datesSortedByExpiringLater = dashboardPageActions.getPolicyExpirationDates(DriverManager.getDriver());
         List<String> sortedDatesByExpiringLaterAsc = dashboardPageActions.sortDates(datesSortedByExpiringLater);
@@ -586,17 +585,16 @@ public class DashboardPageTests extends BaseTest {
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 14)
     public void  testIneligiblePolicies(Map<String, String> map) throws InterruptedException, SQLException {
-        /**
+        /*************************************
          * this test verifies ineligible policy
          story - N2020-33633 -N2020-34868
          @author - Azamat Uulu
-         **/
+         **************************************/
         logger.info("verifying ineligible policies :: testIneligiblePolicy");
         List<HashMap<Object, Object>> policyIds =
                 databaseConnector.getResultSetToList(DatabaseQueries. GET_INELIGIBLE_POLICIES_2);
-        int policyCount = policyIds.size();
-        String policyId;
-        if (policyCount > 0) {
+        if(policyIds!=null){
+            String policyId;
             for (HashMap<Object, Object> id : policyIds) {
                 policyId = id.get("policy_id").toString();
                 dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), policyId);
@@ -604,7 +602,10 @@ public class DashboardPageTests extends BaseTest {
                     break;
                 }
             }
-        }else logger.info("No Ineligible Policies available");
+        }else{
+            logger.warn("No Ineligible Policies available :: testIneligiblePolicies");
+            throw new SkipException("No Ineligible Policies available :: testIneligiblePolicies");
+        }
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 15)

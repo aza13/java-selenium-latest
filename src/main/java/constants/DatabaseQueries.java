@@ -33,5 +33,5 @@ public class DatabaseQueries extends BaseTest {
             "JOIN policy AS p ON p.id = s.policy_id\n" +
             "WHERE p.status = 'active' AND s.is_quoteit_ineligible =1 and s.broker_id=12369  and s.status='active'";
 
-    public static final String GET_INELIGIBLE_POLICIES_2 = "select policy_id from "+ConfigDataReader.getInstance().getProperty("dbSchema")+".submission where broker_id="+ConfigDataReader.getInstance().getProperty("brokerId")+" and status='active' and is_quoteit_ineligible=1 order by id DESC;";
+    public static final String GET_INELIGIBLE_POLICIES_2 = "select policy_id from "+ConfigDataReader.getInstance().getProperty("dbSchema")+".submission where broker_id="+ConfigDataReader.getInstance().getProperty("brokerId")+" and status='active' and is_quoteit_ineligible=1 order by id DESC";
 }

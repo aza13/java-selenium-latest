@@ -84,8 +84,9 @@ public class DashboardPageActions extends BaseTest {
 
     public void clickMyPoliciesTab(WebDriver driver) {
         try {
+            WaitHelper.waitForElementVisibilityCustom(driver, myPoliciesTab, 30);
             driver.findElement(myPoliciesTab).click();
-            WaitHelper.pause(7000);
+            WaitHelper.pause(5000);
         } catch (Exception e) {
             testLogger.fail("failed to verify the my quote tab :: clickMyPoliciesTab" + e.getMessage());
             logger.error("failed to verify the my quote tab :: clickMyPoliciesTab");
@@ -370,14 +371,13 @@ public class DashboardPageActions extends BaseTest {
     }
 
     public String getSearchForNoResult(WebDriver driver) throws InterruptedException {
-        WaitHelper.pause(3000);
+        WaitHelper.waitForElementVisibilityCustom(driver, noSearchResultsText, 30);
         return TextHelper.getText(driver, noSearchResultsText, "text");
     }
 
-    public String getFirstAvailableReferenceId(WebDriver driver) {
-        WaitHelper.waitForElementVisibility(driver, getFirstAvailableReferenceId);
+    public String getFirstAvailableReferenceId(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibilityCustom(driver, getFirstAvailableReferenceId, 45);
         return TextHelper.getText(driver, getFirstAvailableReferenceId, "text");
-
     }
 
     public String getFirstQuoteLegalName(WebDriver driver) throws InterruptedException {
@@ -401,14 +401,19 @@ public class DashboardPageActions extends BaseTest {
         return false;
     }
 
-    public String getFirstAvailableCreatedDate(WebDriver driver) {
-        WaitHelper.waitForElementVisibility(driver, firstAvailableCreatedDate);
+    public String getFirstAvailableCreatedDate(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibilityCustom(driver, firstAvailableCreatedDate, 45);
         return TextHelper.getText(driver, firstAvailableCreatedDate, "text");
     }
 
-    public void clickSortBy(WebDriver driver) {
-        WaitHelper.waitForElementClickable(driver, sortBy);
-        ClickHelper.clickElement(driver, sortBy);
+    public void clickQuoteSortBy(WebDriver driver) {
+        WaitHelper.waitForElementClickable(driver, quoteSortBy);
+        ClickHelper.clickElement(driver, quoteSortBy);
+    }
+
+    public void clickPolicySortBy(WebDriver driver) {
+        WaitHelper.waitForElementClickable(driver, policySortBy);
+        ClickHelper.clickElement(driver, policySortBy);
     }
 
     public void clickSortByNewest(WebDriver driver) {
@@ -567,6 +572,7 @@ public class DashboardPageActions extends BaseTest {
         if (!createdDates.isEmpty()){
             List<String> dates = new ArrayList<>();
             for (WebElement ele : createdDates) {
+                String text = ele.getText();
                 dates.add(ele.getText());
             }
             return dates;
