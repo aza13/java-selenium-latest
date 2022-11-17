@@ -397,7 +397,7 @@ public class DashboardPageTests extends BaseTest {
     }
 
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 6)
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 6, enabled = false)
     public void testSubmissionRenewal(Map<String, String> map) throws InterruptedException {
         /***
          this test verifies submission renewal
@@ -501,7 +501,7 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.clickExitRatingCriteria(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 11)
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 11, enabled = false)
     public void testHideRenewButtonOnPolicyList(Map<String, String> map) throws InterruptedException {
         /***
          this test Hide Renew Button on Policy list for Ineligible Policies
@@ -610,7 +610,7 @@ public class DashboardPageTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 15)
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 15, enabled = false)
     public void  testContactUnderwriterInDashboard(Map<String, String> map) throws InterruptedException {
         /***
          * this test validates Contact Underwriter button in dashboard page
