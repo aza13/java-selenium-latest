@@ -48,7 +48,7 @@ public class DashboardPageObjects {
 
     public static final By quoteStatus = By.xpath("//div[@data-qa='quote_card']//p[@data-qa='status']");
 
-    public static final By quoteCoverageName = By.xpath("//p[@data-qa='name']");
+    public static final By quoteCoverageName = By.xpath("//div[@id='simple-tabpanel-0']//p[@data-qa='name']");
 
     public static final By newQuoteButton = By.xpath("//button[text()='New Quote']/span");
 

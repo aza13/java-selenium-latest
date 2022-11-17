@@ -182,9 +182,7 @@ public class DashboardPageTests extends BaseTest {
             List<String> coverageNames = dashboardPageActions.getAllQuotesCoverageName(DriverManager.getDriver());
             if (coverageNames.size() > 0) {
                 for (String cov : coverageNames) {
-                    if(!Objects.equals(cov, "")){
                         assert cov.contentEquals(coverage);
-                    }
                 }
             }
         }
@@ -254,12 +252,14 @@ public class DashboardPageTests extends BaseTest {
         for (String status : statuses) {
             dashboardPageActions.clickPoliciesFilterList(DriverManager.getDriver());
             dashboardPageActions.clickPolicyFilterByStatus(DriverManager.getDriver());
-            dashboardPageActions.selectPolicyStatusInFilter(DriverManager.getDriver(), status);
+            boolean result = dashboardPageActions.selectPolicyStatusInFilter(DriverManager.getDriver(), status);
             dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
-            List<String> stat = dashboardPageActions.getAllPoliciesStatus(DriverManager.getDriver());
-            if (stat.size() > 0) {
-                for (String s : stat) {
-                    assert s.contentEquals(status);
+            if (result){
+                List<String> stat = dashboardPageActions.getAllPoliciesStatus(DriverManager.getDriver());
+                if (stat.size() > 0) {
+                    for (String s : stat) {
+                        assert s.contentEquals(status);
+                    }
                 }
             }
         }

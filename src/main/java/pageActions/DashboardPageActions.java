@@ -511,10 +511,10 @@ public class DashboardPageActions extends BaseTest {
         DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, statusOptions, status);
     }
 
-    public void selectPolicyStatusInFilter(WebDriver driver, String status) throws InterruptedException {
+    public boolean selectPolicyStatusInFilter(WebDriver driver, String status) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, policyAllStatusDropdown);
         WebElement dropdown = driver.findElement(policyAllStatusDropdown);
-        DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, statusOptions, status);
+        return DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, statusOptions, status);
     }
 
     public void clickPolicyFilterByStatus(WebDriver driver) {
