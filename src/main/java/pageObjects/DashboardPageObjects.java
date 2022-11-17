@@ -68,7 +68,7 @@ public class DashboardPageObjects {
 
     public static final By nameRequiredText = By.xpath("//p[text()='Name is required']");
 
-    public static final By policyStatus = By.xpath("//div[@data-qa='status']");
+    public static final By policyStatus = By.xpath("//div[@id='simple-tabpanel-1']//div[@data-qa='status']");
 
     public static final By quotesFilterListButton = By.xpath("//div[@id='simple-tabpanel-0']//button[@id='listGridFilter']");
 

@@ -279,7 +279,7 @@ public class DashboardPageActions extends BaseTest {
     public String getPolicyStatus(WebDriver driver) throws InterruptedException {
         logger.info("this method returns first policy status");
         try{
-            WaitHelper.pause(5000);
+            WaitHelper.waitForElementVisibilityCustom(driver, policyStatus,30);
             return TextHelper.getText(driver, policyStatus, "text").trim();
         }catch (Exception e){
             logger.error("failed to get the status of the policy :: getPolicyStatus "+e.getMessage());
@@ -405,6 +405,17 @@ public class DashboardPageActions extends BaseTest {
             }
     }
         return false;
+    }
+
+    public List<String> getAllPoliciesStatus(WebDriver driver){
+        try{
+            List<String> allPoliciesStatus = new ArrayList<>();
+            driver.findElements(policyStatus).forEach(status -> allPoliciesStatus.add(status.getText().trim()));
+            return allPoliciesStatus;
+        }catch (Exception e){
+            logger.error("failed to get the policy status :: getAllPoliciesStatus "+e.getMessage());
+            throw e;
+        }
     }
 
     public String getFirstAvailableCreatedDate(WebDriver driver) throws InterruptedException {

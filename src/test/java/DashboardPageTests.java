@@ -175,7 +175,7 @@ public class DashboardPageTests extends BaseTest {
         logger.info("verifying broker filtering the submission list :: testBrokerFilteringSubmissionsList");
         String[] coverages = map.get("productName").split(ConstantVariable.SEMICOLON);
         for (String coverage : coverages) {
-            dashboardPageActions.clickFilterList(DriverManager.getDriver());
+            dashboardPageActions.clickQuotesFilterList(DriverManager.getDriver());
             dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
             dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), coverage);
             dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
@@ -188,13 +188,13 @@ public class DashboardPageTests extends BaseTest {
                 }
             }
         }
-        dashboardPageActions.clickFilterList(DriverManager.getDriver());
+        dashboardPageActions.clickQuotesFilterList(DriverManager.getDriver());
         dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
         dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), map.get("productName"));
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
         String[] statuses = map.get("status").split(ConstantVariable.SEMICOLON);
         for (String status : statuses) {
-            dashboardPageActions.clickFilterList(DriverManager.getDriver());
+            dashboardPageActions.clickQuotesFilterList(DriverManager.getDriver());
             dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
             dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), status);
             dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
@@ -211,7 +211,7 @@ public class DashboardPageTests extends BaseTest {
                 }
             }
         }
-        dashboardPageActions.clickFilterList(DriverManager.getDriver());
+        dashboardPageActions.clickQuotesFilterList(DriverManager.getDriver());
         dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
         dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), map.get("allStatuses"));
         dashboardPageActions.clickSubmissionFilterByDateRange(DriverManager.getDriver());
@@ -252,18 +252,18 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
         String[] statuses = map.get("status").split(ConstantVariable.SEMICOLON);
         for (String status : statuses) {
-            dashboardPageActions.clickFilterList(DriverManager.getDriver());
+            dashboardPageActions.clickPoliciesFilterList(DriverManager.getDriver());
             dashboardPageActions.clickPolicyFilterByStatus(DriverManager.getDriver());
             dashboardPageActions.selectPolicyStatusInFilter(DriverManager.getDriver(), status);
             dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
-            List<String> stat = dashboardPageActions.getAllQuotesStatus(DriverManager.getDriver());
+            List<String> stat = dashboardPageActions.getAllPoliciesStatus(DriverManager.getDriver());
             if (stat.size() > 0) {
                 for (String s : stat) {
                     assert s.contentEquals(status);
                 }
             }
         }
-        dashboardPageActions.clickFilterList(DriverManager.getDriver());
+        dashboardPageActions.clickPoliciesFilterList(DriverManager.getDriver());
         dashboardPageActions.clickPolicyFilterByStatus(DriverManager.getDriver());
         dashboardPageActions.selectPolicyStatusInFilter(DriverManager.getDriver(), map.get("allStatuses"));
         dashboardPageActions.clickSubmissionFilterByDateRange(DriverManager.getDriver());
@@ -406,7 +406,7 @@ public class DashboardPageTests extends BaseTest {
          **/
         logger.info("verifying submission renewal ::  testSubmissionRenewal");
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
-        dashboardPageActions.clickFilterList(DriverManager.getDriver());
+        dashboardPageActions.clickPoliciesFilterList(DriverManager.getDriver());
         dashboardPageActions.clickPolicyFilterByStatus(DriverManager.getDriver());
         dashboardPageActions.selectPolicyStatusInFilter(DriverManager.getDriver(), map.get("status"));
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
@@ -516,7 +516,7 @@ public class DashboardPageTests extends BaseTest {
         String[] policiesNumber = map.get("policyNumber").split(ConstantVariable.SEMICOLON);
 
         for (int i = 0; i < statuses.length; i++) {
-            dashboardPageActions.clickFilterList(DriverManager.getDriver());
+            dashboardPageActions.clickPoliciesFilterList(DriverManager.getDriver());
             dashboardPageActions.clickFilterByStatus(DriverManager.getDriver());
             dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), statuses[i]);
             dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
@@ -536,7 +536,7 @@ public class DashboardPageTests extends BaseTest {
          story - N2020-32172
          @author -Venkat Kottapalli
          **/
-        dashboardPageActions.clickFilterList(DriverManager.getDriver());
+        dashboardPageActions.clickQuotesFilterList(DriverManager.getDriver());
         dashboardPageActions.clickFilterByType(DriverManager.getDriver());
         String status = map.get("status");
         dashboardPageActions.selectTypeInFilter(DriverManager.getDriver(), status);
@@ -559,7 +559,7 @@ public class DashboardPageTests extends BaseTest {
          story - N2020-32024
          @author -Venkat Kottapalli
          **/
-        dashboardPageActions.clickFilterList(DriverManager.getDriver());
+        dashboardPageActions.clickQuotesFilterList(DriverManager.getDriver());
         dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
         dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), product);
         dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
@@ -573,7 +573,7 @@ public class DashboardPageTests extends BaseTest {
         logger.info("clearing the filters");
         dashboardPageActions.clickClearFiltersButton(DriverManager.getDriver());
         logger.info("checking the selected values after applying filter");
-        dashboardPageActions.clickFilterList(DriverManager.getDriver());
+        dashboardPageActions.clickQuotesFilterList(DriverManager.getDriver());
         dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
         String product = dashboardPageActions.getSelectedCoverageName(DriverManager.getDriver());
         assert product.contentEquals(map.get("defaultProductValue"));
