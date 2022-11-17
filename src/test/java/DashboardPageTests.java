@@ -291,7 +291,7 @@ public class DashboardPageTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 4)
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 4, enabled = false)
     public void testPresenceOfContinueButtonOnQuotes(Map<String, String> map) throws InterruptedException {
         /**
          * this test verifies whether continue button should be displayed or not quotes in MY QUOTES

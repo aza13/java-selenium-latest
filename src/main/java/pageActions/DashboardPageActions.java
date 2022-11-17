@@ -652,6 +652,7 @@ public class DashboardPageActions extends BaseTest {
     }
 
     public void selectSupportType(WebDriver driver, String supportType) throws InterruptedException {
+        WaitHelper.waitForElementVisibilityCustom(driver, selectCoverageDropdown, 30);
         WebElement dropdown = driver.findElement(selectCoverageDropdown);
         DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, genericCoverageOption, supportType);
     }
