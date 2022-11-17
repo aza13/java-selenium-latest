@@ -326,9 +326,15 @@ public class DashboardPageActions extends BaseTest {
         return PageObjectManager.getLoginPageActions();
     }
 
-    public void clickFilterList(WebDriver driver) {
-        WaitHelper.waitForElementVisibility(driver, filterList);
-        ClickHelper.clickElement(driver, filterList);
+    public void clickQuotesFilterList(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibilityCustom(driver, quotesFilterListButton, 30);
+        ClickHelper.clickElement(driver, quotesFilterListButton);
+    }
+
+
+    public void clickPoliciesFilterList(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibilityCustom(driver, policiesFilterListButton, 30);
+        ClickHelper.clickElement(driver, policiesFilterListButton);
     }
 
     public void clickFilterByCoverageName(WebDriver driver) {

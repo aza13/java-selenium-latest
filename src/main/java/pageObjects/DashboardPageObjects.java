@@ -70,7 +70,9 @@ public class DashboardPageObjects {
 
     public static final By policyStatus = By.xpath("//div[@data-qa='status']");
 
-    public static final By filterList = By.id("listGridFilter");
+    public static final By quotesFilterListButton = By.xpath("//div[@id='simple-tabpanel-0']//button[@id='listGridFilter']");
+
+    public static final By policiesFilterListButton = By.xpath("//div[@id='simple-tabpanel-1']//button[@id='listGridFilter']");
 
     public static final By filterByCoverageName = By.id("panel-header-1");
 

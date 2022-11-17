@@ -181,8 +181,10 @@ public class DashboardPageTests extends BaseTest {
             dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
             List<String> coverageNames = dashboardPageActions.getAllQuotesCoverageName(DriverManager.getDriver());
             if (coverageNames.size() > 0) {
-                for (String prod : coverageNames) {
-                    assert prod.contentEquals(coverage);
+                for (String cov : coverageNames) {
+                    if(!Objects.equals(cov, "")){
+                        assert cov.contentEquals(coverage);
+                    }
                 }
             }
         }
