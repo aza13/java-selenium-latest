@@ -552,7 +552,7 @@ public class DashboardPageTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", enabled = false, priority = 13)
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 13)
     public void  testClearFiltersButtonFunctionality(Map<String, String> map) throws InterruptedException {
         /***
          this test verifies clear filters button functionality

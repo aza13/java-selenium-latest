@@ -52,7 +52,7 @@ public class DashboardPageObjects {
 
     public static final By newQuoteButton = By.xpath("//button[text()='New Quote']/span");
 
-    public static final By selectCoverageDropdown = By.id("demo-simple-select");
+    public static final By selectCoverageDropdown = By.xpath("//label[text()='Coverage']/following-sibling::div");
 
     public static final By applicantNameField = By.id("applicant-name");
 
@@ -124,7 +124,7 @@ public class DashboardPageObjects {
 
     public static final By quoteReferenceIdGenericLocator = By.xpath("//p[@data-qa='id']");
 
-    public static final By firstAvailableStatus = By.xpath("//*[@id='simple-tabpanel-0']/div/p/div[1]/div[1]/div[7]/div/p");
+    public static final By firstAvailableStatus = By.xpath("(//div[@data-qa='quote_card']//p[@data-qa='status'])[1]");
 
     public static final By submitSubmissionRenewal = By.xpath("//button[normalize-space()='SUBMIT']");
 

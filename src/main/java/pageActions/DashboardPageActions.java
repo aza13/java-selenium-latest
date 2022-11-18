@@ -239,43 +239,6 @@ public class DashboardPageActions extends BaseTest {
         return driver.findElement(nameRequiredText);
     }
 
-    public void validateQuoteStatusColorCoding(WebDriver driver) {
-
-        List<WebElement> quoteStatusList = driver.findElements(quoteStatus);
-
-        int count = quoteStatusList.size();
-
-        if (count > 0) {
-            for (WebElement statusElement : quoteStatusList) {
-                String status = statusElement.getText();
-                String color = statusElement.getAttribute("style").split(";")[1].replace(":", "").trim();
-                switch (status) {
-                    case ConstantVariable.ACTIVE_STRING:
-                        assert color.equals("blue");
-                        break;
-                    case ConstantVariable.RENEWED_STRING:
-                        assert color.equals("black");
-                        break;
-                    case ConstantVariable.EXPIRED_STRING:
-                        assert color.equals("grey");
-                        break;
-                    case ConstantVariable.DECLINED_STRING:
-                    case ConstantVariable.CANCELLED_STRING:
-                        assert color.equals("red");
-                        break;
-                    case ConstantVariable.REVIEW_STRING:
-                        assert color.equals("yellow");
-                        break;
-                    case ConstantVariable.APPROVED_STRING:
-                        assert color.equals("green");
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-    }
-
     public String getPolicyStatus(WebDriver driver) throws InterruptedException {
         logger.info("this method returns first policy status");
         try{
@@ -285,37 +248,6 @@ public class DashboardPageActions extends BaseTest {
             logger.error("failed to get the status of the policy :: getPolicyStatus "+e.getMessage());
             throw e;
         }
-    }
-
-    public void validatePolicyStatusColorCoding(WebDriver driver) {
-
-        List<WebElement> policyStatusList = driver.findElements(policyStatus);
-
-        int count = policyStatusList.size();
-
-        if (count > 0) {
-            for (WebElement statusElement : policyStatusList) {
-                String status = statusElement.getText();
-                String color = statusElement.getCssValue("color");
-                switch (status) {
-                    case "Active":
-                        assert color.equals("blue");
-                        break;
-                    case "Renewed":
-                        assert color.equals("black");
-                        break;
-                    case "Expired":
-                        assert color.equals("grey");
-                        break;
-                    case "Declined":
-                        assert color.equals("red");
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-
     }
 
     public LoginPageActions logoutApp(WebDriver driver) {
@@ -589,7 +521,6 @@ public class DashboardPageActions extends BaseTest {
         if (!createdDates.isEmpty()){
             List<String> dates = new ArrayList<>();
             for (WebElement ele : createdDates) {
-                String text = ele.getText();
                 dates.add(ele.getText());
             }
             return dates;
@@ -600,7 +531,8 @@ public class DashboardPageActions extends BaseTest {
     public void clickRenewButton (WebDriver driver) throws ParseException {
 
         List<String> dates = getPolicyExpirationDates(DriverManager.getDriver());
-        Date actualDate, givenDate;
+        Date actualDate;
+        Date givenDate;
         String timeStamp = new SimpleDateFormat("MM/dd/yyyy").format(Calendar.getInstance().getTime());
         DateFormat df = new SimpleDateFormat(ConstantVariable.DATE_FORMAT);
         String actualStatus = TextHelper.getText(driver, firstAvailableStatus,"text");
@@ -780,7 +712,6 @@ public class DashboardPageActions extends BaseTest {
 
     public boolean verifyContactUnderwriterExists(WebDriver driver){
         try {
-//            WaitHelper.waitForElementVisibility(driver, contactUnderwriter);
             return ClickHelper.isElementExist(driver, contactUnderwriter);
         }catch (Exception e){
             testLogger.fail("failed to verify the contactUnderwriter :: verifyContactUnderwriterExists" + e.getMessage());
