@@ -8,11 +8,11 @@
 <!--            <class name="BindingPageTests"/>-->
             <class name="DashboardPageTests"/>
             <class name="InsuredPageTests"/>
-            <class name="RatingCriteriaPageTests"/>
-            <class name="SubmissionClearancesTests"/>
+<!--            <class name="RatingCriteriaPageTests"/>-->
+<!--            <class name="SubmissionClearancesTests"/>-->
 <!--            <class name="QuotesPage.ExistingSubmissionQuoteTests"/>-->
 <!--            <class name="QuotesPage.NewSubmissionQuoteTests"/>-->
-            <class name="UWPageTests"/>
+<!--            <class name="UWPageTests"/>-->
         </classes>
     </test>
 </suite>
