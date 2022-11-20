@@ -486,20 +486,6 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", enabled = false)
-    public void testBrokersCanContinueRenewalSubmission() throws InterruptedException {
-        /***
-         this test Brokers can continue a Renewal Submission
-         story - N2020-28483
-         @author -Azamat Uulu
-         **/
-
-        logger.info("verifying :: continue a Renewal Submission ");
-        dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
-        dashboardPageActions.validateContinueSubmission(DriverManager.getDriver());
-        dashboardPageActions.clickExitRatingCriteria(DriverManager.getDriver());
-    }
-
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
     public void testHideRenewButtonOnPolicyList(Map<String, String> map) throws InterruptedException {
         /***
