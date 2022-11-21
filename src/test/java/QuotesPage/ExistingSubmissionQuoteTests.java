@@ -53,7 +53,7 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
          @author - Venkat Kottapalli
          **/
         logger.info("Executing the testAddQuoteOption from QuoteOptionTests class :: testAddAndDeleteQuoteOption");
-        dashboardPageActions.clickFilterList(DriverManager.getDriver());
+        dashboardPageActions.clickQuotesFilterList(DriverManager.getDriver());
         dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
         dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), Netguard);
         dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
@@ -99,7 +99,7 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
          @author - Venkat Kottapalli
          **/
         logger.info("Executing the testDeleteQuoteOption from QuoteOptionTests class :: testAddingQuoteToExistingSubmission");
-        dashboardPageActions.clickFilterList(DriverManager.getDriver());
+        dashboardPageActions.clickQuotesFilterList(DriverManager.getDriver());
         dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
         dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), Netguard);
         dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
@@ -231,7 +231,7 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
          **/
 
         logger.info("Executing the testAddQuoteOption from QuoteOptionTests class :: testUpdatedOptionMaxAggLimitAndPremium");
-        dashboardPageActions.clickFilterList(DriverManager.getDriver());
+        dashboardPageActions.clickQuotesFilterList(DriverManager.getDriver());
         dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
         dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), Netguard);
         dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());

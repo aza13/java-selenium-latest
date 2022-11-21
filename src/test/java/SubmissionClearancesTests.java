@@ -177,7 +177,7 @@ public class SubmissionClearancesTests extends BaseTest {
          @author - Venkat Kottapalli
          ***/
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
-        dashboardPageActions.clickFilterList(DriverManager.getDriver());
+        dashboardPageActions.clickPoliciesFilterList(DriverManager.getDriver());
         dashboardPageActions.clickPolicyFilterByStatus(DriverManager.getDriver());
         dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), ConstantVariable.ACTIVE_STRING);
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());

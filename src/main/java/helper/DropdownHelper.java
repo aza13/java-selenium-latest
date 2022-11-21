@@ -93,27 +93,35 @@ public class DropdownHelper {
         }
     }
 
-    public static void selectValueFromBootstrapDropdown(WebDriver driver, WebElement dropdown, By option, String optionValue) throws InterruptedException {
+    public static boolean selectValueFromBootstrapDropdown(WebDriver driver, WebElement dropdown, By option, String optionValue) throws InterruptedException {
         logger.info("selecting given value from the dropdown:: selectValueFromBootstrapDropdown " + dropdown);
         try {
             dropdown.click();
             WaitHelper.waitForElementVisibility(driver, option);
-            List<WebElement> options = driver.findElements(option);
-            if (!optionValue.equalsIgnoreCase("index")){
-                for (WebElement opt : options) {
-                    String actualValue = opt.getText().trim();
-                    if (actualValue.contentEquals(optionValue)) {
-                        opt.click();
-                        break;
-                    }else if(options.size()==1){
-                        options.get(0).click();
-                        break;
+            List<WebElement> optionElements = driver.findElements(option);
+            List<String> optionValues = new ArrayList<>();
+            optionElements.forEach(webElement -> optionValues.add(webElement.getText().trim()));
+            if(optionValues.contains(optionValue)){
+                if (!optionValue.equalsIgnoreCase("index")) {
+                    if (optionElements.size() == 1) {
+                        optionElements.get(0).click();
+                    } else {
+                        for (WebElement opt : optionElements) {
+                            String actualValue = opt.getText().trim();
+                            if (actualValue.contentEquals(optionValue)) {
+                                opt.click();
+                                break;
+                            }
+                        }
                     }
+                }else{
+                    optionElements.get(1).click();
                 }
+                WaitHelper.pause(2000);
+                return true;
             }else{
-                options.get(1).click();
+                return false;
             }
-            WaitHelper.pause(2000);
         } catch (Exception e) {
             logger.error("Failed to select value from dropdown:: selectValueFromBootstrapDropdown " + e.getMessage());
             throw (e);
