@@ -47,7 +47,7 @@ public class SubmissionClearancesTests extends BaseTest {
 
         logger.info("verifying submission clearance results :: testClearancesSubmissionFunctionality");
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        dashboardPageActions.createNewQuote(DriverManager.getDriver(), Netguard,  map.get("name"),  map.get("website"));
+        dashboardPageActions.createNewQuote(DriverManager.getDriver(), coverage,  map.get("name"),  map.get("website"));
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
         List<WebElement> insuranceCards = insuredPageActions.getAllInsuredNames(DriverManager.getDriver());
@@ -88,7 +88,7 @@ public class SubmissionClearancesTests extends BaseTest {
          **/
         logger.info("verifying submission clearance results :: testCancelClearancesFunctionality");
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        dashboardPageActions.createNewQuote(DriverManager.getDriver(), Netguard,  map.get("name"),  map.get("website"));
+        dashboardPageActions.createNewQuote(DriverManager.getDriver(), coverage,  map.get("name"),  map.get("website"));
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
         List<WebElement> insuranceCards = insuredPageActions.getAllInsuredNames(DriverManager.getDriver());
@@ -131,7 +131,7 @@ public class SubmissionClearancesTests extends BaseTest {
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         String newInsuredName = FakeDataHelper.fullName();
         String newInsuredWebsite = FakeDataHelper.website();
-        dashboardPageActions.createNewQuote(DriverManager.getDriver(), Netguard, newInsuredName,newInsuredWebsite);
+        dashboardPageActions.createNewQuote(DriverManager.getDriver(), coverage, newInsuredName,newInsuredWebsite);
         TextFileReader.writeDataToTextFile(ConstantVariable.INSURED_DATA_FILEPATH, newInsuredName+";"+newInsuredWebsite);
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         if (!insuredPageActions.isCreateNewInsuredTextDisplayed(DriverManager.getDriver())){
@@ -149,7 +149,7 @@ public class SubmissionClearancesTests extends BaseTest {
         assert ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver());
         ratingCriteriaPageActions.ratingCriteriaExitButton(DriverManager.getDriver()).click();
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        dashboardPageActions.createNewQuote(DriverManager.getDriver(), Netguard, newInsuredName,newInsuredWebsite);
+        dashboardPageActions.createNewQuote(DriverManager.getDriver(), coverage, newInsuredName,newInsuredWebsite);
         dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         insuredPageActions.selectInsuredCard(DriverManager.getDriver(), newInsuredName);
         if(insuredPageActions.isClearanceDialogModalDisplayed(DriverManager.getDriver())){

@@ -15,15 +15,15 @@ public class FillApplicantDetails {
 
     private FillApplicantDetails(){}
 
-    public static void fillApplicantDetails(WebDriver driver, Map<String, String> map, String product) throws InterruptedException {
+    public static void fillApplicantDetails(WebDriver driver, Map<String, String> map, String coverage) throws InterruptedException {
         logger.info("fill applicant details, Business class :: fillApplicantDetails");
         RatingCriteriaPageActions ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(driver)) {
-            if (product.equals("Netguard")) {
+            if (coverage.contains("NetGuard")) {
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(driver, map.get("businessClass2"));
                 ratingCriteriaPageActions.clickBusinessClassOption(driver);
                 ratingCriteriaPageActions.enterNetWorth(driver, map.get("netWorth"));
-            }else if(product.contains("Ophthalmic") || product.contains("AAO")){
+            }else if(coverage.contains("Ophthalmic") || coverage.contains("AAO")){
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(driver, map.get("businessClass3"));
                 ratingCriteriaPageActions.clickBusinessClassOption(driver);
                 ratingCriteriaPageActions.enterNoOfPhysicians(driver, map.get("physiciansCount"));

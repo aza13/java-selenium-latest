@@ -50,9 +50,9 @@ public class RatingCriteriaPageTests extends BaseTest {
          **/
 
         logger.info("verifying :: business class rating criteria");
-        CreateApplicant.createApplicant(DriverManager.getDriver(),Netguard);
+        CreateApplicant.createApplicant(DriverManager.getDriver(), coverage);
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, Netguard);
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, coverage);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         underwritingQuestionsPageActions.clickExitQuestion(DriverManager.getDriver());
@@ -68,9 +68,9 @@ public class RatingCriteriaPageTests extends BaseTest {
          **/
 
         logger.info("verifying :: test hard decline after rating criteria");
-        CreateApplicant.createApplicant(DriverManager.getDriver(),Netguard);
+        CreateApplicant.createApplicant(DriverManager.getDriver(), coverage);
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, Netguard);
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, coverage);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         ratingCriteriaPageActions.verifyAndClickHardDeclinePopup(DriverManager.getDriver());
@@ -88,7 +88,7 @@ public class RatingCriteriaPageTests extends BaseTest {
          @author - Azamat Uulu
          **/
         logger.info("verifying :: proposed policy period");
-        CreateApplicant.createApplicant(DriverManager.getDriver(),Netguard);
+        CreateApplicant.createApplicant(DriverManager.getDriver(), coverage);
         RatingCriteriaPageActions ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
         assert ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver());
         ratingCriteriaPageActions.verifyEffectiveDateField(DriverManager.getDriver());
@@ -106,13 +106,13 @@ public class RatingCriteriaPageTests extends BaseTest {
          **/
 
         logger.info("verifying :: Brokers can return to Previous pages i.e. Rating Criteria and UW View");
-        CreateApplicant.createApplicant(DriverManager.getDriver(),Netguard);
+        CreateApplicant.createApplicant(DriverManager.getDriver(), coverage);
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, Netguard);
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, coverage);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
-            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map, Netguard);
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map, coverage);
         }
         if(!quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())){
             quoteListPageActions.clickQuotesTab(DriverManager.getDriver());

@@ -18,15 +18,15 @@ public class CreateSubmission  extends BaseTest {
     private CreateSubmission(){}
     
 
-    public static QuoteListPageActions createSubmissionTillQuotePage(WebDriver driver, Map<String, String> map , String product) throws InterruptedException {
+    public static QuoteListPageActions createSubmissionTillQuotePage(WebDriver driver, Map<String, String> map , String coverage) throws InterruptedException {
         logger.info("creating the submission till quote list page :: createSubmissionTillQuotePage");
-        CreateApplicant.createApplicant(driver, product);
+        CreateApplicant.createApplicant(driver, coverage);
         RatingCriteriaPageActions ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
         if (!ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(driver)) throw new AssertionError();
-        FillApplicantDetails.fillApplicantDetails(driver, map, product);
+        FillApplicantDetails.fillApplicantDetails(driver, map, coverage);
         UnderwritingQuestionsPageActions underwritingQuestionsPageActions = ratingCriteriaPageActions.clickRatingCriteriaContinueButton(driver);
         if (!underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(driver)) throw new AssertionError();
-        QuoteListPageActions quoteListPageActions = AnswerUnderwriterQuestions.answerUnderwriterQuestions(driver, map, product);
+        QuoteListPageActions quoteListPageActions = AnswerUnderwriterQuestions.answerUnderwriterQuestions(driver, map, coverage);
         if (!quoteListPageActions.isQuoteListPageDisplayed(driver)) throw new AssertionError();
         return quoteListPageActions;
     }

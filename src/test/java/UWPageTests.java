@@ -43,13 +43,13 @@ public class UWPageTests extends BaseTest {
          **/
 
         logger.info("verifying :: Under Writing Questions");
-        CreateApplicant.createApplicant(DriverManager.getDriver(),"");
+        CreateApplicant.createApplicant(DriverManager.getDriver(), coverage);
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, "");
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, coverage);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
-            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map, "");
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map, coverage);
             assert true;
         }
     }
@@ -62,13 +62,13 @@ public class UWPageTests extends BaseTest {
          @author - Azamat Uulu
          **/
         logger.info("verifying :: Quotes Can Be Invalidated When Rating/UW are Edited");
-        CreateApplicant.createApplicant(DriverManager.getDriver(),Netguard);
+        CreateApplicant.createApplicant(DriverManager.getDriver(), coverage);
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, Netguard);
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, coverage);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
-            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map, Netguard);
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map, coverage);
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             assert quoteListPageActions.verifyStatusConfirmAndLockInProgress(DriverManager.getDriver());
@@ -110,9 +110,9 @@ public class UWPageTests extends BaseTest {
          **/
 
         logger.info("verifying :: hard decline after UW Questions");
-        CreateApplicant.createApplicant(DriverManager.getDriver(),Netguard);
+        CreateApplicant.createApplicant(DriverManager.getDriver(), coverage);
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, Netguard);
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, coverage);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {

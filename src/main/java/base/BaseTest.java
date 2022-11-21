@@ -30,9 +30,8 @@ public class BaseTest {
     protected static ExtentTest testLogger;
     private static String userId;
     private static String password;
-    public static String Netguard = null;
-    public static String OMIC = null;
-    public static String AAO = null;
+    public static String coverage = null;
+
 
     private static final Logger logger = Logger.getLogger(BaseTest.class);
 
@@ -48,17 +47,9 @@ public class BaseTest {
 
         logger.info("Given application URL is: " + appUrl);
 
-        Netguard = ConfigDataReader.getInstance().getProperty("productNGS");
+        coverage = ConfigDataReader.getInstance().getProperty("coverage");
 
-        logger.info("selected product is: " + Netguard);
-
-        OMIC = ConfigDataReader.getInstance().getProperty("productOMIC");
-
-        logger.info("selected product is: " + OMIC);
-
-        AAO = ConfigDataReader.getInstance().getProperty("productAAO");
-
-        logger.info("selected product is: " + AAO);
+        logger.info("selected product is: " + coverage);
 
         userId = ConfigDataReader.getInstance().getProperty("userId");
 
