@@ -8,25 +8,15 @@ import org.apache.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pageActions.*;
 import utils.dataProvider.TestDataProvider;
 import utils.dbConnector.DatabaseConnector;
-import utils.fileReader.ConfigDataReader;
-import workflows.AnswerUnderwriterQuestions;
-import workflows.CreateApplicant;
 import workflows.CreateSubmission;
-import workflows.FillApplicantDetails;
-
-import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.time.Duration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+
 
 import static constants.DatabaseQueries.GET_SUBMISSION_ID_WITH_QUOTE_ID;
 
@@ -59,7 +49,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
          @author - Venkat Kottapalli
          ******************************************************************/
         logger.info("Executing the testConfirmDatesModal from BindingPageTests class :: testAddingQuoteToNewSubmission");
-        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map);
+        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
         boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
         assert quoteLocked;
         String status = quoteListPageActions.getQuoteStatus(DriverManager.getDriver());
@@ -84,7 +74,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
          *************************************************************/
         logger.info("Executing the testQuotePreview from QuoteTests class :: testQuotePreview");
         logger.info("verifying quote preview icons");
-        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map);
+        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
         assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
         assert quoteListPageActions.verifyQuotePreview(DriverManager.getDriver());
     }
@@ -97,7 +87,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
          @author - Azamat Uulu, Venkat Kottapalli
          ********************************************************************/
         logger.info("Executing the testConfirmAndLockQuoteOption from QuoteTests class :: testConfirmAndLockQuoteOption");
-        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map);
+        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
         String quoteId = quoteListPageActions.getOpenQuoteId(DriverManager.getDriver());
         boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
         assert quoteLocked;
@@ -138,7 +128,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
          ******************************************************************/
         logger.info("Executing the testValidateConfirmDatesModal from BindingPageTests class :: testValidateConfirmDatesModal");
         logger.info("validating download icons of quote list page");
-        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map);
+        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
         boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
         assert quoteLocked;
         String status = quoteListPageActions.getQuoteStatus(DriverManager.getDriver());
@@ -164,7 +154,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
          this test verifies contact underwriter modal on quote page before lock
          @author - Venkat Kottapalli
          ******************************************************************/
-        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map);
+        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
         String quoteId = quoteListPageActions.getOpenQuoteId(DriverManager.getDriver());
         quoteListPageActions.clickContactUnderwriter(DriverManager.getDriver());
         assert quoteListPageActions.checkIfSubmitReviewDialogDisplayed2(DriverManager.getDriver());
@@ -196,7 +186,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
          @author - Venkat Kottapalli
          ******************************************************************/
         logger.info("Executing the testContactUnderwriterModalAfterLock :: NewSubmissionQuoteTests");
-        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map);
+        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
         boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
         assert quoteLocked;
         assert quoteListPageActions.verifyContactUnderwriter(DriverManager.getDriver());
@@ -215,7 +205,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
          @author - Azamat Uulu
          *********************************************************************************/
         logger.info("verifying Quotes Outside the Bounds Will Be Soft Declined functionality :: testQuoteOutsideBoundSoftDeclined");
-        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map);
+        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
         assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
         quoteListPageActions.selectPerClaim(DriverManager.getDriver(), map.get("optionCount"), map.get("claim"));
         quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), Integer.parseInt(map.get("optionCount")), map.get("limit"));
@@ -243,7 +233,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
          @author - Azamat Uulu
          *******************************************************************************************/
         logger.info("verifying Quotes Broker Can Select/Unselect Coverage Groups for an Option :: testQuoteOptionCoverageGroupValidation");
-        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map);
+        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
         assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
         logger.info("verifying the fields, when coverage unchecked");
         boolean optionCoverageGroupUnSelect = quoteListPageActions.verifyOptionCoverageGroupUnSelect(DriverManager.getDriver());
@@ -285,7 +275,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
          @author - Azamat Uulu
          *******************************************************************/
         logger.info("verifies if premium should not displayed if review required :: testNotDisplayPremiumIfReviewRequired");
-        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map);
+        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
         assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
         quoteListPageActions.selectPerClaim(DriverManager.getDriver(), map.get("optionCount"), map.get("claim1"));
         quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), Integer.parseInt(map.get("optionCount")), map.get("limit1"));

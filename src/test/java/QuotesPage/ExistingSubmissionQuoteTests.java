@@ -55,17 +55,17 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
         logger.info("Executing the testAddQuoteOption from QuoteOptionTests class :: testAddAndDeleteQuoteOption");
         dashboardPageActions.clickQuotesFilterList(DriverManager.getDriver());
         dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
-        dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), product);
+        dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), coverage);
         dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
         dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), map.get("status"));
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
         dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, coverage);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
-            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map, coverage);
         }
         assert quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver());
         if (quoteListPageActions.checkIfOpenQuoteExist(DriverManager.getDriver())) {
@@ -101,17 +101,17 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
         logger.info("Executing the testDeleteQuoteOption from QuoteOptionTests class :: testAddingQuoteToExistingSubmission");
         dashboardPageActions.clickQuotesFilterList(DriverManager.getDriver());
         dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
-        dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), product);
+        dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), coverage);
         dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
         dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), map.get("status"));
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
         dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, coverage);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
-            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map, coverage);
             if (!quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
                 if (quoteListPageActions.checkIfQuotesTabIsDisabled(DriverManager.getDriver())) {
                     logger.info("adding quote from the template");
@@ -233,7 +233,7 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
         logger.info("Executing the testAddQuoteOption from QuoteOptionTests class :: testUpdatedOptionMaxAggLimitAndPremium");
         dashboardPageActions.clickQuotesFilterList(DriverManager.getDriver());
         dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
-        dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), product);
+        dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), coverage);
         dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
         dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), map.get("status"));
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());

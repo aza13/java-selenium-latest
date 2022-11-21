@@ -20,7 +20,6 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
 
 public class BaseTest {
@@ -31,7 +30,8 @@ public class BaseTest {
     protected static ExtentTest testLogger;
     private static String userId;
     private static String password;
-    public static String product = null;
+    public static String coverage = null;
+
 
     private static final Logger logger = Logger.getLogger(BaseTest.class);
 
@@ -47,9 +47,9 @@ public class BaseTest {
 
         logger.info("Given application URL is: " + appUrl);
 
-        product = ConfigDataReader.getInstance().getProperty("product");
+        coverage = ConfigDataReader.getInstance().getProperty("coverage");
 
-        logger.info("selected product is: " + product);
+        logger.info("selected product is: " + coverage);
 
         userId = ConfigDataReader.getInstance().getProperty("userId");
 
