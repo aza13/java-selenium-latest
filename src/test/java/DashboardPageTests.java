@@ -501,7 +501,7 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.clickExitRatingCriteria(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 11, enabled = false)
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
     public void testHideRenewButtonOnPolicyList(Map<String, String> map) throws InterruptedException {
         /***
          this test Hide Renew Button on Policy list for Ineligible Policies
