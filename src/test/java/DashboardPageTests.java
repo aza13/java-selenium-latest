@@ -160,7 +160,7 @@ public class DashboardPageTests extends BaseTest {
         } else {
             logger.info("Can't continue to insured search page, duplicate submission displayed");
             insuredPageActions.clickDuplicateCancelButton(DriverManager.getDriver());
-            CreateApplicant.createApplicant(DriverManager.getDriver());
+            CreateApplicant.createApplicant(DriverManager.getDriver(), "");
         }
 
     }

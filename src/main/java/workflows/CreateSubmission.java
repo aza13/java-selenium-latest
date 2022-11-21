@@ -15,15 +15,15 @@ public class CreateSubmission {
 
     private CreateSubmission(){}
     
-    public static void createSubmissionTillQuotePage(WebDriver driver, Map<String, String> map) throws InterruptedException {
+    public static void createSubmissionTillQuotePage(WebDriver driver, Map<String, String> map, String product) throws InterruptedException {
 
-        CreateApplicant.createApplicant(driver);
+        CreateApplicant.createApplicant(driver, product);
         RatingCriteriaPageActions ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
         if (!ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(driver)) throw new AssertionError();
-        FillApplicantDetails.fillApplicantDetails(driver, map);
+        FillApplicantDetails.fillApplicantDetails(driver, map, "");
         UnderwritingQuestionsPageActions underwritingQuestionsPageActions = ratingCriteriaPageActions.clickRatingCriteriaContinueButton(driver);
         if (!underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(driver)) throw new AssertionError();
-        QuoteListPageActions quoteListPageActions = AnswerUnderwriterQuestions.answerUnderwriterQuestions(driver, map);
+        QuoteListPageActions quoteListPageActions = AnswerUnderwriterQuestions.answerUnderwriterQuestions(driver, map, product);
         if (!quoteListPageActions.isQuoteListPageDisplayed(driver)) throw new AssertionError();
     }
 }

@@ -61,11 +61,11 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
         dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, "");
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
-            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map, "");
         }
         assert quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver());
         if (quoteListPageActions.checkIfOpenQuoteExist(DriverManager.getDriver())) {
@@ -107,11 +107,11 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
         dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, "");
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
-            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map, "");
             if (!quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
                 if (quoteListPageActions.checkIfQuotesTabIsDisabled(DriverManager.getDriver())) {
                     logger.info("adding quote from the template");

@@ -65,13 +65,13 @@ public class BindingPageTests extends BaseTest {
          ******************************************************************/
 
         logger.info("Executing the testVerifyQuoteBinding from BindingPageTests class :: testVerifyQuoteBinding");
-        String newInsuredName = CreateApplicant.createApplicant(DriverManager.getDriver());
+        String newInsuredName = CreateApplicant.createApplicant(DriverManager.getDriver(),"product_omic");
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, "product_omic");
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
-            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map, "product_omic");
         }
         String quoteId = quoteListPageActions.getOpenQuoteId(DriverManager.getDriver());
         logger.info("validating download icons of quote list page");
@@ -141,13 +141,13 @@ public class BindingPageTests extends BaseTest {
          ******************************************************************/
 
         logger.info("Executing the testValidateSubjectivitiesAndQuoteStatus from BindingPageTests class :: testValidateSubjectivitiesAndQuoteStatus");
-        CreateApplicant.createApplicant(DriverManager.getDriver());
+        CreateApplicant.createApplicant(DriverManager.getDriver(),"");
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, "");
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
-            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map, "");
         }
         String quoteId = quoteListPageActions.getOpenQuoteId(DriverManager.getDriver());
         logger.info("validating download icons of quote list page");
@@ -198,13 +198,13 @@ public class BindingPageTests extends BaseTest {
          ******************************************************************/
 
         logger.info("Executing the testGenerateBinderButtonValidations from BindingPageTests class :: testGenerateBinderButtonValidations");
-        CreateApplicant.createApplicant(DriverManager.getDriver());
+        CreateApplicant.createApplicant(DriverManager.getDriver(),"");
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, "");
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
-            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map, "");
         }
         logger.info("validating download icons of quote list page");
         boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
@@ -239,13 +239,13 @@ public class BindingPageTests extends BaseTest {
          ******************************************************************/
 
         logger.info("Executing the testFileUploadValidationsInBinder from BindingPageTests class :: testFileUploadValidationsInBinder");
-        CreateApplicant.createApplicant(DriverManager.getDriver());
+        CreateApplicant.createApplicant(DriverManager.getDriver(),"");
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map);
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, "");
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
-            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map);
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map, "");
         }
         logger.info("validating download icons of quote list page");
         boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());

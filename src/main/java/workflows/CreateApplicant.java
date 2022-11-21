@@ -17,13 +17,13 @@ public class CreateApplicant {
 
     private CreateApplicant(){}
 
-    public static String createApplicant(WebDriver driver) throws InterruptedException {
+    public static String createApplicant(WebDriver driver, String product) throws InterruptedException {
         logger.info("verifying creating new quote creation :: testCreateInsured");
         DashboardPageActions dashboardPageActions = PageObjectManager.getDashboardPageActions();
         dashboardPageActions.clickNewQuote(driver);
         String newApplicantName = FakeDataHelper.fullName();
         String newApplicantWebsite = FakeDataHelper.website();
-        dashboardPageActions.createNewQuote(driver, ConfigDataReader.getInstance().getProperty("product"), newApplicantName,newApplicantWebsite);
+        dashboardPageActions.createNewQuote(driver, ConfigDataReader.getInstance().getProperty(product), newApplicantName,newApplicantWebsite);
         TextFileReader.writeDataToTextFile(ConstantVariable.INSURED_DATA_FILEPATH, newApplicantName+";"+newApplicantWebsite);
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(driver);
         if (!insuredPageActions.isCreateNewInsuredTextDisplayed(driver)){
