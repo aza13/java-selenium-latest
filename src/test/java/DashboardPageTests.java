@@ -135,7 +135,7 @@ public class DashboardPageTests extends BaseTest {
         assert name.equals(ConstantVariable.EMPTY_STRING);
         String website = dashboardPageActions.getWebsite(DriverManager.getDriver());
         assert website.equals(ConstantVariable.EMPTY_STRING);
-        dashboardPageActions.createNewQuote(DriverManager.getDriver(), product, map.get("applicantName"), map.get("website"));
+        dashboardPageActions.createNewQuote(DriverManager.getDriver(), Netguard, map.get("applicantName"), map.get("website"));
         dashboardPageActions.clickContinueButton(DriverManager.getDriver());
     }
 
@@ -148,7 +148,7 @@ public class DashboardPageTests extends BaseTest {
          **/
         logger.info("verifying creating new quote creation :: testCreateNewQuote");
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        dashboardPageActions.createNewQuote(DriverManager.getDriver(), product, map.get("applicantName"), map.get("website"));
+        dashboardPageActions.createNewQuote(DriverManager.getDriver(), Netguard, map.get("applicantName"), map.get("website"));
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         assert insuredPageActions.newInsuredButton(DriverManager.getDriver()).isDisplayed();
         assert insuredPageActions.searchAgainButton(DriverManager.getDriver()).isDisplayed();
@@ -546,7 +546,7 @@ public class DashboardPageTests extends BaseTest {
          **/
         dashboardPageActions.clickFilterList(DriverManager.getDriver());
         dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
-        dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), product);
+        dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), Netguard);
         dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
         dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), map.get("status"));
         dashboardPageActions.clickFilterByType(DriverManager.getDriver());

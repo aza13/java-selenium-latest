@@ -20,7 +20,6 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
 
 public class BaseTest {
@@ -31,7 +30,9 @@ public class BaseTest {
     protected static ExtentTest testLogger;
     private static String userId;
     private static String password;
-    public static String product = null;
+    public static String Netguard = null;
+    public static String OMIC = null;
+    public static String AAO = null;
 
     private static final Logger logger = Logger.getLogger(BaseTest.class);
 
@@ -47,9 +48,17 @@ public class BaseTest {
 
         logger.info("Given application URL is: " + appUrl);
 
-        product = ConfigDataReader.getInstance().getProperty("product");
+        Netguard = ConfigDataReader.getInstance().getProperty("productNGS");
 
-        logger.info("selected product is: " + product);
+        logger.info("selected product is: " + Netguard);
+
+        OMIC = ConfigDataReader.getInstance().getProperty("productOMIC");
+
+        logger.info("selected product is: " + OMIC);
+
+        AAO = ConfigDataReader.getInstance().getProperty("productAAO");
+
+        logger.info("selected product is: " + AAO);
 
         userId = ConfigDataReader.getInstance().getProperty("userId");
 

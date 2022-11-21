@@ -57,13 +57,13 @@ public class EndToEndTest extends BaseTest {
          ******************************************************************/
 
         logger.info("Executing the testVerifyQuoteBinding from BindingPageTests class :: testVerifyQuoteBinding");
-        String newInsuredName = CreateApplicant.createApplicant(DriverManager.getDriver(),"");
+        String newInsuredName = CreateApplicant.createApplicant(DriverManager.getDriver(),Netguard);
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, "");
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, Netguard);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
-            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map, "");
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map, Netguard);
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             // add quote option and delete it
@@ -100,7 +100,7 @@ public class EndToEndTest extends BaseTest {
                     assert quoteStatus.contentEquals("Order Placed");
                     dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
                     assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
-                    bindingPageActions.verifyQuoteHeaderInformationInBindingPage(DriverManager.getDriver(), newInsuredName, product);
+                    bindingPageActions.verifyQuoteHeaderInformationInBindingPage(DriverManager.getDriver(), newInsuredName, Netguard);
                     bindingPageActions.clickPolicyCardExpandIconInBindingPage(DriverManager.getDriver());
                     if(!bindingPageActions.binderSubmitButton(DriverManager.getDriver()).isEnabled()){
                         bindingPageActions.enterMessageToPreSubjectivitiesUnderWriterTextBox(DriverManager.getDriver());

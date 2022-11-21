@@ -65,13 +65,13 @@ public class BindingPageTests extends BaseTest {
          ******************************************************************/
 
         logger.info("Executing the testVerifyQuoteBinding from BindingPageTests class :: testVerifyQuoteBinding");
-        String newInsuredName = CreateApplicant.createApplicant(DriverManager.getDriver(),"product_omic");
+        String newInsuredName = CreateApplicant.createApplicant(DriverManager.getDriver(),OMIC);
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, "product_omic");
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, OMIC);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
-            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map, "product_omic");
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map, OMIC);
         }
         String quoteId = quoteListPageActions.getOpenQuoteId(DriverManager.getDriver());
         logger.info("validating download icons of quote list page");
@@ -121,7 +121,7 @@ public class BindingPageTests extends BaseTest {
                 assert quoteStatusDashboard.contentEquals("Order Placed");
                 dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
                 assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
-                bindingPageActions.verifyQuoteHeaderInformationInBindingPage(DriverManager.getDriver(), newInsuredName, product);
+                bindingPageActions.verifyQuoteHeaderInformationInBindingPage(DriverManager.getDriver(), newInsuredName, OMIC);
             } else {
                 logger.error("query not executed successfully");
                 assert false;
@@ -143,7 +143,7 @@ public class BindingPageTests extends BaseTest {
         logger.info("Executing the testValidateSubjectivitiesAndQuoteStatus from BindingPageTests class :: testValidateSubjectivitiesAndQuoteStatus");
         CreateApplicant.createApplicant(DriverManager.getDriver(),"");
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, "");
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, Netguard);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
@@ -200,7 +200,7 @@ public class BindingPageTests extends BaseTest {
         logger.info("Executing the testGenerateBinderButtonValidations from BindingPageTests class :: testGenerateBinderButtonValidations");
         CreateApplicant.createApplicant(DriverManager.getDriver(),"");
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, "");
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, Netguard);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
@@ -241,7 +241,7 @@ public class BindingPageTests extends BaseTest {
         logger.info("Executing the testFileUploadValidationsInBinder from BindingPageTests class :: testFileUploadValidationsInBinder");
         CreateApplicant.createApplicant(DriverManager.getDriver(),"");
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, "");
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, Netguard);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {

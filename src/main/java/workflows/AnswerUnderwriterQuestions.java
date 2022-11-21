@@ -29,15 +29,16 @@ public class AnswerUnderwriterQuestions {
                 underwritingQuestionsPageActions.answerUWQuestionButtons(driver, map.get("uwQuestionsAnswer"));
                 underwritingQuestionsPageActions.answerUWQuestionDropdowns(driver, map.get("uwQuestionsAnswer"), map.get("uwQuestionsOption"));
             }else if(ConfigDataReader.getInstance().getProperty(product).contains("Ophthalmic")){
-                underwritingQuestionsPageActions.answerUWQuestionGeneralButtonOMICProduct2(driver);
-                underwritingQuestionsPageActions.answerUWQuestioneEMDButtonOMICProduct2(driver);
-                underwritingQuestionsPageActions.answerUWQuestionRansomButtonOMICProduct2(driver);
-                underwritingQuestionsPageActions.answerUWQuestionPhisingButtonOMICProduct2(driver);
-                underwritingQuestionsPageActions.answerUWQuestionCyberButtonOMICProduct2(driver);
-                underwritingQuestionsPageActions.answerUWQuestionRiskButtonOMICProduct2(driver);
+                underwritingQuestionsPageActions.answerUWQuestionGeneralSectionOMICProduct(driver);
+                underwritingQuestionsPageActions.answerUWQuestionEMDSectionOMICProduct(driver);
+                underwritingQuestionsPageActions.answerUWQuestionRansomSectionOMICProduct(driver);
+                underwritingQuestionsPageActions.answerUWQuestionPhishingSectionOMICProduct(driver);
+                underwritingQuestionsPageActions.answerUWQuestionCyberSectionOMICProduct(driver);
+                underwritingQuestionsPageActions.answerUWQuestionRiskSectionOMICProduct(driver);
             }else{
-                underwritingQuestionsPageActions.answerFirstUWQuestion(driver);
-                underwritingQuestionsPageActions.answerUWQuestionButtonsOMICProduct2(driver);
+//                underwritingQuestionsPageActions.answerFirstUWQuestion(driver);
+//                underwritingQuestionsPageActions.answerUWQuestionButtonsOMICProduct2(driver);
+                System.out.println("Place holder for AAO Product");
             }
 
         }

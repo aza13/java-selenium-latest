@@ -450,11 +450,11 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
         WaitHelper.pause(5000);
     }
 
-    public void answerUWQuestionGeneralButtonOMICProduct2(WebDriver driver) throws InterruptedException {
+    public void answerUWQuestionGeneralSectionOMICProduct(WebDriver driver) throws InterruptedException {
         String generalInformationXpath = "//h5[text()='General Information']/parent::div/parent::div/following-sibling::div";
         answerEachSectionUWQuestions(driver, 0, generalInformationXpath);
     }
-    public void answerUWQuestioneEMDButtonOMICProduct2(WebDriver driver) throws InterruptedException {
+    public void answerUWQuestionEMDSectionOMICProduct(WebDriver driver) throws InterruptedException {
         String eMDXpath = "//h5[text()='e-MD']/parent::div/parent::div/following-sibling::div";
         List<WebElement> eMDDropdowns = driver.findElements(By.xpath(eMDXpath+"//input/preceding-sibling::div"));
         if(!eMDDropdowns.isEmpty()){
@@ -475,11 +475,11 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
                 }
             }
         }
-    public void answerUWQuestionRansomButtonOMICProduct2(WebDriver driver) throws InterruptedException {
+    public void answerUWQuestionRansomSectionOMICProduct(WebDriver driver) throws InterruptedException {
         String ransomwareXpath = "//h5[text()='Ransomware Controls']/parent::div/parent::div/following-sibling::div";
         answerEachSectionUWQuestionsRansome(driver, 0, ransomwareXpath);
     }
-    public void answerUWQuestionPhisingButtonOMICProduct2(WebDriver driver) throws InterruptedException {
+    public void answerUWQuestionPhishingSectionOMICProduct(WebDriver driver) throws InterruptedException {
         WaitHelper.pause(3000);
         String phishingXpath = "//h5[text()='Phishing Controls']/parent::div/parent::div/following-sibling::div";
         List<WebElement> allPhisingXpath = driver.findElements(By.xpath(phishingXpath + "//p"));
@@ -495,7 +495,7 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
             }
         }
     }
-    public void answerUWQuestionCyberButtonOMICProduct2(WebDriver driver) throws InterruptedException {
+    public void answerUWQuestionCyberSectionOMICProduct(WebDriver driver) throws InterruptedException {
         String cyberLossXpath = "//h5[text()='Cyber/Privacy Loss History']/parent::div/parent::div/following-sibling::div";
 
         List<WebElement> descriptions = driver.findElements(By.xpath(cyberLossXpath + "//p"));
@@ -511,7 +511,7 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
         }
         WaitHelper.pause(5000);
     }
-    public void answerUWQuestionRiskButtonOMICProduct2(WebDriver driver) throws InterruptedException {
+    public void answerUWQuestionRiskSectionOMICProduct(WebDriver driver) throws InterruptedException {
         String boardRegulatoryXpath = "//h5[text()='Broad Regulatory Risk Protection Plus']/parent::div/parent::div/following-sibling::div";
         List<WebElement> boardRegulatoryDropdowns = driver.findElements(By.xpath(boardRegulatoryXpath+"//input/preceding-sibling::div"));
         if(!boardRegulatoryDropdowns.isEmpty()){
