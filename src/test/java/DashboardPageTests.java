@@ -78,10 +78,10 @@ public class DashboardPageTests extends BaseTest {
         assert text.contentEquals(map.get("welcomeText"));
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 1)
     public void testPoliciesDashboardUI(Map<String, String> map) {
         /**
-         * this test verifies UI of My Policies dashboard
+         * this test verifies UI of My Policy dashboard
          story - N2020-28286
          @author - Venkat Kottapalli
          **/
@@ -92,7 +92,7 @@ public class DashboardPageTests extends BaseTest {
         List<WebElement> policyCardsList = dashboardPageActions.getPolicyCardsList(DriverManager.getDriver());
         if (policyCardsList.size() > 0) {
             assert true;
-             /* Status color changes would be coming soon with Hexa codes
+             /* Status color changes would be coming soon with color codes
         dashboardPageActions.validatePolicyStatusColorCoding(DriverManager.getDriver());*/
             List<WebElement> labels = dashboardPageActions.getPolicyTableLabels(DriverManager.getDriver());
             if (labels.size() > 0) {
@@ -113,7 +113,7 @@ public class DashboardPageTests extends BaseTest {
 
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 16)
     public void testNewQuoteFieldsValidation(Map<String, String> map) throws InterruptedException {
         /**
          * this test verifies the New Quote dialog fields validation
@@ -139,7 +139,7 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.clickContinueButton(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 17)
     public void testCreateNewQuote(Map<String, String> map) throws InterruptedException {
         /**
          * this test verifies creation of new quote
@@ -165,7 +165,7 @@ public class DashboardPageTests extends BaseTest {
 
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", enabled = false)
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 2)
     public void testBrokerFilteringSubmissionsList(Map<String, String> map) throws InterruptedException, ParseException {
         /**
          * this test verifies broker filtering the submissions list
@@ -175,24 +175,24 @@ public class DashboardPageTests extends BaseTest {
         logger.info("verifying broker filtering the submission list :: testBrokerFilteringSubmissionsList");
         String[] coverages = map.get("productName").split(ConstantVariable.SEMICOLON);
         for (String coverage : coverages) {
-            dashboardPageActions.clickFilterList(DriverManager.getDriver());
+            dashboardPageActions.clickQuotesFilterList(DriverManager.getDriver());
             dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
             dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), coverage);
             dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
             List<String> coverageNames = dashboardPageActions.getAllQuotesCoverageName(DriverManager.getDriver());
             if (coverageNames.size() > 0) {
-                for (String prod : coverageNames) {
-                    assert prod.contentEquals(coverage);
+                for (String cov : coverageNames) {
+                        assert cov.contentEquals(coverage);
                 }
             }
         }
-        dashboardPageActions.clickFilterList(DriverManager.getDriver());
+        dashboardPageActions.clickQuotesFilterList(DriverManager.getDriver());
         dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
         dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), map.get("productName"));
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
         String[] statuses = map.get("status").split(ConstantVariable.SEMICOLON);
         for (String status : statuses) {
-            dashboardPageActions.clickFilterList(DriverManager.getDriver());
+            dashboardPageActions.clickQuotesFilterList(DriverManager.getDriver());
             dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
             dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), status);
             dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
@@ -209,7 +209,7 @@ public class DashboardPageTests extends BaseTest {
                 }
             }
         }
-        dashboardPageActions.clickFilterList(DriverManager.getDriver());
+        dashboardPageActions.clickQuotesFilterList(DriverManager.getDriver());
         dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
         dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), map.get("allStatuses"));
         dashboardPageActions.clickSubmissionFilterByDateRange(DriverManager.getDriver());
@@ -239,7 +239,7 @@ public class DashboardPageTests extends BaseTest {
 
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", enabled = false)
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 3)
     public void testBrokerFilteringPoliciesList(Map<String, String> map) throws InterruptedException, ParseException {
         /**
          * this test verifies broker filtering the policies list
@@ -250,18 +250,20 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
         String[] statuses = map.get("status").split(ConstantVariable.SEMICOLON);
         for (String status : statuses) {
-            dashboardPageActions.clickFilterList(DriverManager.getDriver());
+            dashboardPageActions.clickPoliciesFilterList(DriverManager.getDriver());
             dashboardPageActions.clickPolicyFilterByStatus(DriverManager.getDriver());
-            dashboardPageActions.selectPolicyStatusInFilter(DriverManager.getDriver(), status);
+            boolean result = dashboardPageActions.selectPolicyStatusInFilter(DriverManager.getDriver(), status);
             dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
-            List<String> stat = dashboardPageActions.getAllQuotesStatus(DriverManager.getDriver());
-            if (stat.size() > 0) {
-                for (String s : stat) {
-                    assert s.contentEquals(status);
+            if (result){
+                List<String> stat = dashboardPageActions.getAllPoliciesStatus(DriverManager.getDriver());
+                if (stat.size() > 0) {
+                    for (String s : stat) {
+                        assert s.contentEquals(status);
+                    }
                 }
             }
         }
-        dashboardPageActions.clickFilterList(DriverManager.getDriver());
+        dashboardPageActions.clickPoliciesFilterList(DriverManager.getDriver());
         dashboardPageActions.clickPolicyFilterByStatus(DriverManager.getDriver());
         dashboardPageActions.selectPolicyStatusInFilter(DriverManager.getDriver(), map.get("allStatuses"));
         dashboardPageActions.clickSubmissionFilterByDateRange(DriverManager.getDriver());
@@ -289,7 +291,7 @@ public class DashboardPageTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 4, enabled = false)
     public void testPresenceOfContinueButtonOnQuotes(Map<String, String> map) throws InterruptedException {
         /**
          * this test verifies whether continue button should be displayed or not quotes in MY QUOTES
@@ -351,7 +353,7 @@ public class DashboardPageTests extends BaseTest {
 
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 5)
     public void testBrokerSearchRelatedRecords(Map<String, String> map) throws InterruptedException {
         /**
          * this test verifies search results for related Records
@@ -389,14 +391,13 @@ public class DashboardPageTests extends BaseTest {
         String expectedPolicyNumber = dashboardPageActions.getFirstAvailableReferenceId(DriverManager.getDriver());
         assert actualPolicyNumber.equals(expectedPolicyNumber);
 
-        dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("noSuchARecord"));
         String searchForNoResult = dashboardPageActions.getSearchForNoResult(DriverManager.getDriver());
         assert searchForNoResult.contentEquals(map.get("expForNoSuchARecord"));
     }
 
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 6, enabled = false)
     public void testSubmissionRenewal(Map<String, String> map) throws InterruptedException {
         /***
          this test verifies submission renewal
@@ -405,15 +406,15 @@ public class DashboardPageTests extends BaseTest {
          **/
         logger.info("verifying submission renewal ::  testSubmissionRenewal");
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
-        dashboardPageActions.clickFilterList(DriverManager.getDriver());
+        dashboardPageActions.clickPoliciesFilterList(DriverManager.getDriver());
         dashboardPageActions.clickPolicyFilterByStatus(DriverManager.getDriver());
         dashboardPageActions.selectPolicyStatusInFilter(DriverManager.getDriver(), map.get("status"));
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
         dashboardPageActions.renewSubmission(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
-    public void testSortQuoteList(Map<String, String> map) {
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 7)
+    public void testSortQuoteList(Map<String, String> map) throws InterruptedException {
         /***
          this tests Sort of Quotes List
          story - N2020-29952
@@ -421,22 +422,22 @@ public class DashboardPageTests extends BaseTest {
          **/
         logger.info("verifying sort my quote list ::  sortQuoteList");
         String actual = dashboardPageActions.getFirstAvailableCreatedDate(DriverManager.getDriver());
-        dashboardPageActions.clickSortBy(DriverManager.getDriver());
+        dashboardPageActions.clickQuoteSortBy(DriverManager.getDriver());
         dashboardPageActions.clickSortByNewest(DriverManager.getDriver());
         dashboardPageActions.getFirstAvailableCreatedDate(DriverManager.getDriver());
         String expected = dashboardPageActions.getFirstAvailableCreatedDate(DriverManager.getDriver());
         assert actual.equals(expected);
-        dashboardPageActions.clickSortBy(DriverManager.getDriver());
+        dashboardPageActions.clickQuoteSortBy(DriverManager.getDriver());
         dashboardPageActions.clickSortByOldest(DriverManager.getDriver());
         String actualOldestDate = dashboardPageActions.getFirstAvailableCreatedDate(DriverManager.getDriver());
-        dashboardPageActions.clickSortBy(DriverManager.getDriver());
+        dashboardPageActions.clickQuoteSortBy(DriverManager.getDriver());
         dashboardPageActions.clickSortByOldest(DriverManager.getDriver());
         String expectedOldestDate = dashboardPageActions.getFirstAvailableCreatedDate(DriverManager.getDriver());
         assert actualOldestDate.equals(expectedOldestDate);
 
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 8)
     public void testSortPolicyList(Map<String, String> map) throws InterruptedException, ParseException {
         /***
          this test Sort my Policy List
@@ -446,11 +447,11 @@ public class DashboardPageTests extends BaseTest {
 
         logger.info("verifying sort my quote list ::  sortPolicyList");
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
-        dashboardPageActions.clickSortBy(DriverManager.getDriver());
+        dashboardPageActions.clickPolicySortBy(DriverManager.getDriver());
         dashboardPageActions.clickSortByExpiringSoon(DriverManager.getDriver());
         List<String> datesSortedByExpiringSoon = dashboardPageActions.getPolicyExpirationDates(DriverManager.getDriver());
         List<String> sortedDatesByExpiringSoonAsc = dashboardPageActions.sortDates(datesSortedByExpiringSoon);
-        dashboardPageActions.clickSortBy(DriverManager.getDriver());
+        dashboardPageActions.clickPolicySortBy(DriverManager.getDriver());
         dashboardPageActions.clickSortByExpiringLater(DriverManager.getDriver());
         List<String> datesSortedByExpiringLater = dashboardPageActions.getPolicyExpirationDates(DriverManager.getDriver());
         List<String> sortedDatesByExpiringLaterAsc = dashboardPageActions.sortDates(datesSortedByExpiringLater);
@@ -462,7 +463,7 @@ public class DashboardPageTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 9)
     public void testSupportRequestFunctionality(Map<String, String> map) throws InterruptedException {
         /***
          this test verifies sup of new insured
@@ -486,6 +487,20 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
     }
 
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", enabled = false, priority = 10)
+    public void testBrokersCanContinueRenewalSubmission() throws InterruptedException {
+        /***
+         this test Brokers can continue a Renewal Submission
+         story - N2020-28483
+         @author -Azamat Uulu
+         **/
+
+        logger.info("verifying :: continue a Renewal Submission ");
+        dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
+        dashboardPageActions.validateContinueSubmission(DriverManager.getDriver());
+        dashboardPageActions.clickExitRatingCriteria(DriverManager.getDriver());
+    }
+
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
     public void testHideRenewButtonOnPolicyList(Map<String, String> map) throws InterruptedException {
         /***
@@ -501,7 +516,7 @@ public class DashboardPageTests extends BaseTest {
         String[] policiesNumber = map.get("policyNumber").split(ConstantVariable.SEMICOLON);
 
         for (int i = 0; i < statuses.length; i++) {
-            dashboardPageActions.clickFilterList(DriverManager.getDriver());
+            dashboardPageActions.clickPoliciesFilterList(DriverManager.getDriver());
             dashboardPageActions.clickFilterByStatus(DriverManager.getDriver());
             dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), statuses[i]);
             dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
@@ -514,14 +529,14 @@ public class DashboardPageTests extends BaseTest {
         assert dashboardPageActions.verifyPoliciesExists(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 12)
     public void  testQuotesByBusinessType(Map<String, String> map) throws InterruptedException {
         /***
          this test verifies quotes by business type
          story - N2020-32172
          @author -Venkat Kottapalli
          **/
-        dashboardPageActions.clickFilterList(DriverManager.getDriver());
+        dashboardPageActions.clickQuotesFilterList(DriverManager.getDriver());
         dashboardPageActions.clickFilterByType(DriverManager.getDriver());
         String status = map.get("status");
         dashboardPageActions.selectTypeInFilter(DriverManager.getDriver(), status);
@@ -537,14 +552,14 @@ public class DashboardPageTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", enabled = false)
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 13)
     public void  testClearFiltersButtonFunctionality(Map<String, String> map) throws InterruptedException {
         /***
          this test verifies clear filters button functionality
          story - N2020-32024
          @author -Venkat Kottapalli
          **/
-        dashboardPageActions.clickFilterList(DriverManager.getDriver());
+        dashboardPageActions.clickQuotesFilterList(DriverManager.getDriver());
         dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
         dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), product);
         dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
@@ -558,7 +573,7 @@ public class DashboardPageTests extends BaseTest {
         logger.info("clearing the filters");
         dashboardPageActions.clickClearFiltersButton(DriverManager.getDriver());
         logger.info("checking the selected values after applying filter");
-        dashboardPageActions.clickFilterList(DriverManager.getDriver());
+        dashboardPageActions.clickQuotesFilterList(DriverManager.getDriver());
         dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
         String product = dashboardPageActions.getSelectedCoverageName(DriverManager.getDriver());
         assert product.contentEquals(map.get("defaultProductValue"));
@@ -570,19 +585,18 @@ public class DashboardPageTests extends BaseTest {
         assert quoteBusinessType.contentEquals(map.get("defaultTypeValue"));
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 14)
     public void  testIneligiblePolicies(Map<String, String> map) throws InterruptedException, SQLException {
-        /**
+        /*************************************
          * this test verifies ineligible policy
          story - N2020-33633 -N2020-34868
          @author - Azamat Uulu
-         **/
+         **************************************/
         logger.info("verifying ineligible policies :: testIneligiblePolicy");
         List<HashMap<Object, Object>> policyIds =
                 databaseConnector.getResultSetToList(DatabaseQueries. GET_INELIGIBLE_POLICIES_2);
-        int policyCount = policyIds.size();
-        String policyId;
-        if (policyCount > 0) {
+        if(policyIds!=null){
+            String policyId;
             for (HashMap<Object, Object> id : policyIds) {
                 policyId = id.get("policy_id").toString();
                 dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), policyId);
@@ -590,13 +604,16 @@ public class DashboardPageTests extends BaseTest {
                     break;
                 }
             }
-        }else logger.info("No Ineligible Policies available");
+        }else{
+            logger.warn("No Ineligible Policies available :: testIneligiblePolicies");
+            throw new SkipException("No Ineligible Policies available :: testIneligiblePolicies");
+        }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 15, enabled = false)
     public void  testContactUnderwriterInDashboard(Map<String, String> map) throws InterruptedException {
         /***
-         * this test validates Contact UW button in dashboard page
+         * this test validates Contact Underwriter button in dashboard page
          story - N2020-34125
          @author - Venkat Kottapalli
          ***/
