@@ -579,15 +579,16 @@ public class DashboardPageTests extends BaseTest {
          **/
         logger.info("verifying ineligible policies :: testIneligiblePolicy");
         List<HashMap<Object, Object>> policyIds =
-                databaseConnector.getResultSetToList(DatabaseQueries. GET_INELIGIBLE_POLICIES);
+                databaseConnector.getResultSetToList(DatabaseQueries. GET_INELIGIBLE_POLICIES_2);
         int policyCount = policyIds.size();
         String policyId;
         if (policyCount > 0) {
             for (HashMap<Object, Object> id : policyIds) {
-                policyId = id.get("number").toString();
+                policyId = id.get("policy_id").toString();
                 dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), policyId);
-                assert dashboardPageActions.verifyContactUnderwriterExists(DriverManager.getDriver());
-                break;
+                if(dashboardPageActions.verifyContactUnderwriterExists(DriverManager.getDriver())){
+                    break;
+                }
             }
         }else logger.info("No Ineligible Policies available");
     }

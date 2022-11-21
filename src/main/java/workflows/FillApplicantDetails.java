@@ -1,8 +1,6 @@
 package workflows;
 
-import base.DriverManager;
 import base.PageObjectManager;
-import constants.ConstantVariable;
 import helper.WaitHelper;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -21,11 +19,11 @@ public class FillApplicantDetails {
         logger.info("fill applicant details, Business class :: fillApplicantDetails");
         RatingCriteriaPageActions ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(driver)) {
-            if (ConfigDataReader.getInstance().getProperty(product).equals("NetGuard® SELECT")) {
+            if (product.equals("Netguard")) {
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(driver, map.get("businessClass2"));
                 ratingCriteriaPageActions.clickBusinessClassOption(driver);
                 ratingCriteriaPageActions.enterNetWorth(driver, map.get("netWorth"));
-            }else if(ConfigDataReader.getInstance().getProperty(product).contains("Ophthalmic") || ConfigDataReader.getInstance().getProperty("product").contains("AAO")){
+            }else if(product.contains("Ophthalmic") || product.contains("AAO")){
                 ratingCriteriaPageActions.enterTextToBusinessClassDropDown(driver, map.get("businessClass3"));
                 ratingCriteriaPageActions.clickBusinessClassOption(driver);
                 ratingCriteriaPageActions.enterNoOfPhysicians(driver, map.get("physiciansCount"));

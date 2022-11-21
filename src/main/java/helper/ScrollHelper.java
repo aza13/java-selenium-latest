@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 
 public class ScrollHelper {
 
-    private static Logger logger = Logger.getLogger(ScrollHelper.class);
+    private static final Logger logger = Logger.getLogger(ScrollHelper.class);
 
     private ScrollHelper() {
     }
@@ -27,7 +27,6 @@ public class ScrollHelper {
     }
 
     public static void scrollToBottom(WebDriver driver) throws InterruptedException {
-
         logger.info("Scrolling to bottom of the page:: scrollElementIntoView");
         try {
             JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -37,7 +36,17 @@ public class ScrollHelper {
             logger.error("Failed to scroll to bottom of the page:: scrollElementIntoView");
             throw (e);
         }
+    }
 
-
+    public static void scrollToPageTop(WebDriver driver) throws InterruptedException {
+        logger.info("Scrolling to bottom of the page:: scrollToPageTop");
+        try {
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("window.scrollTo(0, 0)");
+            WaitHelper.pause(3000);
+        } catch (Exception e) {
+            logger.error("Failed to scroll to bottom of the page:: scrollToPageTop");
+            throw (e);
+        }
     }
 }

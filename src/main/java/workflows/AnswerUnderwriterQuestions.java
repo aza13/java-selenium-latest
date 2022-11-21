@@ -25,10 +25,10 @@ public class AnswerUnderwriterQuestions {
             logger.info("UW continue button is enabled, means UW questions are answered");
         } else {
             logger.info("UW continue button is disabled, means UW questions are not answered");
-            if(ConfigDataReader.getInstance().getProperty(product).contains("NetGuard")){
+            if(product.contains("NetGuard")){
                 underwritingQuestionsPageActions.answerUWQuestionButtons(driver, map.get("uwQuestionsAnswer"));
                 underwritingQuestionsPageActions.answerUWQuestionDropdowns(driver, map.get("uwQuestionsAnswer"), map.get("uwQuestionsOption"));
-            }else if(ConfigDataReader.getInstance().getProperty(product).contains("Ophthalmic")){
+            }else if(product.contains("Ophthalmic")){
                 underwritingQuestionsPageActions.answerUWQuestionGeneralSectionOMICProduct(driver);
                 underwritingQuestionsPageActions.answerUWQuestionEMDSectionOMICProduct(driver);
                 underwritingQuestionsPageActions.answerUWQuestionRansomSectionOMICProduct(driver);
