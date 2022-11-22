@@ -105,6 +105,8 @@ public class BindingPageTests extends BaseTest {
                 assert false;
             }
         }
+        logger.info("Remove Binder will be issued shortly verbiage - QAT 720");
+        assert !bindingPageActions.isBinderIssuedShortlyText(DriverManager.getDriver());
         assert bindingPageActions.getGenerateBinderButton(DriverManager.getDriver()).isEnabled();
         bindingPageActions.clickGenerateBinderButton(DriverManager.getDriver());
         String quoteStatusAfterBinding = bindingPageActions.getQuoteStatus(DriverManager.getDriver());

@@ -28,7 +28,7 @@ public class BindingPageActions extends BaseTest {
     }
 
     public boolean isBindingTabSelected(WebDriver driver) throws InterruptedException {
-        WaitHelper.pause(10000);
+        WaitHelper.waitForElementVisibilityCustom(driver, bindingTabSelected, 30);
         return ClickHelper.isElementExist(driver, bindingTabSelected);
     }
 
@@ -47,8 +47,8 @@ public class BindingPageActions extends BaseTest {
 
     public String getQuoteStatus(WebDriver driver) throws InterruptedException {
         try{
-            WaitHelper.pause(20000);
-            return TextHelper.getText(driver, quoteStatus2, "text").trim();
+            WaitHelper.waitForElementVisibilityCustom(driver, quoteStatus, 45);
+            return TextHelper.getText(driver, quoteStatus, "text").trim();
         }catch (Exception e){
             logger.error("Failed to get the quote option status in binder page "+e.getMessage());
             throw e;
