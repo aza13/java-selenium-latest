@@ -51,7 +51,7 @@ public class BindingPageTests extends BaseTest {
          @author - Venkat Kottapalli, Sheetal
          ******************************************************************/
         logger.info("Executing the testVerifyQuoteBinding from BindingPageTests class :: testVerifyQuoteBinding");
-        quoteListPageActions = CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map);
+        quoteListPageActions = CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
         String quoteId = quoteListPageActions.getOpenQuoteId(DriverManager.getDriver());
         logger.info("validating download icons of quote list page");
         boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
@@ -120,7 +120,7 @@ public class BindingPageTests extends BaseTest {
          @author - Venkat Kottapalli
          ******************************************************************/
         logger.info("Executing the testValidateSubjectivitiesAndQuoteStatus from BindingPageTests class :: testValidateSubjectivitiesAndQuoteStatus");
-        quoteListPageActions = CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map);
+        quoteListPageActions = CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
         String quoteId = quoteListPageActions.getOpenQuoteId(DriverManager.getDriver());
         logger.info("validating download icons of quote list page");
         boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
@@ -168,7 +168,7 @@ public class BindingPageTests extends BaseTest {
          @author - Venkat Kottapalli
          ******************************************************************/
         logger.info("Executing the testGenerateBinderButtonValidations from BindingPageTests class :: testGenerateBinderButtonValidations");
-        quoteListPageActions = CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map);
+        quoteListPageActions = CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
         logger.info("validating download icons of quote list page");
         boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
         assert quoteLocked;
@@ -198,7 +198,7 @@ public class BindingPageTests extends BaseTest {
          @author - Venkat Kottapalli
          ******************************************************************/
         logger.info("Executing the testFileUploadValidationsInBinder from BindingPageTests class :: testFileUploadValidationsInBinder");
-        quoteListPageActions = CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map);
+        quoteListPageActions = CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
         boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
         assert quoteLocked;
         String status = quoteListPageActions.getQuoteStatus(DriverManager.getDriver());
@@ -307,7 +307,7 @@ public class BindingPageTests extends BaseTest {
          @author - Venkat Kottapalli
          ******************************************************************/
         logger.info("Executing the testValidateConfirmDatesPlaceOrderFunctionality :: BindingPageTests");
-        quoteListPageActions = CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map);
+        quoteListPageActions = CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
         logger.info("validating download icons of quote list page");
         boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
         assert quoteLocked;

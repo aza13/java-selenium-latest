@@ -289,11 +289,11 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
             WebElement description = descriptions.get(i);
             String text = description.getText();
             int n = i + 1;
-            if (text.contains("third")) {
-                String yesXpath = "(" + sectionXpath + "//button[text()='Yes'])" + "[" + n + "]";
+            if (text.contains("Applicant")) {
+                String yesXpath = "(" + sectionXpath + "//button[text()=\"Don't Know\"])" + "[" + n + "]";
                 driver.findElement(By.xpath(yesXpath)).click();
             } else {
-                String noXpath = "(" + sectionXpath + "//button[text()='Yes'])" + "[" + n + "]";
+                String noXpath = "(" + sectionXpath + "//button[text()=\"Don't Know\"])" + "[" + n + "]";
                 driver.findElement(By.xpath(noXpath)).click();
             }
         }
@@ -448,6 +448,78 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
         TextHelper.enterText(driver, softDeclineText, "softdeclinetest");
         ClickHelper.clickElement(driver, softDeclineSubmit);
         WaitHelper.pause(5000);
+    }
+
+    public void answerUWQuestionGeneralSectionOMICProduct(WebDriver driver) throws InterruptedException {
+        String generalInformationXpath = "//h5[text()='General Information']/parent::div/parent::div/following-sibling::div";
+        answerEachSectionUWQuestions(driver, 0, generalInformationXpath);
+    }
+    public void answerUWQuestionEMDSectionOMICProduct(WebDriver driver) throws InterruptedException {
+        String eMDXpath = "//h5[text()='e-MD']/parent::div/parent::div/following-sibling::div";
+        List<WebElement> eMDDropdowns = driver.findElements(By.xpath(eMDXpath+"//input/preceding-sibling::div"));
+        if(!eMDDropdowns.isEmpty()){
+            for (WebElement dropdown : eMDDropdowns){
+                DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, uwQuestionsDropdownsOption, "None");
+            }
+        }
+        List<WebElement> eMDDescriptions = driver.findElements(By.xpath(eMDXpath + "//p"));
+            WebElement description = eMDDescriptions.get(0);
+            String text = description.getText();
+            String yesXpath;
+
+            for(int i=1; i<=4 ; i++){
+                if (text.contains("e-MD")) {
+                    yesXpath = "(" + eMDXpath + "//button[text()='Yes'])" + "[" + i + "]";
+                    driver.findElement(By.xpath(yesXpath)).click();
+                    WaitHelper.pause(3000);
+                }
+            }
+        }
+    public void answerUWQuestionRansomSectionOMICProduct(WebDriver driver) throws InterruptedException {
+        String ransomwareXpath = "//h5[text()='Ransomware Controls']/parent::div/parent::div/following-sibling::div";
+        answerEachSectionUWQuestionsRansome(driver, 0, ransomwareXpath);
+    }
+    public void answerUWQuestionPhishingSectionOMICProduct(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(3000);
+        String phishingXpath = "//h5[text()='Phishing Controls']/parent::div/parent::div/following-sibling::div";
+        List<WebElement> allPhisingXpath = driver.findElements(By.xpath(phishingXpath + "//p"));
+        WebElement phisingDescription = allPhisingXpath.get(0);
+        String text = phisingDescription.getText();
+        String yesXpath;
+
+        for(int i=1; i<=4 ; i++){
+            if (text.contains("Applicant's")) {
+                yesXpath = "(" + phishingXpath + "//button[text()='Yes'])" + "[" + i + "]";
+                driver.findElement(By.xpath(yesXpath)).click();
+                WaitHelper.pause(3000);
+            }
+        }
+    }
+    public void answerUWQuestionCyberSectionOMICProduct(WebDriver driver) throws InterruptedException {
+        String cyberLossXpath = "//h5[text()='Cyber/Privacy Loss History']/parent::div/parent::div/following-sibling::div";
+
+        List<WebElement> descriptions = driver.findElements(By.xpath(cyberLossXpath + "//p"));
+        int count = descriptions.size();
+        for (int i = 0; i < count; i++) {
+            WebElement description = descriptions.get(i);
+            String text = description.getText();
+            int n = i + 1;
+            if (text.contains("third")) {
+                String yesXpath = "(" + cyberLossXpath + "//button[text()='No'])" + "[" + n + "]";
+                driver.findElement(By.xpath(yesXpath)).click();
+            }
+        }
+        WaitHelper.pause(5000);
+    }
+    public void answerUWQuestionRiskSectionOMICProduct(WebDriver driver) throws InterruptedException {
+        String boardRegulatoryXpath = "//h5[text()='Broad Regulatory Risk Protection Plus']/parent::div/parent::div/following-sibling::div";
+        List<WebElement> boardRegulatoryDropdowns = driver.findElements(By.xpath(boardRegulatoryXpath+"//input/preceding-sibling::div"));
+        if(!boardRegulatoryDropdowns.isEmpty()){
+            for (WebElement dropdown : boardRegulatoryDropdowns){
+                DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, uwQuestionsDropdownsOption, "None");
+            }
+        }
+        answerEachSectionUWQuestions(driver, boardRegulatoryDropdowns.size(), boardRegulatoryXpath);
     }
 
 }
