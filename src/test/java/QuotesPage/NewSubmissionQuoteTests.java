@@ -24,8 +24,6 @@ public class NewSubmissionQuoteTests extends BaseTest {
 
     private static final Logger logger = Logger.getLogger(NewSubmissionQuoteTests.class);
     private DashboardPageActions dashboardPageActions;
-    private RatingCriteriaPageActions ratingCriteriaPageActions;
-    private UnderwritingQuestionsPageActions underwritingQuestionsPageActions;
     private QuoteListPageActions quoteListPageActions;
     private DatabaseConnector databaseConnector;
 
@@ -35,8 +33,6 @@ public class NewSubmissionQuoteTests extends BaseTest {
         logger.info("Executing the tests from QuotesPageTests class  :: beforeClassSetUp");
         databaseConnector = new DatabaseConnector();
         dashboardPageActions = PageObjectManager.getDashboardPageActions();
-        ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaActions();
-        underwritingQuestionsPageActions = PageObjectManager.getUnderwritingQuestionsPageActions();
         quoteListPageActions = PageObjectManager.getQuoteListPageActions();
     }
 

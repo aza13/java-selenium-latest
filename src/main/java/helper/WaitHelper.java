@@ -42,7 +42,7 @@ public class WaitHelper {
                 if (result){
                     break;
                 }else{
-                    n++;
+                    i++;
                 }
             }
         } catch (Exception e) {

@@ -6,7 +6,6 @@ import base.PageObjectManager;
 import helper.*;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import utils.fileDownload.FileDownloadUtil;
@@ -237,7 +236,7 @@ public class QuoteListPageActions extends BaseTest {
     }
     public String getQuoteStatus(WebDriver driver) throws InterruptedException {
         try{
-            WaitHelper.pause(10000);
+            WaitHelper.waitForElementVisibilityCustom(driver, statusQuoteReadyToPlaceOrder, 30);
             return TextHelper.getText(driver,  statusQuoteReadyToPlaceOrder, "text");
         }catch (Exception e){
             logger.error("Failed to get quote status in Quotes List page "+e.getMessage());
@@ -249,11 +248,11 @@ public class QuoteListPageActions extends BaseTest {
     public boolean clickConfirmAndLockButtonIfDisplayed(WebDriver driver) {
         try{
             boolean clicked = false;
-            if(ConfigDataReader.getInstance().getProperty("product").contains("Ophthalmic")) {
+            if(ConfigDataReader.getInstance().getProperty("coverage").contains("Ophthalmic")) {
                 logger.info("if the product is Ophthalmic, selects BRRP coverages");
                 selectBRRPCoverageWithoutInvestigation(DriverManager.getDriver());
                 selectBRRPCoverageWithInvestigation(DriverManager.getDriver());
-            }else if(getSelectedClaim(driver)!=null || getSelectedClaim(driver)==null) {
+            }else if(getSelectedClaim(driver)==null || getAggLimitSelectedValue(driver)==null) {
                 int optionCount = getQuoteOptionCount(driver);
                 selectPerClaim(driver, Integer.toString(optionCount), "$ 500k");
                 selectAggregateLimit(driver, optionCount, "$ 500k");
@@ -274,13 +273,17 @@ public class QuoteListPageActions extends BaseTest {
                 clicked = true;
             }
             return clicked;
+        }catch (InterruptedException ie){
+            logger.error("Interrupted Exception "+ie.getMessage());
+            Thread.currentThread().interrupt();
+            return false;
         }catch (Exception e){
             logger.error("failed to click the confirm and lock button "+e.getMessage());
             return false;
         }
     }
 
-    public boolean lockTheQuote(WebDriver driver) {
+    public boolean lockTheQuote(WebDriver driver) throws InterruptedException {
         /***
          * This method clicks on the confirm and lock button
          * on successful quote lock it returns true, otherwise false
@@ -330,7 +333,8 @@ public class QuoteListPageActions extends BaseTest {
         return false;
     }
 
-    public boolean checkIfSubmitReviewDialogDisplayed(WebDriver driver){
+    public boolean checkIfSubmitReviewDialogDisplayed(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibilityCustom(driver, submitReviewDialog, 15);
         return ClickHelper.isElementExist(driver, submitReviewDialog);
     }
 
@@ -539,12 +543,8 @@ public class QuoteListPageActions extends BaseTest {
     public boolean verifyOptionCoverageGroupUnSelect(WebDriver driver) throws InterruptedException {
         boolean isFieldVisible = false;
         ClickHelper.clickElement(driver, coverageGroupCheckbox);
-        WaitHelper.pause(7000);
-        if(ClickHelper.isElementExist(driver, groupLimit)){
-            isFieldVisible = true;
-        }else if(ClickHelper.isElementExist(driver, aggregateLimit)){
-            isFieldVisible = true;
-        }else if(ClickHelper.isElementExist(driver, deductible)){
+        WaitHelper.waitForElementVisibilityCustom(driver, groupLimit, 15);
+        if(ClickHelper.isElementExist(driver, groupLimit) && ClickHelper.isElementExist(driver, aggregateLimit) && ClickHelper.isElementExist(driver, deductible)){
             isFieldVisible = true;
         }
         return isFieldVisible;
@@ -553,13 +553,9 @@ public class QuoteListPageActions extends BaseTest {
     public boolean verifyOptionCoverageGroupSelect(WebDriver driver) throws InterruptedException {
         boolean isFieldVisible = false;
         ClickHelper.clickElement(driver, coverageGroupCheckbox);
-        WaitHelper.pause(5000);
-        if(ClickHelper.isElementExist(driver, groupLimit)){
-            if(ClickHelper.isElementExist(driver, aggregateLimit)){
-                if(ClickHelper.isElementExist(driver, deductible)){
-                    isFieldVisible = true;
-                }
-            }
+        WaitHelper.waitForElementVisibilityCustom(driver, groupLimit, 15);
+        if(ClickHelper.isElementExist(driver, groupLimit) && ClickHelper.isElementExist(driver, aggregateLimit) && ClickHelper.isElementExist(driver, deductible)){
+            isFieldVisible = true;
         }
         return isFieldVisible;
     }
@@ -621,12 +617,8 @@ public class QuoteListPageActions extends BaseTest {
     }
 
     public boolean isQuoteExpiryDisplayed(WebDriver driver) throws InterruptedException{
-        WaitHelper.pause(10000);
+        WaitHelper.waitForElementVisibilityCustom(driver, quoteExpiry, 15);
         return ClickHelper.isElementExist(driver, quoteExpiry);
-    }
-
-    public boolean checkIfFetchingOptionCoveragesMessageDisplayed(WebDriver driver){
-        return ClickHelper.isElementExist(driver, fetchingOptionCoverages);
     }
 
     public void selectBRRPCoverageWithoutInvestigation(WebDriver driver) throws InterruptedException {
@@ -638,6 +630,9 @@ public class QuoteListPageActions extends BaseTest {
                 selectAggregateLimit(driver, 2, "$ 500k");
                 WaitHelper.pause(5000);
             }
+        }catch (InterruptedException ie){
+            logger.error("Interrupted Exception "+ie.getMessage());
+            Thread.currentThread().interrupt();
         }catch (Exception e){
             logger.error("Unable to select the coverage " +e.getMessage());
             throw(e);
@@ -652,39 +647,52 @@ public class QuoteListPageActions extends BaseTest {
                 selectPerClaim(driver, "3", "$ 250k");
                 selectAggregateLimit(driver, 3, "$ 500k");
             }
+        }catch (InterruptedException ie){
+            logger.error("Interrupted Exception "+ie.getMessage());
+            Thread.currentThread().interrupt();
         }catch (Exception e){
             logger.error("Unable to select the coverage " +e.getMessage());
             throw(e);
         }
     }
 
-    public boolean verifyContactUnderwriter(WebDriver driver) throws InterruptedException {
+    public boolean verifyContactUnderwriter(WebDriver driver) {
         logger.info("this method verifies that contact UW button present left to the add quote button");
         try{
-            WaitHelper.pause(5000);
+            WaitHelper.waitForElementVisibilityCustom(driver, addQuoteButton, 15);
             return driver.findElement(with(By.tagName("button")).toLeftOf(addQuoteButton)).isDisplayed();
+        }catch (InterruptedException ie){
+            logger.error("Interrupted Exception "+ie.getMessage());
+            Thread.currentThread().interrupt();
+            return false;
         }catch (Exception e){
             logger.error("Failed click on the  Contact Underwriter button " +e.getMessage());
             throw(e);
         }
     }
 
-    public void clickContactUnderwriter(WebDriver driver) throws InterruptedException {
+    public void clickContactUnderwriter(WebDriver driver) {
         try{
-            WaitHelper.pause(5000);
+            WaitHelper.waitForElementVisibilityCustom(driver, contactUnderwriterButton, 15);
             ClickHelper.clickElement(driver, contactUnderwriterButton);
             WaitHelper.pause(5000);
+        }catch (InterruptedException ie){
+            logger.error("Interrupted Exception "+ie.getMessage());
+            Thread.currentThread().interrupt();
         }catch (Exception e){
             logger.error("Failed click on the  Contact Underwriter button  " +e.getMessage());
             throw(e);
         }
     }
 
-    public void clickOnExitDashboard(WebDriver driver) throws InterruptedException {
+    public void clickOnExitDashboard(WebDriver driver){
         try{
-            WaitHelper.pause(5000);
+            WaitHelper.waitForElementVisibilityCustom(driver, exitToDashboard, 15);
             ClickHelper.clickElement(driver, exitToDashboard);
-        }catch (Exception e){
+        }catch (InterruptedException ie){
+            logger.error("Interrupted Exception "+ie.getMessage());
+            Thread.currentThread().interrupt();
+        }catch(Exception e){
             logger.error("Failed to click on exit button :: clickOnExitDashboard" +e.getMessage());
             throw(e);
         }

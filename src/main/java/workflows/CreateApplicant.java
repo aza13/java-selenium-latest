@@ -8,7 +8,6 @@ import org.openqa.selenium.WebDriver;
 import pageActions.DashboardPageActions;
 import pageActions.InsuredPageActions;
 import pageActions.RatingCriteriaPageActions;
-import utils.fileReader.ConfigDataReader;
 import utils.fileReader.TextFileReader;
 
 public class CreateApplicant {

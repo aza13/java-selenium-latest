@@ -21,7 +21,7 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
     public static int dropdownsIndex = 0;
 
     public boolean isUnderwritingQuestionsPageDisplayed(WebDriver driver) throws InterruptedException {
-        WaitHelper.pause(3000);
+        WaitHelper.waitForElementVisibilityCustom(driver, questionsPageSelected,15);
         return ClickHelper.isElementExist(driver, questionsPageSelected);
     }
 
@@ -231,7 +231,7 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
         String questionDescriptionXpath = "//div[@id='underwriting-questions-header' and @role='region']/div/div";
         List<WebElement> allDescriptions = driver.findElements(By.xpath(questionDescriptionXpath));
         int count = allDescriptions.size();
-        int n = 0;
+        int n;
         String questionDescriptionText = null;
         String noButtonXpath;
         if (count > 0) {
@@ -301,7 +301,7 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
     }
 
     public void answerUWQuestionButtonsOMICProduct2(WebDriver driver) throws InterruptedException {
-        int count = 0;
+        int count;
         String generalInformationXpath = "//h5[text()='General Information']/parent::div/parent::div/following-sibling::div";
         answerEachSectionUWQuestions(driver, 0, generalInformationXpath);
 
