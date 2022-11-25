@@ -6,6 +6,7 @@ import base.PageObjectManager;
 import helper.*;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import utils.fileDownload.FileDownloadUtil;
@@ -226,7 +227,8 @@ public class QuoteListPageActions extends BaseTest {
         return driver.findElement(clickAsPDFDownloadButton).isDisplayed();
     }
 
-    public boolean verifyWORDFileAvailable(WebDriver driver){
+    public boolean verifyWORDFileAvailable(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibilityCustom(driver, clickAsWordDownloadButton, 30);
         return driver.findElement(clickAsWordDownloadButton).isDisplayed();
     }
 
@@ -338,8 +340,11 @@ public class QuoteListPageActions extends BaseTest {
         return ClickHelper.isElementExist(driver, submitReviewDialog);
     }
 
-    public String getSubmitReviewDialogText(WebDriver driver){
+    public String getSubmitReviewDialogText(WebDriver driver) throws InterruptedException {
         try{
+            JavascriptExecutor jse = (JavascriptExecutor)driver;
+            jse.executeScript(submitReviewDialogCss);
+            WaitHelper.waitForElementVisibilityCustom(driver, submitReviewDialogText, 30);
             return TextHelper.getText(driver, submitReviewDialogText, "text").trim();
         }catch (Exception e){
             logger.error("failed to get the text of submit review tex :: getSubmitReviewDialogText "+e.getMessage());
@@ -396,7 +401,7 @@ public class QuoteListPageActions extends BaseTest {
     }
 
     public void clickConfirmDatesAndPlaceOrderButton(WebDriver driver) throws InterruptedException {
-        WaitHelper.waitForElementVisibility(driver, confirmDatesAndPlaceOrderButton);
+        WaitHelper.waitForElementVisibilityCustom(driver, confirmDatesAndPlaceOrderButton, 30);
         try{
             WebElement button = driver.findElement(confirmDatesAndPlaceOrderButton);
             if(button.isDisplayed()){
@@ -573,7 +578,7 @@ public class QuoteListPageActions extends BaseTest {
     }
 
     public boolean isSelectVisibleToNewAddOption(WebDriver driver) throws InterruptedException {
-        WaitHelper.pause(3000);
+        WaitHelper.waitForElementVisibilityCustom(driver, selectDropDown, 30);
         List<WebElement> optionDropDown = driver.findElements(selectDropDown);
         return optionDropDown.size() == 3;
     }
@@ -673,7 +678,7 @@ public class QuoteListPageActions extends BaseTest {
 
     public void clickContactUnderwriter(WebDriver driver) {
         try{
-            WaitHelper.waitForElementVisibilityCustom(driver, contactUnderwriterButton, 15);
+            WaitHelper.waitForElementVisibilityCustom(driver, contactUnderwriterButton, 30);
             ClickHelper.clickElement(driver, contactUnderwriterButton);
             WaitHelper.pause(5000);
         }catch (InterruptedException ie){

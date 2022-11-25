@@ -143,7 +143,6 @@ public class NewSubmissionQuoteTests extends BaseTest {
         quoteListPageActions.clickConfirmDatesConfirmButton(DriverManager.getDriver());
     }
 
-
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
     public void testContactUnderwriterModalBeforeLock(Map<String, String> map) throws InterruptedException, SQLException {
         /*****************************************************************
@@ -247,7 +246,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
         logger.info("verifying whether selected values are saved or not in new option");
         quoteListPageActions.clickAddOptionButton(DriverManager.getDriver());
         boolean isSelectVisible = quoteListPageActions.isSelectVisibleToNewAddOption(DriverManager.getDriver());
-        Assert.assertTrue(isSelectVisible);
+        assert isSelectVisible;
         quoteListPageActions.selectPerClaim(DriverManager.getDriver(), map.get("optionCount"), map.get("claim"));
         String selectedPerClaimValue = quoteListPageActions.clickClaimCheckbox(DriverManager.getDriver(), map.get("optionCount"));
         Assert.assertEquals(selectedPerClaimValue, map.get("claim"));
