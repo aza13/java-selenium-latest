@@ -299,11 +299,4 @@ public class InsuredPageActions extends BaseTest {
         WaitHelper.pause(3000);
         return ClickHelper.isElementExist(driver, largerThan2MbFileSizeText);
     }
-
-    public String captureUserEnteredDetails(WebDriver driver) throws InterruptedException {
-        String applicantName = getInsuredName(driver);
-
-        return applicantName;
-
-    }
 }
