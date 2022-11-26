@@ -115,25 +115,29 @@ public class InsuredPageActions extends BaseTest {
         }
     }
 
-    public void enterEmailAddress(WebDriver driver) {
+    public String enterEmailAddress(WebDriver driver) {
         String email = FakeDataHelper.email();
         TextHelper.enterText(driver, insuredFormEmailField, email);
+        return email;
     }
 
-    public void enterPhysicalAddress(WebDriver driver) {
+    public String enterPhysicalAddress(WebDriver driver) {
 
         String address = FakeDataHelper.address();
         TextHelper.enterText(driver, insuredPhysicalAddField, address);
+        return address;
     }
 
-    public void enterPhyCity(WebDriver driver) {
+    public String enterPhyCity(WebDriver driver) {
         String city = FakeDataHelper.city();
         TextHelper.enterText(driver, insuredPhysicalCityField, city);
+        return city;
     }
 
-    public void enterPhyZipcode(WebDriver driver) {
+    public String enterPhyZipcode(WebDriver driver) {
         String zipcode = FakeDataHelper.zipcode();
         TextHelper.enterText(driver, insuredPhysicalZipCode, zipcode);
+        return zipcode;
     }
 
     public void selectPhyState(WebDriver driver) throws InterruptedException {
@@ -294,5 +298,12 @@ public class InsuredPageActions extends BaseTest {
     public boolean isFileSizeLagerThan2MbTextDisplayed(WebDriver driver) throws InterruptedException {
         WaitHelper.pause(3000);
         return ClickHelper.isElementExist(driver, largerThan2MbFileSizeText);
+    }
+
+    public String captureUserEnteredDetails(WebDriver driver) throws InterruptedException {
+        String applicantName = getInsuredName(driver);
+
+        return applicantName;
+
     }
 }
