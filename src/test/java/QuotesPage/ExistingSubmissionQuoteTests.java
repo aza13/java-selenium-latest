@@ -54,6 +54,7 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
          **/
         logger.info("Executing the testAddQuoteOption from QuoteOptionTests class :: testAddAndDeleteQuoteOption");
         dashboardPageActions.clickQuotesFilterList(DriverManager.getDriver());
+        dashboardPageActions.selectActiveQuote(DriverManager.getDriver());
         dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
         dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), coverage);
         dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());

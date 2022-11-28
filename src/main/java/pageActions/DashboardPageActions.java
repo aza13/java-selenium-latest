@@ -114,8 +114,8 @@ public class DashboardPageActions extends BaseTest {
         }
     }
 
-    public List<WebElement> getQuoteCardsList(WebDriver driver) {
-        WaitHelper.waitForElementVisibility(driver, quoteCard);
+    public List<WebElement> getQuoteCardsList(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibilityCustom(driver, quoteCard, 30);
         return driver.findElements(quoteCard);
     }
 
@@ -278,7 +278,9 @@ public class DashboardPageActions extends BaseTest {
 
     public void selectActiveQuote(WebDriver driver) {
         try {
+            List<WebElement> quotes = getQuoteCardsList(driver);
             List<String> status = getAllQuotesStatus(driver);
+
         } catch (Exception e) {
             System.out.println("to do");
         }
@@ -615,7 +617,6 @@ public class DashboardPageActions extends BaseTest {
     }
 
     public void clickQuoteCardContinueButton(WebDriver driver){
-
         WaitHelper.waitForElementVisibility(driver, quoteCardGenericContinueButton);
         ClickHelper.clickElement(driver, quoteCardGenericContinueButton);
     }
