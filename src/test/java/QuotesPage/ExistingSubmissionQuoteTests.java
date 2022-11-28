@@ -67,7 +67,7 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
             AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map, coverage);
         }
-        assert quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver());
+//        assert quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver());
         if (quoteListPageActions.checkIfOpenQuoteExist(DriverManager.getDriver())) {
             int optionCountBefore = quoteListPageActions.getQuoteOptionCount(DriverManager.getDriver());
             if (map.get("functionality").equals("addQuoteOption")) {
@@ -87,7 +87,7 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
                 }
             }
         } else {
-            throw new SkipException("open quote doesn't exist, neither can add nor delete quote option");
+            throw new SkipException("open quote doesn't exist or we landed on binder page, neither can add nor delete quote option");
         }
     }
 

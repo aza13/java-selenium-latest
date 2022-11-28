@@ -84,7 +84,7 @@ public class RatingCriteriaPageActions extends BaseTest {
     }
 
     public void enterNetWorth(WebDriver driver, String revenue) throws InterruptedException {
-        WaitHelper.pause(5000);
+        WaitHelper.waitForElementVisibilityCustom(driver, ratingCriteriaNetWorthField, 30);
         TextHelper.enterText(driver, ratingCriteriaNetWorthField, revenue);
         driver.findElement(ratingCriteriaNetWorthField).sendKeys(Keys.TAB);
         WaitHelper.pause(3000);

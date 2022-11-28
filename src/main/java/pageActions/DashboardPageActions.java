@@ -196,6 +196,8 @@ public class DashboardPageActions extends BaseTest {
     public void createNewQuote(WebDriver driver, String product, String applicantName, String website) throws InterruptedException {
         WebElement element = driver.findElement(selectCoverageDropdown);
         DropdownHelper.selectValueFromBootstrapDropdown(driver, element, genericCoverageOption, product);
+        WaitHelper.pause(2000);
+        WaitHelper.waitForElementVisibilityCustom(driver, applicantNameField, 30);
         TextHelper.enterText(driver, applicantNameField, applicantName);
         if(website.contentEquals("No website")){
             website = "";
@@ -272,6 +274,14 @@ public class DashboardPageActions extends BaseTest {
     public void clickFilterByCoverageName(WebDriver driver) {
         WaitHelper.waitForElementVisibility(driver, filterByCoverageName);
         ClickHelper.clickElement(driver, filterByCoverageName);
+    }
+
+    public void selectActiveQuote(WebDriver driver) {
+        try {
+            List<String> status = getAllQuotesStatus(driver);
+        } catch (Exception e) {
+            System.out.println("to do");
+        }
     }
 
     public void clickSubmissionFilterByStatus(WebDriver driver) {
@@ -432,13 +442,12 @@ public class DashboardPageActions extends BaseTest {
     }
 
     public void clickApplyFiltersButton(WebDriver driver) throws InterruptedException {
-
         ClickHelper.javaScriptExecutorClick(driver, applyFiltersButton);
         WaitHelper.pause(5000);
     }
 
     public void selectStatusInFilter(WebDriver driver, String status) throws InterruptedException {
-        WaitHelper.waitForElementVisibility(driver, allStatusDropdown);
+        WaitHelper.waitForElementVisibilityCustom(driver, allStatusDropdown, 30);
         WebElement dropdown = driver.findElement(allStatusDropdown);
         DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, statusOptions, status);
     }
@@ -541,7 +550,6 @@ public class DashboardPageActions extends BaseTest {
         for (String date: dates) {
             try {
                 actualDate = df.parse(date);
-                assert actualStatus != null;
                 if (!actualStatus.equalsIgnoreCase(expStatus) && getDifferenceInExpirationDateInDays(actualDate,givenDate) <=60) {
                     ClickHelper.clickElement(driver,firstAvailableRenewButton);
                     ClickHelper.clickElement(driver, submitSubmissionRenewal);
