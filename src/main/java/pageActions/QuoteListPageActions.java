@@ -198,17 +198,17 @@ public class QuoteListPageActions extends BaseTest {
     }
 
     public boolean clickPDFFileDownload(WebDriver driver, String filename) throws InterruptedException {
-
         FileDownloadUtil.checkFileExistInDownloadFolder();
         ClickHelper.clickElement(driver, clickAsPDFDownloadButton);
+        WaitHelper.waitForProgressbarInvisibility(driver);
         WaitHelper.pause(15000);
         return FileDownloadUtil.verifyPDFFileDownload(filename);
     }
 
     public boolean clickApplicationDownload(WebDriver driver, String filename) throws InterruptedException {
-
         FileDownloadUtil.checkFileExistInDownloadFolder();
         ClickHelper.clickElement(driver, clickAsApplicationButton);
+        WaitHelper.waitForProgressbarInvisibility(driver);
         WaitHelper.pause(15000);
         return FileDownloadUtil.verifyPDFFileDownload(filename);
     }
@@ -340,8 +340,7 @@ public class QuoteListPageActions extends BaseTest {
 
     public String getSubmitReviewDialogText(WebDriver driver) throws InterruptedException {
         try {
-            JavascriptExecutor jse = (JavascriptExecutor) driver;
-            jse.executeScript(submitReviewDialogCss);
+            JavaScriptHelper.executeJavaScript(driver, submitReviewDialogCss);
             WaitHelper.waitForElementVisibilityCustom(driver, submitReviewDialogText, 30);
             return TextHelper.getText(driver, submitReviewDialogText, "text").trim();
         } catch (Exception e) {
@@ -414,7 +413,7 @@ public class QuoteListPageActions extends BaseTest {
     }
 
     public BindingPageActions submitOrderConfirmation(WebDriver driver) throws InterruptedException {
-        WaitHelper.waitForElementVisibility(driver, orderConfirmationDialog);
+        WaitHelper.waitForElementVisibilityCustom(driver, orderConfirmationDialog, 30);
         TextHelper.enterText(driver, orderConfirmationTextArea, "Place Order Testing");
         ClickHelper.clickElement(driver, orderConfirmationSubmitButton);
         WaitHelper.waitForProgressbarInvisibility(driver);

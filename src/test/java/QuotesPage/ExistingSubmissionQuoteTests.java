@@ -10,10 +10,7 @@ import org.testng.SkipException;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import pageActions.DashboardPageActions;
-import pageActions.QuoteListPageActions;
-import pageActions.RatingCriteriaPageActions;
-import pageActions.UnderwritingQuestionsPageActions;
+import pageActions.*;
 import utils.dataProvider.TestDataProvider;
 import utils.dbConnector.DatabaseConnector;
 import workflows.AnswerUnderwriterQuestions;
@@ -54,13 +51,13 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
          **/
         logger.info("Executing the testAddQuoteOption from QuoteOptionTests class :: testAddAndDeleteQuoteOption");
         dashboardPageActions.clickQuotesFilterList(DriverManager.getDriver());
-        dashboardPageActions.selectActiveQuote(DriverManager.getDriver());
         dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
         dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), coverage);
         dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
         dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), map.get("status"));
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
-        dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
+        dashboardPageActions.selectActiveQuote(DriverManager.getDriver());
+//        dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
             FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, coverage);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
@@ -159,7 +156,7 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
         String submissionId;
         if (submissionCount > 0) {
             for (HashMap<Object, Object> id : submissionIds) {
-                submissionId = id.get("id").toString();
+                submissionId = id.get("submission_id").toString();
                 dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
                 if (dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver())) {
                     confirmedQuote = true;
@@ -194,7 +191,7 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
             boolean confirmedQuote = false;
             if (submissionCount > 0) {
                 for (HashMap<Object, Object> id : submissionIds) {
-                    submissionId = id.get("id").toString();
+                    submissionId = id.get("submission_id").toString();
                     dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
                     if (dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver())) {
                         confirmedQuote = true;
@@ -208,11 +205,12 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
                     if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
                         quoteListPageActions.expandTheQuote(DriverManager.getDriver());
                         quoteListPageActions.clickConfirmDatesAndPlaceOrderButton(DriverManager.getDriver());
-                        quoteListPageActions.submitOrderConfirmation(DriverManager.getDriver());
+                        BindingPageActions bindingPageActions = quoteListPageActions.clickConfirmDatesConfirmButton(DriverManager.getDriver());
+                        bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
+                        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
+                        String quoteStatus = dashboardPageActions.getQuoteStatus(DriverManager.getDriver()).trim();
+                        assert quoteStatus.equals(map.get("quoteStatus"));
                     }
-                    dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
-                    String quoteStatus = dashboardPageActions.getQuoteStatus(DriverManager.getDriver()).trim();
-                    assert quoteStatus.equals(map.get("quoteStatus"));
                 } else {
                     logger.info("No confirmed quotes available, to place the order");
                 }
@@ -286,7 +284,7 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
             if (confirmedQuote) {
                 quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
                 boolean pdfDownload = quoteListPageActions.clickApplicationDownload(DriverManager.getDriver(), map.get("pdfFilename"));
-                Assert.assertFalse(pdfDownload);
+                assert pdfDownload;
 
             } else {
                 logger.info("No confirmed quotes available, to download the quote ");

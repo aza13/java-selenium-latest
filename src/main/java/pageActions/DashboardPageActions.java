@@ -276,13 +276,18 @@ public class DashboardPageActions extends BaseTest {
         ClickHelper.clickElement(driver, filterByCoverageName);
     }
 
-    public void selectActiveQuote(WebDriver driver) {
+    public void selectActiveQuote(WebDriver driver) throws InterruptedException {
         try {
             List<WebElement> quotes = getQuoteCardsList(driver);
-            List<String> status = getAllQuotesStatus(driver);
-
+            for(WebElement quoteCard : quotes){
+                if(quoteCard.getText().contains("Active")){
+                    quoteCard.findElement(By.xpath("//button[text()='Continue']")).click();
+                    break;
+                }
+            }
         } catch (Exception e) {
-            System.out.println("to do");
+            logger.error("No active quote is found "+e.getMessage());
+            throw e;
         }
     }
 

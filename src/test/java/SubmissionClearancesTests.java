@@ -154,15 +154,15 @@ public class SubmissionClearancesTests extends BaseTest {
         insuredPageActions.selectInsuredCard(DriverManager.getDriver(), newInsuredName);
         if(insuredPageActions.isClearanceDialogModalDisplayed(DriverManager.getDriver())){
             BindingPageActions bindingPageActions = PageObjectManager.getBindingPageActions();
-            bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.PDF_2MB_DOC_FILE_PATH);
+            bindingPageActions.uploadFileUsingJavaScript(DriverManager.getDriver(), ConstantVariable.PDF_2MB_DOC_FILE_PATH);
             assert insuredPageActions.isFileSizeLagerThan2MbTextDisplayed(DriverManager.getDriver());
             assert !insuredPageActions.isClearanceSubmitButtonEnabled(DriverManager.getDriver());
             bindingPageActions.clickFileDeleteIcon(DriverManager.getDriver());
-            bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.INVALID_FILE_TYPE);
+            bindingPageActions.uploadFileUsingJavaScript(DriverManager.getDriver(), ConstantVariable.INVALID_FILE_TYPE);
             assert bindingPageActions.isFileTypeWarningDisplayed2(DriverManager.getDriver());
             assert !insuredPageActions.isClearanceSubmitButtonEnabled(DriverManager.getDriver());
             bindingPageActions.clickFileDeleteIcon(DriverManager.getDriver());
-            bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.PDF_DOC_FILE_PATH);
+            bindingPageActions.uploadFileUsingJavaScript(DriverManager.getDriver(), ConstantVariable.PDF_DOC_FILE_PATH);
             assert !bindingPageActions.isFileTypeWarningDisplayed2(DriverManager.getDriver());
         }
         insuredPageActions.clickClearanceSubmitButton(DriverManager.getDriver());

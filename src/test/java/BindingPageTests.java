@@ -15,7 +15,6 @@ import utils.dataProvider.TestDataProvider;
 import utils.dbConnector.DatabaseConnector;
 import workflows.CreateSubmission;
 
-import java.awt.*;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -191,7 +190,7 @@ public class BindingPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
-    public void testFileUploadValidationsInBinder(Map<String, String> map) throws InterruptedException, AWTException {
+    public void testFileUploadValidationsInBinder(Map<String, String> map) throws InterruptedException {
         /*****************************************************************
          this test verifies maximum file size and file type that can be uploaded to a Binder
          story - N2020-33918, N2020-34632
@@ -215,11 +214,11 @@ public class BindingPageTests extends BaseTest {
         bindingPageActions.clickPreSubjSelectFilesButton(DriverManager.getDriver());
         if (map.get("fileType").contentEquals("fileTypeValidation")) {
             logger.info("validating the invalid file type warning & valid file upload functionality");
-            bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.INVALID_FILE_TYPE);
+            bindingPageActions.uploadFileUsingJavaScript(DriverManager.getDriver(), ConstantVariable.INVALID_FILE_TYPE);
             assert bindingPageActions.isFileTypeWarningDisplayed2(DriverManager.getDriver());
-            bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.PDF_DOC_FILE_PATH);
-            bindingPageActions.clickFileDeleteIcon(DriverManager.getDriver());
             assert bindingPageActions.getFileDeleteIcon(DriverManager.getDriver()).isDisplayed();
+            bindingPageActions.clickFileDeleteIcon(DriverManager.getDriver());
+            bindingPageActions.uploadFileUsingJavaScript(DriverManager.getDriver(), ConstantVariable.PDF_DOC_FILE_PATH);
             assert bindingPageActions.getFilePresentIcon(DriverManager.getDriver()).isDisplayed();
             bindingPageActions.clickAddFilesButton(DriverManager.getDriver());
         } else if (map.get("fileType").contentEquals("fileSizeValidation")) {
@@ -227,7 +226,7 @@ public class BindingPageTests extends BaseTest {
             logger.info("validating the maximum file upload size warning");
             assert bindingPageActions.isFileMaximumSizeTextDisplayed(DriverManager.getDriver());
             for (int n = 1; n <= 12; n++) {
-                bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.WORD_DOC_FILE_PATH);
+                bindingPageActions.uploadFileUsingJavaScript(DriverManager.getDriver(), ConstantVariable.WORD_DOC_FILE_PATH);
             }
             bindingPageActions.clickAddFilesButton(DriverManager.getDriver());
             assert bindingPageActions.isFileTypeWarningDisplayed(DriverManager.getDriver());
@@ -289,6 +288,7 @@ public class BindingPageTests extends BaseTest {
                 dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
             }
             if (bindingPage) {
+                BindingPageActions bindingPageActions = PageObjectManager.getBindingPageActions();
                 assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
                 boolean pdfDownload = bindingPageActions.clickBinderDownload(DriverManager.getDriver(), map.get("pdfFilename"));
                 Assert.assertTrue(pdfDownload);

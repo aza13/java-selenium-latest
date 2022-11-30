@@ -17,7 +17,7 @@ public class FileDownloadUtil {
 
     }
 
-    public static void checkFileExistInDownloadFolder() throws InterruptedException {
+    public static void checkFileExistInDownloadFolder() {
         String userDirectory = System.getProperty("user.home");
         System.out.println("Jenkins Home Path: "+userDirectory);
         String downloadsPath = userDirectory+"\\Downloads";
@@ -26,8 +26,7 @@ public class FileDownloadUtil {
         totalFiles = fileLocation.listFiles();
         assert totalFiles != null;
         for (File file : totalFiles) {
-            if (file.getName().contains("TMHCC_")) {
-
+            if (file.getName().contains("TMHCC_")||file.getName().contains("Binder_Invoice_")) {
                 file.delete();
             }
         }
