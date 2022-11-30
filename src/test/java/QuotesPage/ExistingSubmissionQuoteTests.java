@@ -132,8 +132,8 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
             int quotesCountBefore = quoteListPageActions.getQuotesCount(DriverManager.getDriver());
             quoteListPageActions.addNewQuote(DriverManager.getDriver(), "Custom Quote");
             logger.info("option count is 1, because only one quote will be open at a time");
-            int optionCount = 1;
-            quoteListPageActions.selectPerClaim(DriverManager.getDriver(), Integer.toString(optionCount), map.get("claim"));
+            String optionCount = "1";
+            quoteListPageActions.selectPerClaim(DriverManager.getDriver(), optionCount, map.get("claim"));
             quoteListPageActions.selectRetentionOption(DriverManager.getDriver(), optionCount, map.get("retention"));
             quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), optionCount, map.get("limit"));
             int quotesCountAfter = quoteListPageActions.getQuotesCount(DriverManager.getDriver());
@@ -240,13 +240,13 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
             quoteListPageActions.selectPerClaim(DriverManager.getDriver(), map.get("optionCount"), map.get("claim1"));
-            quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), Integer.parseInt(map.get("optionCount")), map.get("limit1"));
+            quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), map.get("optionCount"), map.get("limit1"));
 
             String premiumBefore = quoteListPageActions.getFirstOptionPremium(DriverManager.getDriver());
             String policyAggLimitBefore = quoteListPageActions.getFirstMaxPolicyAggLimit(DriverManager.getDriver());
 
             quoteListPageActions.selectPerClaim(DriverManager.getDriver(), map.get("optionCount"), map.get("claim2"));
-            quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), Integer.parseInt(map.get("optionCount")), map.get("limit2"));
+            quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), map.get("optionCount"), map.get("limit2"));
 
             String premiumAfter = quoteListPageActions.getFirstOptionPremium(DriverManager.getDriver());
             String policyAggLimitAfter = quoteListPageActions.getFirstMaxPolicyAggLimit(DriverManager.getDriver());

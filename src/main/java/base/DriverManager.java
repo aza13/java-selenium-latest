@@ -43,7 +43,7 @@ public class DriverManager {
                     preferences.put("download.prompt_for_download", false);
 
                     ChromeOptions options = new ChromeOptions();
-                    if (!operatingSystem.contains("Windows")) {
+                    if (operatingSystem.contains("Windows")) {
                         options.addArguments("--headless");
                     }
                     options.addArguments("--incognito");

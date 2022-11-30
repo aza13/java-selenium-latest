@@ -175,11 +175,10 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
     }
 
     public void clickUWQuestionsContinueButton(WebDriver driver) throws InterruptedException {
-        WaitHelper.waitForElementVisibility(driver, uwQuestionsContinueButton);
+        WaitHelper.waitForElementVisibilityCustom(driver, uwQuestionsContinueButton, 30);
         ScrollHelper.scrollElementIntoView(driver, uwQuestionsContinueButton);
         ClickHelper.clickElement(driver, uwQuestionsContinueButton);
         WaitHelper.pause(20000);
-
     }
 
     public boolean checkWhetherAllUWQuestionsAreAnswered(WebDriver driver) {
@@ -211,7 +210,7 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
                 logger.info("UW question buttons exist :: answerUWQuestionButtons");
                 for (WebElement allNoButton : allNoButtons) {
                     logger.info("clicking on each yes/no button in each UW section");
-                    WaitHelper.pause(5000);
+//                    WaitHelper.pause(5000);
                     allNoButton.click();
                 }
             } else {

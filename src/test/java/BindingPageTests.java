@@ -109,7 +109,11 @@ public class BindingPageTests extends BaseTest {
         assert bindingPageActions.getGenerateBinderButton(DriverManager.getDriver()).isEnabled();
         bindingPageActions.clickGenerateBinderButton(DriverManager.getDriver());
         String quoteStatusAfterBinding = bindingPageActions.getQuoteStatus(DriverManager.getDriver());
-        assert quoteStatusAfterBinding.contentEquals(map.get("boundStatus"));
+        if(bindingPageActions.isBinderGenerationWarningDisplayed(DriverManager.getDriver())){
+            assert quoteStatusAfterBinding.contentEquals(map.get("optionOrderStatus"));
+        }else {
+            assert quoteStatusAfterBinding.contentEquals(map.get("boundStatus"));
+        }
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
@@ -175,7 +179,7 @@ public class BindingPageTests extends BaseTest {
         bindingPageActions = quoteListPageActions.clickConfirmDatesConfirmButton(DriverManager.getDriver());
         assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
         logger.info(("validating the Generate Binder button - 35242, QAT-550"));
-        logger.info("the generate binding button displayed when there no pre-binding subjectivities" +
+        logger.info("the generate binder button will be displayed when there no pre-binding subjectivities" +
                 " or all pre-binding subjectivities status is either Accepted or Waived");
         boolean priorSubj = bindingPageActions.isPriorSubjectivitiesDisplayed(DriverManager.getDriver());
         if (priorSubj) {
@@ -216,13 +220,18 @@ public class BindingPageTests extends BaseTest {
             logger.info("validating the invalid file type warning & valid file upload functionality");
             bindingPageActions.uploadFileUsingJavaScript(DriverManager.getDriver(), ConstantVariable.INVALID_FILE_TYPE);
             assert bindingPageActions.isFileTypeWarningDisplayed2(DriverManager.getDriver());
-            assert bindingPageActions.getFileDeleteIcon(DriverManager.getDriver()).isDisplayed();
+            assert bindingPageActions.isFileDeleteIconDisplayed(DriverManager.getDriver());
             bindingPageActions.clickFileDeleteIcon(DriverManager.getDriver());
-            bindingPageActions.uploadFileUsingJavaScript(DriverManager.getDriver(), ConstantVariable.PDF_DOC_FILE_PATH);
-            assert bindingPageActions.getFilePresentIcon(DriverManager.getDriver()).isDisplayed();
-            bindingPageActions.clickAddFilesButton(DriverManager.getDriver());
-        } else if (map.get("fileType").contentEquals("fileSizeValidation")) {
+            assert !bindingPageActions.isFileDeleteIconDisplayed(DriverManager.getDriver());
+            bindingPageActions.clickSelectFilesCancelButton(DriverManager.getDriver());
             bindingPageActions.clickPreSubjSelectFilesButton(DriverManager.getDriver());
+            bindingPageActions.uploadFileUsingJavaScript(DriverManager.getDriver(), ConstantVariable.PDF_DOC_FILE_PATH);
+            logger.info("checking file attachment on select files modal");
+            assert bindingPageActions.isFilePresentIconDisplayed(DriverManager.getDriver());
+            bindingPageActions.clickAddFilesButton(DriverManager.getDriver());
+            logger.info("checking file attachment on binder page");
+            assert bindingPageActions.isFilePresentIconDisplayed(DriverManager.getDriver());
+        } else if (map.get("fileType").contentEquals("fileSizeValidation")) {
             logger.info("validating the maximum file upload size warning");
             assert bindingPageActions.isFileMaximumSizeTextDisplayed(DriverManager.getDriver());
             for (int n = 1; n <= 12; n++) {
@@ -292,7 +301,6 @@ public class BindingPageTests extends BaseTest {
                 assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
                 boolean pdfDownload = bindingPageActions.clickBinderDownload(DriverManager.getDriver(), map.get("pdfFilename"));
                 Assert.assertTrue(pdfDownload);
-
             } else {
                 logger.info("No binder available, to download the binder ");
             }

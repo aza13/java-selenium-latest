@@ -20,13 +20,13 @@ public class FileDownloadUtil {
     public static void checkFileExistInDownloadFolder() {
         String userDirectory = System.getProperty("user.home");
         System.out.println("Jenkins Home Path: "+userDirectory);
-        String downloadsPath = userDirectory+"\\Downloads";
+        String downloadsPath = userDirectory+"/Downloads";
         System.out.println("Download Path: "+downloadsPath);
         fileLocation = new File(downloadsPath);
         totalFiles = fileLocation.listFiles();
         assert totalFiles != null;
         for (File file : totalFiles) {
-            if (file.getName().contains("TMHCC_")||file.getName().contains("Binder_Invoice_")) {
+            if (file.getName().contains("TMHCC_")||file.getName().contains("Binder_")) {
                 file.delete();
             }
         }
@@ -41,6 +41,7 @@ public class FileDownloadUtil {
             if (file.getName().startsWith(filename)) {
                 file.delete();
                 fileDownloadStatus = true;
+                break;
             }
         }
         return fileDownloadStatus;
