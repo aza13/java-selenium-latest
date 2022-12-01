@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="QuoteIt UI Automation Suite" parallel="methods" thread-count="2">
+<suite name="QuoteIt UI Automation Suite" parallel="methods" thread-count="3">
     <parameter name="browserType" value="CHROME"/>
     <test verbose="2" name="QuoteIt UI Regression">
         <classes>
             <!--            <class name="LoginPageTests"/>-->
-            <!--            <class name="DashboardPageTests"/>-->
-            <!--            <class name="InsuredPageTests"/>-->
-            <!--            <class name="RatingCriteriaPageTests"/>-->
-            <!--            <class name="SubmissionClearancesTests"/>-->
-                        <class name="QuotesPage.ExistingSubmissionQuoteTests"/>
-                        <class name="QuotesPage.NewSubmissionQuoteTests"/>
+<!--                        <class name="DashboardPageTests"/>-->
+<!--                        <class name="InsuredPageTests"/>-->
+                        <class name="RatingCriteriaPageTests"/>
+                        <class name="SubmissionClearancesTests"/>
+            <!--            <class name="QuotesPage.ExistingSubmissionQuoteTests"/>-->
+            <!--            <class name="QuotesPage.NewSubmissionQuoteTests"/>-->
             <!--            <class name="BindingPageTests"/>-->
-            <!--            <class name="UWPageTests"/>-->
+                        <class name="UWPageTests"/>
         </classes>
     </test>
 </suite>

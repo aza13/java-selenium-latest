@@ -122,7 +122,7 @@ public class SubmissionClearancesTests extends BaseTest {
 
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "InsuredPageData")
-    public void testClearancesReviewFunctionality(Map<String, String> map) throws InterruptedException, AWTException {
+    public void testClearancesReviewFunctionality(Map<String, String> map) throws InterruptedException {
         /***
          this test verifies clearances review
          story - N2020-32093, 34636, 34137
@@ -144,13 +144,12 @@ public class SubmissionClearancesTests extends BaseTest {
         insuredPageActions.enterPhyZipcode(DriverManager.getDriver());
         insuredPageActions.selectPhyState(DriverManager.getDriver());
         insuredPageActions.clickSameAsPhyAddress(DriverManager.getDriver());
-        insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
-        ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
+        ratingCriteriaPageActions = insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
         assert ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver());
         ratingCriteriaPageActions.ratingCriteriaExitButton(DriverManager.getDriver()).click();
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         dashboardPageActions.createNewQuote(DriverManager.getDriver(), coverage, newInsuredName,newInsuredWebsite);
-        dashboardPageActions.clickContinueButton(DriverManager.getDriver());
+        insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         insuredPageActions.selectInsuredCard(DriverManager.getDriver(), newInsuredName);
         if(insuredPageActions.isClearanceDialogModalDisplayed(DriverManager.getDriver())){
             BindingPageActions bindingPageActions = PageObjectManager.getBindingPageActions();
@@ -167,7 +166,6 @@ public class SubmissionClearancesTests extends BaseTest {
         }
         insuredPageActions.clickClearanceSubmitButton(DriverManager.getDriver());
     }
-
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "InsuredPageData")
     public void testRenewalPolicyClearanceValidation(Map<String, String> map) throws InterruptedException, AWTException {
@@ -188,7 +186,7 @@ public class SubmissionClearancesTests extends BaseTest {
                 String applicantName = element.findElement(By.xpath("//parent::div/parent::div/preceding-sibling::div//div[@data-qa='legalname']")).getText().trim();
                 String product = element.findElement(By.xpath("((//button[text()='Renew'])[1]/parent::div/parent::div/preceding-sibling::div)[3]//p")).getText().trim();
                 dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-                dashboardPageActions.createNewQuote(DriverManager.getDriver(), ConfigDataReader.getInstance().getProperty("product"), applicantName, "https://www.master.com/");
+                dashboardPageActions.createNewQuote(DriverManager.getDriver(), ConfigDataReader.getInstance().getProperty("coverage"), applicantName, "https://www.master.com/");
                 InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
                 insuredPageActions.clickContinueInsuredButton(DriverManager.getDriver());
                 if (!insuredPageActions.isCreateNewInsuredTextDisplayed(DriverManager.getDriver())){

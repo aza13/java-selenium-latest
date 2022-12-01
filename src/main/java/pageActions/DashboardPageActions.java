@@ -40,8 +40,8 @@ public class DashboardPageActions extends BaseTest {
         return TextHelper.getText(driver, quoteStatus, "text");
     }
 
-    public void clickProfileSettings(WebDriver driver) {
-        WaitHelper.waitForElementVisibility(driver, newQuoteButton);
+    public void clickProfileSettings(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibilityCustom(driver, newQuoteButton, 30);
         WaitHelper.waitForElementClickable(driver, profileSettings);
         ClickHelper.clickElement(driver, profileSettings);
     }
@@ -66,8 +66,8 @@ public class DashboardPageActions extends BaseTest {
         return driver.findElement(signOutLink);
     }
 
-    public void clickSupportLink(WebDriver driver){
-        WaitHelper.waitForElementVisibility(driver, supportLink);
+    public void clickSupportLink(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibilityCustom(driver, supportLink, 30);
         driver.findElement(supportLink).click();
     }
 
@@ -252,7 +252,7 @@ public class DashboardPageActions extends BaseTest {
         }
     }
 
-    public LoginPageActions logoutApp(WebDriver driver) {
+    public LoginPageActions logoutApp(WebDriver driver) throws InterruptedException {
         logger.info("logging out from the application");
         clickProfileSettings(driver);
         signOutLink(driver).click();
@@ -333,6 +333,11 @@ public class DashboardPageActions extends BaseTest {
     public String getFirstAvailableReferenceId(WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementVisibilityCustom(driver, getFirstAvailableReferenceId, 45);
         return TextHelper.getText(driver, getFirstAvailableReferenceId, "text");
+    }
+
+    public String getFirstAvailablePolicyId(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibilityCustom(driver, firstPolicyIdLocator, 45);
+        return TextHelper.getText(driver, firstPolicyIdLocator, "text");
     }
 
     public String getFirstQuoteLegalName(WebDriver driver) throws InterruptedException {
@@ -599,8 +604,8 @@ public class DashboardPageActions extends BaseTest {
     }
 
     public void selectSupportType(WebDriver driver, String supportType) throws InterruptedException {
-        WaitHelper.waitForElementVisibilityCustom(driver, selectCoverageDropdown, 30);
-        WebElement dropdown = driver.findElement(selectCoverageDropdown);
+        WaitHelper.waitForElementVisibilityCustom(driver, supportTypeDropdown, 30);
+        WebElement dropdown = driver.findElement(supportTypeDropdown);
         DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, genericCoverageOption, supportType);
     }
 

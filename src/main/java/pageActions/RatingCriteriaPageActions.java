@@ -123,12 +123,10 @@ public class RatingCriteriaPageActions extends BaseTest {
     }
 
     public void verifyEffectiveDateField (WebDriver driver) throws InterruptedException {
-
-        WaitHelper.waitForElementClickable(driver, ratingCriteriaEffectiveDateSelectionButton);
         ClickHelper.clickElement(driver, ratingCriteriaEffectiveDateSelectionButton);
-        WaitHelper.waitForElementClickable(driver, clickNextMonth);
         ClickHelper.clickElement(driver, clickNextMonth );
-        WaitHelper.isElementEnabled(driver, clickNextMonth);
+        boolean result = WaitHelper.isElementEnabled(driver, clickNextMonth);
+        assert !result;
         WaitHelper.pause(2000);
         ClickHelper.clickElement(driver,ratingCriteriaEffectiveActualDateChoose);
     }

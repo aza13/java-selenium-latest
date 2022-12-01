@@ -72,7 +72,7 @@ public class UWPageTests extends BaseTest {
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             assert quoteListPageActions.verifyStatusConfirmAndLockInProgress(DriverManager.getDriver());
-            if(ConfigDataReader.getInstance().getProperty("product").contains("Ophthalmic")){
+            if(ConfigDataReader.getInstance().getProperty("coverage").contains("Ophthalmic")){
                 quoteListPageActions.selectBRRPCoverageWithoutInvestigation(DriverManager.getDriver());
                 quoteListPageActions.selectBRRPCoverageWithInvestigation(DriverManager.getDriver());
             }
@@ -121,7 +121,7 @@ public class UWPageTests extends BaseTest {
                 logger.info("continue button is enabled, means UW questions are answered");
             } else {
                 logger.info("continue button is disabled, means UW questions are not answered");
-                if(ConfigDataReader.getInstance().getProperty("product").contains("NetGuard")){
+                if(ConfigDataReader.getInstance().getProperty("coverage").contains("NetGuard")){
                     underwritingQuestionsPageActions.answerUWQuestionButtons(DriverManager.getDriver(), map.get("uwQuestionsAnswer"));
                     underwritingQuestionsPageActions.answerUWQuestionDropdowns(DriverManager.getDriver(), map.get("uwQuestionsAnswer"), map.get("uwQuestionsOption"));
                 }else{

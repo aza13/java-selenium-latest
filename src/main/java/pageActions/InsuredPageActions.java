@@ -1,6 +1,7 @@
 package pageActions;
 
 import base.BaseTest;
+import base.PageObjectManager;
 import helper.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -151,9 +152,10 @@ public class InsuredPageActions extends BaseTest {
         ClickHelper.clickElement(driver, cancelInsuredFormButton);
     }
 
-    public void clickContinueInsuredFormButton(WebDriver driver) throws InterruptedException {
+    public RatingCriteriaPageActions clickContinueInsuredFormButton(WebDriver driver) throws InterruptedException {
         ClickHelper.clickElement(driver, continueInsuredFormButton);
         WaitHelper.waitForProgressbarInvisibility(driver);
+        return PageObjectManager.getRatingCriteriaPageActions();
     }
 
     public boolean validateSearchAgainButtonWithInsuredName(WebDriver driver, String name) {
@@ -237,6 +239,7 @@ public class InsuredPageActions extends BaseTest {
     }
 
     public void clickClearanceSubmitButton(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibilityCustom(driver, clearanceSubmitButton, 30);
         ClickHelper.clickElement(driver, clearanceSubmitButton);
         WaitHelper.waitForProgressbarInvisibility(driver);
     }
