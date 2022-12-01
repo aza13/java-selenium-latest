@@ -10,7 +10,8 @@
             <class name="InsuredPageTests"/>
             <class name="RatingCriteriaPageTests"/>
             <class name="SubmissionClearancesTests"/>
-            <class name="QuotesPageTests"/>
+            <class name="QuotesPage.ExistingSubmissionQuoteTests"/>
+            <class name="QuotesPage.NewSubmissionQuoteTests"/>
             <class name="UWPageTests"/>
         </classes>
     </test>

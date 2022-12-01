@@ -10,11 +10,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import utils.fileDownload.FileDownloadUtil;
 import utils.fileReader.ConfigDataReader;
+import workflows.CreateApplicant;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static org.openqa.selenium.support.locators.RelativeLocator.with;
 import static pageObjects.BindingPageObjects.exitToDashboard;
 import static pageObjects.QuoteListPageObjects.*;
 
@@ -39,6 +41,42 @@ public class QuoteListPageActions extends BaseTest {
             return elementList;
         }else{
             return Collections.emptyList();
+        }
+    }
+
+    public boolean verifyIfAggregateLimitIsDisabled(WebDriver driver){
+        try{
+            return !driver.findElement(aggregateLimitLocator).isEnabled();
+        }catch (Exception e){
+            logger.error("failed to verify if the aggregate limit dropdown is disabled");
+            throw (e);
+        }
+    }
+
+    public boolean verifyIfDeductibleIsDisabled(WebDriver driver){
+        try{
+            return !driver.findElement(deductibleLocator).isEnabled();
+        }catch (Exception e){
+            logger.error("failed to verify if the deductible dropdown is disabled");
+            throw (e);
+        }
+    }
+
+    public String getSelectedClaim(WebDriver driver){
+        try{
+            return driver.findElement(perClaimLocator).getAttribute("value");
+        }catch (Exception e){
+            logger.error("failed to get the selected per claim from the dropdown "+e.getMessage());
+            throw (e);
+        }
+    }
+
+    public String getSelectedAggregateLimit(WebDriver driver){
+        try{
+            return driver.findElement(aggregateLimitLocator).getAttribute("value");
+        }catch (Exception e){
+            logger.error("failed to get the aggregate limit dropdown "+e.getMessage());
+            throw (e);
         }
     }
 
@@ -76,6 +114,12 @@ public class QuoteListPageActions extends BaseTest {
         }
     }
 
+    public int getQuotesCount(WebDriver driver){
+        logger.info("this method returns number of quotes in the quote list page");
+        List<WebElement> elementList = driver.findElements(By.xpath("//div[contains(@data-qa, 'quote_builder_card_')]"));
+        return elementList.size();
+    }
+
     public int getQuoteOptionCount(WebDriver driver){
         List<WebElement> elementList = getAllQuoteOptions(driver);
         return elementList.size();
@@ -90,12 +134,6 @@ public class QuoteListPageActions extends BaseTest {
         WaitHelper.pause(10000);
     }
 
-    public String getGivenQuoteOptionPremium(WebDriver driver, int optionCount){
-        String optionPremiumXpath = "//div[starts-with(@data-qa, 'option_card_"+optionCount+"')]//div[text()='Max. Policy Aggregate Limit']/preceding-sibling::div//span";
-        By optionPremium = By.xpath(optionPremiumXpath);
-        return TextHelper.getText(driver, optionPremium, "text");
-    }
-
     public boolean checkIfOpenQuoteExist(WebDriver driver){
         return ClickHelper.isElementExist(driver, lockIconOpenLocator);
     }
@@ -104,42 +142,30 @@ public class QuoteListPageActions extends BaseTest {
         return ClickHelper.isElementExist(driver, lockIconLocator);
     }
 
-    public boolean checkIfQuoteListContainerDisplayed(WebDriver driver){
-        return ClickHelper.isElementExist(driver, quoteListContainer);
-    }
-
     public void deleteQuoteOption(WebDriver driver) throws InterruptedException {
         List<WebElement> deleteIcons = driver.findElements(deleteIconLocator);
         deleteIcons.get(0).click();
         WaitHelper.pause(5000);
     }
 
-    public void addNewQuote(WebDriver driver, String quoteType){
+    public void addNewQuote(WebDriver driver, String quoteType) throws InterruptedException {
         logger.info("adding quote to the submission based on quote type custom/4 option/6 options ");
         try{
+            WaitHelper.pause(10000);
             ClickHelper.clickElement(driver, addQuoteButton);
             String newQuoteXpath = "//ul//li";
             By newQuoteOption = By.xpath(newQuoteXpath);
             List<WebElement> options = driver.findElements(newQuoteOption);
+            assert !options.isEmpty();
             for (WebElement opt : options) {
                 if (opt.getText().contains(quoteType)) {
                     opt.click();
                     break;
                 }
             }
+            WaitHelper.waitForProgressbarInvisibility(driver);
         }catch (Exception e){
             logger.error("failed to add the quote to submission based on the quote type"+e.getMessage());
-            throw e;
-        }
-    }
-
-    public void clickConfirmQuoteButton(WebDriver driver) throws InterruptedException {
-        logger.info("clicking on confirm quote button :: clickConfirmQuoteButton");
-        try{
-            ClickHelper.clickElement(driver, confirmAndLockQuoteButton);
-            WaitHelper.pause(20000);
-        }catch (Exception e){
-            logger.error("failed to click the confirm quote button :: clickConfirmQuoteButton"+e.getMessage());
             throw e;
         }
     }
@@ -222,10 +248,19 @@ public class QuoteListPageActions extends BaseTest {
 
     public boolean clickConfirmAndLockButtonIfDisplayed(WebDriver driver) {
         try{
-            if(ConfigDataReader.getInstance().getProperty("product").contains("Ophthalmic")){
+            boolean clicked = false;
+            if(ConfigDataReader.getInstance().getProperty("product").contains("Ophthalmic")) {
+                logger.info("if the product is Ophthalmic, selects BRRP coverages");
                 selectBRRPCoverageWithoutInvestigation(DriverManager.getDriver());
                 selectBRRPCoverageWithInvestigation(DriverManager.getDriver());
+            }else if(getSelectedClaim(driver)!=null || getSelectedClaim(driver)==null) {
+                int optionCount = getQuoteOptionCount(driver);
+                selectPerClaim(driver, Integer.toString(optionCount), "$ 500k");
+                selectAggregateLimit(driver, optionCount, "$ 500k");
+                selectRetentionOption(driver, optionCount, "$ 10,000");
+                WaitHelper.pause(5000);
             }else{
+                logger.info("it waits for maximum 36 seconds for all the options");
                 int n=0;
                 while(ClickHelper.isElementExist(driver, confirmAndLockDisabledButton)){
                     WaitHelper.pause(3000);
@@ -233,10 +268,12 @@ public class QuoteListPageActions extends BaseTest {
                     if(n==12) break;
                 }
             }
-            WaitHelper.waitForElementVisibility(driver, confirmAndLockButton);
-            ClickHelper.clickElement(driver, confirmAndLockButton);
-            WaitHelper.waitForProgressbarInvisibility(driver);
-            return true;
+            if(driver.findElement(confirmAndLockButton).isDisplayed()){
+                ClickHelper.clickElement(driver, confirmAndLockButton);
+                WaitHelper.waitForProgressbarInvisibility(driver);
+                clicked = true;
+            }
+            return clicked;
         }catch (Exception e){
             logger.error("failed to click the confirm and lock button "+e.getMessage());
             return false;
@@ -266,7 +303,7 @@ public class QuoteListPageActions extends BaseTest {
         return TextHelper.getText(driver, quoteLockSuccessMessage, "text");
     }
 
-    public boolean checkIfQuoteLockSuccessMessageDisplayed(WebDriver driver) throws InterruptedException {
+    public boolean verifyQuoteLockSuccessMessageDisplayed(WebDriver driver) throws InterruptedException {
         WaitHelper.pause(3000);
         return ClickHelper.isElementExist(driver, quoteLockSuccessMessage);
     }
@@ -295,6 +332,15 @@ public class QuoteListPageActions extends BaseTest {
 
     public boolean checkIfSubmitReviewDialogDisplayed(WebDriver driver){
         return ClickHelper.isElementExist(driver, submitReviewDialog);
+    }
+
+    public String getSubmitReviewDialogText(WebDriver driver){
+        try{
+            return TextHelper.getText(driver, submitReviewDialogText, "text").trim();
+        }catch (Exception e){
+            logger.error("failed to get the text of submit review tex :: getSubmitReviewDialogText "+e.getMessage());
+            throw (e);
+        }
     }
 
     public boolean checkIfSubmitReviewDialogDisplayed2(WebDriver driver){
@@ -398,8 +444,7 @@ public class QuoteListPageActions extends BaseTest {
 
     public String getEffectiveDate(WebDriver driver){
         try{
-            String effDate = getConfirmDatesEffectiveDate(driver).getAttribute("value");
-            return effDate;
+            return getConfirmDatesEffectiveDate(driver).getAttribute("value");
         }catch (Exception e){
             logger.info("Failed to get the eff date of confirm dates modal :: getEffectiveDate"+e.getMessage());
             throw e;
@@ -427,6 +472,7 @@ public class QuoteListPageActions extends BaseTest {
             if (!getConfirmDatesCancelButton(driver).isDisplayed()) throw new AssertionError();
             return true;
         }catch (Exception e){
+            logger.error("failed to validate Confirm Dates Modal :: validateConfirmDatesModalFields"+e.getMessage());
             return false;
         }
     }
@@ -439,11 +485,27 @@ public class QuoteListPageActions extends BaseTest {
             String date = formatter.format(new Date());
             Date date2=formatter.parse(date);
             long differenceInTime = date2.getTime() - date1.getTime();
-            long differenceInDays
-                    = (differenceInTime
+            return (differenceInTime
                     / (1000 * 60 * 60 * 24))
                     % 365;
-            return differenceInDays;
+        }catch (Exception e){
+            logger.info("failed to validate the eff date :: validateEffectiveDate"+e.getMessage());
+            throw e;
+        }
+    }
+
+    public void enterEffectiveDate(WebDriver driver) throws ParseException {
+        try{
+            String effDate = getEffectiveDate(driver);
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+            Date date1=formatter.parse(effDate);
+            Calendar c = Calendar.getInstance();
+            c.setTime(date1);
+            logger.info("increasing the date by 1 dy");
+            c.add(Calendar.DATE, 1);
+            date1 = c.getTime();
+            String date = formatter.format(date1);
+            TextHelper.enterText(driver, confirmDatesEffectiveDate, date);
         }catch (Exception e){
             logger.info("failed to validate the eff date :: validateEffectiveDate"+e.getMessage());
             throw e;
@@ -455,7 +517,6 @@ public class QuoteListPageActions extends BaseTest {
             boolean quotePage = isQuoteListPageDisplayed(driver);
             assert quotePage;
             String quoteString = TextHelper.getText(driver, openQuoteIdLocator, "text");
-            assert quoteString != null;
             return quoteString.split("#")[1];
         }catch (Exception e){
             logger.info("this method returns quote id :: getOpenQuoteId"+e.getMessage());
@@ -597,6 +658,17 @@ public class QuoteListPageActions extends BaseTest {
         }
     }
 
+    public boolean verifyContactUnderwriter(WebDriver driver) throws InterruptedException {
+        logger.info("this method verifies that contact UW button present left to the add quote button");
+        try{
+            WaitHelper.pause(5000);
+            return driver.findElement(with(By.tagName("button")).toLeftOf(addQuoteButton)).isDisplayed();
+        }catch (Exception e){
+            logger.error("Failed click on the  Contact Underwriter button " +e.getMessage());
+            throw(e);
+        }
+    }
+
     public void clickContactUnderwriter(WebDriver driver) throws InterruptedException {
         try{
             WaitHelper.pause(5000);
@@ -610,11 +682,29 @@ public class QuoteListPageActions extends BaseTest {
 
     public void clickOnExitDashboard(WebDriver driver) throws InterruptedException {
         try{
-            WaitHelper.pause(10000);
+            WaitHelper.pause(5000);
             ClickHelper.clickElement(driver, exitToDashboard);
         }catch (Exception e){
             logger.error("Failed to click on exit button :: clickOnExitDashboard" +e.getMessage());
             throw(e);
         }
+    }
+
+    public boolean clickApplicationDownloadIcon(WebDriver driver, String filename) throws InterruptedException {
+        FileDownloadUtil.checkFileExistInDownloadFolderpath();
+        ClickHelper.clickElement(driver, clickAsApplicationButton);
+        WaitHelper.pause(15000);
+        return FileDownloadUtil.verifyPDFFileDownload(filename);
+    }
+
+    public boolean verifyPDFDocumentTextContent() throws Exception {
+        String pdfFileAllText = FileDownloadUtil.readPDFFileContent();
+        List<String> userDetails = CreateApplicant.getApplicantDetails(DriverManager.getDriver());
+        for (String userDetail:userDetails) {
+            if(pdfFileAllText.contains(userDetail)){
+                return true;
+            }
+        }
+        return false;
     }
 }

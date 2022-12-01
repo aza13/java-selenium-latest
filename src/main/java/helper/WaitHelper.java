@@ -31,6 +31,26 @@ public class WaitHelper {
         }
     }
 
+    public static void waitForElementVisibilityCustom(WebDriver driver, By elementLocator, int seconds) throws InterruptedException {
+        logger.info("Waits the element for element visibility for given time period:: waitForElementVisibilityCustom");
+        try {
+            int i = 1;
+            int n = seconds/3;
+            while(i <= n){
+                Thread.sleep(3000);
+                boolean result = ClickHelper.isElementExist(driver, elementLocator);
+                if (result){
+                    break;
+                }else{
+                    n++;
+                }
+            }
+        } catch (Exception e) {
+            logger.error("Failed - Element not visible or present :: waitForElementVisibilityCustom "+ e.getMessage());
+            throw (e);
+        }
+    }
+
     public static void waitForProgressbarInvisibility(WebDriver driver) throws InterruptedException {
 
         logger.info("waiting for progressbar to invisible :: waitForProgressbarInvisibility");

@@ -14,8 +14,6 @@ public class DashboardPageObjects {
 
     public static final By supportLink = By.xpath("//ul//li[@id='action_item_support' and text()='Support']");
 
-    public static final By supportDialogModal = By.xpath("//h2[text()='Support Request']");
-
     public static final By supportRequestDetailTextArea = By.id("outlined-textarea");
 
     public static final By supportRequestSendButton = By.xpath("//button[@data-qa='submit_alert_modal']");
@@ -36,8 +34,6 @@ public class DashboardPageObjects {
 
     public static final By myPoliciesTab = By.id("simple-tab-1");
 
-    public static final By quotesList = By.xpath("//div[@id='listGridHeader']/following-sibling::div");
-
     public static final By quoteCard = By.xpath("//div[@data-qa='quote_card']");
 
     public static final By noQuoteFoundText = By.xpath("//p[text()='Adjusting filters may return results.']");
@@ -46,19 +42,17 @@ public class DashboardPageObjects {
 
     public static final By policyListLabels = By.xpath("(//div[contains(@class,'policy_card')])[1]//p/preceding-sibling::div");
 
-    public static final By policyCard = By.className("policy_card");
+    public static final By policyCard = By.xpath("//div[contains(@class, 'policy_card')]");
 
     public static final By noPolicyFoundText = By.xpath("//p[text()='Adjusting filters may return results.']");
 
-    public static final By quotesRefLabel = By.xpath("//div[text()='Reference']");
-
     public static final By quoteStatus = By.xpath("//div[@data-qa='quote_card']//p[@data-qa='status']");
 
-    public static final By quoteCoverageName = By.xpath("//p[@data-qa='name']");
+    public static final By quoteCoverageName = By.xpath("//div[@id='simple-tabpanel-0']//p[@data-qa='name']");
 
     public static final By newQuoteButton = By.xpath("//button[text()='New Quote']/span");
 
-    public static final By selectCoverageDropdown = By.id("demo-simple-select");
+    public static final By selectCoverageDropdown = By.xpath("//label[text()='Coverage']/following-sibling::div");
 
     public static final By applicantNameField = By.id("applicant-name");
 
@@ -74,11 +68,11 @@ public class DashboardPageObjects {
 
     public static final By nameRequiredText = By.xpath("//p[text()='Name is required']");
 
-    public static final By websiteRequiredText = By.xpath("//p[text()='Website is required']");
+    public static final By policyStatus = By.xpath("//div[@id='simple-tabpanel-1']//div[@data-qa='status']");
 
-    public static final By policyStatus = By.xpath("//div[@data-qa='status']");
+    public static final By quotesFilterListButton = By.xpath("//div[@id='simple-tabpanel-0']//button[@id='listGridFilter']");
 
-    public static final By filterList = By.id("listGridFilter");
+    public static final By policiesFilterListButton = By.xpath("//div[@id='simple-tabpanel-1']//button[@id='listGridFilter']");
 
     public static final By filterByCoverageName = By.id("panel-header-1");
 
@@ -94,9 +88,9 @@ public class DashboardPageObjects {
 
     public static final By clearSearchInputFiled = By.xpath("//*[@data-testid='ClearIcon']");
 
-    public static final By getFirstAvailableReferenceId = By.xpath("//*[@id='simple-tabpanel-0']/div/p/div[1]/div[1]/div[2]/div/p | //*[@id='simple-tabpanel-1']/div/p/div[1]/div/div[2]/div/p");
+    public static final By getFirstAvailableReferenceId = By.xpath("(//p[@data-qa='id'])[1]");
 
-    public static final By noSearchResultsText = By.xpath("//p[contains(text(),'Your search has returned no results.')]");
+    public static final By noSearchResultsText = By.xpath("//div[@id='simple-tabpanel-1']//p[contains(text(),'Your search has returned no results.')]");
 
     public static final By getFirstAvailableLegalName = By.xpath("(//div[@data-qa='quote_card']//div[text()='Applicant']/following-sibling::div)[1]");
 
@@ -118,8 +112,6 @@ public class DashboardPageObjects {
 
     public static final By policyFilterByStatus = By.id("panel-header-1");
 
-    public static final By policyFilterByEffective = By.id("panel-header-2");
-
     public static final By createdStartDateField = By.id("startdate");
 
     public static final By createdEndDateField = By.id("enddate");
@@ -130,17 +122,17 @@ public class DashboardPageObjects {
 
     public static final By firstAvailableRenewButton = By.xpath("//p[@class='sc-ezbkAF fLaTpy MuiTypography-root MuiTypography-body1']/div[1]/div/div[7]/div/button");
 
-    public static final By policyRenewButtonGeneric = By.xpath("//button[text()='Renew']");
-
     public static final By quoteReferenceIdGenericLocator = By.xpath("//p[@data-qa='id']");
 
-    public static final By firstAvailableStatus = By.xpath("//*[@id='simple-tabpanel-0']/div/p/div[1]/div[1]/div[7]/div/p");
+    public static final By firstAvailableStatus = By.xpath("(//div[@data-qa='quote_card']//p[@data-qa='status'])[1]");
 
     public static final By submitSubmissionRenewal = By.xpath("//button[normalize-space()='SUBMIT']");
 
-    public static final By firstAvailableCreatedDate = By.xpath("//*[@id='simple-tabpanel-0']/div/p/div[1]/div[1]/div[3]/div/p");
+    public static final By firstAvailableCreatedDate = By.xpath("(//p[@data-qa='created'])[1]");
 
-    public static final By sortBy = By.xpath("//button[@id='sortByButton']//*[name()='svg']");
+    public static final By quoteSortBy = By.xpath("//div[@id='simple-tabpanel-0']//button[@id='sortByButton']//*[name()='svg']");
+
+    public static final By policySortBy = By.xpath("//div[@id='simple-tabpanel-1']//button[@id='sortByButton']//*[name()='svg']");
 
     public static final By sortByNewest = By.xpath("//li[normalize-space()='Newest']");
 
@@ -178,8 +170,6 @@ public class DashboardPageObjects {
 
     public static final By clearanceDialogCancelButton = By.xpath("//button[@data-qa='cancel_alert_modal' and text()='CANCEL QUOTE']/span");
 
-    public static final By clearanceDialogPolicyDashboardDesc = By.xpath("//p[@id='alert-dialog-description']/div[1]");
-
     public static final By quotesFilterByType = By.id("panel-header-3");
 
     public static final By allTypesDropdown = By.xpath("//label[text()='All Types']/following-sibling::div/div[@id='demo-simple-select']");
@@ -190,9 +180,15 @@ public class DashboardPageObjects {
 
     public static final By quoteitLogo = By.xpath("//img[@alt='hello']");
 
+    public static final By policySearchResults = By.xpath("//p[text()='Search results']/following-sibling::div[contains(@class, 'policy_card')]");
+
+    /*** Submit for Review ***/
     public static final By contactUnderwriter = By.xpath("//button[normalize-space()='Contact Underwriter']");
+    public static final By submitForReviewDesc = By.xpath("//p[@id='alert-dialog-description']//h1");
+    public static final By submitForReviewCancel = By.xpath("//button[@data-qa='cancel_alert_modal']");
+    public static final By submitForReviewSubmit = By.xpath("//button[@data-qa='submit_alert_modal']");
 
-
+    public static final By underwriterReviewingButton = By.xpath("//button[text()='Underwriter Reviewing']");
 
 
 }

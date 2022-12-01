@@ -1,8 +1,11 @@
 package utils.fileDownload;
 
 import org.apache.log4j.Logger;
-import org.openqa.selenium.WebDriver;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
+
 import java.io.File;
+import java.io.FileInputStream;
 
 
 public class FileDownloadUtil {
@@ -12,6 +15,10 @@ public class FileDownloadUtil {
     static boolean fileDownloadStatus = false;
     static String home = System.getProperty("user.home");
     static File[] totalFiles;
+    static FileInputStream fis;
+    static PDDocument pdfDocument;
+    static PDFTextStripper pdfTextStripper;
+    static String pdfData;
 
     private FileDownloadUtil() {
 
@@ -27,6 +34,7 @@ public class FileDownloadUtil {
         assert totalFiles != null;
         for (File file : totalFiles) {
             if (file.getName().contains("TMHCC_")) {
+
                 file.delete();
             }
         }
@@ -38,8 +46,7 @@ public class FileDownloadUtil {
         System.out.println("Filename in Jenkins : "+filename);
 
         for(File file : totalFiles) {
-            if (file.getName().startsWith(filename)) {
-                file.delete();
+            if (file.getName().contains(filename)) {
                 fileDownloadStatus = true;
             }
         }
@@ -63,4 +70,42 @@ public class FileDownloadUtil {
         return fileDownloadStatus;
     }
 
+    public static void checkFileExistInDownloadFolderpath() throws InterruptedException {
+        String userDirectory = System.getProperty("user.home");
+        System.out.println("Jenkins Home Path: "+userDirectory);
+        String downloadsPath = userDirectory+"\\Downloads";
+        System.out.println("Download Path: "+downloadsPath);
+        fileLocation = new File(downloadsPath);
+        totalFiles = fileLocation.listFiles();
+        assert totalFiles != null;
+        for (File file : totalFiles) {
+            if (file.getName().contains("fileName")) {
+
+                file.delete();
+            }
+        }
+    }
+
+    public static String readPDFFileContent() throws Exception {
+        String userDirectory = System.getProperty("user.home");
+        System.out.println("Jenkins Home Path: "+userDirectory);
+        String downloadsPath = userDirectory+"\\Downloads";
+        System.out.println("Download Path: "+downloadsPath);
+        fileLocation = new File(downloadsPath);
+
+        totalFiles = fileLocation.listFiles();
+        assert totalFiles != null;
+        for (File file : totalFiles) {
+                if(file.getPath().contains("fileName")){
+                    fis = new FileInputStream(file.getPath());
+                    pdfDocument = PDDocument.load(fis);
+                    pdfTextStripper = new PDFTextStripper();
+                    pdfData = pdfTextStripper.getText(pdfDocument);
+                }
+        }
+        pdfDocument.close();
+        fis.close();
+
+        return pdfData;
+    }
 }

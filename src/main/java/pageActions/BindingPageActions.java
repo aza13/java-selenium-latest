@@ -1,6 +1,7 @@
 package pageActions;
 
 import base.BaseTest;
+import base.PageObjectManager;
 import helper.*;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -20,13 +21,14 @@ public class BindingPageActions extends BaseTest {
 
     private static final Logger logger = Logger.getLogger(BindingPageActions.class);
 
-    public void clickOnExitDashboard(WebDriver driver){
+    public DashboardPageActions clickOnExitDashboard(WebDriver driver){
         WaitHelper.waitForElementClickable(driver, exitToDashboard);
         ClickHelper.clickElement(driver, exitToDashboard);
+        return PageObjectManager.getDashboardPageActions();
     }
 
     public boolean isBindingTabSelected(WebDriver driver) throws InterruptedException {
-        WaitHelper.pause(10000);
+        WaitHelper.waitForElementVisibilityCustom(driver, bindingTabSelected, 30);
         return ClickHelper.isElementExist(driver, bindingTabSelected);
     }
 
@@ -45,7 +47,7 @@ public class BindingPageActions extends BaseTest {
 
     public String getQuoteStatus(WebDriver driver) throws InterruptedException {
         try{
-            WaitHelper.pause(20000);
+            WaitHelper.waitForElementVisibilityCustom(driver, quoteStatus, 45);
             return TextHelper.getText(driver, quoteStatus, "text").trim();
         }catch (Exception e){
             logger.error("Failed to get the quote option status in binder page "+e.getMessage());
@@ -215,11 +217,6 @@ public class BindingPageActions extends BaseTest {
         return ClickHelper.isElementExist(driver, PreBinderText);
     }
 
-    public boolean isFileSizeExceededWarningDisplayed(WebDriver driver) throws InterruptedException {
-        WaitHelper.pause(3000);
-        return ClickHelper.isElementExist(driver, fileSizeExceededText);
-    }
-
     public boolean isBinderIssuedShortlyText(WebDriver driver) throws InterruptedException {
         WaitHelper.pause(3000);
         return ClickHelper.isElementExist(driver, bindersWillBeIssuedShortlyText);
@@ -230,12 +227,21 @@ public class BindingPageActions extends BaseTest {
     }
 
     public boolean clickBinderDownload(WebDriver driver, String filename) throws InterruptedException {
-
         FileDownloadUtil.checkFileExistInDownloadFolder();
-
         ClickHelper.clickElement(driver, clickBinderPDFButton);
         WaitHelper.pause(15000);
-
         return FileDownloadUtil.verifyPDFFileDownload(filename);
+    }
+
+    public String getProposedPolicyPeriod(WebDriver driver) throws InterruptedException {
+        try{
+            ScrollHelper.scrollToPageTop(driver);
+            String text = TextHelper.getText(driver, proposedPolicyPeriod, "text");
+            String dates = text.split(":")[1].trim();
+            return dates;
+        }catch (Exception e){
+            logger.info("failed to get the policy period text :: getProposedPolicyPeriod "+e.getMessage());
+            throw e;
+        }
     }
 }

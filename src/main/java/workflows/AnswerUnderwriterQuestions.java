@@ -17,7 +17,7 @@ public class AnswerUnderwriterQuestions {
     
     private AnswerUnderwriterQuestions(){}
     
-    public static void answerUnderwriterQuestions(WebDriver driver, Map<String, String> map) throws InterruptedException {
+    public static QuoteListPageActions answerUnderwriterQuestions(WebDriver driver, Map<String, String> map, String product) throws InterruptedException {
         
         UnderwritingQuestionsPageActions underwritingQuestionsPageActions = PageObjectManager.getUnderwritingQuestionsPageActions();
         boolean uwQuestionsAnswered = underwritingQuestionsPageActions.checkWhetherAllUWQuestionsAreAnswered(driver);
@@ -25,13 +25,22 @@ public class AnswerUnderwriterQuestions {
             logger.info("UW continue button is enabled, means UW questions are answered");
         } else {
             logger.info("UW continue button is disabled, means UW questions are not answered");
-            if(ConfigDataReader.getInstance().getProperty("product").contains("NetGuard")){
+            if(product.contains("NetGuard® SELECT")){
                 underwritingQuestionsPageActions.answerUWQuestionButtons(driver, map.get("uwQuestionsAnswer"));
                 underwritingQuestionsPageActions.answerUWQuestionDropdowns(driver, map.get("uwQuestionsAnswer"), map.get("uwQuestionsOption"));
+            }else if(product.contains("Ophthalmic")){
+                underwritingQuestionsPageActions.answerUWQuestionGeneralSectionOMICProduct(driver);
+                underwritingQuestionsPageActions.answerUWQuestionEMDSectionOMICProduct(driver);
+                underwritingQuestionsPageActions.answerUWQuestionRansomSectionOMICProduct(driver);
+                underwritingQuestionsPageActions.answerUWQuestionPhishingSectionOMICProduct(driver);
+                underwritingQuestionsPageActions.answerUWQuestionCyberSectionOMICProduct(driver);
+                underwritingQuestionsPageActions.answerUWQuestionRiskSectionOMICProduct(driver);
             }else{
-                underwritingQuestionsPageActions.answerFirstUWQuestion(driver);
-                underwritingQuestionsPageActions.answerUWQuestionButtonsOMICProduct2(driver);
+//                underwritingQuestionsPageActions.answerFirstUWQuestion(driver);
+//                underwritingQuestionsPageActions.answerUWQuestionButtonsOMICProduct2(driver);
+                System.out.println("Place holder for AAO Product");
             }
+
         }
         underwritingQuestionsPageActions.clickUWQuestionsContinueButton(driver);
         WaitHelper.waitForProgressbarInvisibility(driver);
@@ -40,5 +49,6 @@ public class AnswerUnderwriterQuestions {
             quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
             quoteListPageActions.clickSubmitForReview(driver);
         }
+        return quoteListPageActions;
     }
 }
