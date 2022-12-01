@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 import pageActions.*;
 import utils.dataProvider.TestDataProvider;
 import utils.dbConnector.DatabaseConnector;
+import workflows.CreateApplicant;
 import workflows.CreateSubmission;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -282,6 +283,24 @@ public class NewSubmissionQuoteTests extends BaseTest {
         assert !Objects.equals(premiumAfter, premiumBefore);
         boolean isTextVisible = quoteListPageActions.verifyOutsideBrokerPortalGuidelinesVisible(DriverManager.getDriver());
         Assert.assertTrue(isTextVisible);
+    }
+
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
+    public void testDownloadApplicationInQuote(Map<String, String> map) throws Exception {
+        /***
+         this test verifies brokers can download application form
+         This story works with 9.7 only
+         story - N2020-34254-QAT-434
+         @author - Azamat Uulu
+         ********************************************************************/
+
+        logger.info("Executing the verifies brokers can download application form from testDownloadApplicationInQuote class :: testDownloadApplicationInQuote");
+        quoteListPageActions = CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
+        boolean isPDFFileDownload = quoteListPageActions.clickApplicationDownloadIcon(DriverManager.getDriver(), map.get("fileNamePDF"));
+        Assert.assertTrue(isPDFFileDownload);
+        boolean isPDFFileTextContentPresent = quoteListPageActions.verifyPDFDocumentTextContent();
+        Assert.assertTrue(isPDFFileTextContentPresent);
+
     }
 
     @AfterClass(alwaysRun = true)

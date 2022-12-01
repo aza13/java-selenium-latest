@@ -10,6 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import utils.fileDownload.FileDownloadUtil;
 import utils.fileReader.ConfigDataReader;
+import workflows.CreateApplicant;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -698,5 +699,23 @@ public class QuoteListPageActions extends BaseTest {
             logger.error("Failed to click on exit button :: clickOnExitDashboard" + e.getMessage());
             throw (e);
         }
+    }
+
+    public boolean clickApplicationDownloadIcon(WebDriver driver, String filename) throws InterruptedException {
+        FileDownloadUtil.checkFileExistInDownloadFolderpath();
+        ClickHelper.clickElement(driver, clickAsApplicationButton);
+        WaitHelper.pause(15000);
+        return FileDownloadUtil.verifyPDFFileDownload(filename);
+    }
+
+    public boolean verifyPDFDocumentTextContent() throws Exception {
+        String pdfFileAllText = FileDownloadUtil.readPDFFileContent();
+        List<String> userDetails = CreateApplicant.getApplicantDetails(DriverManager.getDriver());
+        for (String userDetail:userDetails) {
+            if(pdfFileAllText.contains(userDetail)){
+                return true;
+            }
+        }
+        return false;
     }
 }
