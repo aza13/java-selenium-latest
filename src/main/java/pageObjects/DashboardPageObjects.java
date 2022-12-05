@@ -14,6 +14,8 @@ public class DashboardPageObjects {
 
     public static final By supportLink = By.xpath("//ul//li[@id='action_item_support' and text()='Support']");
 
+    public static final By supportTypeDropdown = By.xpath("//label[text()='Support Type *']/following-sibling::div");
+
     public static final By supportRequestDetailTextArea = By.id("outlined-textarea");
 
     public static final By supportRequestSendButton = By.xpath("//button[@data-qa='submit_alert_modal']");
@@ -70,9 +72,9 @@ public class DashboardPageObjects {
 
     public static final By policyStatus = By.xpath("//div[@id='simple-tabpanel-1']//div[@data-qa='status']");
 
-    public static final By quotesFilterListButton = By.xpath("//div[@id='simple-tabpanel-0']//button[@id='listGridFilter']");
+    public static final By quotesFilterListButton = By.xpath("//div[@id='listGridHeader']//button[@id='listGridFilter']");
 
-    public static final By policiesFilterListButton = By.xpath("//div[@id='simple-tabpanel-1']//button[@id='listGridFilter']");
+    public static final By policiesFilterListButton = By.xpath("//div[@id='listGridHeader']//button[@id='listGridFilter']");
 
     public static final By filterByCoverageName = By.id("panel-header-1");
 
@@ -89,6 +91,8 @@ public class DashboardPageObjects {
     public static final By clearSearchInputFiled = By.xpath("//*[@data-testid='ClearIcon']");
 
     public static final By getFirstAvailableReferenceId = By.xpath("(//p[@data-qa='id'])[1]");
+
+    public static final By firstPolicyIdLocator = By.xpath("(//p[@data-qa='number'])[1]");
 
     public static final By noSearchResultsText = By.xpath("//div[@id='simple-tabpanel-1']//p[contains(text(),'Your search has returned no results.')]");
 
@@ -130,9 +134,9 @@ public class DashboardPageObjects {
 
     public static final By firstAvailableCreatedDate = By.xpath("(//p[@data-qa='created'])[1]");
 
-    public static final By quoteSortBy = By.xpath("//div[@id='simple-tabpanel-0']//button[@id='sortByButton']//*[name()='svg']");
+    public static final By quoteSortBy = By.xpath("//button[@id='sortByButton']//*[name()='svg']");
 
-    public static final By policySortBy = By.xpath("//div[@id='simple-tabpanel-1']//button[@id='sortByButton']//*[name()='svg']");
+    public static final By policySortBy = By.xpath("//button[@id='sortByButton']//*[name()='svg']");
 
     public static final By sortByNewest = By.xpath("//li[normalize-space()='Newest']");
 

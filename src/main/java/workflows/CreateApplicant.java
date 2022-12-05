@@ -9,7 +9,6 @@ import pageActions.DashboardPageActions;
 import pageActions.InsuredPageActions;
 import pageActions.QuoteListPageActions;
 import pageActions.RatingCriteriaPageActions;
-import utils.fileReader.ConfigDataReader;
 import utils.fileReader.TextFileReader;
 import java.util.Arrays;
 import java.util.List;

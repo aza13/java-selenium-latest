@@ -36,14 +36,12 @@ public class LoginPageTests extends BaseTest {
         DashboardPageActions dashboardPageActions = PageObjectManager.getDashboardPageActions();
         if (map.get("scenario").equalsIgnoreCase("validData")) {
             loginPageActions.loginApp(DriverManager.getDriver(), ConfigDataReader.getInstance().getProperty("userId"), ConfigDataReader.getInstance().getProperty("password"));
-            WaitHelper.pause(3000);
-            assert DriverManager.getDriver().getCurrentUrl().contains("dashboard");
             dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
+            assert DriverManager.getDriver().getCurrentUrl().contains("dashboard");
             assert !dashboardPageActions.isBrokerIdDisplayed(DriverManager.getDriver());
         } else if (map.get("scenario").equalsIgnoreCase("invalidData")) {
             loginPageActions.loginApp(DriverManager.getDriver(), map.get("userId"), map.get("userPassword"));
             assert loginPageActions.invalidUserNamePasswordText(DriverManager.getDriver()).isDisplayed();
-
         } else if (map.get("scenario").equalsIgnoreCase("noData")) {
             loginPageActions.loginApp(DriverManager.getDriver(), "", "");
             assert loginPageActions.pleaseProvideEmailPasswordText(DriverManager.getDriver()).isDisplayed();
@@ -58,7 +56,7 @@ public class LoginPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "LoginPageData")
-    public void testResetPassword(Map<String, String> map) {
+    public void testResetPassword(Map<String, String> map) throws InterruptedException {
         /***
          this test verifies login functionality
          story - N2020-28284

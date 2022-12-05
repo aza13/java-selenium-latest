@@ -40,8 +40,8 @@ public class DashboardPageActions extends BaseTest {
         return TextHelper.getText(driver, quoteStatus, "text");
     }
 
-    public void clickProfileSettings(WebDriver driver) {
-        WaitHelper.waitForElementVisibility(driver, newQuoteButton);
+    public void clickProfileSettings(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibilityCustom(driver, newQuoteButton, 30);
         WaitHelper.waitForElementClickable(driver, profileSettings);
         ClickHelper.clickElement(driver, profileSettings);
     }
@@ -66,8 +66,8 @@ public class DashboardPageActions extends BaseTest {
         return driver.findElement(signOutLink);
     }
 
-    public void clickSupportLink(WebDriver driver){
-        WaitHelper.waitForElementVisibility(driver, supportLink);
+    public void clickSupportLink(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibilityCustom(driver, supportLink, 30);
         driver.findElement(supportLink).click();
     }
 
@@ -114,8 +114,8 @@ public class DashboardPageActions extends BaseTest {
         }
     }
 
-    public List<WebElement> getQuoteCardsList(WebDriver driver) {
-        WaitHelper.waitForElementVisibility(driver, quoteCard);
+    public List<WebElement> getQuoteCardsList(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibilityCustom(driver, quoteCard, 30);
         return driver.findElements(quoteCard);
     }
 
@@ -188,7 +188,7 @@ public class DashboardPageActions extends BaseTest {
     }
 
     public void clickNewQuote(WebDriver driver) throws InterruptedException {
-        WaitHelper.waitForElementVisibility(driver, newQuoteButton);
+        WaitHelper.waitForElementVisibilityCustom(driver, newQuoteButton, 30);
         ClickHelper.clickElement(driver, newQuoteButton);
         WaitHelper.pause(2000);
     }
@@ -196,6 +196,8 @@ public class DashboardPageActions extends BaseTest {
     public void createNewQuote(WebDriver driver, String product, String applicantName, String website) throws InterruptedException {
         WebElement element = driver.findElement(selectCoverageDropdown);
         DropdownHelper.selectValueFromBootstrapDropdown(driver, element, genericCoverageOption, product);
+        WaitHelper.pause(2000);
+        WaitHelper.waitForElementVisibilityCustom(driver, applicantNameField, 30);
         TextHelper.enterText(driver, applicantNameField, applicantName);
         if(website.contentEquals("No website")){
             website = "";
@@ -250,7 +252,7 @@ public class DashboardPageActions extends BaseTest {
         }
     }
 
-    public LoginPageActions logoutApp(WebDriver driver) {
+    public LoginPageActions logoutApp(WebDriver driver) throws InterruptedException {
         logger.info("logging out from the application");
         clickProfileSettings(driver);
         signOutLink(driver).click();
@@ -272,6 +274,21 @@ public class DashboardPageActions extends BaseTest {
     public void clickFilterByCoverageName(WebDriver driver) {
         WaitHelper.waitForElementVisibility(driver, filterByCoverageName);
         ClickHelper.clickElement(driver, filterByCoverageName);
+    }
+
+    public void selectActiveQuote(WebDriver driver) throws InterruptedException {
+        try {
+            List<WebElement> quotes = getQuoteCardsList(driver);
+            for(WebElement quoteCard : quotes){
+                if(quoteCard.getText().contains("Active")){
+                    quoteCard.findElement(By.xpath("//button[text()='Continue']")).click();
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            logger.error("No active quote is found "+e.getMessage());
+            throw e;
+        }
     }
 
     public void clickSubmissionFilterByStatus(WebDriver driver) {
@@ -316,6 +333,11 @@ public class DashboardPageActions extends BaseTest {
     public String getFirstAvailableReferenceId(WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementVisibilityCustom(driver, getFirstAvailableReferenceId, 45);
         return TextHelper.getText(driver, getFirstAvailableReferenceId, "text");
+    }
+
+    public String getFirstAvailablePolicyId(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibilityCustom(driver, firstPolicyIdLocator, 45);
+        return TextHelper.getText(driver, firstPolicyIdLocator, "text");
     }
 
     public String getFirstQuoteLegalName(WebDriver driver) throws InterruptedException {
@@ -432,13 +454,12 @@ public class DashboardPageActions extends BaseTest {
     }
 
     public void clickApplyFiltersButton(WebDriver driver) throws InterruptedException {
-
         ClickHelper.javaScriptExecutorClick(driver, applyFiltersButton);
         WaitHelper.pause(5000);
     }
 
     public void selectStatusInFilter(WebDriver driver, String status) throws InterruptedException {
-        WaitHelper.waitForElementVisibility(driver, allStatusDropdown);
+        WaitHelper.waitForElementVisibilityCustom(driver, allStatusDropdown, 30);
         WebElement dropdown = driver.findElement(allStatusDropdown);
         DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, statusOptions, status);
     }
@@ -541,7 +562,6 @@ public class DashboardPageActions extends BaseTest {
         for (String date: dates) {
             try {
                 actualDate = df.parse(date);
-                assert actualStatus != null;
                 if (!actualStatus.equalsIgnoreCase(expStatus) && getDifferenceInExpirationDateInDays(actualDate,givenDate) <=60) {
                     ClickHelper.clickElement(driver,firstAvailableRenewButton);
                     ClickHelper.clickElement(driver, submitSubmissionRenewal);
@@ -584,8 +604,8 @@ public class DashboardPageActions extends BaseTest {
     }
 
     public void selectSupportType(WebDriver driver, String supportType) throws InterruptedException {
-        WaitHelper.waitForElementVisibilityCustom(driver, selectCoverageDropdown, 30);
-        WebElement dropdown = driver.findElement(selectCoverageDropdown);
+        WaitHelper.waitForElementVisibilityCustom(driver, supportTypeDropdown, 30);
+        WebElement dropdown = driver.findElement(supportTypeDropdown);
         DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, genericCoverageOption, supportType);
     }
 
@@ -607,7 +627,6 @@ public class DashboardPageActions extends BaseTest {
     }
 
     public void clickQuoteCardContinueButton(WebDriver driver){
-
         WaitHelper.waitForElementVisibility(driver, quoteCardGenericContinueButton);
         ClickHelper.clickElement(driver, quoteCardGenericContinueButton);
     }

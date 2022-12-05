@@ -25,8 +25,6 @@ public class NewSubmissionQuoteTests extends BaseTest {
 
     private static final Logger logger = Logger.getLogger(NewSubmissionQuoteTests.class);
     private DashboardPageActions dashboardPageActions;
-    private RatingCriteriaPageActions ratingCriteriaPageActions;
-    private UnderwritingQuestionsPageActions underwritingQuestionsPageActions;
     private QuoteListPageActions quoteListPageActions;
     private DatabaseConnector databaseConnector;
 
@@ -36,8 +34,6 @@ public class NewSubmissionQuoteTests extends BaseTest {
         logger.info("Executing the tests from QuotesPageTests class  :: beforeClassSetUp");
         databaseConnector = new DatabaseConnector();
         dashboardPageActions = PageObjectManager.getDashboardPageActions();
-        ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaActions();
-        underwritingQuestionsPageActions = PageObjectManager.getUnderwritingQuestionsPageActions();
         quoteListPageActions = PageObjectManager.getQuoteListPageActions();
     }
 
@@ -58,8 +54,8 @@ public class NewSubmissionQuoteTests extends BaseTest {
         int quotesCountBefore = quoteListPageActions.getQuotesCount(DriverManager.getDriver());
         quoteListPageActions.addNewQuote(DriverManager.getDriver(), "Custom Quote");
         logger.info("option count is 1, because only one quote will be open at a time");
-        int optionCount = 1;
-        quoteListPageActions.selectPerClaim(DriverManager.getDriver(), Integer.toString(optionCount), map.get("claim"));
+        String optionCount = "1";
+        quoteListPageActions.selectPerClaim(DriverManager.getDriver(), optionCount, map.get("claim"));
         quoteListPageActions.selectRetentionOption(DriverManager.getDriver(), optionCount, map.get("retention"));
         quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), optionCount, map.get("limit"));
         int quotesCountAfter = quoteListPageActions.getQuotesCount(DriverManager.getDriver());
@@ -148,8 +144,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
         quoteListPageActions.clickConfirmDatesConfirmButton(DriverManager.getDriver());
     }
 
-
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData", enabled = false)
     public void testContactUnderwriterModalBeforeLock(Map<String, String> map) throws InterruptedException, SQLException {
         /*****************************************************************
          this test verifies contact underwriter modal on quote page before lock
@@ -209,7 +204,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
         CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
         assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
         quoteListPageActions.selectPerClaim(DriverManager.getDriver(), map.get("optionCount"), map.get("claim"));
-        quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), Integer.parseInt(map.get("optionCount")), map.get("limit"));
+        quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), map.get("optionCount"), map.get("limit"));
         quoteListPageActions.clickConfirmAndLockButtonIfDisplayed(DriverManager.getDriver());
         if (quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())) {
             quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
@@ -252,18 +247,19 @@ public class NewSubmissionQuoteTests extends BaseTest {
         logger.info("verifying whether selected values are saved or not in new option");
         quoteListPageActions.clickAddOptionButton(DriverManager.getDriver());
         boolean isSelectVisible = quoteListPageActions.isSelectVisibleToNewAddOption(DriverManager.getDriver());
-        Assert.assertTrue(isSelectVisible);
-        quoteListPageActions.selectPerClaim(DriverManager.getDriver(), map.get("optionCount"), map.get("claim"));
-        String selectedPerClaimValue = quoteListPageActions.clickClaimCheckbox(DriverManager.getDriver(), map.get("optionCount"));
+        assert isSelectVisible;
+        String optionCount = String.valueOf(quoteListPageActions.getQuoteOptionCount(DriverManager.getDriver()));
+        quoteListPageActions.selectPerClaim(DriverManager.getDriver(), optionCount, map.get("claim"));
+        String selectedPerClaimValue = quoteListPageActions.clickClaimCheckbox(DriverManager.getDriver(), optionCount);
         Assert.assertEquals(selectedPerClaimValue, map.get("claim"));
 
-        quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), Integer.parseInt(map.get("optionCount")), map.get("limit"));
-        String aggLimit = quoteListPageActions.getAggLimitSelectedValue(DriverManager.getDriver());
+        quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), optionCount, map.get("limit"));
+        String aggLimit = quoteListPageActions.getAggLimitSelectedValue(DriverManager.getDriver(), optionCount);
         Assert.assertEquals(aggLimit, map.get("limit"));
 
-        boolean valueSelected = quoteListPageActions.selectRetentionOption(DriverManager.getDriver(), Integer.parseInt(map.get("optionCount")), map.get("retention"));
+        boolean valueSelected = quoteListPageActions.selectRetentionOption(DriverManager.getDriver(), optionCount, map.get("retention"));
         if (valueSelected) {
-            String retentionValue = quoteListPageActions.getRetentionSelectedValue(DriverManager.getDriver());
+            String retentionValue = quoteListPageActions.getRetentionSelectedValue(DriverManager.getDriver(), optionCount);
             Assert.assertEquals(retentionValue, map.get("retention"));
         }
     }
@@ -279,10 +275,10 @@ public class NewSubmissionQuoteTests extends BaseTest {
         CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
         assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
         quoteListPageActions.selectPerClaim(DriverManager.getDriver(), map.get("optionCount"), map.get("claim1"));
-        quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), Integer.parseInt(map.get("optionCount")), map.get("limit1"));
+        quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), map.get("optionCount"), map.get("limit1"));
         String premiumBefore = quoteListPageActions.getFirstOptionPremium(DriverManager.getDriver());
         quoteListPageActions.selectPerClaim(DriverManager.getDriver(), map.get("optionCount"), map.get("claim2"));
-        quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), Integer.parseInt(map.get("optionCount")), map.get("limit2"));
+        quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), map.get("optionCount"), map.get("limit2"));
         String premiumAfter = "";
         assert !Objects.equals(premiumAfter, premiumBefore);
         boolean isTextVisible = quoteListPageActions.verifyOutsideBrokerPortalGuidelinesVisible(DriverManager.getDriver());

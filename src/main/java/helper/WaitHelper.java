@@ -42,7 +42,7 @@ public class WaitHelper {
                 if (result){
                     break;
                 }else{
-                    n++;
+                    i++;
                 }
             }
         } catch (Exception e) {
@@ -90,6 +90,17 @@ public class WaitHelper {
             wait.until(ExpectedConditions.elementToBeClickable(elementLocator));
         } catch (Exception e) {
             logger.error("Failed to wait till the element is clickable :: waitForElementClickable::" + elementLocator);
+            throw (e);
+        }
+    }
+
+    public static void waitForElementClickable2(WebDriver driver, WebElement element) {
+        logger.info("Waiting for the element till it is clickable :: waitForElementClickable2");
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+        } catch (Exception e) {
+            logger.error("Failed to wait till the element is clickable :: waitForElementClickable2::" + element);
             throw (e);
         }
     }

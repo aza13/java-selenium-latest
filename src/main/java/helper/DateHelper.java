@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 
 public class DateHelper {
 
-    private static Logger logger = Logger.getLogger(DateHelper.class);
+    private static final Logger logger = Logger.getLogger(DateHelper.class);
 
     private static final String DATE_FORMAT = "dd-MMM-yyyy";
 

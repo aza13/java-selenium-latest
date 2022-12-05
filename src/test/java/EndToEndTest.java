@@ -114,7 +114,7 @@ public class EndToEndTest extends BaseTest {
                     bindingPageActions.uploadFile(DriverManager.getDriver(), ConstantVariable.PDF_DOC_FILE_PATH);
                     bindingPageActions.clickFileDeleteIcon(DriverManager.getDriver());
                     assert bindingPageActions.getFileDeleteIcon(DriverManager.getDriver()).isDisplayed();
-                    assert bindingPageActions.getFilePresentIcon(DriverManager.getDriver()).isDisplayed();
+                    assert bindingPageActions.isFilePresentIconDisplayed(DriverManager.getDriver());
                     bindingPageActions.clickAddFilesButton(DriverManager.getDriver());
                     bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
                     bindingPageActions.clickConfirmationContinueButton(DriverManager.getDriver());

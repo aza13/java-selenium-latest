@@ -34,7 +34,7 @@ public class InsuredPageTests extends BaseTest {
          **/
         logger.info("verifying creating new quote creation :: testCreateInsuredFieldsValidation");
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        dashboardPageActions.createNewQuote(DriverManager.getDriver(), ConfigDataReader.getInstance().getProperty("product"), map.get("applicantName"), map.get("website"));
+        dashboardPageActions.createNewQuote(DriverManager.getDriver(), ConfigDataReader.getInstance().getProperty("coverage"), map.get("applicantName"), map.get("website"));
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         insuredPageActions.clickNewInsuredButton(DriverManager.getDriver());
         assert !insuredPageActions.isQuotePageDisabled(DriverManager.getDriver());

@@ -60,7 +60,7 @@ public class RatingCriteriaPageActions extends BaseTest {
             ClickHelper.clickElement(driver, clearBusinessClassButton);
         }
         TextHelper.enterText(driver, businessClassDropDown, bitcoin);
-        WaitHelper.pause(3000);
+        WaitHelper.pause(2000);
     }
 
 
@@ -76,18 +76,18 @@ public class RatingCriteriaPageActions extends BaseTest {
     }
 
     public void enterRatingCriteriaRevenueAndRecords(WebDriver driver, String revenue, String records) throws InterruptedException {
-        WaitHelper.pause(5000);
+        WaitHelper.waitForElementVisibilityCustom(driver, ratingCriteriaRevenueField, 30);
         TextHelper.enterText(driver, ratingCriteriaRevenueField, revenue);
         TextHelper.enterText(driver, ratingCriteriaRecordsField , records );
         driver.findElement(ratingCriteriaRecordsField).sendKeys(Keys.TAB);
-        WaitHelper.pause(3000);
+        WaitHelper.pause(2000);
     }
 
     public void enterNetWorth(WebDriver driver, String revenue) throws InterruptedException {
-        WaitHelper.pause(5000);
+        WaitHelper.waitForElementVisibilityCustom(driver, ratingCriteriaNetWorthField, 30);
         TextHelper.enterText(driver, ratingCriteriaNetWorthField, revenue);
         driver.findElement(ratingCriteriaNetWorthField).sendKeys(Keys.TAB);
-        WaitHelper.pause(3000);
+        WaitHelper.pause(2000);
     }
 
     public void enterNoOfPhysicians(WebDriver driver, String count){
@@ -123,12 +123,10 @@ public class RatingCriteriaPageActions extends BaseTest {
     }
 
     public void verifyEffectiveDateField (WebDriver driver) throws InterruptedException {
-
-        WaitHelper.waitForElementClickable(driver, ratingCriteriaEffectiveDateSelectionButton);
         ClickHelper.clickElement(driver, ratingCriteriaEffectiveDateSelectionButton);
-        WaitHelper.waitForElementClickable(driver, clickNextMonth);
         ClickHelper.clickElement(driver, clickNextMonth );
-        WaitHelper.isElementEnabled(driver, clickNextMonth);
+        boolean result = WaitHelper.isElementEnabled(driver, clickNextMonth);
+        assert !result;
         WaitHelper.pause(2000);
         ClickHelper.clickElement(driver,ratingCriteriaEffectiveActualDateChoose);
     }
