@@ -46,7 +46,7 @@ public class RatingCriteriaPageObjects {
     public static final By hardDeclineMsg = By.cssSelector("p[id='alert-dialog-description'] div div p");
     public static final By hardDeclineOKButton = By.xpath("//button[normalize-space()='OK']");
     public static final By noOfPhysicians = By.name("Number of Physicians");
-    public static final By clickNextMonth = By.xpath("//button[@title='Next month']//*[name()='svg']");
+    public static final By clickNextMonth = By.xpath("//button[@title='Next month']");
 
 
 }

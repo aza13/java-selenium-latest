@@ -6,7 +6,7 @@ import org.openqa.selenium.*;
 
 public class ClickHelper {
 
-    private static Logger logger = Logger.getLogger(ClickHelper.class);
+    private static final Logger logger = Logger.getLogger(ClickHelper.class);
 
     private ClickHelper() {
 
@@ -49,6 +49,17 @@ public class ClickHelper {
         logger.info("Clicking element using :: JavaScriptExecutor " + elementLocator);
         try {
             WebElement element = driver.findElement(elementLocator);
+            JavascriptExecutor jse = (JavascriptExecutor) driver;
+            jse.executeScript("arguments[0].click();", element);
+        } catch (Exception e) {
+            logger.error("javaScriptExecutorClick also failed :: javaScriptExecutorClick");
+            throw (e);
+        }
+    }
+
+    public static void javaScriptExecutorClick2(WebDriver driver, WebElement element) {
+        logger.info("Clicking element using :: JavaScriptExecutor " + element);
+        try {
             JavascriptExecutor jse = (JavascriptExecutor) driver;
             jse.executeScript("arguments[0].click();", element);
         } catch (Exception e) {

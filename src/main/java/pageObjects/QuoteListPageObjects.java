@@ -21,7 +21,7 @@ public class QuoteListPageObjects {
     public static final By quoteListContainer = By.xpath("//div[@data-qa='quote_list_container']");
     public static final By clickAsPDFDownloadButton = By.xpath("//*[@data-testid='PictureAsPdfIcon']");
     public static final By clickAsApplicationButton = By.xpath("//div[@id='panel-header-1']//div[5]//*[name()='svg']");
-    public static final By clickAsWordDownloadButton = By.xpath("//div[@aria-label='Download Quote Word']//img");
+    public static final By clickAsWordDownloadButton = By.xpath("//div[@aria-label='Download Word']//img");
     public static final By quotesTab = By.xpath("//button[text()='Quotes']");
     public static final By quotesTabDisabled = By.xpath("//button[text()='Quotes' and @disabled]");
     public static final By statusQuoteInProgress = By.xpath("//div[contains(text(),'In Progress')]");
@@ -33,6 +33,7 @@ public class QuoteListPageObjects {
     public static final By quotesPageSelected = By.xpath("//button[@id='workflow-tab-3' and @aria-selected='true']");
 
     /** submit for review modal**/
+    public static final String submitReviewDialogCss = "document.querySelector('body > div.sc-bjUoiL.erxvLZ.sc-gSAPjG.gMBRMP.MuiDialog-root.MuiModal-root > div.sc-lbxAil.hPeWbF.MuiDialog-container.MuiDialog-scrollPaper > div > div.sc-eKszNL.geooGQ.MuiDialogContent-root').scrollTop=-200";
     public static final By submitReviewDialog = By.xpath("//h2[text()='Submit for Review']");
     public static final By submitReviewDialogText = By.xpath("//p[@id='alert-dialog-description']//div/h1");
     public static final By submitReviewTextArea = By.xpath("//textarea[@id='outlined-textarea']");

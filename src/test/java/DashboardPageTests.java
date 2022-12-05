@@ -386,11 +386,12 @@ public class DashboardPageTests extends BaseTest {
         }
 
         dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
-        String actualPolicyNumber = dashboardPageActions.getFirstAvailableReferenceId(DriverManager.getDriver());
+        String actualPolicyNumber = dashboardPageActions.getFirstAvailablePolicyId(DriverManager.getDriver());
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), actualPolicyNumber);
-        String expectedPolicyNumber = dashboardPageActions.getFirstAvailableReferenceId(DriverManager.getDriver());
+        String expectedPolicyNumber = dashboardPageActions.getFirstAvailablePolicyId(DriverManager.getDriver());
         assert actualPolicyNumber.equals(expectedPolicyNumber);
 
+        dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("noSuchARecord"));
         String searchForNoResult = dashboardPageActions.getSearchForNoResult(DriverManager.getDriver());
         assert searchForNoResult.contentEquals(map.get("expForNoSuchARecord"));
