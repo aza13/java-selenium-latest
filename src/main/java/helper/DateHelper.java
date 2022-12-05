@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-//import static PageObjects.PaymentPageObjects.*;
+
 
 
 public class DateHelper {
@@ -51,7 +51,7 @@ public class DateHelper {
 
             return dateFormat.format(date);
         } catch (Exception e) {
-            logger.error("Failed to return the back date", e);
+            logger.error("Failed to return the system date with the given format", e);
             return null;
         }
     }
