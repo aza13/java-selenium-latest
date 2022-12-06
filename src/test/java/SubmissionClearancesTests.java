@@ -163,8 +163,13 @@ public class SubmissionClearancesTests extends BaseTest {
             bindingPageActions.clickFileDeleteIcon(DriverManager.getDriver());
             bindingPageActions.uploadFileUsingJavaScript(DriverManager.getDriver(), ConstantVariable.PDF_DOC_FILE_PATH);
             assert !bindingPageActions.isFileTypeWarningDisplayed2(DriverManager.getDriver());
+        }else if (insuredPageActions.duplicateSubmissionDialog(DriverManager.getDriver())) {
+            insuredPageActions.clickDuplicateCancelButton(DriverManager.getDriver());
+            logger.info("No clearance associated with insured, Rating criteria page displayed");
+            assert true;
+        }else{
+            insuredPageActions.clickClearanceSubmitButton(DriverManager.getDriver());
         }
-        insuredPageActions.clickClearanceSubmitButton(DriverManager.getDriver());
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "InsuredPageData")
