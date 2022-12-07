@@ -5,8 +5,8 @@
     <test verbose="2" name="QuoteIt UI Regression">
         <classes>
                         <class name="LoginPageTests"/>
-<!--                        <class name="DashboardPageTests"/>-->
-<!--                        <class name="InsuredPageTests"/>-->
+                        <class name="DashboardPageTests"/>
+                        <class name="InsuredPageTests"/>
 <!--                        <class name="RatingCriteriaPageTests"/>-->
 <!--                        <class name="SubmissionClearancesTests"/>-->
 <!--                        <class name="QuotesPage.ExistingSubmissionQuoteTests"/>-->
