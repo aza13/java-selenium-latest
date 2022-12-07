@@ -151,7 +151,7 @@ public class QuoteListPageActions extends BaseTest {
     public void addNewQuote(WebDriver driver, String quoteType) throws InterruptedException {
         logger.info("adding quote to the submission based on quote type custom/4 option/6 options ");
         try {
-            WaitHelper.pause(10000);
+            WaitHelper.waitForElementVisibilityCustom(driver, addQuoteButton, 45);
             ClickHelper.clickElement(driver, addQuoteButton);
             String newQuoteXpath = "//ul//li";
             By newQuoteOption = By.xpath(newQuoteXpath);

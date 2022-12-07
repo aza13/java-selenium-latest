@@ -264,6 +264,7 @@ public class BindingPageActions extends BaseTest {
 
     public boolean clickBinderDownload(WebDriver driver, String filename) throws InterruptedException {
         FileDownloadUtil.checkFileExistInDownloadFolder();
+        WaitHelper.waitForElementVisibilityCustom(driver, clickBinderPDFButton, 30);
         ClickHelper.clickElement(driver, clickBinderPDFButton);
         WaitHelper.waitForProgressbarInvisibility(driver);
         WaitHelper.pause(15000);
