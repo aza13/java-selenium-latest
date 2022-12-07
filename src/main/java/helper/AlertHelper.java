@@ -7,7 +7,7 @@ import org.openqa.selenium.WebDriver;
 
 public class AlertHelper {
 
-    private static Logger logger = Logger.getLogger(AlertHelper.class);
+    private static final Logger logger = Logger.getLogger(AlertHelper.class);
 
     private AlertHelper() {
     }

@@ -1,6 +1,7 @@
 package pageActions;
 
 import base.BaseTest;
+import base.PageObjectManager;
 import helper.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -115,25 +116,29 @@ public class InsuredPageActions extends BaseTest {
         }
     }
 
-    public void enterEmailAddress(WebDriver driver) {
+    public String enterEmailAddress(WebDriver driver) {
         String email = FakeDataHelper.email();
         TextHelper.enterText(driver, insuredFormEmailField, email);
+        return email;
     }
 
-    public void enterPhysicalAddress(WebDriver driver) {
+    public String enterPhysicalAddress(WebDriver driver) {
 
         String address = FakeDataHelper.address();
         TextHelper.enterText(driver, insuredPhysicalAddField, address);
+        return address;
     }
 
-    public void enterPhyCity(WebDriver driver) {
+    public String enterPhyCity(WebDriver driver) {
         String city = FakeDataHelper.city();
         TextHelper.enterText(driver, insuredPhysicalCityField, city);
+        return city;
     }
 
-    public void enterPhyZipcode(WebDriver driver) {
+    public String enterPhyZipcode(WebDriver driver) {
         String zipcode = FakeDataHelper.zipcode();
         TextHelper.enterText(driver, insuredPhysicalZipCode, zipcode);
+        return zipcode;
     }
 
     public void selectPhyState(WebDriver driver) throws InterruptedException {
@@ -151,9 +156,10 @@ public class InsuredPageActions extends BaseTest {
         ClickHelper.clickElement(driver, cancelInsuredFormButton);
     }
 
-    public void clickContinueInsuredFormButton(WebDriver driver) throws InterruptedException {
+    public RatingCriteriaPageActions clickContinueInsuredFormButton(WebDriver driver) throws InterruptedException {
         ClickHelper.clickElement(driver, continueInsuredFormButton);
         WaitHelper.waitForProgressbarInvisibility(driver);
+        return PageObjectManager.getRatingCriteriaPageActions();
     }
 
     public boolean validateSearchAgainButtonWithInsuredName(WebDriver driver, String name) {
@@ -237,6 +243,7 @@ public class InsuredPageActions extends BaseTest {
     }
 
     public void clickClearanceSubmitButton(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibilityCustom(driver, clearanceSubmitButton, 30);
         ClickHelper.clickElement(driver, clearanceSubmitButton);
         WaitHelper.waitForProgressbarInvisibility(driver);
     }
@@ -270,15 +277,14 @@ public class InsuredPageActions extends BaseTest {
 
     }
 
-    public boolean isCreateNewInsuredTextDisplayed(WebDriver driver){
-        WaitHelper.waitForElementVisibility(driver, createNewInsuredInfoText);
+    public boolean isCreateNewInsuredTextDisplayed(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibilityCustom(driver, createNewInsuredInfoText, 30);
         return ClickHelper.isElementExist(driver, createNewInsuredInfoText);
     }
 
     public boolean verifyValidPhoneNumberFormat(WebDriver driver){
         String phone = TextHelper.getText(driver, insuredPhoneNumberField, "value");
         Pattern pattern = Pattern.compile("^\\+[0-9]{1} \\([0-9]{3}\\) [0-9]{3}-[0-9]{4}$");
-        assert phone != null;
         Matcher matcher = pattern.matcher(phone);
         return matcher.matches();
     }

@@ -27,11 +27,16 @@ public class BindingPageObjects {
     public static final By generateBinderButton = By.xpath("//button[text()='Generate Binder']");
     public static final  By quoteStatus = By.xpath("(//div[@id='panel1bh-header']//p)[last()]");
     public static final By quoteStatus2 = By.xpath("//div[@id='panel1bh-header']//div[contains(@class, 'mnUOn')]");
+    public static final By binderGenerationWarningAlert = By.xpath("//div[@role='alert']//p[contains(text(), 'binder will be generated shortly')]");
 
+    /** select files **/
+    public static final String selectFilesModalCssSelector = "document.querySelector('body > div.sc-bjUoiL.erxvLZ.sc-gSAPjG.gMBRMP.MuiDialog-root.MuiModal-root > div.sc-lbxAil.hPeWbF.MuiDialog-container.MuiDialog-scrollPaper > div > div.sc-eKszNL.geooGQ.MuiDialogContent-root')";
     public static final By clickAndDragLink = By.xpath("//p[contains(text(), 'Click or Drag')]");
     public static final By addFilesButton = By.xpath("//button[text()='Add File(s)']");
     public static final By fileDeleteIcon = By.xpath("//*[@data-testid='DeleteOutlineIcon']");
     public static final By filePresentIcon = By.xpath("//*[@data-testid='FilePresentIcon']");
+
+    public static final By selectFilesModalCancelButton = By.xpath("//button[@data-qa='cancel_alert_modal']");
     public static final By rejectedStatus = By.xpath("//div[contains(text(),'Rejected')]");
     public static final By WaivedStatus = By.xpath("//div[contains(text(),'Waived')]");
     public static final By AcceptedStatus = By.xpath("//div[contains(text(),'Accepted')]");
@@ -42,6 +47,6 @@ public class BindingPageObjects {
     public static final By fileSizeExceededText = By.xpath("//p[starts-with(text(), 'You have exceeded the maximum 5MB file')]");
     public static final By priorSubjectivityStatus = By.xpath("//p[text()='Status:']/following-sibling::p/div");
     public static final By bindersWillBeIssuedShortlyText = By.xpath("//p[text()='Binder will be issued shortly']");
-    public static final By clickBinderPDFButton = By.xpath("(//*[name()='path'])[5]");
+    public static final By clickBinderPDFButton = By.xpath("//*[@data-testid='PictureAsPdfIcon']");
 
 }

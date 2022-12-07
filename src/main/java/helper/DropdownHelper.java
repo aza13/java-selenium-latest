@@ -97,7 +97,7 @@ public class DropdownHelper {
         logger.info("selecting given value from the dropdown:: selectValueFromBootstrapDropdown " + dropdown);
         try {
             dropdown.click();
-            WaitHelper.waitForElementVisibility(driver, option);
+            WaitHelper.waitForElementVisibilityCustom(driver, option, 30);
             List<WebElement> optionElements = driver.findElements(option);
             List<String> optionValues = new ArrayList<>();
             optionElements.forEach(webElement -> optionValues.add(webElement.getText().trim()));
@@ -108,8 +108,9 @@ public class DropdownHelper {
                     } else {
                         for (WebElement opt : optionElements) {
                             String actualValue = opt.getText().trim();
-                            if (actualValue.contentEquals(optionValue)) {
-                                opt.click();
+                            if (actualValue.contentEquals(optionValue)) {//
+                                ClickHelper.javaScriptExecutorClick2(driver, opt);
+//                                opt.click();
                                 break;
                             }
                         }

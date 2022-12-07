@@ -94,7 +94,8 @@ public class RatingCriteriaPageTests extends BaseTest {
         ratingCriteriaPageActions.verifyEffectiveDateField(DriverManager.getDriver());
         ratingCriteriaPageActions.verifyExpirationDate(DriverManager.getDriver());
         ratingCriteriaPageActions.clickRatingCriteriaExitButton(DriverManager.getDriver());
-        dashboardPageActions.getMyQuotesTabTitle(DriverManager.getDriver());
+        String title = dashboardPageActions.getMyQuotesTabTitle(DriverManager.getDriver());
+        assert title.contentEquals("Quotes");
     }
 
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "RatingCriteriaPageData")

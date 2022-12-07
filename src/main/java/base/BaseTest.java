@@ -68,7 +68,7 @@ public class BaseTest {
         DriverManager.getDriver().manage().window().maximize();
         DriverManager.getDriver().navigate().to(appUrl);
         DriverManager.getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
-        if(!method.getName().equals("testLoginFunctionality")){
+        if (!method.getName().equals("testLoginFunctionality")) {
             PageObjectManager.getLoginPageActions().loginApp(DriverManager.getDriver(), userId, password);
         }
 
@@ -136,11 +136,11 @@ public class BaseTest {
 
     @AfterMethod(alwaysRun = true)
     public static synchronized void updateTestStatus(ITestResult result) {
-        logger.info("Updating result : "+result.getStatus()+" to the test script " + result.getName() + " to report :: updateTestStatus");
+        logger.info("Updating result : " + result.getStatus() + " to the test script " + result.getName() + " to report :: updateTestStatus");
         logTestStatusToReport(DriverManager.getDriver(), result);
         DriverManager.quitDriver();
-            testLogger.log(Status.PASS, "Closed the browser successfully");
-        }
+        testLogger.log(Status.PASS, "Closed the browser successfully");
+    }
 
 
     @AfterSuite(alwaysRun = true)
