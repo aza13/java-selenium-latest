@@ -64,7 +64,8 @@ public class QuoteListPageActions extends BaseTest {
 
     public String getSelectedClaim(WebDriver driver) {
         try {
-            return driver.findElement(perClaimLocator).getAttribute("value");
+            String claim = driver.findElement(perClaimLocator).getAttribute("value");
+            return claim;
         } catch (Exception e) {
             logger.error("failed to get the selected per claim from the dropdown " + e.getMessage());
             throw (e);
@@ -73,7 +74,8 @@ public class QuoteListPageActions extends BaseTest {
 
     public String getSelectedAggregateLimit(WebDriver driver) {
         try {
-            return driver.findElement(aggregateLimitLocator).getAttribute("value");
+            String aggLimit = driver.findElement(aggregateLimitLocator).getAttribute("value");
+            return aggLimit;
         } catch (Exception e) {
             logger.error("failed to get the aggregate limit dropdown " + e.getMessage());
             throw (e);
@@ -91,7 +93,7 @@ public class QuoteListPageActions extends BaseTest {
     public void selectAggregateLimit(WebDriver driver, String optionCount, String aggLimit) throws InterruptedException {
         String aggregateLimitXpath = "//div[@data-qa='option_card_" + optionCount + "']//div[@data-qa='aggregateLimit']/div";
         By aggregateLimitDropdown = By.xpath(aggregateLimitXpath);
-        WaitHelper.waitForElementVisibility(driver, aggregateLimitDropdown);
+        WaitHelper.waitForElementVisibilityCustom(driver, aggregateLimitDropdown, 30);
         WebElement dropdown = driver.findElement(aggregateLimitDropdown);
         DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, perClaimOptionGenericLocator, aggLimit);
         WaitHelper.pause(5000);
@@ -199,6 +201,7 @@ public class QuoteListPageActions extends BaseTest {
 
     public boolean clickPDFFileDownload(WebDriver driver, String filename) throws InterruptedException {
         FileDownloadUtil.checkFileExistInDownloadFolder();
+        WaitHelper.waitForElementVisibilityCustom(driver, clickAsPDFDownloadButton, 30);
         ClickHelper.clickElement(driver, clickAsPDFDownloadButton);
         WaitHelper.waitForProgressbarInvisibility(driver);
         WaitHelper.pause(30000);
@@ -253,7 +256,7 @@ public class QuoteListPageActions extends BaseTest {
                 logger.info("if the product is Ophthalmic, selects BRRP coverages");
                 selectBRRPCoverageWithoutInvestigation(DriverManager.getDriver());
                 selectBRRPCoverageWithInvestigation(DriverManager.getDriver());
-            } else if (getSelectedClaim(driver) == null || getAggLimitSelectedValue(driver, optionCount) == null) {
+            } else if ((Objects.equals(getSelectedClaim(driver), "")) || (Objects.equals(getSelectedAggregateLimit(driver), ""))) {
                 selectPerClaim(driver, optionCount, "$ 500k");
                 selectAggregateLimit(driver, optionCount, "$ 500k");
                 selectRetentionOption(driver, optionCount, "$ 10,000");
@@ -267,6 +270,7 @@ public class QuoteListPageActions extends BaseTest {
                     if (n == 12) break;
                 }
             }
+            WaitHelper.waitForElementVisibilityCustom(driver, confirmAndLockButton, 30);
             if (driver.findElement(confirmAndLockButton).isDisplayed()) {
                 ClickHelper.clickElement(driver, confirmAndLockButton);
                 WaitHelper.waitForProgressbarInvisibility(driver);
@@ -598,7 +602,8 @@ public class QuoteListPageActions extends BaseTest {
     public String getAggLimitSelectedValue(WebDriver driver, String optionCount) throws InterruptedException {
         String aggregateLimitXpath = "//div[@data-qa='option_card_" + optionCount + "']//div[@data-qa='aggregateLimit']/div";
         WebElement dropdownValue = driver.findElement(By.xpath(aggregateLimitXpath));
-        return dropdownValue.getText();
+        String limit = dropdownValue.getText();
+        return limit;
     }
 
     public String getRetentionSelectedValue(WebDriver driver, String optionCount) throws InterruptedException {

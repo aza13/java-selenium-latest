@@ -134,8 +134,8 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
             logger.info("option count is 1, because only one quote will be open at a time");
             String optionCount = "1";
             quoteListPageActions.selectPerClaim(DriverManager.getDriver(), optionCount, map.get("claim"));
-            quoteListPageActions.selectRetentionOption(DriverManager.getDriver(), optionCount, map.get("retention"));
             quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), optionCount, map.get("limit"));
+            quoteListPageActions.selectRetentionOption(DriverManager.getDriver(), optionCount, map.get("retention"));
             int quotesCountAfter = quoteListPageActions.getQuotesCount(DriverManager.getDriver());
             assert quotesCountAfter == quotesCountBefore+1;
         }

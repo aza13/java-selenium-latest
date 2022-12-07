@@ -108,9 +108,8 @@ public class DropdownHelper {
                     } else {
                         for (WebElement opt : optionElements) {
                             String actualValue = opt.getText().trim();
-                            if (actualValue.contentEquals(optionValue)) {//
+                            if (actualValue.contentEquals(optionValue)) {
                                 ClickHelper.javaScriptExecutorClick2(driver, opt);
-//                                opt.click();
                                 break;
                             }
                         }
