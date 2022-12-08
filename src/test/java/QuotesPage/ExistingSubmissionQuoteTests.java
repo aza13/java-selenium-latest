@@ -253,7 +253,6 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
 
             assert !Objects.equals(premiumAfter, premiumBefore);
             assert !Objects.equals(policyAggLimitAfter, policyAggLimitBefore);
-
         }
     }
 
