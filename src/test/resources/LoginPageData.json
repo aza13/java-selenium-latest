@@ -15,8 +15,8 @@
     {
       "runMode": "Y",
       "scenario": "invalidData",
-      "userId": "corp",
-      "userPassword": "Pas@123"
+      "userId": "corp1",
+      "userPassword": "Pas@1234"
     },
     {
       "runMode": "Y",
@@ -27,8 +27,9 @@
   ],
   "testResetPassword":[
     {
-      "runMode": "Y",
-      "userId": "vkottapalli@tmhcc.com"
+      "runMode": "N",
+      "userId": "vkottapalli@tmhcc.com",
+      "userPassword": "brokerPortal#123"
     }
   ]
 }
