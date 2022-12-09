@@ -170,7 +170,8 @@ public class DashboardPageActions extends BaseTest {
         List<WebElement> quoteNameElements = driver.findElements(quoteCoverageName);
 
         for (WebElement element : quoteNameElements) {
-            names.add(element.getText());
+            String text = element.getText();
+            names.add(text);
         }
         return names;
     }
