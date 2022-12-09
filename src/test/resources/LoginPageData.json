@@ -1,0 +1,34 @@
+{
+  "testLoginFunctionality": [
+    {
+      "runMode": "Y",
+      "scenario": "validData",
+      "userId": "amamillapalli@tmhcc.com",
+      "userPassword": "3&&rAgVVgrv%9p$Q"
+    },
+    {
+      "runMode": "Y",
+      "scenario": "noData",
+      "userId": "",
+      "userPassword": ""
+    },
+    {
+      "runMode": "Y",
+      "scenario": "invalidData",
+      "userId": "corp",
+      "userPassword": "Pas@123"
+    },
+    {
+      "runMode": "Y",
+      "scenario": "logout",
+      "userId": "vkottapalli@tmhcc.com",
+      "userPassword": "brokerPortal#123"
+    }
+  ],
+  "testResetPassword":[
+    {
+      "runMode": "Y",
+      "userId": "vkottapalli@tmhcc.com"
+    }
+  ]
+}
