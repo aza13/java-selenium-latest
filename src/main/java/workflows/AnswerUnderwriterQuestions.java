@@ -42,10 +42,7 @@ public class AnswerUnderwriterQuestions {
                 underwritingQuestionsPageActions.answerUWQuestionPhishingSectionOMICProduct(driver);
                 underwritingQuestionsPageActions.answerUWQuestionCyberSectionOMICProduct(driver);
                 underwritingQuestionsPageActions.answerUWQuestionRiskSectionOMICProduct(driver);
-            }else{
-                System.out.println("Place holder for Other Product");
             }
-
         }
         underwritingQuestionsPageActions.clickUWQuestionsContinueButton(driver);
         WaitHelper.waitForProgressbarInvisibility(driver);
