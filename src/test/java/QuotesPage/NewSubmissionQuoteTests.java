@@ -72,6 +72,10 @@ public class NewSubmissionQuoteTests extends BaseTest {
         logger.info("Executing the testQuotePreview from QuoteTests class :: testQuotePreview");
         logger.info("verifying quote preview icons");
         CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
+        if(coverage.contains(map.get("coverageOmic"))){
+            quoteListPageActions.selectBRRPCoverageWithoutInvestigation(DriverManager.getDriver());
+            quoteListPageActions.selectBRRPCoverageWithInvestigation(DriverManager.getDriver());
+        }
         assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
         assert quoteListPageActions.verifyQuotePreview(DriverManager.getDriver());
     }
@@ -193,7 +197,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
         quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData", enabled = false)
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
     public void testQuoteOutsideBoundSoftDeclined(Map<String, String> map) throws InterruptedException {
         /******************************************************************************
          this test verifies Broker Portal Quotes Outside the Bounds Will Be Soft Declined
@@ -247,7 +251,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
         logger.info("verifying whether selected values are saved or not in new option");
         quoteListPageActions.clickAddOptionButton(DriverManager.getDriver());
         boolean isSelectVisible = quoteListPageActions.isSelectVisibleToNewAddOption(DriverManager.getDriver());
-        assert isSelectVisible;
+        Assert.assertTrue(isSelectVisible);
         String optionCount = String.valueOf(quoteListPageActions.getQuoteOptionCount(DriverManager.getDriver()));
         quoteListPageActions.selectPerClaim(DriverManager.getDriver(), optionCount, map.get("claim"));
         String selectedPerClaimValue = quoteListPageActions.clickClaimCheckbox(DriverManager.getDriver(), optionCount);
