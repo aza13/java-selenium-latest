@@ -197,7 +197,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
         quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData", enabled = false)
     public void testQuoteOutsideBoundSoftDeclined(Map<String, String> map) throws InterruptedException {
         /******************************************************************************
          this test verifies Broker Portal Quotes Outside the Bounds Will Be Soft Declined
