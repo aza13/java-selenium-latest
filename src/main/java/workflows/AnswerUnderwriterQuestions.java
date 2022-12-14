@@ -35,12 +35,14 @@ public class AnswerUnderwriterQuestions {
                 underwritingQuestionsPageActions.answerUWQuestionPhishingSectionOMICProduct(driver);
                 underwritingQuestionsPageActions.answerUWQuestionCyberSectionOMICProduct(driver);
                 underwritingQuestionsPageActions.answerUWQuestionRiskSectionOMICProduct(driver);
-            }else{
-//                underwritingQuestionsPageActions.answerFirstUWQuestion(driver);
-//                underwritingQuestionsPageActions.answerUWQuestionButtonsOMICProduct2(driver);
-                System.out.println("Place holder for AAO Product");
+            }else if(product.contains("American Academy")){
+                underwritingQuestionsPageActions.answerUWQuestionGeneralSectionOMICProduct(driver);
+                underwritingQuestionsPageActions.answerUWQuestionEMDSectionOMICProduct(driver);
+                underwritingQuestionsPageActions.answerUWQuestionRansomSectionOMICProduct(driver);
+                underwritingQuestionsPageActions.answerUWQuestionPhishingSectionOMICProduct(driver);
+                underwritingQuestionsPageActions.answerUWQuestionCyberSectionOMICProduct(driver);
+                underwritingQuestionsPageActions.answerUWQuestionRiskSectionOMICProduct(driver);
             }
-
         }
         underwritingQuestionsPageActions.clickUWQuestionsContinueButton(driver);
         WaitHelper.waitForProgressbarInvisibility(driver);
