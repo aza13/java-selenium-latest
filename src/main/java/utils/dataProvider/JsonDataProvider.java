@@ -24,7 +24,7 @@ public class JsonDataProvider {
 
         String testClassName = testAnnotation.description();
 
-        String testDataFileName = "./src/main/java/utils/dataProvider/"+testClassName+".json";
+        String testDataFileName = "./src/main/resources/testData/"+testClassName+".json";
 
         FileReader fileReader = new FileReader(testDataFileName);
 
