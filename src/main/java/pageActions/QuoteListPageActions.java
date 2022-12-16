@@ -585,6 +585,12 @@ public class QuoteListPageActions extends BaseTest {
         return optionDropDown.size() == 3;
     }
 
+    public boolean isSelectVisibleToNewAddOptionOMICAAO(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibilityCustom(driver, selectDropDown, 30);
+        List<WebElement> optionDropDown = driver.findElements(selectDropDown);
+        return optionDropDown.size() == 2;
+    }
+
     public String clickClaimCheckbox(WebDriver driver, String selectCheckbox) throws InterruptedException {
         WaitHelper.pause(3000);
         String chooseCheckbox = "(//input[@type='checkbox'])[" + selectCheckbox + "]";
@@ -630,6 +636,7 @@ public class QuoteListPageActions extends BaseTest {
     }
 
     public void selectBRRPCoverageWithoutInvestigation(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(5000);
         try {
             String eMDCheckbox = "//div[@data-qa='option_card_2']//div//p//span[@data-qa='coverageGroup_isSelected']/span";
             if (driver.findElement(By.xpath(eMDCheckbox)).isDisplayed()) {
@@ -648,6 +655,7 @@ public class QuoteListPageActions extends BaseTest {
     }
 
     public void selectBRRPCoverageWithInvestigation(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(5000);
         try {
             String eMDCheckbox = "//div[@data-qa='option_card_3']//div//p//span[@data-qa='coverageGroup_isSelected']/span";
             if (driver.findElement(By.xpath(eMDCheckbox)).isDisplayed()) {
@@ -722,5 +730,12 @@ public class QuoteListPageActions extends BaseTest {
             }
         }
         return false;
+    }
+
+    public boolean clickConfirmAndLockButton(WebDriver driver) throws Exception {
+        WaitHelper.waitForElementVisibility(driver, confirmAndLockQuoteButton);
+        ClickHelper.clickElement(driver, confirmAndLockQuoteButton);
+        WaitHelper.pause(5000);
+        return true;
     }
 }
