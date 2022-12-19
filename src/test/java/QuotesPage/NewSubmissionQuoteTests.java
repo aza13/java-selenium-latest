@@ -341,6 +341,12 @@ public class NewSubmissionQuoteTests extends BaseTest {
             Assert.assertTrue(isConfirmAndLockButtonVisible);
             boolean quoteLocked = quoteListPageActions.clickConfirmAndLockButton(DriverManager.getDriver());
             Assert.assertTrue(quoteLocked);
+            String status = quoteListPageActions.getQuoteStatus(DriverManager.getDriver());
+            assert status.contentEquals(map.get("quoteStatus"));
+            quoteListPageActions.clickConfirmDatesAndPlaceOrderButton(DriverManager.getDriver());
+            BindingPageActions bindingPageActions = quoteListPageActions.clickConfirmDatesConfirmButton(DriverManager.getDriver());
+            String quoteOptionStatus = bindingPageActions.getQuoteStatus(DriverManager.getDriver());
+            assert quoteOptionStatus.contentEquals(map.get("quoteStatusBinder"));
         }
 
     }
