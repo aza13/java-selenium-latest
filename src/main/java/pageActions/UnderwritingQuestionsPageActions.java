@@ -554,46 +554,28 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
         String billingComplianceXpath = "//h5[text()='Billing and Compliance']/parent::div/parent::div/following-sibling::div";
         List<WebElement> billingComplianceDescriptions = driver.findElements(By.xpath(billingComplianceXpath + "//p"));
 
-        String inputField1 = "(" + billingComplianceXpath + "//input)" + "[" + 1 + "]";
-        TextHelper.enterText(driver, By.xpath(inputField1), "50000");
-        String inputField2 = "(" + billingComplianceXpath + "//input)" + "[" + 2 + "]";
-        WaitHelper.waitForElementVisibility(driver,By.xpath(inputField2));
-        TextHelper.enterText(driver, By.xpath(inputField2), "5000");
-        String inputField3 = "(" + billingComplianceXpath + "//input)" + "[" + 3 + "]";
-        TextHelper.enterText(driver, By.xpath(inputField3), "5000");
-        String inputField4 = "(" + billingComplianceXpath + "//input)" + "[" + 4 + "]";
-        WaitHelper.waitForElementVisibility(driver,By.xpath(inputField4));
-        TextHelper.enterText(driver, By.xpath(inputField4), "5000");
-        String inputField5 = "(" + billingComplianceXpath + "//input)" + "[" + 5 + "]";
-        TextHelper.enterText(driver, By.xpath(inputField5), "5000");
-        String inputField6 = "(" + billingComplianceXpath + "//input)" + "[" + 6 + "]";
-        WaitHelper.waitForElementVisibility(driver,By.xpath(inputField6));
-        TextHelper.enterText(driver, By.xpath(inputField6), "5000");
-        String inputField7 = "(" + billingComplianceXpath + "//input)" + "[" + 7 + "]";
-        TextHelper.enterText(driver, By.xpath(inputField7), "Bob Lee");
+        for(int i=1; i<7; i++){
+            String inputField = "(" + billingComplianceXpath + "//input)" + "[" + i + "]";
+            WaitHelper.waitForElementVisibility(driver,By.xpath(inputField));
+            TextHelper.enterText(driver, By.xpath(inputField), "50000");
+        }
 
+        String inputField1 = "(" + billingComplianceXpath + "//input)" + "[" + 7 + "]";
+        TextHelper.enterText(driver, By.xpath(inputField1), "Bob Lee");
 
-            WebElement description = billingComplianceDescriptions.get(7);
-            String text = description.getText();
+        WebElement description = billingComplianceDescriptions.get(7);
+        String text = description.getText();
 
-            if (text.contains("third")) {
-                String yesXpath = "(" + billingComplianceXpath + "//button[text()='Yes'])" + "[" + 2 + "]";
+        for(int i=1; i<8; i++){
+            String noXpath = "(" + billingComplianceXpath + "//button[text()='No'])" + "[" + i + "]";
+            driver.findElement(By.xpath(noXpath)).click();
+            if (text.contains("third") && i==2) {
+                String yesXpath = "(" + billingComplianceXpath + "//button[text()='Yes'])" + "[" + i + "]";
                 driver.findElement(By.xpath(yesXpath)).click();
                 WaitHelper.pause(3000);
             }
-            String noXpath1 = "(" + billingComplianceXpath + "//button[text()='No'])" + "[" + 1 + "]";
-            driver.findElement(By.xpath(noXpath1)).click();
-            String noXpath2 = "(" + billingComplianceXpath + "//button[text()='No'])" + "[" + 3 + "]";
-            driver.findElement(By.xpath(noXpath2)).click();
-            String noXpath3 = "(" + billingComplianceXpath + "//button[text()='No'])" + "[" + 4 + "]";
-            driver.findElement(By.xpath(noXpath3)).click();
-            String noXpath4 = "(" + billingComplianceXpath + "//button[text()='No'])" + "[" + 5 + "]";
-            driver.findElement(By.xpath(noXpath4)).click();
-            String noXpath5 = "(" + billingComplianceXpath + "//button[text()='No'])" + "[" + 6 + "]";
-            driver.findElement(By.xpath(noXpath5)).click();
-            String noXpath6 = "(" + billingComplianceXpath + "//button[text()='No'])" + "[" + 7 + "]";
-            driver.findElement(By.xpath(noXpath6)).click();
-            WaitHelper.pause(3000);
+        }
+        WaitHelper.pause(3000);
     }
 
     public void answerUWQuestionRegulatoryLoss(WebDriver driver) throws InterruptedException{
