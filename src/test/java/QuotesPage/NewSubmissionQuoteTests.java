@@ -292,10 +292,10 @@ public class NewSubmissionQuoteTests extends BaseTest {
     @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
     public void testDownloadApplicationInQuote(Map<String, String> map) throws Exception {
         /***
-         this test verifies brokers can download application form
+         this test verifies brokers can download application and applicant details in it
          This story works with 9.7 only
-         story - N2020-34254-QAT-434
-         @author - Azamat Uulu
+         story - N2020-34254 (QAT-434), N2020-34258 (QAT-536)
+         @author - Azamat Uulu and Venkat Kottapalli
          ********************************************************************/
 
         logger.info("Executing the verifies brokers can download application form from testDownloadApplicationInQuote class :: testDownloadApplicationInQuote");
@@ -304,6 +304,9 @@ public class NewSubmissionQuoteTests extends BaseTest {
         Assert.assertTrue(isPDFFileDownload);
         boolean isPDFFileTextContentPresent = quoteListPageActions.verifyPDFDocumentTextContent();
         Assert.assertTrue(isPDFFileTextContentPresent);
+        // dynamically get the downloaded file name
+        // collect the details to be verified
+        // use pdfbox methods to verify the content
 
     }
 
