@@ -3,7 +3,7 @@
     {
       "website": "https://www.profrisk.com/",
       "applicantName": "Professional Risk Associates, Inc.",
-      "productDefaultText": "Select Product",
+      "productDefaultText": "Select Product88",
       "runMode": "Y"
     }
   ],
@@ -25,14 +25,14 @@
     {
       "website": "https://www.profrisk.com/",
       "dialogText": "Submission already exists for the selected Product and Insured.",
-      "applicantName": "Glasscock Chevrolet, Inc.",
+      "applicantName": "Glasscock Chevrolet, Inc.777",
       "runMode": "Y"
     }
   ],
   "testClickingLogoNavigatesToDashboardPage": [
     {
       "website": "https://www.profrisk.com/",
-      "applicantName": "Glasscock Chevrolet, Inc.",
+      "applicantName": "Glasscock Chevrolet, Inc.888",
       "runMode": "Y"
     }
   ]
