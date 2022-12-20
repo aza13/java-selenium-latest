@@ -307,7 +307,6 @@ public class NewSubmissionQuoteTests extends BaseTest {
         // dynamically get the downloaded file name
         // collect the details to be verified
         // use pdfbox methods to verify the content
-
     }
 
     @AfterClass(alwaysRun = true)

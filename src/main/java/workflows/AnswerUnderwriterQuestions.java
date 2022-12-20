@@ -7,7 +7,6 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import pageActions.QuoteListPageActions;
 import pageActions.UnderwritingQuestionsPageActions;
-import utils.fileReader.ConfigDataReader;
 
 import java.util.Map;
 
