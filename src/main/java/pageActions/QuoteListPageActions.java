@@ -535,6 +535,16 @@ public class QuoteListPageActions extends BaseTest {
         }
     }
 
+    public String getLockedQuoteId(WebDriver driver) {
+        try {
+            String quoteString = TextHelper.getText(driver, lockedQuoteIdLocator, "text");
+            return quoteString.split("#")[1];
+        } catch (Exception e) {
+            logger.info("this method returns quote id :: getOpenQuoteId" + e.getMessage());
+            throw e;
+        }
+    }
+
     public void verifySoftDeclinePopup(WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, SoftDeclineHeader);
         WaitHelper.waitForElementVisibility(driver, softDeclineText);
@@ -713,14 +723,13 @@ public class QuoteListPageActions extends BaseTest {
         return FileDownloadUtil.verifyPDFFileDownload(filename);
     }
 
-    public boolean verifyPDFDocumentTextContent() throws Exception {
-        String pdfFileAllText = FileDownloadUtil.readPDFFileContent();
-        List<String> userDetails = CreateApplicant.getApplicantDetails(DriverManager.getDriver());
+    public boolean verifyPDFDocumentTextContent(String fileName) throws Exception {
+        String pdfFileAllText = FileDownloadUtil.readPDFFileContent(fileName);
+        List<String> userDetails = CreateApplicant.getApplicantDetails();
+        boolean result = false;
         for (String userDetail:userDetails) {
-            if(pdfFileAllText.contains(userDetail)){
-                return true;
-            }
+            result = pdfFileAllText.contains(userDetail);
         }
-        return false;
+        return result;
     }
 }

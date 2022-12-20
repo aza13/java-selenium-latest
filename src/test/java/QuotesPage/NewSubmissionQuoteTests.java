@@ -300,13 +300,14 @@ public class NewSubmissionQuoteTests extends BaseTest {
 
         logger.info("Executing the verifies brokers can download application form from testDownloadApplicationInQuote class :: testDownloadApplicationInQuote");
         quoteListPageActions = CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
-        boolean isPDFFileDownload = quoteListPageActions.clickApplicationDownloadIcon(DriverManager.getDriver(), map.get("fileNamePDF"));
+        boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
+        assert quoteLocked;
+        String quoteId = quoteListPageActions.getLockedQuoteId(DriverManager.getDriver());
+        String pdfFileName = "TMHCC_Quote_"+quoteId+".pdf";
+        boolean isPDFFileDownload = quoteListPageActions.clickApplicationDownloadIcon(DriverManager.getDriver(), pdfFileName);
         Assert.assertTrue(isPDFFileDownload);
-        boolean isPDFFileTextContentPresent = quoteListPageActions.verifyPDFDocumentTextContent();
+        boolean isPDFFileTextContentPresent = quoteListPageActions.verifyPDFDocumentTextContent(pdfFileName);
         Assert.assertTrue(isPDFFileTextContentPresent);
-        // dynamically get the downloaded file name
-        // collect the details to be verified
-        // use pdfbox methods to verify the content
     }
 
     @AfterClass(alwaysRun = true)

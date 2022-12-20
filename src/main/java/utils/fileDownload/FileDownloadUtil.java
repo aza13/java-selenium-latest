@@ -42,8 +42,7 @@ public class FileDownloadUtil {
     public static boolean verifyPDFFileDownload(String filename){
 
         totalFiles = fileLocation.listFiles();
-        System.out.println("Filename in Jenkins : "+filename);
-
+        assert totalFiles != null;
         for(File file : totalFiles) {
             if (file.getName().contains(filename)) {
                 fileDownloadStatus = true;
@@ -86,17 +85,15 @@ public class FileDownloadUtil {
         }
     }
 
-    public static String readPDFFileContent() throws Exception {
+    public static String readPDFFileContent(String fileName) throws Exception {
         String userDirectory = System.getProperty("user.home");
-        System.out.println("Jenkins Home Path: "+userDirectory);
         String downloadsPath = userDirectory+"\\Downloads";
-        System.out.println("Download Path: "+downloadsPath);
         fileLocation = new File(downloadsPath);
 
         totalFiles = fileLocation.listFiles();
         assert totalFiles != null;
         for (File file : totalFiles) {
-                if(file.getPath().contains("fileName")){
+                if(file.getPath().contains(fileName)){
                     fis = new FileInputStream(file.getPath());
                     pdfDocument = PDDocument.load(fis);
                     pdfTextStripper = new PDFTextStripper();
