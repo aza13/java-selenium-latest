@@ -6,6 +6,7 @@ import org.apache.pdfbox.text.PDFTextStripper;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 
 
 public class FileDownloadUtil {
@@ -69,28 +70,32 @@ public class FileDownloadUtil {
         return fileDownloadStatus;
     }
 
-    public static void checkFileExistInDownloadFolderpath() throws InterruptedException {
+    public static void checkFileExistInDownloadFolderPath() {
         String userDirectory = System.getProperty("user.home");
-        System.out.println("Jenkins Home Path: "+userDirectory);
         String downloadsPath = userDirectory+"\\Downloads";
-        System.out.println("Download Path: "+downloadsPath);
         fileLocation = new File(downloadsPath);
         totalFiles = fileLocation.listFiles();
         assert totalFiles != null;
         for (File file : totalFiles) {
             if (file.getName().contains("fileName")) {
-
                 file.delete();
             }
         }
     }
 
-    public static String readPDFFileContent(String fileName) throws Exception {
+    public static String readPDFFileContent(String fileName) throws IOException {
         String userDirectory = System.getProperty("user.home");
-        String downloadsPath = userDirectory+"\\Downloads";
+        String downloadsPath = userDirectory+"\\Downloads"+fileName;
         fileLocation = new File(downloadsPath);
-
-        totalFiles = fileLocation.listFiles();
+        if(fileLocation.exists()){
+            fis = new FileInputStream(fileLocation);
+            pdfDocument = PDDocument.load(fis);
+            pdfTextStripper = new PDFTextStripper();
+            pdfData = pdfTextStripper.getText(pdfDocument);
+            pdfDocument.close();
+            fis.close();
+        }
+        /*totalFiles = fileLocation.listFiles();
         assert totalFiles != null;
         for (File file : totalFiles) {
                 if(file.getPath().contains(fileName)){
@@ -101,7 +106,7 @@ public class FileDownloadUtil {
                 }
         }
         pdfDocument.close();
-        fis.close();
+        fis.close();*/
 
         return pdfData;
     }

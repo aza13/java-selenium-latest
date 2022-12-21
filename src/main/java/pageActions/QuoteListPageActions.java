@@ -717,7 +717,7 @@ public class QuoteListPageActions extends BaseTest {
     }
 
     public boolean clickApplicationDownloadIcon(WebDriver driver, String filename) throws InterruptedException {
-        FileDownloadUtil.checkFileExistInDownloadFolderpath();
+        FileDownloadUtil.checkFileExistInDownloadFolderPath();
         ClickHelper.clickElement(driver, clickAsApplicationButton);
         WaitHelper.pause(15000);
         return FileDownloadUtil.verifyPDFFileDownload(filename);
