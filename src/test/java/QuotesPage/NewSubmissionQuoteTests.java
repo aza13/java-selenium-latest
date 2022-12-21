@@ -325,15 +325,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
         logger.info("Executing the verifies brokers can see multi-coverage option from testMultiCoverageInQuote class :: testMultiCoverageInQuote");
         underwritingQuestionsPageActions = CreateSubmission.createSubmissionTillUWQuestionPage(DriverManager.getDriver(), map, multicoverage);
         if(multicoverage.contains("Ophthalmic")){
-            underwritingQuestionsPageActions.answerUWQuestionGeneralSectionOMICProduct(DriverManager.getDriver());
-            underwritingQuestionsPageActions.answerUWQuestionEMDSectionOMICProduct(DriverManager.getDriver());
-            underwritingQuestionsPageActions.answerUWQuestionRansomSectionOMICProduct(DriverManager.getDriver());
-            underwritingQuestionsPageActions.answerUWQuestionPhishingSectionOMICProduct(DriverManager.getDriver());
-            underwritingQuestionsPageActions.answerUWQuestionCyberSectionOMICProduct(DriverManager.getDriver());
-            underwritingQuestionsPageActions.answerUWQuestionRiskSectionYESOMICAAOProduct(DriverManager.getDriver());
-            underwritingQuestionsPageActions.answerUWQuestionBillingAndCompliance(DriverManager.getDriver());
-            underwritingQuestionsPageActions.answerUWQuestionRegulatoryLoss(DriverManager.getDriver());
-            underwritingQuestionsPageActions.clickUWQuestionsContinueButton(DriverManager.getDriver());
+            underwritingQuestionsPageActions.multiCoverageUWQuestions(DriverManager.getDriver());
             WaitHelper.waitForProgressbarInvisibility(DriverManager.getDriver());
             if (!quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) throw new AssertionError();
             WaitHelper.pause(20000);

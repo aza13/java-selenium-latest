@@ -532,9 +532,6 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
                 driver.findElement(By.xpath(yesXpath)).click();
                 WaitHelper.pause(5000);
             }
-            String noXpath = "(" + sectionXpath + "//button[text()='No'])" + "[" + 2 + "]";
-            driver.findElement(By.xpath(noXpath)).click();
-
         WaitHelper.pause(5000);
     }
 
@@ -550,28 +547,25 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
     }
 
     public void answerUWQuestionBillingAndCompliance(WebDriver driver) throws InterruptedException{
-
         String billingComplianceXpath = "//h5[text()='Billing and Compliance']/parent::div/parent::div/following-sibling::div";
         List<WebElement> billingComplianceDescriptions = driver.findElements(By.xpath(billingComplianceXpath + "//p"));
 
-        for(int i=1; i<7; i++){
+        for(int i=1; i<3; i++){
             String inputField = "(" + billingComplianceXpath + "//input)" + "[" + i + "]";
             WaitHelper.waitForElementVisibility(driver,By.xpath(inputField));
             TextHelper.enterText(driver, By.xpath(inputField), "50000");
         }
-
-        String inputField1 = "(" + billingComplianceXpath + "//input)" + "[" + 7 + "]";
-        TextHelper.enterText(driver, By.xpath(inputField1), "Bob Lee");
-
-        WebElement description = billingComplianceDescriptions.get(7);
+        WebElement description = billingComplianceDescriptions.get(2);
         String text = description.getText();
 
-        for(int i=1; i<8; i++){
-            String noXpath = "(" + billingComplianceXpath + "//button[text()='No'])" + "[" + i + "]";
-            driver.findElement(By.xpath(noXpath)).click();
+        for(int i=1; i<6; i++){
             if (text.contains("third") && i==2) {
                 String yesXpath = "(" + billingComplianceXpath + "//button[text()='Yes'])" + "[" + i + "]";
                 driver.findElement(By.xpath(yesXpath)).click();
+                WaitHelper.pause(3000);
+            }else {
+                String noXpath = "(" + billingComplianceXpath + "//button[text()='No'])" + "[" + i + "]";
+                driver.findElement(By.xpath(noXpath)).click();
                 WaitHelper.pause(3000);
             }
         }
@@ -581,6 +575,18 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
     public void answerUWQuestionRegulatoryLoss(WebDriver driver) throws InterruptedException{
         String regulatoryLossXpath = "//h5[text()='Regulatory Loss History']/parent::div/parent::div/following-sibling::div";
         answerEachSectionUWQuestions(driver, 0, regulatoryLossXpath);
+    }
+
+    public void multiCoverageUWQuestions(WebDriver driver) throws InterruptedException{
+        answerUWQuestionGeneralSectionOMICProduct(driver);
+        answerUWQuestionEMDSectionOMICProduct(driver);
+        answerUWQuestionRansomSectionOMICProduct(driver);
+        answerUWQuestionPhishingSectionOMICProduct(driver);
+        answerUWQuestionCyberSectionOMICProduct(driver);
+        answerUWQuestionRiskSectionYESOMICAAOProduct(driver);
+        answerUWQuestionBillingAndCompliance(driver);
+        answerUWQuestionRegulatoryLoss(driver);
+        clickUWQuestionsContinueButton(driver);
     }
 
 }
