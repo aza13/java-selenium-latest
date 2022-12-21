@@ -3,7 +3,7 @@
     {
       "website": "https://www.profrisk.com/",
       "applicantName": "Professional Risk Associates, Inc.",
-      "productDefaultText": "Select Product",
+      "productDefaultText": "Select Product99",
       "runMode": "Y"
     }
   ],
@@ -32,7 +32,7 @@
   "testClickingLogoNavigatesToDashboardPage": [
     {
       "website": "https://www.profrisk.com/",
-      "applicantName": "Glasscock Chevrolet, Inc.",
+      "applicantName": "Glasscock Chevrolet, Inc.999",
       "runMode": "Y"
     }
   ]
