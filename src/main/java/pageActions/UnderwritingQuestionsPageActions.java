@@ -554,21 +554,25 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
             String inputField = "(" + billingComplianceXpath + "//input)" + "[" + i + "]";
             WaitHelper.waitForElementVisibility(driver,By.xpath(inputField));
             TextHelper.enterText(driver, By.xpath(inputField), "50000");
+            WaitHelper.pause(5000);
         }
-        WebElement description = billingComplianceDescriptions.get(2);
-        String text = description.getText();
 
         for(int i=1; i<6; i++){
-            if (text.contains("third") && i==2) {
-                String yesXpath = "(" + billingComplianceXpath + "//button[text()='Yes'])" + "[" + i + "]";
-                driver.findElement(By.xpath(yesXpath)).click();
-                WaitHelper.pause(3000);
-            }else {
-                String noXpath = "(" + billingComplianceXpath + "//button[text()='No'])" + "[" + i + "]";
-                driver.findElement(By.xpath(noXpath)).click();
-                WaitHelper.pause(3000);
+            if(i!=2){
+            String noXpath = "(" + billingComplianceXpath + "//button[text()='No'])" + "[" + i + "]";
+            driver.findElement(By.xpath(noXpath)).click();
+            WaitHelper.pause(5000);
             }
         }
+
+        WebElement description = billingComplianceDescriptions.get(2);
+        String text = description.getText();
+        if (text.contains("third")) {
+            String yesXpath = "(" + billingComplianceXpath + "//button[text()='Yes'])" + "[" + 2 + "]";
+            driver.findElement(By.xpath(yesXpath)).click();
+            WaitHelper.pause(3000);
+        }
+
         WaitHelper.pause(3000);
     }
 

@@ -326,8 +326,8 @@ public class NewSubmissionQuoteTests extends BaseTest {
         underwritingQuestionsPageActions = CreateSubmission.createSubmissionTillUWQuestionPage(DriverManager.getDriver(), map, multicoverage);
         if(multicoverage.contains("Ophthalmic")){
             underwritingQuestionsPageActions.multiCoverageUWQuestions(DriverManager.getDriver());
-            WaitHelper.waitForProgressbarInvisibility(DriverManager.getDriver());
-            if (!quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) throw new AssertionError();
+            boolean quotePageDisplay = quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver());
+            Assert.assertTrue(quotePageDisplay);
             WaitHelper.pause(20000);
             boolean isConfirmAndLockButtonVisible = quoteListPageActions.isConfirmedAndLockQuoteButtonDisplay(DriverManager.getDriver());
             Assert.assertTrue(isConfirmAndLockButtonVisible);
