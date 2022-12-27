@@ -38,21 +38,24 @@ public class JsonDataProvider {
 
         int enabledDataSetsCount = 0;
 
-        for (Object o : jsonArray) {
-            JSONObject testDataSetObject = (JSONObject) o;
+        for (Object set : jsonArray) {
+            JSONObject testDataSetObject = (JSONObject) set;
             if (testDataSetObject.get("runMode").equals("Y")) {
                 enabledDataSetsCount += 1;
             }
         }
-        Object[][] excelData = new Object[enabledDataSetsCount][1];
+
+        Object[][] testData = new Object[enabledDataSetsCount][1];
+        int n=0;
         if(enabledDataSetsCount!=0){
-            for (int i = 0; i < enabledDataSetsCount; i++) {
-                JSONObject testDataSetObject = (JSONObject) jsonArray.get(i);
-                if (testDataSetObject.get("runMode").equals("Y")) {
-                    excelData[i][0]=testDataSetObject;
+            for(Object dataSet : jsonArray){
+                JSONObject jsonDataSet = (JSONObject) dataSet;
+                if (jsonDataSet.get("runMode").equals("Y")) {
+                    testData[n][0]=jsonDataSet;
+                    n+=1;
                 }
             }
         }
-        return excelData;
+        return testData;
     }
 }
