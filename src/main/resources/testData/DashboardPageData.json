@@ -1,0 +1,69 @@
+{
+  "testQuotesDashboardUI": [
+    {
+      "runMode":"Y",
+      "product":"Coverage",
+      "agencyOfficeId":"237",
+      "welcomeText":"Welcome to QuoteIt",
+      "submissionLabel":"Reference",
+      "myQuotes":"Quotes",
+      "myPolicies":"Policies",
+      "statusLabel":"Status",
+      "dateLabel":"Created",
+      "startDateLabel":"Effective",
+      "endDateLabel":"Expiration"
+    }
+  ],
+  "testPoliciesDashboardUI": [
+    {
+      "runMode":"Y",
+      "effDateLabel":"Effective",
+      "policyLabel":"Policy#",
+      "policyTitle":"Policies",
+      "product":"Coverage",
+      "agencyOfficeId":"8414",
+      "expDateLabel":"Expiration"
+    }
+  ],
+  "testNewQuoteFieldsValidation": [
+    {
+      "runMode":"Y",
+      "product":"NetGuard® SELECT",
+      "website":"No website",
+      "applicantName":"applicant 1",
+      "productDefaultText":"Select Coverage"
+    }
+  ],
+  "testCreateNewQuote": [
+    {
+      "runMode":"Y",
+      "product":"NetGuard® SELECT",
+      "website":"https://www.profrisk.com/",
+      "applicantName":"Professional Risk Associates, Inc.",
+      "productDefaultText":"Select Product"
+    }
+  ],
+  "testBrokerFilteringSubmissionsList": [
+    {
+      "runMode":"Y",
+      "endDate":"12/04/2022",
+      "allStatuses":"All Statuses",
+      "allProducts":"All Products",
+      "productName":"NetGuard® SELECT",
+      "status":"Active"
+    }
+  ],
+  "testBrokerFilteringPoliciesList": [
+    {
+      "brokerId":"20217",
+      "agentId":"237",
+      "agencyOfficeId":"8006",
+      "endDate":"12/04/2022",
+      "allStatuses":"All Statuses",
+      "runMode":"Y",
+      "productName":"NetGuard® SELECT;Generic Program - NetGuard® SELECT",
+      "status":"Renewed;Renewal Started;Expired"
+    }
+
+  ]
+}
