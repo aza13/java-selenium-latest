@@ -2,6 +2,7 @@ import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -10,13 +11,11 @@ import pageActions.DashboardPageActions;
 import pageActions.QuoteListPageActions;
 import pageActions.RatingCriteriaPageActions;
 import pageActions.UnderwritingQuestionsPageActions;
-import utils.dataProvider.TestDataProvider;
+import utils.dataProvider.JsonDataProvider;
 import utils.dbConnector.DatabaseConnector;
 import workflows.AnswerUnderwriterQuestions;
 import workflows.CreateApplicant;
 import workflows.FillApplicantDetails;
-
-import java.util.Map;
 
 public class RatingCriteriaPageTests extends BaseTest {
 
@@ -41,8 +40,8 @@ public class RatingCriteriaPageTests extends BaseTest {
         quoteListPageActions = PageObjectManager.getQuoteListPageActions();
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "RatingCriteriaPageData")
-    public void  testBusinessClassRatingCriteria(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "RatingCriteriaPageData")
+    public void  testBusinessClassRatingCriteria(JSONObject jsonObject) throws InterruptedException {
         /***
          this test Brokers Business Class criteria
          story - N2020-30438
@@ -52,14 +51,14 @@ public class RatingCriteriaPageTests extends BaseTest {
         logger.info("verifying :: business class rating criteria");
         CreateApplicant.createApplicant(DriverManager.getDriver(), coverage);
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, coverage);
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), jsonObject, coverage);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         underwritingQuestionsPageActions.clickExitQuestion(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "RatingCriteriaPageData", enabled = false)
-    public void  testHardDeclineAfterRatingCriteria(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "RatingCriteriaPageData", enabled = false)
+    public void  testHardDeclineAfterRatingCriteria(JSONObject jsonObject) throws InterruptedException {
         /***
          this test hard decline after rating criteria
          story - N2020-28624 QAT-171
@@ -70,7 +69,7 @@ public class RatingCriteriaPageTests extends BaseTest {
         logger.info("verifying :: test hard decline after rating criteria");
         CreateApplicant.createApplicant(DriverManager.getDriver(), coverage);
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, coverage);
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), jsonObject, coverage);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         ratingCriteriaPageActions.verifyAndClickHardDeclinePopup(DriverManager.getDriver());
@@ -80,8 +79,8 @@ public class RatingCriteriaPageTests extends BaseTest {
 
 
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "RatingCriteriaPageData")
-    public void  testProposedPolicyPeriod(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "RatingCriteriaPageData")
+    public void  testProposedPolicyPeriod(JSONObject jsonObject) throws InterruptedException {
         /***
          this test Brokers can see proposed policy period  criteria -- this needs to be verified
          story - N2020-28622
@@ -98,8 +97,8 @@ public class RatingCriteriaPageTests extends BaseTest {
         assert title.contentEquals("Quotes");
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "RatingCriteriaPageData")
-    public void  testBrokerReturnPreviousRatingAndUWPages(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "RatingCriteriaPageData")
+    public void  testBrokerReturnPreviousRatingAndUWPages(JSONObject jsonObject) throws InterruptedException {
         /***
          this test Brokers can return to Previous pages i.e. Rating Criteria and UW View
          story - N2020-28641 QAT-236
@@ -109,11 +108,11 @@ public class RatingCriteriaPageTests extends BaseTest {
         logger.info("verifying :: Brokers can return to Previous pages i.e. Rating Criteria and UW View");
         CreateApplicant.createApplicant(DriverManager.getDriver(), coverage);
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, coverage);
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), jsonObject, coverage);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
-            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map, coverage);
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), jsonObject, coverage);
         }
         if(!quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())){
             quoteListPageActions.clickQuotesTab(DriverManager.getDriver());

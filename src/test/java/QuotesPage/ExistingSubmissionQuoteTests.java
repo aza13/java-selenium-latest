@@ -5,13 +5,14 @@ import base.DriverManager;
 import base.PageObjectManager;
 import constants.DatabaseQueries;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 import org.testng.Assert;
 import org.testng.SkipException;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageActions.*;
-import utils.dataProvider.TestDataProvider;
+import utils.dataProvider.JsonDataProvider;
 import utils.dbConnector.DatabaseConnector;
 import workflows.AnswerUnderwriterQuestions;
 import workflows.FillApplicantDetails;
@@ -19,7 +20,6 @@ import workflows.FillApplicantDetails;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class ExistingSubmissionQuoteTests extends BaseTest {
@@ -42,8 +42,8 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
         quoteListPageActions = PageObjectManager.getQuoteListPageActions();
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
-    public void testAddAndDeleteQuoteOption(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "QuotesPageData")
+    public void testAddAndDeleteQuoteOption(JSONObject jsonObject) throws InterruptedException {
         /***
          this verifies whether broker can add the new quote option
          story - N2020-28632
@@ -54,26 +54,26 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
         dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
         dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), coverage);
         dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
-        dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), map.get("status"));
+        dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), jsonObject.get("status").toString());
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
         dashboardPageActions.selectActiveQuote(DriverManager.getDriver());
 //        dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, coverage);
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), jsonObject, coverage);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
-            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map, coverage);
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), jsonObject, coverage);
         }
 //        assert quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver());
         if (quoteListPageActions.checkIfOpenQuoteExist(DriverManager.getDriver())) {
             int optionCountBefore = quoteListPageActions.getQuoteOptionCount(DriverManager.getDriver());
-            if (map.get("functionality").equals("addQuoteOption")) {
+            if (jsonObject.get("functionality").equals("addQuoteOption")) {
                 quoteListPageActions.clickAddOptionButton(DriverManager.getDriver());
-                quoteListPageActions.addNewQuoteOption(DriverManager.getDriver(), optionCountBefore, map.get("claim"), map.get("limit"), map.get("retention"));
+                quoteListPageActions.addNewQuoteOption(DriverManager.getDriver(), optionCountBefore, jsonObject.get("claim").toString(), jsonObject.get("limit").toString(), jsonObject.get("retention").toString());
                 int optionCountAfter = quoteListPageActions.getQuoteOptionCount(DriverManager.getDriver());
                 assert optionCountAfter == optionCountBefore + 1;
-            } else if (map.get("functionality").equals("deleteQuoteOption")) {
+            } else if (jsonObject.get("functionality").equals("deleteQuoteOption")) {
                 if (optionCountBefore > 1) {
                     quoteListPageActions.deleteQuoteOption(DriverManager.getDriver());
                     int optionCountAfter = quoteListPageActions.getQuoteOptionCount(DriverManager.getDriver());
@@ -89,8 +89,8 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
-    public void testAddingQuoteToExistingSubmission(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "QuotesPageData")
+    public void testAddingQuoteToExistingSubmission(JSONObject jsonObject) throws InterruptedException {
         /***
          this verifies whether user can add quote to an existing submission
          story - N2020-28633, N2020-28634
@@ -101,15 +101,15 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
         dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
         dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), coverage);
         dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
-        dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), map.get("status"));
+        dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), jsonObject.get("status").toString());
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
         dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, coverage);
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), jsonObject, coverage);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
-            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map, coverage);
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), jsonObject, coverage);
             if (!quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
                 if (quoteListPageActions.checkIfQuotesTabIsDisabled(DriverManager.getDriver())) {
                     logger.info("adding quote from the template");
@@ -133,16 +133,16 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
             quoteListPageActions.addNewQuote(DriverManager.getDriver(), "Custom Quote");
             logger.info("option count is 1, because only one quote will be open at a time");
             String optionCount = "1";
-            quoteListPageActions.selectPerClaim(DriverManager.getDriver(), optionCount, map.get("claim"));
-            quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), optionCount, map.get("limit"));
-            quoteListPageActions.selectRetentionOption(DriverManager.getDriver(), optionCount, map.get("retention"));
+            quoteListPageActions.selectPerClaim(DriverManager.getDriver(), optionCount, jsonObject.get("claim").toString());
+            quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), optionCount, jsonObject.get("limit").toString());
+            quoteListPageActions.selectRetentionOption(DriverManager.getDriver(), optionCount, jsonObject.get("retention").toString());
             int quotesCountAfter = quoteListPageActions.getQuotesCount(DriverManager.getDriver());
             assert quotesCountAfter == quotesCountBefore+1;
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
-    public void testBrokerDownloadConfirmedQuote(Map<String, String> map) throws InterruptedException, SQLException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "QuotesPageData")
+    public void testBrokerDownloadConfirmedQuote(JSONObject jsonObject) throws InterruptedException, SQLException {
         /***
          this test verifies brokers can download confirmed quote validation
          story - N2020-28652-QAT-156
@@ -166,7 +166,7 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
             }
             if (confirmedQuote) {
                 quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
-                boolean pdfDownload = quoteListPageActions.clickPDFFileDownload(DriverManager.getDriver(), map.get("pdfFilename"));
+                boolean pdfDownload = quoteListPageActions.clickPDFFileDownload(DriverManager.getDriver(), jsonObject.get("pdfFilename").toString());
                 Assert.assertTrue(pdfDownload);
 
             } else {
@@ -175,8 +175,8 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
-    public void testQuoteOptionPlaceOrder(Map<String, String> map) throws InterruptedException, SQLException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "QuotesPageData")
+    public void testQuoteOptionPlaceOrder(JSONObject jsonObject) throws InterruptedException, SQLException {
         /***
          this test verifies brokers can download confirmed quote validation
          story - N2020-28655-QAT-247
@@ -209,7 +209,7 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
                         bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
                         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
                         String quoteStatus = dashboardPageActions.getQuoteStatus(DriverManager.getDriver()).trim();
-                        assert quoteStatus.equals(map.get("quoteStatus"));
+                        assert quoteStatus.equals(jsonObject.get("quoteStatus"));
                     }
                 } else {
                     logger.info("No confirmed quotes available, to place the order");
@@ -221,8 +221,8 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
     }
 
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData", enabled = false)
-    public void testUpdatedOptionMaxAggLimitAndPremium(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "QuotesPageData", enabled = false)
+    public void testUpdatedOptionMaxAggLimitAndPremium(JSONObject jsonObject) throws InterruptedException {
         /***
          this verifies whether option max agg limit and premium are updated or not
          story - N2020-30385, 28679
@@ -234,19 +234,19 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
         dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
         dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), coverage);
         dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
-        dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), map.get("status"));
+        dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), jsonObject.get("status").toString());
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
         dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver());
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
-            quoteListPageActions.selectPerClaim(DriverManager.getDriver(), map.get("optionCount"), map.get("claim1"));
-            quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), map.get("optionCount"), map.get("limit1"));
+            quoteListPageActions.selectPerClaim(DriverManager.getDriver(), jsonObject.get("optionCount").toString(), jsonObject.get("claim1").toString());
+            quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), jsonObject.get("optionCount").toString(), jsonObject.get("limit1").toString());
 
             String premiumBefore = quoteListPageActions.getFirstOptionPremium(DriverManager.getDriver());
             String policyAggLimitBefore = quoteListPageActions.getFirstMaxPolicyAggLimit(DriverManager.getDriver());
 
-            quoteListPageActions.selectPerClaim(DriverManager.getDriver(), map.get("optionCount"), map.get("claim2"));
-            quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), map.get("optionCount"), map.get("limit2"));
+            quoteListPageActions.selectPerClaim(DriverManager.getDriver(), jsonObject.get("optionCount").toString(), jsonObject.get("claim2").toString());
+            quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), jsonObject.get("optionCount").toString(), jsonObject.get("limit2").toString());
 
             String premiumAfter = quoteListPageActions.getFirstOptionPremium(DriverManager.getDriver());
             String policyAggLimitAfter = quoteListPageActions.getFirstMaxPolicyAggLimit(DriverManager.getDriver());
@@ -256,8 +256,8 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
-    public void testDownloadApplicationInQuote(Map<String, String> map) throws InterruptedException, SQLException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "QuotesPageData")
+    public void testDownloadApplicationInQuote(JSONObject jsonObject) throws InterruptedException, SQLException {
         /***
          this test verifies brokers can download application form
          This story works with 9.5 only
@@ -282,7 +282,7 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
             }
             if (confirmedQuote) {
                 quoteListPageActions.clickQuotesTab(DriverManager.getDriver());
-                boolean pdfDownload = quoteListPageActions.clickApplicationDownload(DriverManager.getDriver(), map.get("pdfFilename"));
+                boolean pdfDownload = quoteListPageActions.clickApplicationDownload(DriverManager.getDriver(), jsonObject.get("pdfFilename").toString());
                 assert pdfDownload;
 
             } else {

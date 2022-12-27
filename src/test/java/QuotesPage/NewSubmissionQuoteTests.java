@@ -6,19 +6,24 @@ import base.PageObjectManager;
 import constants.ConstantVariable;
 import helper.WaitHelper;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import pageActions.*;
-import utils.dataProvider.TestDataProvider;
+import pageActions.BindingPageActions;
+import pageActions.DashboardPageActions;
+import pageActions.QuoteListPageActions;
+import pageActions.UnderwritingQuestionsPageActions;
+import utils.dataProvider.JsonDataProvider;
 import utils.dbConnector.DatabaseConnector;
-import workflows.CreateApplicant;
 import workflows.CreateSubmission;
+
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.*;
-
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
 import static constants.DatabaseQueries.GET_SUBMISSION_ID_WITH_QUOTE_ID;
 
@@ -41,32 +46,32 @@ public class NewSubmissionQuoteTests extends BaseTest {
     }
 
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
-    public void testAddingQuoteToNewSubmission(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "QuotesPageData")
+    public void testAddingQuoteToNewSubmission(JSONObject jsonObject) throws InterruptedException {
         /*****************************************************************
          this test verifies whether user can add quote to new submission
          story -
          @author - Venkat Kottapalli
          ******************************************************************/
         logger.info("Executing the testConfirmDatesModal from BindingPageTests class :: testAddingQuoteToNewSubmission");
-        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
+        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), jsonObject, coverage);
         boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
         assert quoteLocked;
         String status = quoteListPageActions.getQuoteStatus(DriverManager.getDriver());
-        assert status.contentEquals(map.get("quoteStatus"));
+        assert status.contentEquals(jsonObject.get("quoteStatus").toString());
         int quotesCountBefore = quoteListPageActions.getQuotesCount(DriverManager.getDriver());
         quoteListPageActions.addNewQuote(DriverManager.getDriver(), "Custom Quote");
         logger.info("option count is 1, because only one quote will be open at a time");
         String optionCount = "1";
-        quoteListPageActions.selectPerClaim(DriverManager.getDriver(), optionCount, map.get("claim"));
-        quoteListPageActions.selectRetentionOption(DriverManager.getDriver(), optionCount, map.get("retention"));
-        quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), optionCount, map.get("limit"));
+        quoteListPageActions.selectPerClaim(DriverManager.getDriver(), optionCount, jsonObject.get("claim").toString());
+        quoteListPageActions.selectRetentionOption(DriverManager.getDriver(), optionCount, jsonObject.get("retention").toString());
+        quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), optionCount, jsonObject.get("limit").toString());
         int quotesCountAfter = quoteListPageActions.getQuotesCount(DriverManager.getDriver());
         assert quotesCountAfter == quotesCountBefore + 1;
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
-    public void testQuotePreview(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "QuotesPageData")
+    public void testQuotePreview(JSONObject jsonObject) throws InterruptedException {
         /************************************************************
          this verifies whether broker can click preview quote option
          story - N2020-28644-QAT-229
@@ -74,8 +79,8 @@ public class NewSubmissionQuoteTests extends BaseTest {
          *************************************************************/
         logger.info("Executing the testQuotePreview from QuoteTests class :: testQuotePreview");
         logger.info("verifying quote preview icons");
-        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
-        if(coverage.contains(map.get("coverageOmic"))){
+        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), jsonObject, coverage);
+        if(coverage.contains(jsonObject.get("coverageOmic").toString())){
             quoteListPageActions.selectBRRPCoverageWithoutInvestigation(DriverManager.getDriver());
             quoteListPageActions.selectBRRPCoverageWithInvestigation(DriverManager.getDriver());
         }
@@ -83,20 +88,20 @@ public class NewSubmissionQuoteTests extends BaseTest {
         assert quoteListPageActions.verifyQuotePreview(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
-    public void testLockingQuote(Map<String, String> map) throws InterruptedException, SQLException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "QuotesPageData")
+    public void testLockingQuote(JSONObject jsonObject) throws InterruptedException, SQLException {
         /******************************************************************
          this verifies whether broker can lock the quote using confirm lock button
          story - N2020-28645, 28655 -QAT-174, N2020-28633 and N2020-28708
          @author - Azamat Uulu, Venkat Kottapalli
          ********************************************************************/
         logger.info("Executing the testConfirmAndLockQuoteOption from QuoteTests class :: testConfirmAndLockQuoteOption");
-        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
+        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), jsonObject, coverage);
         String quoteId = quoteListPageActions.getOpenQuoteId(DriverManager.getDriver());
         boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
         assert quoteLocked;
         String status = quoteListPageActions.getQuoteStatus(DriverManager.getDriver());
-        assert status.contentEquals(map.get("quoteStatus"));
+        assert status.contentEquals(jsonObject.get("quoteStatus").toString());
         assert quoteListPageActions.isQuoteExpiryDisplayed(DriverManager.getDriver());
         assert quoteListPageActions.verifyIfLockedQuoteExist(DriverManager.getDriver());
         assert quoteListPageActions.verifyPDFFileAvailable(DriverManager.getDriver());
@@ -105,7 +110,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
         quoteListPageActions.clickConfirmDatesAndPlaceOrderButton(DriverManager.getDriver());
         BindingPageActions bindingPageActions = quoteListPageActions.clickConfirmDatesConfirmButton(DriverManager.getDriver());
         String quoteOptionStatus = bindingPageActions.getQuoteStatus(DriverManager.getDriver());
-        assert quoteOptionStatus.contentEquals(map.get("quoteStatusBinder"));
+        assert quoteOptionStatus.contentEquals(jsonObject.get("quoteStatusBinder").toString());
         String query = GET_SUBMISSION_ID_WITH_QUOTE_ID + quoteId + ";";
         List<HashMap<Object, Object>> submissionIds =
                 databaseConnector.getResultSetToList(query);
@@ -120,11 +125,11 @@ public class NewSubmissionQuoteTests extends BaseTest {
         bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
         dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
         String quoteStatus = dashboardPageActions.getQuoteStatus(DriverManager.getDriver());
-        assert quoteStatus.contentEquals(map.get("quoteStatusDashboard"));
+        assert quoteStatus.contentEquals(jsonObject.get("quoteStatusDashboard").toString());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
-    public void testValidateConfirmDatesModal(Map<String, String> map) throws InterruptedException, ParseException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "QuotesPageData")
+    public void testValidateConfirmDatesModal(JSONObject jsonObject) throws InterruptedException, ParseException {
         /*****************************************************************
          this test validates confirm dates modal
          story - N2020-35623
@@ -132,11 +137,11 @@ public class NewSubmissionQuoteTests extends BaseTest {
          ******************************************************************/
         logger.info("Executing the testValidateConfirmDatesModal from BindingPageTests class :: testValidateConfirmDatesModal");
         logger.info("validating download icons of quote list page");
-        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
+        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), jsonObject, coverage);
         boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
         assert quoteLocked;
         String status = quoteListPageActions.getQuoteStatus(DriverManager.getDriver());
-        assert status.contentEquals(map.get("quoteStatus"));
+        assert status.contentEquals(jsonObject.get("quoteStatus").toString());
         quoteListPageActions.clickConfirmDatesAndPlaceOrderButton(DriverManager.getDriver());
         assert quoteListPageActions.validateConfirmDatesModalFields(DriverManager.getDriver());
         String effDate = quoteListPageActions.getEffectiveDate(DriverManager.getDriver());
@@ -151,13 +156,13 @@ public class NewSubmissionQuoteTests extends BaseTest {
         quoteListPageActions.clickConfirmDatesConfirmButton(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData", enabled = false)
-    public void testContactUnderwriterModalBeforeLock(Map<String, String> map) throws InterruptedException, SQLException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "QuotesPageData", enabled = false)
+    public void testContactUnderwriterModalBeforeLock(JSONObject jsonObject) throws InterruptedException, SQLException {
         /*****************************************************************
          this test verifies contact underwriter modal on quote page before lock
          @author - Venkat Kottapalli
          ******************************************************************/
-        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
+        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), jsonObject, coverage);
         String quoteId = quoteListPageActions.getOpenQuoteId(DriverManager.getDriver());
         quoteListPageActions.clickContactUnderwriter(DriverManager.getDriver());
         assert quoteListPageActions.checkIfSubmitReviewDialogDisplayed2(DriverManager.getDriver());
@@ -181,37 +186,37 @@ public class NewSubmissionQuoteTests extends BaseTest {
         assert quoteStatusDashboard.contentEquals(ConstantVariable.IN_REVIEW_STRING);
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
-    public void testContactUnderwriterModalAfterLock(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "QuotesPageData")
+    public void testContactUnderwriterModalAfterLock(JSONObject jsonObject) throws InterruptedException {
         /*****************************************************************
          this test verifies contact underwriter modal
          story - N2020-35238 - QAT-546
          @author - Venkat Kottapalli
          ******************************************************************/
         logger.info("Executing the testContactUnderwriterModalAfterLock :: NewSubmissionQuoteTests");
-        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
+        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), jsonObject, coverage);
         boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
         assert quoteLocked;
         assert quoteListPageActions.verifyContactUnderwriter(DriverManager.getDriver());
         quoteListPageActions.clickContactUnderwriter(DriverManager.getDriver());
         assert quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver());
-        assert quoteListPageActions.getSubmitReviewDialogText(DriverManager.getDriver()).equalsIgnoreCase(map.get("modalText"));
+        assert quoteListPageActions.getSubmitReviewDialogText(DriverManager.getDriver()).equalsIgnoreCase(jsonObject.get("modalText").toString());
         quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
         quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData", enabled = false)
-    public void testQuoteOutsideBoundSoftDeclined(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "QuotesPageData", enabled = false)
+    public void testQuoteOutsideBoundSoftDeclined(JSONObject jsonObject) throws InterruptedException {
         /******************************************************************************
          this test verifies Broker Portal Quotes Outside the Bounds Will Be Soft Declined
          story - N2020-28646-QAT-234
          @author - Azamat Uulu
          *********************************************************************************/
         logger.info("verifying Quotes Outside the Bounds Will Be Soft Declined functionality :: testQuoteOutsideBoundSoftDeclined");
-        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
+        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), jsonObject, coverage);
         assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
-        quoteListPageActions.selectPerClaim(DriverManager.getDriver(), map.get("optionCount"), map.get("claim"));
-        quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), map.get("optionCount"), map.get("limit"));
+        quoteListPageActions.selectPerClaim(DriverManager.getDriver(), jsonObject.get("optionCount").toString(), jsonObject.get("claim").toString());
+        quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), jsonObject.get("optionCount").toString(), jsonObject.get("limit").toString());
         quoteListPageActions.clickConfirmAndLockButtonIfDisplayed(DriverManager.getDriver());
         if (quoteListPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver())) {
             quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
@@ -228,15 +233,15 @@ public class NewSubmissionQuoteTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
-    public void testQuoteOptionCoverageGroupValidation(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "QuotesPageData")
+    public void testQuoteOptionCoverageGroupValidation(JSONObject jsonObject) throws InterruptedException {
         /*************************************************************************************
          this test verifies Broker Portal Quotes Can Select/Unselect Coverage Groups for an Option
          story - N2020-30895 and N2020-28635/28636 QAT-231
          @author - Azamat Uulu
          *******************************************************************************************/
         logger.info("verifying Quotes Broker Can Select/Unselect Coverage Groups for an Option :: testQuoteOptionCoverageGroupValidation");
-        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
+        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), jsonObject, coverage);
         assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
         logger.info("verifying the fields, when coverage unchecked");
         boolean optionCoverageGroupUnSelect = quoteListPageActions.verifyOptionCoverageGroupUnSelect(DriverManager.getDriver());
@@ -253,7 +258,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
         Assert.assertTrue(defaultSelectedCoverage);
         logger.info("verifying whether selected values are saved or not in new option");
         quoteListPageActions.clickAddOptionButton(DriverManager.getDriver());
-        if(coverage.contains(map.get("coverageOmic")) || coverage.contains(map.get("coverageAAO"))){
+        if(coverage.contains(jsonObject.get("coverageOmic").toString()) || coverage.contains(jsonObject.get("coverageAAO").toString())){
             boolean isSelectVisible = quoteListPageActions.isSelectVisibleToNewAddOptionOMICAAO(DriverManager.getDriver());
             Assert.assertTrue(isSelectVisible);
         }else{
@@ -261,44 +266,44 @@ public class NewSubmissionQuoteTests extends BaseTest {
             Assert.assertTrue(isSelectVisible);
         }
         String optionCount = String.valueOf(quoteListPageActions.getQuoteOptionCount(DriverManager.getDriver()));
-        quoteListPageActions.selectPerClaim(DriverManager.getDriver(), optionCount, map.get("claim"));
+        quoteListPageActions.selectPerClaim(DriverManager.getDriver(), optionCount, jsonObject.get("claim").toString());
         String selectedPerClaimValue = quoteListPageActions.clickClaimCheckbox(DriverManager.getDriver(), optionCount);
-        Assert.assertEquals(selectedPerClaimValue, map.get("claim"));
+        Assert.assertEquals(selectedPerClaimValue, jsonObject.get("claim"));
 
-        quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), optionCount, map.get("limit"));
+        quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), optionCount, jsonObject.get("limit").toString());
         String aggLimit = quoteListPageActions.getAggLimitSelectedValue(DriverManager.getDriver(), optionCount);
-        Assert.assertEquals(aggLimit, map.get("limit"));
+        Assert.assertEquals(aggLimit, jsonObject.get("limit"));
 
-        boolean valueSelected = quoteListPageActions.selectRetentionOption(DriverManager.getDriver(), optionCount, map.get("retention"));
+        boolean valueSelected = quoteListPageActions.selectRetentionOption(DriverManager.getDriver(), optionCount, jsonObject.get("retention").toString());
         if (valueSelected) {
             String retentionValue = quoteListPageActions.getRetentionSelectedValue(DriverManager.getDriver(), optionCount);
-            Assert.assertEquals(retentionValue, map.get("retention"));
+            Assert.assertEquals(retentionValue, jsonObject.get("retention"));
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
-    public void testNotDisplayPremiumIfReviewRequired(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "QuotesPageData")
+    public void testNotDisplayPremiumIfReviewRequired(JSONObject jsonObject) throws InterruptedException {
         /******************************************************************
          this test verifies if premium should not display if review required
          story - N2020-33454 and QAT-335
          @author - Azamat Uulu
          *******************************************************************/
         logger.info("verifies if premium should not displayed if review required :: testNotDisplayPremiumIfReviewRequired");
-        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
+        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), jsonObject, coverage);
         assert quoteListPageActions.verifyQuotePreviewOptionVisible(DriverManager.getDriver());
-        quoteListPageActions.selectPerClaim(DriverManager.getDriver(), map.get("optionCount"), map.get("claim1"));
-        quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), map.get("optionCount"), map.get("limit1"));
+        quoteListPageActions.selectPerClaim(DriverManager.getDriver(), jsonObject.get("optionCount").toString(), jsonObject.get("claim1").toString());
+        quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), jsonObject.get("optionCount").toString(), jsonObject.get("limit1").toString());
         String premiumBefore = quoteListPageActions.getFirstOptionPremium(DriverManager.getDriver());
-        quoteListPageActions.selectPerClaim(DriverManager.getDriver(), map.get("optionCount"), map.get("claim2"));
-        quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), map.get("optionCount"), map.get("limit2"));
+        quoteListPageActions.selectPerClaim(DriverManager.getDriver(), jsonObject.get("optionCount").toString(), jsonObject.get("claim2").toString());
+        quoteListPageActions.selectAggregateLimit(DriverManager.getDriver(), jsonObject.get("optionCount").toString(), jsonObject.get("limit2").toString());
         String premiumAfter = "";
         assert !Objects.equals(premiumAfter, premiumBefore);
         boolean isTextVisible = quoteListPageActions.verifyOutsideBrokerPortalGuidelinesVisible(DriverManager.getDriver());
         Assert.assertTrue(isTextVisible);
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
-    public void testDownloadApplicationInQuote(Map<String, String> map) throws Exception {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "QuotesPageData")
+    public void testDownloadApplicationInQuote(JSONObject jsonObject) throws Exception {
         /***
          this test verifies brokers can download application form
          This story works with 9.8 only
@@ -307,15 +312,15 @@ public class NewSubmissionQuoteTests extends BaseTest {
          ********************************************************************/
 
         logger.info("Executing the verifies brokers can download application form from testDownloadApplicationInQuote class :: testDownloadApplicationInQuote");
-        quoteListPageActions = CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
-        boolean isPDFFileDownload = quoteListPageActions.clickApplicationDownloadIcon(DriverManager.getDriver(), map.get("fileNamePDF"));
+        quoteListPageActions = CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), jsonObject, coverage);
+        boolean isPDFFileDownload = quoteListPageActions.clickApplicationDownloadIcon(DriverManager.getDriver(), jsonObject.get("fileNamePDF").toString());
         Assert.assertTrue(isPDFFileDownload);
         boolean isPDFFileTextContentPresent = quoteListPageActions.verifyPDFDocumentTextContent();
         Assert.assertTrue(isPDFFileTextContentPresent);
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
-    public void testMultiCoverageInQuote(Map<String, String> map) throws Exception {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "QuotesPageData")
+    public void testMultiCoverageInQuote(JSONObject jsonObject) throws Exception {
         /***
          this test verifies brokers can see multi-coverage option
          story - QAT-576
@@ -323,7 +328,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
          ********************************************************************/
 
         logger.info("Executing the verifies brokers can see multi-coverage option from testMultiCoverageInQuote class :: testMultiCoverageInQuote");
-        underwritingQuestionsPageActions = CreateSubmission.createSubmissionTillUWQuestionPage(DriverManager.getDriver(), map, multicoverage);
+        underwritingQuestionsPageActions = CreateSubmission.createSubmissionTillUWQuestionPage(DriverManager.getDriver(), jsonObject, multicoverage);
         if(multicoverage.contains("Ophthalmic")){
             underwritingQuestionsPageActions.multiCoverageUWQuestions(DriverManager.getDriver());
             boolean quotePageDisplay = quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver());
@@ -334,11 +339,11 @@ public class NewSubmissionQuoteTests extends BaseTest {
             boolean quoteLocked = quoteListPageActions.clickConfirmAndLockButton(DriverManager.getDriver());
             Assert.assertTrue(quoteLocked);
             String status = quoteListPageActions.getQuoteStatus(DriverManager.getDriver());
-            assert status.contentEquals(map.get("quoteStatus"));
+            assert status.contentEquals(jsonObject.get("quoteStatus").toString());
             quoteListPageActions.clickConfirmDatesAndPlaceOrderButton(DriverManager.getDriver());
             BindingPageActions bindingPageActions = quoteListPageActions.clickConfirmDatesConfirmButton(DriverManager.getDriver());
             String quoteOptionStatus = bindingPageActions.getQuoteStatus(DriverManager.getDriver());
-            assert quoteOptionStatus.contentEquals(map.get("quoteStatusBinder"));
+            assert quoteOptionStatus.contentEquals(jsonObject.get("quoteStatusBinder").toString());
         }
 
     }
