@@ -1,69 +1,155 @@
 {
   "testQuotesDashboardUI": [
     {
-      "runMode":"Y",
-      "product":"Coverage",
-      "agencyOfficeId":"237",
-      "welcomeText":"Welcome to QuoteIt",
-      "submissionLabel":"Reference",
-      "myQuotes":"Quotes",
-      "myPolicies":"Policies",
-      "statusLabel":"Status",
-      "dateLabel":"Created",
-      "startDateLabel":"Effective",
-      "endDateLabel":"Expiration"
+      "runMode": "Y",
+      "product": "Coverage",
+      "agencyOfficeId": "237",
+      "welcomeText": "Welcome to QuoteIt",
+      "submissionLabel": "Reference",
+      "myQuotes": "Quotes",
+      "myPolicies": "Policies",
+      "statusLabel": "Status",
+      "dateLabel": "Created",
+      "startDateLabel": "Effective",
+      "endDateLabel": "Expiration"
     }
   ],
   "testPoliciesDashboardUI": [
     {
-      "runMode":"Y",
-      "effDateLabel":"Effective",
-      "policyLabel":"Policy#",
-      "policyTitle":"Policies",
-      "product":"Coverage",
-      "agencyOfficeId":"8414",
-      "expDateLabel":"Expiration"
+      "runMode": "Y",
+      "effDateLabel": "Effective",
+      "policyLabel": "Policy#",
+      "policyTitle": "Policies",
+      "product": "Coverage",
+      "agencyOfficeId": "8414",
+      "expDateLabel": "Expiration"
     }
   ],
   "testNewQuoteFieldsValidation": [
     {
-      "runMode":"Y",
-      "product":"NetGuard® SELECT",
-      "website":"No website",
-      "applicantName":"applicant 1",
-      "productDefaultText":"Select Coverage"
+      "runMode": "Y",
+      "product": "NetGuard® SELECT",
+      "website": "No website",
+      "applicantName": "applicant 1",
+      "productDefaultText": "Select Coverage"
     }
   ],
   "testCreateNewQuote": [
     {
-      "runMode":"Y",
-      "product":"NetGuard® SELECT",
-      "website":"https://www.profrisk.com/",
-      "applicantName":"Professional Risk Associates, Inc.",
-      "productDefaultText":"Select Product"
+      "runMode": "Y",
+      "product": "NetGuard® SELECT",
+      "website": "https://www.profrisk.com/",
+      "applicantName": "Professional Risk Associates, Inc.",
+      "productDefaultText": "Select Product"
     }
   ],
   "testBrokerFilteringSubmissionsList": [
     {
-      "runMode":"Y",
-      "endDate":"12/04/2022",
-      "allStatuses":"All Statuses",
-      "allProducts":"All Products",
-      "productName":"NetGuard® SELECT",
-      "status":"Active"
+      "runMode": "Y",
+      "endDate": "12/04/2022",
+      "allStatuses": "All Statuses",
+      "allProducts": "All Products",
+      "productName": "NetGuard® SELECT",
+      "status": "Active"
     }
   ],
   "testBrokerFilteringPoliciesList": [
     {
-      "brokerId":"20217",
-      "agentId":"237",
-      "agencyOfficeId":"8006",
-      "endDate":"12/04/2022",
-      "allStatuses":"All Statuses",
-      "runMode":"Y",
-      "productName":"NetGuard® SELECT;Generic Program - NetGuard® SELECT",
-      "status":"Renewed;Renewal Started;Expired"
+      "runMode": "Y",
+      "endDate": "12/04/2023",
+      "allStatuses": "All Statuses",
+      "productName": "NetGuard® SELECT;Generic Program - NetGuard® SELECT",
+      "status": "Renewed;Renewal Started;Expired"
     }
-
+  ],
+  "testPresenceOfContinueButtonOnQuotes":[
+  {
+    "runMode":"Y"
+  }],
+  "testBrokerSearchRelatedRecords": [
+    {
+      "runMode": "Y",
+      "noSuchARecord": "afd98afd",
+      "referenceNumber": "1.2825076E7",
+      "policyName": "Kelley Buick GMC",
+      "policyNumber": "H20NPP70603-00",
+      "expForNoSuchARecord": "Your search has returned no results.",
+      "quoteName": "Test Partner API"
+    }
+  ],
+  "testSubmissionRenewal": [
+    {
+      "runMode":"Y",
+      "status":"Active"
+    }
+  ],
+  "testSortQuoteList": [
+    {
+      "runMode": "Y"
+    }
+  ],
+  "testSortPolicyList": [
+    {
+      "runMode": "Y"
+    }
+  ],
+  "testSupportRequestFunctionality": [
+    {
+      "supportType":"Request Underwriting Support",
+      "requestDetails":"Underwriter support ticket details 89083@#",
+      "runMode":"Y"
+    },
+    {
+      "supportType":"Request Technical Support",
+      "requestDetails":"Technical support ticket details 89083@#",
+      "runMode":"Y"
+    }
+  ],
+  "testBrokersCanContinueRenewalSubmission": [
+    {
+     "runMode":"Y"
+    }
+  ],
+  "testHideRenewButtonOnPolicyList": [
+    {
+      "policyNumber": "H21OMC20060-00",
+      "runMode": "Y",
+      "status": "Renewal Started"
+    }
+  ],
+  "testQuotesByBusinessType": [
+    {
+      "runMode": "Y",
+      "status": "Renewals"
+    },
+    {
+      "runMode": "Y",
+      "status": "New Business"
+    }
+  ],
+  "testClearFiltersButtonFunctionality": [
+    {
+      "product":"All Coverages",
+      "defaultTypeValue":"All Types",
+      "defaultProductValue":"All Coverages",
+      "defaultStatusValue":"All Statuses",
+      "businessType":"New Business",
+      "runMode":"Y",
+      "status":"Cancelled"
+    }
+  ],
+  "testIneligiblePolicies": [
+    {
+      "policyNumber":"H22NGP217535-00",
+      "runMode":"Y",
+      "status":"Renewal Started"
+    }
+  ],
+  "testContactUnderwriterInDashboard": [
+    {
+      "policyNumber":"H22NGP217535-00",
+      "runMode":"Y",
+      "dialogDescription":"This policy does not qualify for renewal quoting through QuoteIt as it falls outside of the platform parameters. Please upload an application to refer the submission to an underwriter. You will be able to bind coverage through QuoteIt once you have obtained a quote."
+    }
   ]
 }
