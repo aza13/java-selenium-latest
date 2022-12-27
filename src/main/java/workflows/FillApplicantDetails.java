@@ -3,11 +3,9 @@ package workflows;
 import base.PageObjectManager;
 import helper.WaitHelper;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 import org.openqa.selenium.WebDriver;
 import pageActions.RatingCriteriaPageActions;
-import utils.fileReader.ConfigDataReader;
-
-import java.util.Map;
 
 public class FillApplicantDetails {
 
@@ -15,23 +13,23 @@ public class FillApplicantDetails {
 
     private FillApplicantDetails(){}
 
-    public static void fillApplicantDetails(WebDriver driver, Map<String, String> map, String coverage) throws InterruptedException {
+    public static void fillApplicantDetails(WebDriver driver, JSONObject jsonObject, String coverage) throws InterruptedException {
         logger.info("fill applicant details, Business class :: fillApplicantDetails");
         RatingCriteriaPageActions ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(driver)) {
             if (coverage.contains("NetGuard® SELECT")) {
-                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(driver, map.get("businessClass2"));
+                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(driver, jsonObject.get("businessClass2").toString());
                 ratingCriteriaPageActions.clickBusinessClassOption(driver);
-                ratingCriteriaPageActions.enterNetWorth(driver, map.get("netWorth"));
+                ratingCriteriaPageActions.enterNetWorth(driver, jsonObject.get("netWorth").toString());
             }else if(coverage.contains("Ophthalmic") || coverage.contains("AAO")){
-                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(driver, map.get("businessClass3"));
+                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(driver, jsonObject.get("businessClass3").toString());
                 ratingCriteriaPageActions.clickBusinessClassOption(driver);
-                ratingCriteriaPageActions.enterNoOfPhysicians(driver, map.get("physiciansCount"));
-                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(driver, map.get("revenue"), map.get("records"));
+                ratingCriteriaPageActions.enterNoOfPhysicians(driver, jsonObject.get("physiciansCount").toString());
+                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(driver, jsonObject.get("revenue").toString(), jsonObject.get("records").toString());
             }else {
-                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(driver, map.get("businessClass"));
+                ratingCriteriaPageActions.enterTextToBusinessClassDropDown(driver, jsonObject.get("businessClass").toString());
                 ratingCriteriaPageActions.clickBusinessClassOption(driver);
-                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(driver, map.get("revenue"), map.get("records"));
+                ratingCriteriaPageActions.enterRatingCriteriaRevenueAndRecords(driver, jsonObject.get("revenue").toString(), jsonObject.get("records").toString());
             }
         }
         WaitHelper.pause(3000);

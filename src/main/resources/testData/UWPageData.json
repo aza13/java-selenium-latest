@@ -1,0 +1,39 @@
+{
+  "testBrokerAnswersUnderWriterQuestions": [
+    {
+      "runMode":"Y",
+      "businessClass2":"Celebrity",
+      "product":"NetGuard® SELECT",
+      "uwQuestionsOption":"index",
+      "netWorth":"50000",
+      "uwQuestionsAnswer":"No"
+    }
+  ],
+  "testQuotesInvalidatedWhenEdited": [
+    {
+      "runMode":"Y",
+      "businessClass2":"Celebrity",
+      "product":"NetGuard® SELECT",
+      "uwQuestionsOption":"index",
+      "netWorth":"50000",
+      "uwQuestionsAnswer":"No"
+    }
+  ],
+  "testSoftDeclineAfterUWQuestions": [
+    {
+      "noPhysicians":"20",
+      "businessClass2":"Professional Athlete",
+      "product":"NetGuard® SELECT",
+      "uwQuestionsOption":"index",
+      "records":"20",
+      "businessClass":"Physicians",
+      "uwQuestionsAnswer":"No",
+      "myQuotes":"Quotes",
+      "runMode":"Y",
+      "revenue":"4000",
+      "netWorth":"100000",
+      "bitcoin":"Bitcoin",
+      "quoteName":"testUWDemo"
+    }
+  ]
+}
