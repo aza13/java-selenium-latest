@@ -4,15 +4,15 @@
     <parameter name="browserType" value="CHROME"/>
     <test verbose="2" name="QuoteIt UI Regression">
         <classes>
-                        <class name="LoginPageTests"/>
-                        <class name="DashboardPageTests"/>
-                        <class name="InsuredPageTests"/>
-                        <class name="RatingCriteriaPageTests"/>
-                        <class name="SubmissionClearancesTests"/>
-                        <class name="QuotesPage.ExistingSubmissionQuoteTests"/>
-                        <class name="QuotesPage.NewSubmissionQuoteTests"/>
-                        <class name="BindingPageTests"/>
-                        <class name="UWPageTests"/>
+            <class name="LoginPageTests"/>
+            <class name="DashboardPageTests"/>
+            <class name="InsuredPageTests"/>
+            <class name="SubmissionClearancesTests"/>
+            <class name="RatingCriteriaPageTests"/>
+            <class name="UWPageTests"/>
+            <class name="QuotesPage.ExistingSubmissionQuoteTests"/>
+            <class name="QuotesPage.NewSubmissionQuoteTests"/>
+            <class name="BindingPageTests"/>
         </classes>
     </test>
 </suite>

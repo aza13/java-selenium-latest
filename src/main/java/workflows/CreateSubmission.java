@@ -30,4 +30,15 @@ public class CreateSubmission  extends BaseTest {
         if (!quoteListPageActions.isQuoteListPageDisplayed(driver)) throw new AssertionError();
         return quoteListPageActions;
     }
+
+    public static UnderwritingQuestionsPageActions createSubmissionTillUWQuestionPage(WebDriver driver, Map<String, String> map , String coverage) throws InterruptedException {
+        logger.info("creating the submission till UW Question list page :: createSubmissionTillUWQuestionPage");
+        CreateApplicant.createApplicant(driver, coverage);
+        RatingCriteriaPageActions ratingCriteriaPageActions = PageObjectManager.getRatingCriteriaPageActions();
+        if (!ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(driver)) throw new AssertionError();
+        FillApplicantDetails.fillApplicantDetails(driver, map, coverage);
+        UnderwritingQuestionsPageActions underwritingQuestionsPageActions = ratingCriteriaPageActions.clickRatingCriteriaContinueButton(driver);
+        if (!underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(driver)) throw new AssertionError();
+       return underwritingQuestionsPageActions;
+    }
 }

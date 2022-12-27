@@ -48,7 +48,7 @@ public class DriverManager {
                     }
                     options.addArguments("--incognito");
                     options.setExperimentalOption("prefs", preferences);
-                    driver = new ChromeDriver(options);
+                    driver = new ChromeDriver();
                     threadDriver.set(driver);
                     break;
                 case "FIREFOX":
