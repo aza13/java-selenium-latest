@@ -320,7 +320,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
         Assert.assertTrue(isPDFFileTextContentPresent);
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "NewQuotesPageData")
     public void testMultiCoverageInQuote(JSONObject jsonObject) throws Exception {
         /***
          this test verifies brokers can see multi-coverage option
