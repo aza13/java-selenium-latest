@@ -34,7 +34,7 @@ public class UWPageTests extends BaseTest {
         quoteListPageActions = PageObjectManager.getQuoteListPageActions();
     }
 
-    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "UWQuestionsPageData")
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "UWPageData")
     public void testBrokerAnswersUnderWriterQuestions(JSONObject jsonObject) throws InterruptedException {
         /***
          this test verifies whether Brokers can answer all underwriter questions
@@ -54,7 +54,7 @@ public class UWPageTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "UWQuestionsPageData")
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "UWPageData")
     public void testQuotesInvalidatedWhenEdited(JSONObject jsonObject) throws InterruptedException {
         /***
          this test Quotes Can Be Invalidated When Rating/UW are Edited
@@ -100,7 +100,7 @@ public class UWPageTests extends BaseTest {
     }
 
 
-    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "UWQuestionsPageData")
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "UWPageData")
     public void testSoftDeclineAfterUWQuestions(JSONObject jsonObject) throws InterruptedException {
         /***
          this test soft decline after UW Questions

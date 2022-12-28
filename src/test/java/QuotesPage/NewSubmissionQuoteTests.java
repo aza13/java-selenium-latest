@@ -16,6 +16,7 @@ import pageActions.DashboardPageActions;
 import pageActions.QuoteListPageActions;
 import pageActions.UnderwritingQuestionsPageActions;
 import utils.dataProvider.JsonDataProvider;
+import utils.dataProvider.TestDataProvider;
 import utils.dbConnector.DatabaseConnector;
 import workflows.CreateSubmission;
 
@@ -319,7 +320,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
         Assert.assertTrue(isPDFFileTextContentPresent);
     }
 
-    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "NewQuotesPageData")
+    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "QuotesPageData")
     public void testMultiCoverageInQuote(JSONObject jsonObject) throws Exception {
         /***
          this test verifies brokers can see multi-coverage option
