@@ -1,0 +1,58 @@
+{
+  "testBusinessClassRatingCriteria":[
+    {
+      "runMode":"Y",
+      "businessClass2":"Celebrity",
+      "businessClass3":"Physicians",
+      "product":"NetGuard® SELECT",
+      "website":"https://www.profrisk.com/",
+      "uwQuestionsOption":"index",
+      "totalCommercialSquareFeet":"345",
+      "records":"60",
+      "applicantName":"Professional Risk Associates, Inc.",
+      "uwQuestionsAnswer":"No",
+      "productDefaultText":"Select Product",
+      "revenue":"100000",
+      "numberOfResidentialUnits":"345",
+      "netWorth":"50000",
+      "physiciansCount":"50"
+    }
+  ],
+  "testHardDeclineAfterRatingCriteria": [
+    {
+      "runMode":"Y",
+      "noPhysicians":"60",
+      "businessClass2":"Professional Athlete",
+      "product":"Ophthalmic Mutual Insurance Company (OMIC) - e-MD®/Broad Regulatory Protection Plus",
+      "revenue":"100000",
+      "uwQuestionsOption":"index",
+      "records":"60",
+      "businessClass":"Celebrity",
+      "netWorth":"3.0E7",
+      "uwQuestionsAnswer":"No",
+      "bitcoin":"Bitcoin",
+      "quoteName":"testUWDemo"
+    }
+  ],
+  "testProposedPolicyPeriod": [
+    {
+      "runMode":"Y",
+      "product":"NetGuard® SELECT",
+      "applicantName":"Professional Risk Associates, Inc."
+    }
+  ],
+  "testBrokerReturnPreviousRatingAndUWPages": [
+    {
+      "runMode":"Y",
+      "businessClass2":"Celebrity",
+      "businessClass3":"Physicians",
+      "product":"NetGuard® SELECT",
+      "revenue":"100000",
+      "uwQuestionsOption":"index",
+      "records":"60",
+      "netWorth":"50000",
+      "uwQuestionsAnswer":"No",
+      "physiciansCount":"50"
+    }
+  ]
+}

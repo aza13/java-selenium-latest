@@ -5,6 +5,7 @@ import constants.ConstantVariable;
 import constants.DatabaseQueries;
 import helper.ClickHelper;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -14,7 +15,7 @@ import org.testng.annotations.Test;
 import pageActions.DashboardPageActions;
 import pageActions.InsuredPageActions;
 import pageActions.LoginPageActions;
-import utils.dataProvider.TestDataProvider;
+import utils.dataProvider.JsonDataProvider;
 import utils.dbConnector.DatabaseConnector;
 import workflows.CreateApplicant;
 
@@ -39,8 +40,8 @@ public class DashboardPageTests extends BaseTest {
         databaseConnector = new DatabaseConnector();
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
-    public void testQuotesDashboardUI(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "DashboardPageData")
+    public void testQuotesDashboardUI(JSONObject jsonObject) throws InterruptedException {
         /**
          * this test verifies UI of dashboard and My Quotes list
          story - N2020-28285, N2020-28287, N2020-28631
@@ -50,7 +51,7 @@ public class DashboardPageTests extends BaseTest {
         assert dashboardPageActions.tmhccLogo(DriverManager.getDriver()).isDisplayed();
         assert dashboardPageActions.profileSettingsIcon(DriverManager.getDriver()).isDisplayed();
         String title = dashboardPageActions.getMyQuotesTabTitle(DriverManager.getDriver()).trim();
-        assert title.contentEquals(map.get("myQuotes"));
+        assert title.contentEquals(jsonObject.get("myQuotes").toString());
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
         assert dashboardPageActions.signOutLink(DriverManager.getDriver()).isDisplayed();
         List<WebElement> quoteCardsList = dashboardPageActions.getQuoteCardsList(DriverManager.getDriver());
@@ -58,12 +59,12 @@ public class DashboardPageTests extends BaseTest {
             assert true;
             List<WebElement> labels = dashboardPageActions.getQuoteTableLabels(DriverManager.getDriver());
             if (labels.size() > 0) {
-                assert labels.get(0).getText().equals(map.get("submissionLabel"));
-                assert labels.get(1).getText().equals(map.get("dateLabel"));
-                assert labels.get(2).getText().equals(map.get("product"));
-                assert labels.get(3).getText().equals(map.get("startDateLabel"));
-                assert labels.get(4).getText().equals(map.get("endDateLabel"));
-                assert labels.get(5).getText().equals(map.get("statusLabel"));
+                assert labels.get(0).getText().equals(jsonObject.get("submissionLabel"));
+                assert labels.get(1).getText().equals(jsonObject.get("dateLabel"));
+                assert labels.get(2).getText().equals(jsonObject.get("product"));
+                assert labels.get(3).getText().equals(jsonObject.get("startDateLabel"));
+                assert labels.get(4).getText().equals(jsonObject.get("endDateLabel"));
+                assert labels.get(5).getText().equals(jsonObject.get("statusLabel"));
                 logger.info("verify quote status color- In Progress");
 //            dashboardPageActions.validateQuoteStatusColorCoding(DriverManager.getDriver());
                 logger.info("verify quote correct status displayed");
@@ -75,11 +76,11 @@ public class DashboardPageTests extends BaseTest {
         logger.info("verify logout functionality");
         LoginPageActions loginPageActions = dashboardPageActions.logoutApp(DriverManager.getDriver());
         String text = loginPageActions.getWelcomeText(DriverManager.getDriver());
-        assert text.contentEquals(map.get("welcomeText"));
+        assert text.contentEquals(jsonObject.get("welcomeText").toString());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 1)
-    public void testPoliciesDashboardUI(Map<String, String> map) {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "DashboardPageData", priority = 1)
+    public void testPoliciesDashboardUI(JSONObject jsonObject) {
         /**
          * this test verifies UI of My Policy dashboard
          story - N2020-28286
@@ -87,7 +88,7 @@ public class DashboardPageTests extends BaseTest {
          **/
         logger.info("verifying the broker portal dashboard page :: testPoliciesDashboardUI");
         String title = dashboardPageActions.getMyPoliciesTabTitle(DriverManager.getDriver()).trim();
-        assert title.contentEquals(map.get("policyTitle"));
+        assert title.contentEquals(jsonObject.get("policyTitle").toString());
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
         List<WebElement> policyCardsList = dashboardPageActions.getPolicyCardsList(DriverManager.getDriver());
         if (policyCardsList.size() > 0) {
@@ -97,13 +98,13 @@ public class DashboardPageTests extends BaseTest {
             List<WebElement> labels = dashboardPageActions.getPolicyTableLabels(DriverManager.getDriver());
             if (labels.size() > 0) {
                 String policyLabel = labels.get(0).getText();
-                assert policyLabel.equals(map.get("policyLabel"));
+                assert policyLabel.equals(jsonObject.get("policyLabel"));
                 String coverage = labels.get(1).getText();
-                assert coverage.equals(map.get("product"));
+                assert coverage.equals(jsonObject.get("product"));
                 String effDateLabel = labels.get(2).getText();
-                assert effDateLabel.equals(map.get("effDateLabel"));
+                assert effDateLabel.equals(jsonObject.get("effDateLabel"));
                 String expDateLabel = labels.get(3).getText();
-                assert expDateLabel.equals(map.get("expDateLabel"));
+                assert expDateLabel.equals(jsonObject.get("expDateLabel"));
             } else {
                 throw new SkipException("No policies were found for the given broker");
             }
@@ -113,8 +114,8 @@ public class DashboardPageTests extends BaseTest {
 
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 16)
-    public void testNewQuoteFieldsValidation(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "DashboardPageData", priority = 16)
+    public void testNewQuoteFieldsValidation(JSONObject jsonObject) throws InterruptedException {
         /**
          * this test verifies the New Quote dialog fields validation
          story - N2020-28289
@@ -130,17 +131,17 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
         logger.info("validating whether the data entered is erased or not");
         String coverage = dashboardPageActions.getCoverageDropdown(DriverManager.getDriver()).getText();
-        assert coverage.equals(map.get("productDefaultText"));
+        assert coverage.equals(jsonObject.get("productDefaultText"));
         String name = dashboardPageActions.getApplicantName(DriverManager.getDriver());
         assert name.equals(ConstantVariable.EMPTY_STRING);
         String website = dashboardPageActions.getWebsite(DriverManager.getDriver());
         assert website.equals(ConstantVariable.EMPTY_STRING);
-        dashboardPageActions.createNewQuote(DriverManager.getDriver(), BaseTest.coverage, map.get("applicantName"), map.get("website"));
+        dashboardPageActions.createNewQuote(DriverManager.getDriver(), BaseTest.coverage, jsonObject.get("applicantName").toString(), jsonObject.get("website").toString());
         dashboardPageActions.clickContinueButton(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 17)
-    public void testCreateNewQuote(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "DashboardPageData", priority = 17)
+    public void testCreateNewQuote(JSONObject jsonObject) throws InterruptedException {
         /**
          * this test verifies creation of new quote
          story - N2020-28291
@@ -148,11 +149,11 @@ public class DashboardPageTests extends BaseTest {
          **/
         logger.info("verifying creating new quote creation :: testCreateNewQuote");
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        dashboardPageActions.createNewQuote(DriverManager.getDriver(), coverage, map.get("applicantName"), map.get("website"));
+        dashboardPageActions.createNewQuote(DriverManager.getDriver(), coverage, jsonObject.get("applicantName").toString(), jsonObject.get("website").toString());
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         assert insuredPageActions.newInsuredButton(DriverManager.getDriver()).isDisplayed();
         assert insuredPageActions.searchAgainButton(DriverManager.getDriver()).isDisplayed();
-        assert insuredPageActions.verifyInsuredSearchResult(DriverManager.getDriver(), map.get("website"));
+        assert insuredPageActions.verifyInsuredSearchResult(DriverManager.getDriver(), jsonObject.get("website").toString());
         insuredPageActions.clickContinueInsuredButton(DriverManager.getDriver());
         boolean duplicateDialog = insuredPageActions.duplicateSubmissionDialog(DriverManager.getDriver());
         if (!duplicateDialog) {
@@ -165,15 +166,15 @@ public class DashboardPageTests extends BaseTest {
 
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 2)
-    public void testBrokerFilteringSubmissionsList(Map<String, String> map) throws InterruptedException, ParseException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "DashboardPageData", priority = 2)
+    public void testBrokerFilteringSubmissionsList(JSONObject jsonObject) throws InterruptedException, ParseException {
         /**
          * this test verifies broker filtering the submissions list
          story - N2020-28566
          @author - Venkat Kottapalli
          **/
         logger.info("verifying broker filtering the submission list :: testBrokerFilteringSubmissionsList");
-        String[] coverages = map.get("productName").split(ConstantVariable.SEMICOLON);
+        String[] coverages = jsonObject.get("productName").toString().split(ConstantVariable.SEMICOLON);
         for (String coverage : coverages) {
             dashboardPageActions.clickQuotesFilterList(DriverManager.getDriver());
             dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
@@ -188,9 +189,9 @@ public class DashboardPageTests extends BaseTest {
         }
         dashboardPageActions.clickQuotesFilterList(DriverManager.getDriver());
         dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
-        dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), map.get("productName"));
+        dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), jsonObject.get("productName").toString());
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
-        String[] statuses = map.get("status").split(ConstantVariable.SEMICOLON);
+        String[] statuses = jsonObject.get("status").toString().split(ConstantVariable.SEMICOLON);
         for (String status : statuses) {
             dashboardPageActions.clickQuotesFilterList(DriverManager.getDriver());
             dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
@@ -211,7 +212,7 @@ public class DashboardPageTests extends BaseTest {
         }
         dashboardPageActions.clickQuotesFilterList(DriverManager.getDriver());
         dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
-        dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), map.get("allStatuses"));
+        dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), jsonObject.get("allStatuses").toString());
         dashboardPageActions.clickSubmissionFilterByDateRange(DriverManager.getDriver());
         dashboardPageActions.enterCreateStartDate(DriverManager.getDriver());
         dashboardPageActions.enterCreateEndDate(DriverManager.getDriver());
@@ -219,7 +220,7 @@ public class DashboardPageTests extends BaseTest {
         List<String> dates = dashboardPageActions.getQuoteCreatedDates(DriverManager.getDriver());
         DateFormat df = new SimpleDateFormat(ConstantVariable.DATE_FORMAT);
         Date actualDate, givenDate;
-        givenDate = df.parse(map.get("endDate"));
+        givenDate = df.parse(jsonObject.get("endDate").toString());
         if (dates.size() > 0) {
             for (String date : dates) {
                 try {
@@ -239,8 +240,8 @@ public class DashboardPageTests extends BaseTest {
 
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 3)
-    public void testBrokerFilteringPoliciesList(Map<String, String> map) throws InterruptedException, ParseException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "DashboardPageData", priority = 3)
+    public void testBrokerFilteringPoliciesList(JSONObject jsonObject) throws InterruptedException, ParseException {
         /**
          * this test verifies broker filtering the policies list
          story - N2020-28565
@@ -248,7 +249,7 @@ public class DashboardPageTests extends BaseTest {
          **/
         logger.info("verifying broker filtering the policies list :: testBrokerFilteringPoliciesList");
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
-        String[] statuses = map.get("status").split(ConstantVariable.SEMICOLON);
+        String[] statuses = jsonObject.get("status").toString().split(ConstantVariable.SEMICOLON);
         for (String status : statuses) {
             dashboardPageActions.clickPoliciesFilterList(DriverManager.getDriver());
             dashboardPageActions.clickPolicyFilterByStatus(DriverManager.getDriver());
@@ -265,7 +266,7 @@ public class DashboardPageTests extends BaseTest {
         }
         dashboardPageActions.clickPoliciesFilterList(DriverManager.getDriver());
         dashboardPageActions.clickPolicyFilterByStatus(DriverManager.getDriver());
-        dashboardPageActions.selectPolicyStatusInFilter(DriverManager.getDriver(), map.get("allStatuses"));
+        dashboardPageActions.selectPolicyStatusInFilter(DriverManager.getDriver(), jsonObject.get("allStatuses").toString());
         dashboardPageActions.clickSubmissionFilterByDateRange(DriverManager.getDriver());
         dashboardPageActions.enterCreateStartDate(DriverManager.getDriver());
         dashboardPageActions.enterCreateEndDate(DriverManager.getDriver());
@@ -274,7 +275,7 @@ public class DashboardPageTests extends BaseTest {
         if(dates != null){
             DateFormat df = new SimpleDateFormat(ConstantVariable.DATE_FORMAT);
             Date actualDate, givenDate;
-            String d = map.get("endDate");
+            String d = jsonObject.get("endDate").toString();
             givenDate = df.parse(d);
             for (String date: dates) {
                 try {
@@ -291,8 +292,8 @@ public class DashboardPageTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 4, enabled = false)
-    public void testPresenceOfContinueButtonOnQuotes(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "DashboardPageData", priority = 4, enabled = false)
+    public void testPresenceOfContinueButtonOnQuotes(JSONObject jsonObject) throws InterruptedException {
         /**
          * this test verifies whether continue button should be displayed or not quotes in MY QUOTES
          story - N2020-28296
@@ -353,8 +354,8 @@ public class DashboardPageTests extends BaseTest {
 
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 5)
-    public void testBrokerSearchRelatedRecords(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "DashboardPageData", priority = 5)
+    public void testBrokerSearchRelatedRecords(JSONObject jsonObject) throws InterruptedException {
         /**
          * this test verifies search results for related Records
          story - N2020-28288
@@ -392,14 +393,14 @@ public class DashboardPageTests extends BaseTest {
         assert actualPolicyNumber.equals(expectedPolicyNumber);
 
         dashboardPageActions.clickClearSearchButton(DriverManager.getDriver());
-        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("noSuchARecord"));
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), jsonObject.get("noSuchARecord").toString());
         String searchForNoResult = dashboardPageActions.getSearchForNoResult(DriverManager.getDriver());
-        assert searchForNoResult.contentEquals(map.get("expForNoSuchARecord"));
+        assert searchForNoResult.contentEquals(jsonObject.get("expForNoSuchARecord").toString());
     }
 
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 6, enabled = false)
-    public void testSubmissionRenewal(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "DashboardPageData", priority = 6, enabled = false)
+    public void testSubmissionRenewal(JSONObject jsonObject) throws InterruptedException {
         /***
          this test verifies submission renewal
          story - N2020-28481
@@ -409,13 +410,13 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
         dashboardPageActions.clickPoliciesFilterList(DriverManager.getDriver());
         dashboardPageActions.clickPolicyFilterByStatus(DriverManager.getDriver());
-        dashboardPageActions.selectPolicyStatusInFilter(DriverManager.getDriver(), map.get("status"));
+        dashboardPageActions.selectPolicyStatusInFilter(DriverManager.getDriver(), jsonObject.get("status").toString());
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
         dashboardPageActions.renewSubmission(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 7)
-    public void testSortQuoteList(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "DashboardPageData", priority = 7)
+    public void testSortQuoteList(JSONObject jsonObject) throws InterruptedException {
         /***
          this tests Sort of Quotes List
          story - N2020-29952
@@ -438,8 +439,8 @@ public class DashboardPageTests extends BaseTest {
 
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 8)
-    public void testSortPolicyList(Map<String, String> map) throws InterruptedException, ParseException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "DashboardPageData", priority = 8)
+    public void testSortPolicyList(JSONObject jsonObject) throws InterruptedException, ParseException {
         /***
          this test Sort my Policy List
          story - N2020-29736
@@ -464,8 +465,8 @@ public class DashboardPageTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 9)
-    public void testSupportRequestFunctionality(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "DashboardPageData", priority = 9)
+    public void testSupportRequestFunctionality(JSONObject jsonObject) throws InterruptedException {
         /***
          this test verifies sup of new insured
          story - N2020-28346
@@ -474,8 +475,8 @@ public class DashboardPageTests extends BaseTest {
         logger.info("verifying duplicate submissions :: testSupportRequestFunctionality");
         dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
         dashboardPageActions.clickSupportLink(DriverManager.getDriver());
-        dashboardPageActions.selectSupportType(DriverManager.getDriver(), map.get("supportType"));
-        dashboardPageActions.enterRequestDetails(DriverManager.getDriver(), map.get("requestDetails"));
+        dashboardPageActions.selectSupportType(DriverManager.getDriver(), jsonObject.get("supportType").toString());
+        dashboardPageActions.enterRequestDetails(DriverManager.getDriver(), jsonObject.get("requestDetails").toString());
         dashboardPageActions.clickSendRequestButton(DriverManager.getDriver());
         assert dashboardPageActions.isSupportTicketCreatedSuccessfully(DriverManager.getDriver());
         dashboardPageActions.closeSuccessMessage(DriverManager.getDriver());
@@ -488,7 +489,7 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", enabled = false, priority = 10)
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "DashboardPageData", enabled = false, priority = 10)
     public void testBrokersCanContinueRenewalSubmission() throws InterruptedException {
         /***
          this test Brokers can continue a Renewal Submission
@@ -502,8 +503,8 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.clickExitRatingCriteria(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData")
-    public void testHideRenewButtonOnPolicyList(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "DashboardPageData")
+    public void testHideRenewButtonOnPolicyList(JSONObject jsonObject) throws InterruptedException {
         /***
          this test Hide Renew Button on Policy list for Ineligible Policies
          story - N2020-29737
@@ -513,8 +514,8 @@ public class DashboardPageTests extends BaseTest {
         logger.info("verifying :: Hide Renew Button on Policy list for Ineligible Policies ");
         dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
         assert dashboardPageActions.verifyPoliciesExists(DriverManager.getDriver());
-        String[] statuses = map.get("status").split(ConstantVariable.SEMICOLON);
-        String[] policiesNumber = map.get("policyNumber").split(ConstantVariable.SEMICOLON);
+        String[] statuses = jsonObject.get("status").toString().split(ConstantVariable.SEMICOLON);
+        String[] policiesNumber = jsonObject.get("policyNumber").toString().split(ConstantVariable.SEMICOLON);
 
         for (int i = 0; i < statuses.length; i++) {
             dashboardPageActions.clickPoliciesFilterList(DriverManager.getDriver());
@@ -530,8 +531,8 @@ public class DashboardPageTests extends BaseTest {
         assert dashboardPageActions.verifyPoliciesExists(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 12)
-    public void  testQuotesByBusinessType(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "DashboardPageData", priority = 12)
+    public void  testQuotesByBusinessType(JSONObject jsonObject) throws InterruptedException {
         /***
          this test verifies quotes by business type
          story - N2020-32172
@@ -539,7 +540,7 @@ public class DashboardPageTests extends BaseTest {
          **/
         dashboardPageActions.clickQuotesFilterList(DriverManager.getDriver());
         dashboardPageActions.clickFilterByType(DriverManager.getDriver());
-        String status = map.get("status");
+        String status = jsonObject.get("status").toString();
         dashboardPageActions.selectTypeInFilter(DriverManager.getDriver(), status);
         dashboardPageActions.clickApplyFiltersButton(DriverManager.getDriver());
         List<WebElement> elements = dashboardPageActions.getAllQuotesBusinessType(DriverManager.getDriver());
@@ -553,8 +554,8 @@ public class DashboardPageTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 13)
-    public void  testClearFiltersButtonFunctionality(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "DashboardPageData", priority = 13)
+    public void  testClearFiltersButtonFunctionality(JSONObject jsonObject) throws InterruptedException {
         /***
          this test verifies clear filters button functionality
          story - N2020-32024
@@ -564,9 +565,9 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
         dashboardPageActions.selectCoverageInFilter(DriverManager.getDriver(), coverage);
         dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
-        dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), map.get("status"));
+        dashboardPageActions.selectStatusInFilter(DriverManager.getDriver(), jsonObject.get("status").toString());
         dashboardPageActions.clickFilterByType(DriverManager.getDriver());
-        String status = map.get("businessType");
+        String status = jsonObject.get("businessType").toString();
         dashboardPageActions.selectTypeInFilter(DriverManager.getDriver(), status);
         dashboardPageActions.clickSubmissionFilterByDateRange(DriverManager.getDriver());
         dashboardPageActions.enterCreateStartDate(DriverManager.getDriver());
@@ -577,17 +578,17 @@ public class DashboardPageTests extends BaseTest {
         dashboardPageActions.clickQuotesFilterList(DriverManager.getDriver());
         dashboardPageActions.clickFilterByCoverageName(DriverManager.getDriver());
         String product = dashboardPageActions.getSelectedCoverageName(DriverManager.getDriver());
-        assert product.contentEquals(map.get("defaultProductValue"));
+        assert product.contentEquals(jsonObject.get("defaultProductValue").toString());
         dashboardPageActions.clickSubmissionFilterByStatus(DriverManager.getDriver());
         String quoteStatus = dashboardPageActions.getSelectedQuoteStatus(DriverManager.getDriver());
-        assert quoteStatus.contentEquals(map.get("defaultStatusValue"));
+        assert quoteStatus.contentEquals(jsonObject.get("defaultStatusValue").toString());
         dashboardPageActions.clickFilterByType(DriverManager.getDriver());
         String quoteBusinessType = dashboardPageActions.getSelectedQuoteBusinessType(DriverManager.getDriver());
-        assert quoteBusinessType.contentEquals(map.get("defaultTypeValue"));
+        assert quoteBusinessType.contentEquals(jsonObject.get("defaultTypeValue").toString());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 14)
-    public void  testIneligiblePolicies(Map<String, String> map) throws InterruptedException, SQLException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "DashboardPageData", priority = 14)
+    public void  testIneligiblePolicies(JSONObject jsonObject) throws InterruptedException, SQLException {
         /*************************************
          * this test verifies ineligible policy
          story - N2020-33633 -N2020-34868
@@ -611,8 +612,8 @@ public class DashboardPageTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "DashboardPageData", priority = 15, enabled = false)
-    public void  testContactUnderwriterInDashboard(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "DashboardPageData", priority = 15, enabled = false)
+    public void  testContactUnderwriterInDashboard(JSONObject jsonObject) throws InterruptedException {
         /***
          * this test validates Contact Underwriter button in dashboard page
          story - N2020-34125
@@ -626,7 +627,7 @@ public class DashboardPageTests extends BaseTest {
         assert dashboardPageActions.verifyContactUnderwriterExists(DriverManager.getDriver());
         dashboardPageActions.clickContactUnderwriter(DriverManager.getDriver());
         String dialogDescription = dashboardPageActions.getSubmitForReviewDesc(DriverManager.getDriver());
-        assert dialogDescription.contentEquals(map.get("dialogDescription"));
+        assert dialogDescription.contentEquals(jsonObject.get("dialogDescription").toString());
         dashboardPageActions.clickSubmitForReviewCancel(DriverManager.getDriver());
         assert dashboardPageActions.verifyIfPolicySearchResultsDisplayed(DriverManager.getDriver());
         dashboardPageActions.clickContactUnderwriter(DriverManager.getDriver());

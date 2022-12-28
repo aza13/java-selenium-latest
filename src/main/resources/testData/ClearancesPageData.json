@@ -1,0 +1,35 @@
+{
+  "testClearancesSubmissionFunctionality": [
+    {
+      "runMode":"Y",
+      "product":"NetGuard® SELECT",
+      "clearanceText":"clearance test text",
+      "website":"test.com",
+      "name":"test",
+      "functionality":"submit"
+    }
+  ],
+  "testCancelClearancesFunctionality": [
+    {
+      "product":"NetGuard® SELECT",
+      "clearanceText":"Test purpose",
+      "website":"test.com",
+      "name":"test",
+      "functionality":"cancel",
+      "runMode":"Y",
+      "email":"cfessler@profrisk.com"
+    }
+  ],
+  "testClearancesReviewFunctionality": [
+    {
+      "product":"NetGuard® SELECT",
+      "runMode":"Y"
+    }
+  ],
+  "testRenewalPolicyClearanceValidation": [
+    {
+      "product":"NetGuard® SELECT",
+      "runMode":"Y"
+    }
+  ]
+}

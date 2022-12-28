@@ -197,7 +197,6 @@ public class DashboardPageActions extends BaseTest {
     public void createNewQuote(WebDriver driver, String product, String applicantName, String website) throws InterruptedException {
         WebElement element = driver.findElement(selectCoverageDropdown);
         DropdownHelper.selectValueFromBootstrapDropdown(driver, element, genericCoverageOption, product);
-        WaitHelper.pause(2000);
         WaitHelper.waitForElementVisibilityCustom(driver, applicantNameField, 30);
         TextHelper.enterText(driver, applicantNameField, applicantName);
         if(website.contentEquals("No website")){
