@@ -1,0 +1,128 @@
+{
+"testAddAndDeleteQuoteOption": [
+  {
+    "runMode":"Y",
+    "businessClass2":"Celebrity",
+    "businessClass3":"Physicians",
+    "product":"NetGuard® SELECT",
+    "website":"https://caringcomm.org/",
+    "uwQuestionsOption":"index",
+    "totalCommercialSquareFeet":"237",
+    "records":"445",
+    "businessClass":"Business to Business",
+    "functionality":"addQuoteOption",
+    "uwQuestionsAnswer":"No",
+    "revenue":"1000000",
+    "numberOfResidentialUnits":"173",
+    "netWorth":"50000",
+    "limit":"$ 1MM",
+    "claim":"$ 1MM",
+    "physiciansCount":"50",
+    "retention":"10000",
+    "status":"Active"
+  },
+  {
+    "runMode":"Y",
+    "businessClass2":"Celebrity",
+    "businessClass3":"Physicians",
+    "product":"NetGuard® SELECT",
+    "website":"https://caringcomm.org/",
+    "uwQuestionsOption":"index",
+    "totalCommercialSquareFeet":"237",
+    "records":"445",
+    "businessClass":"Business to Business",
+    "functionality":"deleteQuoteOption",
+    "uwQuestionsAnswer":"No",
+    "revenue":"1000000",
+    "numberOfResidentialUnits":"173",
+    "netWorth":"50000",
+    "limit":"$ 1MM",
+    "claim":"$ 1MM",
+    "physiciansCount":"50",
+    "retention":"10000",
+    "status":"Active"
+  }
+],
+  "testAddingQuoteToExistingSubmission": [
+    {
+      "businessClass2":"Celebrity",
+      "businessClass3":"Physicians",
+      "product":"NetGuard® SELECT",
+      "website":"https://caringcomm.org/",
+      "uwQuestionsOption":"index",
+      "totalCommercialSquareFeet":"237",
+      "records":"445",
+      "businessClass":"Business to Business",
+      "functionality":"addQuoteOption",
+      "uwQuestionsAnswer":"No",
+      "runMode":"Y",
+      "revenue":"1000000",
+      "numberOfResidentialUnits":"173",
+      "netWorth":"50000",
+      "limit":"$ 1MM",
+      "claim":"$ 1MM",
+      "physiciansCount":"50",
+      "retention":"10000",
+      "status":"Active"
+    }
+  ],
+  "testBrokerDownloadConfirmedQuote": [
+    {
+      "runMode":"Y",
+      "pdfFilename":"TMHCC_Quote_",
+      "reffNumber":"\"13869826\"",
+      "wordFilename":"TMHCC_Quote_",
+      "wordPDFFilename":"TMHCC_Marketing_Materials_Quote_2196819.pdf"
+    }
+  ],
+  "testQuoteOptionPlaceOrder": [
+    {
+      "runMode":"Y",
+      "product":"NetGuard® SELECT",
+      "quoteStatus":"Order Placed"
+    }
+  ],
+  "testUpdatedOptionMaxAggLimitAndPremium": [
+    {
+      "runMode":"Y",
+      "businessClass2":"Celebrity",
+      "businessClass3":"Physicians",
+      "quoteSuccessMessage":"Success\nQuote is successfully locked.",
+      "uwQuestionsOption":"index",
+      "totalCommercialSquareFeet":"237",
+      "records":"445",
+      "businessClass":"Business to Business",
+      "uwQuestionsAnswer":"No",
+      "optionCount":"1",
+      "limit1":"$ 500k",
+      "limit2":"$ 1MM",
+      "revenue":"1000000",
+      "numberOfResidentialUnits":"173",
+      "netWorth":"50000",
+      "claim2":"$ 1MM",
+      "claim1":"$ 500k",
+      "physiciansCount":"50",
+      "retention":"$ 15,000",
+      "status":"Active"
+    }
+  ],
+  "testDownloadApplicationInQuote": [
+    {
+      "runMode":"Y",
+      "businessClass2":"Celebrity",
+      "businessClass3":"Physicians",
+      "records":"445",
+      "businessClass":"Business to Business",
+      "pdfFilename":"TMHCC_Quote_",
+      "wordFilename":"TMHCC_Quote_",
+      "wordPDFFilename":"TMHCC_Marketing_Materials_Quote_2196819.pdf",
+      "revenue":"1000000",
+      "netWorth":"50000",
+      "limit":"$ 1MM",
+      "reffNumber":"\"13869826\"",
+      "claim":"$ 1MM",
+      "physiciansCount":"50",
+      "retention":"12000"
+    }
+  ]
+}

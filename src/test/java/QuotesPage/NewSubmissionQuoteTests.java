@@ -46,7 +46,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
     }
 
 
-    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "QuotesPageData")
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "NewQuotesPageData")
     public void testAddingQuoteToNewSubmission(JSONObject jsonObject) throws InterruptedException {
         /*****************************************************************
          this test verifies whether user can add quote to new submission
@@ -70,7 +70,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
         assert quotesCountAfter == quotesCountBefore + 1;
     }
 
-    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "QuotesPageData")
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "NewQuotesPageData")
     public void testQuotePreview(JSONObject jsonObject) throws InterruptedException {
         /************************************************************
          this verifies whether broker can click preview quote option
@@ -88,7 +88,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
         assert quoteListPageActions.verifyQuotePreview(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "QuotesPageData")
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "NewQuotesPageData")
     public void testLockingQuote(JSONObject jsonObject) throws InterruptedException, SQLException {
         /******************************************************************
          this verifies whether broker can lock the quote using confirm lock button
@@ -128,7 +128,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
         assert quoteStatus.contentEquals(jsonObject.get("quoteStatusDashboard").toString());
     }
 
-    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "QuotesPageData")
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "NewQuotesPageData")
     public void testValidateConfirmDatesModal(JSONObject jsonObject) throws InterruptedException, ParseException {
         /*****************************************************************
          this test validates confirm dates modal
@@ -156,7 +156,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
         quoteListPageActions.clickConfirmDatesConfirmButton(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "QuotesPageData", enabled = false)
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "NewQuotesPageData", enabled = false)
     public void testContactUnderwriterModalBeforeLock(JSONObject jsonObject) throws InterruptedException, SQLException {
         /*****************************************************************
          this test verifies contact underwriter modal on quote page before lock
@@ -186,7 +186,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
         assert quoteStatusDashboard.contentEquals(ConstantVariable.IN_REVIEW_STRING);
     }
 
-    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "QuotesPageData")
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "NewQuotesPageData")
     public void testContactUnderwriterModalAfterLock(JSONObject jsonObject) throws InterruptedException {
         /*****************************************************************
          this test verifies contact underwriter modal
@@ -205,7 +205,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
         quoteListPageActions.clickSubmitForReview(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "QuotesPageData", enabled = false)
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "NewQuotesPageData", enabled = false)
     public void testQuoteOutsideBoundSoftDeclined(JSONObject jsonObject) throws InterruptedException {
         /******************************************************************************
          this test verifies Broker Portal Quotes Outside the Bounds Will Be Soft Declined
@@ -233,7 +233,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "QuotesPageData")
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "NewQuotesPageData")
     public void testQuoteOptionCoverageGroupValidation(JSONObject jsonObject) throws InterruptedException {
         /*************************************************************************************
          this test verifies Broker Portal Quotes Can Select/Unselect Coverage Groups for an Option
@@ -281,7 +281,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "QuotesPageData")
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "NewQuotesPageData")
     public void testNotDisplayPremiumIfReviewRequired(JSONObject jsonObject) throws InterruptedException {
         /******************************************************************
          this test verifies if premium should not display if review required
@@ -302,7 +302,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
         Assert.assertTrue(isTextVisible);
     }
 
-    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "QuotesPageData")
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "NewQuotesPageData")
     public void testDownloadApplicationInQuote(JSONObject jsonObject) throws Exception {
         /***
          this test verifies brokers can download application form
@@ -319,7 +319,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
         Assert.assertTrue(isPDFFileTextContentPresent);
     }
 
-    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "QuotesPageData")
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "NewQuotesPageData")
     public void testMultiCoverageInQuote(JSONObject jsonObject) throws Exception {
         /***
          this test verifies brokers can see multi-coverage option
@@ -328,8 +328,8 @@ public class NewSubmissionQuoteTests extends BaseTest {
          ********************************************************************/
 
         logger.info("Executing the verifies brokers can see multi-coverage option from testMultiCoverageInQuote class :: testMultiCoverageInQuote");
-        underwritingQuestionsPageActions = CreateSubmission.createSubmissionTillUWQuestionPage(DriverManager.getDriver(), jsonObject, multicoverage);
-        if(multicoverage.contains("Ophthalmic")){
+        underwritingQuestionsPageActions = CreateSubmission.createSubmissionTillUWQuestionPage(DriverManager.getDriver(), jsonObject, multiCoverage);
+        if(multiCoverage.contains("Ophthalmic")){
             underwritingQuestionsPageActions.multiCoverageUWQuestions(DriverManager.getDriver());
             boolean quotePageDisplay = quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver());
             Assert.assertTrue(quotePageDisplay);

@@ -1,0 +1,143 @@
+{
+  "testVerifyQuoteBinding": [
+    {
+      "runMode":"Y",
+      "businessClass2":"Celebrity",
+      "businessClass3":"Physicians",
+      "quoteSuccessMessage":"Success\nQuote is successfully locked.",
+      "uwQuestionsOption":"index",
+      "totalCommercialSquareFeet":"237",
+      "records":"45",
+      "businessClass":"Business to Business",
+      "uwQuestionsAnswer":"No",
+      "quoteStatus":"Option Order",
+      "revenue":"45",
+      "numberOfResidentialUnits":"173",
+      "netWorth":"50000",
+      "limit":"$ 1MM",
+      "optionOrderStatus":"Option Order",
+      "claim":"$ 1MM",
+      "physiciansCount":"45",
+      "retention":"15000",
+      "boundStatus":"Bound"
+    }
+  ],
+  "testValidateSubjectivitiesAndQuoteStatus": [
+    {
+      "runMode":"Y",
+      "businessClass2":"Celebrity",
+      "businessClass3":"Physicians",
+      "quoteSuccessMessage":"Success\nQuote is successfully locked.",
+      "uwQuestionsOption":"index",
+      "totalCommercialSquareFeet":"237",
+      "records":"45",
+      "businessClass":"Business to Business",
+      "uwQuestionsAnswer":"No",
+      "quoteStatus":"Option Order",
+      "revenue":"45",
+      "numberOfResidentialUnits":"173",
+      "netWorth":"50000",
+      "limit":"$ 1MM",
+      "claim":"$ 1MM",
+      "physiciansCount":"45",
+      "retention":"15000"
+    }
+  ],
+  "testGenerateBinderButtonValidations": [
+    {
+      "businessClass2":"Celebrity",
+      "businessClass3":"Physicians",
+      "quoteSuccessMessage":"Success\nQuote is successfully locked.",
+      "uwQuestionsOption":"index",
+      "totalCommercialSquareFeet":"237",
+      "records":"45",
+      "businessClass":"Business to Business",
+      "uwQuestionsAnswer":"No",
+      "runMode":"Y",
+      "quoteStatus":"Option Order",
+      "revenue":"45",
+      "numberOfResidentialUnits":"173",
+      "netWorth":"50000",
+      "limit":"$ 1MM",
+      "claim":"$ 1MM",
+      "physiciansCount":"45",
+      "retention":"15000"
+    }
+  ],
+  "testFileUploadValidationsInBinder": [
+    {
+      "runMode":"Y",
+      "businessClass2":"Celebrity",
+      "businessClass3":"Physicians",
+      "quoteSuccessMessage":"Success\nQuote is successfully locked.",
+      "uwQuestionsOption":"index",
+      "totalCommercialSquareFeet":"237",
+      "records":"45",
+      "businessClass":"Business to Business",
+      "uwQuestionsAnswer":"No",
+      "quoteStatus":"Option Order",
+      "revenue":"45",
+      "numberOfResidentialUnits":"173",
+      "netWorth":"50000",
+      "limit":"$ 1MM",
+      "claim":"$ 1MM",
+      "physiciansCount":"45",
+      "fileType":"fileTypeValidation",
+      "retention":"15000"
+    },
+    {
+      "runMode":"Y",
+      "businessClass2":"Celebrity",
+      "businessClass3":"Physicians",
+      "quoteSuccessMessage":"Success\nQuote is successfully locked.",
+      "uwQuestionsOption":"index",
+      "totalCommercialSquareFeet":"237",
+      "records":"45",
+      "businessClass":"Business to Business",
+      "uwQuestionsAnswer":"No",
+      "quoteStatus":"Option Order",
+      "revenue":"45",
+      "numberOfResidentialUnits":"173",
+      "netWorth":"50000",
+      "limit":"$ 1MM",
+      "claim":"$ 1MM",
+      "physiciansCount":"45",
+      "fileType":"fileSizeValidation",
+      "retention":"15000"
+    }
+  ],
+  "testSubjectivityStatus": [
+    {
+      "runMode":"N"
+    }
+  ],
+  "testDownloadBinder": [
+    {
+      "runMode":"Y",
+      "submissionName2":"Saul Murazik III",
+      "pdfFilename":"Binder_"
+    }
+  ],
+  "testValidateConfirmDatesPlaceOrderFunctionality": [
+    {
+      "runMode":"Y",
+      "businessClass2":"Celebrity",
+      "businessClass3":"Physicians",
+      "quoteSuccessMessage":"Success\nQuote is successfully locked.",
+      "uwQuestionsOption":"index",
+      "totalCommercialSquareFeet":"237",
+      "records":"45",
+      "businessClass":"Business to Business",
+      "uwQuestionsAnswer":"No",
+      "quoteStatus":"Option Order",
+      "revenue":"45",
+      "numberOfResidentialUnits":"173",
+      "netWorth":"50000",
+      "limit":"$ 1MM",
+      "claim":"$ 1MM",
+      "physiciansCount":"45",
+      "retention":"15000",
+      "boundStatus":"Bound"
+    }
+  ]
+}

@@ -40,7 +40,7 @@ public class RatingCriteriaPageTests extends BaseTest {
         quoteListPageActions = PageObjectManager.getQuoteListPageActions();
     }
 
-    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "RatingCriteriaPageData")
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "DetailsPageData")
     public void  testBusinessClassRatingCriteria(JSONObject jsonObject) throws InterruptedException {
         /***
          this test Brokers Business Class criteria
@@ -57,7 +57,7 @@ public class RatingCriteriaPageTests extends BaseTest {
         underwritingQuestionsPageActions.clickExitQuestion(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "RatingCriteriaPageData", enabled = false)
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "DetailsPageData", enabled = false)
     public void  testHardDeclineAfterRatingCriteria(JSONObject jsonObject) throws InterruptedException {
         /***
          this test hard decline after rating criteria
@@ -79,7 +79,7 @@ public class RatingCriteriaPageTests extends BaseTest {
 
 
 
-    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "RatingCriteriaPageData")
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "DetailsPageData")
     public void  testProposedPolicyPeriod(JSONObject jsonObject) throws InterruptedException {
         /***
          this test Brokers can see proposed policy period  criteria -- this needs to be verified
@@ -97,7 +97,7 @@ public class RatingCriteriaPageTests extends BaseTest {
         assert title.contentEquals("Quotes");
     }
 
-    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "RatingCriteriaPageData")
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "DetailsPageData")
     public void  testBrokerReturnPreviousRatingAndUWPages(JSONObject jsonObject) throws InterruptedException {
         /***
          this test Brokers can return to Previous pages i.e. Rating Criteria and UW View

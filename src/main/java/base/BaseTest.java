@@ -31,7 +31,7 @@ public class BaseTest {
     private static String userId;
     private static String password;
     public static String coverage = null;
-    public static String multicoverage = null;
+    public static String multiCoverage = null;
 
 
     private static final Logger logger = Logger.getLogger(BaseTest.class);
@@ -52,9 +52,9 @@ public class BaseTest {
 
         logger.info("selected product is: " + coverage);
 
-        multicoverage = ConfigDataReader.getInstance().getProperty("multicoverage");
+        multiCoverage = ConfigDataReader.getInstance().getProperty("multiCoverage");
 
-        logger.info("selected product is: " + multicoverage);
+        logger.info("selected product is: " + multiCoverage);
 
         userId = ConfigDataReader.getInstance().getProperty("userId");
 
