@@ -207,6 +207,29 @@
       "reffNumber":"\"13869826\"",
       "claim":"$ 1MM",
       "physiciansCount":"50",
+      "retention":"12000",
+      "uwQuestionsAnswer": "No"
+    }
+  ],
+  "testMultiCoverageInQuote": [
+    {
+      "runMode":"Y",
+      "businessClass2":"Celebrity",
+      "businessClass3":"Physicians",
+      "quoteStatusBinder":"Option Order",
+      "records":"445",
+      "businessClass":"Business to Business",
+      "pdfFilename":"TMHCC_Quote_",
+      "wordFilename":"TMHCC_Quote_",
+      "wordPDFFilename":"TMHCC_Marketing_Materials_Quote_2196819.pdf",
+      "quoteStatus":"Ready to Place Order",
+      "revenue":"1000000",
+      "netWorth":"50000",
+      "limit":"$ 1MM",
+      "reffNumber":"\"13869826\"",
+      "claim":"$ 1MM",
+      "quoteStatusDashboard":"Order Placed",
+      "physiciansCount":"50",
       "retention":"12000"
     }
   ]

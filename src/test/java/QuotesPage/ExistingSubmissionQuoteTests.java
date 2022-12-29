@@ -13,7 +13,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageActions.*;
 import utils.dataProvider.JsonDataProvider;
-import utils.dataProvider.TestDataProvider;
+import utils.dataProvider.JsonDataProvider;
 import utils.dbConnector.DatabaseConnector;
 import workflows.AnswerUnderwriterQuestions;
 import workflows.FillApplicantDetails;
@@ -43,7 +43,7 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
         quoteListPageActions = PageObjectManager.getQuoteListPageActions();
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "ExistingQuotesPageData")
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "ExistingQuotesPageData")
     public void testAddAndDeleteQuoteOption(JSONObject jsonObject) throws InterruptedException {
         /***
          this verifies whether broker can add the new quote option
@@ -90,7 +90,7 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "ExistingQuotesPageData")
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "ExistingQuotesPageData")
     public void testAddingQuoteToExistingSubmission(JSONObject jsonObject) throws InterruptedException {
         /***
          this verifies whether user can add quote to an existing submission
@@ -142,7 +142,7 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "ExistingQuotesPageData")
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "ExistingQuotesPageData")
     public void testBrokerDownloadConfirmedQuote(JSONObject jsonObject) throws InterruptedException, SQLException {
         /***
          this test verifies brokers can download confirmed quote validation
@@ -176,7 +176,7 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "ExistingQuotesPageData")
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "ExistingQuotesPageData")
     public void testQuoteOptionPlaceOrder(JSONObject jsonObject) throws InterruptedException, SQLException {
         /***
          this test verifies brokers can download confirmed quote validation
@@ -222,7 +222,7 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
     }
 
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "ExistingQuotesPageData")
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "ExistingQuotesPageData")
     public void testUpdatedOptionMaxAggLimitAndPremium(JSONObject jsonObject) throws InterruptedException {
         /***
          this verifies whether option max agg limit and premium are updated or not
@@ -257,7 +257,7 @@ public class ExistingSubmissionQuoteTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "ExistingQuotesPageData")
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "ExistingQuotesPageData")
     public void testDownloadApplicationInQuote(JSONObject jsonObject) throws InterruptedException, SQLException {
         /***
          this test verifies brokers can download application form
