@@ -5,20 +5,20 @@ import constants.ConstantVariable;
 import constants.DatabaseQueries;
 import helper.WaitHelper;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageActions.BindingPageActions;
 import pageActions.DashboardPageActions;
 import pageActions.QuoteListPageActions;
-import utils.dataProvider.TestDataProvider;
+import utils.dataProvider.JsonDataProvider;
 import utils.dbConnector.DatabaseConnector;
 import workflows.CreateSubmission;
 
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import static constants.DatabaseQueries.*;
@@ -42,15 +42,15 @@ public class BindingPageTests extends BaseTest {
         databaseConnector = new DatabaseConnector();
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
-    public void testVerifyQuoteBinding(Map<String, String> map) throws InterruptedException, SQLException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "BindingPageData")
+    public void testVerifyQuoteBinding(JSONObject jsonObject) throws InterruptedException, SQLException {
         /*****************************************************************
          this test verifies quote option Binding and Subjectivity
          story - N2020-33007, 23922,32926, 32930, 32950, 32704
          @author - Venkat Kottapalli, Sheetal
          ******************************************************************/
         logger.info("Executing the testVerifyQuoteBinding from BindingPageTests class :: testVerifyQuoteBinding");
-        quoteListPageActions = CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
+        quoteListPageActions = CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), jsonObject, coverage);
         String quoteId = quoteListPageActions.getOpenQuoteId(DriverManager.getDriver());
         logger.info("validating download icons of quote list page");
         boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
@@ -59,7 +59,7 @@ public class BindingPageTests extends BaseTest {
         bindingPageActions = quoteListPageActions.clickConfirmDatesConfirmButton(DriverManager.getDriver());
         assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
         String quoteStatus = bindingPageActions.getQuoteStatus(DriverManager.getDriver());
-        assert quoteStatus.contentEquals(map.get("quoteStatus"));
+        assert quoteStatus.contentEquals(jsonObject.get("quoteStatus").toString());
 
         logger.info("fetching the submission Id using initial quote Id from db");
         String query = GET_SUBMISSION_ID_WITH_QUOTE_ID + quoteId + ";";
@@ -110,20 +110,20 @@ public class BindingPageTests extends BaseTest {
         bindingPageActions.clickGenerateBinderButton(DriverManager.getDriver());
         String quoteStatusAfterBinding = bindingPageActions.getQuoteStatus(DriverManager.getDriver());
         if(bindingPageActions.isBinderGenerationWarningDisplayed(DriverManager.getDriver())){
-            assert quoteStatusAfterBinding.contentEquals(map.get("optionOrderStatus"));
+            assert quoteStatusAfterBinding.contentEquals(jsonObject.get("optionOrderStatus").toString());
         }else {
-            assert quoteStatusAfterBinding.contentEquals(map.get("boundStatus"));
+            assert quoteStatusAfterBinding.contentEquals(jsonObject.get("boundStatus").toString());
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
-    public void testValidateSubjectivitiesAndQuoteStatus(Map<String, String> map) throws InterruptedException, SQLException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "BindingPageData")
+    public void testValidateSubjectivitiesAndQuoteStatus(JSONObject jsonObject) throws InterruptedException, SQLException {
         /*****************************************************************
          this test verifies subjectivities in Binding page & Quote Status in the Dashboard page
          @author - Venkat Kottapalli
          ******************************************************************/
         logger.info("Executing the testValidateSubjectivitiesAndQuoteStatus from BindingPageTests class :: testValidateSubjectivitiesAndQuoteStatus");
-        quoteListPageActions = CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
+        quoteListPageActions = CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), jsonObject, coverage);
         String quoteId = quoteListPageActions.getOpenQuoteId(DriverManager.getDriver());
         logger.info("validating download icons of quote list page");
         boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
@@ -163,15 +163,15 @@ public class BindingPageTests extends BaseTest {
         assert quoteStatusDashboard.contentEquals("Order Placed");
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
-    public void testGenerateBinderButtonValidations(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "BindingPageData")
+    public void testGenerateBinderButtonValidations(JSONObject jsonObject) throws InterruptedException {
         /*****************************************************************
          this test validates the generate button presence in different conditions'
          story - QAT-550
          @author - Venkat Kottapalli
          ******************************************************************/
         logger.info("Executing the testGenerateBinderButtonValidations from BindingPageTests class :: testGenerateBinderButtonValidations");
-        quoteListPageActions = CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
+        quoteListPageActions = CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), jsonObject, coverage);
         logger.info("validating download icons of quote list page");
         boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
         assert quoteLocked;
@@ -193,15 +193,15 @@ public class BindingPageTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
-    public void testFileUploadValidationsInBinder(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "BindingPageData")
+    public void testFileUploadValidationsInBinder(JSONObject jsonObject) throws InterruptedException {
         /*****************************************************************
          this test verifies maximum file size and file type that can be uploaded to a Binder
          story - N2020-33918, N2020-34632
          @author - Venkat Kottapalli
          ******************************************************************/
         logger.info("Executing the testFileUploadValidationsInBinder from BindingPageTests class :: testFileUploadValidationsInBinder");
-        quoteListPageActions = CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
+        quoteListPageActions = CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), jsonObject, coverage);
         boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
         assert quoteLocked;
         String status = quoteListPageActions.getQuoteStatus(DriverManager.getDriver());
@@ -216,7 +216,7 @@ public class BindingPageTests extends BaseTest {
             assert !bindingPageActions.isBinderIssuedShortlyText(DriverManager.getDriver());
         } else assert !Objects.equals(priorSubjStatus, ConstantVariable.ACCEPTED_STATUS_STRING) && !Objects.equals(priorSubjStatus, ConstantVariable.WAIVED_STATUS_STRING) || bindingPageActions.isBinderIssuedShortlyText(DriverManager.getDriver());
         bindingPageActions.clickPreSubjSelectFilesButton(DriverManager.getDriver());
-        if (map.get("fileType").contentEquals("fileTypeValidation")) {
+        if (jsonObject.get("fileType").toString().contentEquals("fileTypeValidation")) {
             logger.info("validating the invalid file type warning & valid file upload functionality");
             bindingPageActions.uploadFileUsingJavaScript(DriverManager.getDriver(), ConstantVariable.INVALID_FILE_TYPE);
             assert bindingPageActions.isFileTypeWarningDisplayed2(DriverManager.getDriver());
@@ -231,7 +231,7 @@ public class BindingPageTests extends BaseTest {
             bindingPageActions.clickAddFilesButton(DriverManager.getDriver());
             logger.info("checking file attachment on binder page");
             assert bindingPageActions.isFilePresentIconDisplayed(DriverManager.getDriver());
-        } else if (map.get("fileType").contentEquals("fileSizeValidation")) {
+        } else if (jsonObject.get("fileType").toString().contentEquals("fileSizeValidation")) {
             logger.info("validating the maximum file upload size warning");
             assert bindingPageActions.isFileMaximumSizeTextDisplayed(DriverManager.getDriver());
             for (int n = 1; n <= 12; n++) {
@@ -243,8 +243,8 @@ public class BindingPageTests extends BaseTest {
     }
 
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData", enabled = false)
-    public void testSubjectivityStatus(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "BindingPageData", enabled = false)
+    public void testSubjectivityStatus(JSONObject jsonObject) throws InterruptedException {
         /*****************************************************************
          this test verifies Subjectivity status is Rejected, Accepted and Waived
          story - N2020-32716, 32708, 33154
@@ -252,19 +252,19 @@ public class BindingPageTests extends BaseTest {
          ******************************************************************/
         logger.info("Executing the testVerifyQuoteBinding from BindingPageTests class :: testRejectSubjectivity");
         dashboardPageActions = PageObjectManager.getDashboardPageActions();
-        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("submissionName1"));
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), jsonObject.get("submissionName1").toString());
         dashboardPageActions.clickQuoteCardContinueButton(DriverManager.getDriver());
         bindingPageActions = PageObjectManager.getBindingPageActions();
         assert bindingPageActions.verifyWaivedStatus(DriverManager.getDriver());
         bindingPageActions.clickPostSubjectivitiesExpandButton(DriverManager.getDriver());
         assert bindingPageActions.verifyRejectedStatus(DriverManager.getDriver());
         bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
-        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("submissionName2"));
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), jsonObject.get("submissionName2").toString());
         dashboardPageActions.clickQuoteCardContinueButton(DriverManager.getDriver());
         assert bindingPageActions.verifyPreBinderText(DriverManager.getDriver());
         assert bindingPageActions.verifyAcceptedStatus(DriverManager.getDriver());
         bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
-        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), map.get("submissionName3"));
+        dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), jsonObject.get("submissionName3").toString());
         String quoteStatus = dashboardPageActions.getQuoteStatus(DriverManager.getDriver());
         assert quoteStatus.equals("Bound");
         dashboardPageActions.clickQuoteCardContinueButton(DriverManager.getDriver());
@@ -272,8 +272,8 @@ public class BindingPageTests extends BaseTest {
         bindingPageActions.clickOnExitDashboard(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
-    public void testDownloadBinder(Map<String, String> map) throws InterruptedException, SQLException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "BindingPageData")
+    public void testDownloadBinder(JSONObject jsonObject) throws InterruptedException, SQLException {
         /*******
          this test verifies brokers can download Binder
          story - N2020-32942 -QAT-463
@@ -299,7 +299,7 @@ public class BindingPageTests extends BaseTest {
             if (bindingPage) {
                 BindingPageActions bindingPageActions = PageObjectManager.getBindingPageActions();
                 assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
-                boolean pdfDownload = bindingPageActions.clickBinderDownload(DriverManager.getDriver(), map.get("pdfFilename"));
+                boolean pdfDownload = bindingPageActions.clickBinderDownload(DriverManager.getDriver(), jsonObject.get("pdfFilename").toString());
                 Assert.assertTrue(pdfDownload);
             } else {
                 logger.info("No binder available, to download the binder ");
@@ -307,15 +307,15 @@ public class BindingPageTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
-    public void testValidateConfirmDatesPlaceOrderFunctionality(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "BindingPageData")
+    public void testValidateConfirmDatesPlaceOrderFunctionality(JSONObject jsonObject) throws InterruptedException {
         /*****************************************************************
          this test verifies the functionality of Confirm Dates and Place Order Button
          story - N2020-35641, QAT-645
          @author - Venkat Kottapalli
          ******************************************************************/
         logger.info("Executing the testValidateConfirmDatesPlaceOrderFunctionality :: BindingPageTests");
-        quoteListPageActions = CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), map, coverage);
+        quoteListPageActions = CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), jsonObject, coverage);
         logger.info("validating download icons of quote list page");
         boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
         assert quoteLocked;

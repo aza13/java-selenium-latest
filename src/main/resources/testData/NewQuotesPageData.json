@@ -1,0 +1,237 @@
+{
+"testAddingQuoteToNewSubmission": [
+  {
+    "runMode": "N"
+  }
+],
+  "testQuotePreview": [
+    {
+      "runMode":"Y",
+      "businessClass2":"Celebrity",
+      "businessClass3":"Physicians",
+      "product":"NetGuard® SELECT",
+      "quoteSuccessMessage":"Success\nQuote is successfully locked.",
+      "uwQuestionsOption":"index",
+      "totalCommercialSquareFeet":"237",
+      "records":"445",
+      "businessClass":"Business to Business",
+      "uwQuestionsAnswer":"No",
+      "coverageOmic":"Ophthalmic Mutual Insurance Company (OMIC) - e-MD®/Broad Regulatory Protection Plus",
+      "revenue":"1000000",
+      "numberOfResidentialUnits":"173",
+      "coverageAAO":"American Academy of Ophthalmology (AAO) - e-MD®/Broad Regulatory Protection Plus",
+      "netWorth":"50000",
+      "limit":"$ 1MM",
+      "claim":"$ 1MM",
+      "physiciansCount":"50",
+      "retention":"12000",
+      "status":"Active"
+    }
+  ],
+  "testLockingQuote": [
+    {
+      "runMode":"Y",
+      "businessClass2":"Celebrity",
+      "businessClass3":"Physicians",
+      "product":"NetGuard® SELECT",
+      "quoteSuccessMessage":"Success\nQuote is successfully locked.",
+      "quoteStatusBinder":"Option Order",
+      "uwQuestionsOption":"index",
+      "agencyOfficeId":"8006",
+      "totalCommercialSquareFeet":"237",
+      "records":"445",
+      "businessClass":"Business to Business",
+      "uwQuestionsAnswer":"No",
+      "quoteStatus":"Ready to Place Order",
+      "revenue":"1000000",
+      "numberOfResidentialUnits":"173",
+      "netWorth":"50000",
+      "limit":"$ 1MM",
+      "claim":"$ 1MM",
+      "quoteStatusDashboard":"Order Placed",
+      "physiciansCount":"50",
+      "retention":"15000",
+      "status":"Active"
+    }
+  ],
+  "testValidateConfirmDatesModal": [
+    {
+      "runMode": "N"
+    }
+  ],
+  "testContactUnderwriterModalBeforeLock": [
+    {
+      "runMode":"Y",
+      "businessClass2":"Celebrity",
+      "businessClass3":"Physicians",
+      "product":"NetGuard® SELECT",
+      "quoteSuccessMessage":"Success\nQuote is successfully locked.",
+      "uwQuestionsOption":"index",
+      "totalCommercialSquareFeet":"237",
+      "records":"45",
+      "businessClass":"Business to Business",
+      "uwQuestionsAnswer":"No",
+      "revenue":"45",
+      "numberOfResidentialUnits":"173",
+      "netWorth":"50000",
+      "limit":"$ 1MM",
+      "claim":"$ 1MM",
+      "physiciansCount":"45",
+      "retention":"15000",
+      "status":"Active"
+    }
+  ],
+  "testContactUnderwriterModalAfterLock": [
+    {
+      "runMode":"Y",
+      "businessClass2":"Celebrity",
+      "businessClass3":"Physicians",
+      "quoteSuccessMessage":"Success\nQuote is successfully locked.",
+      "uwQuestionsOption":"index",
+      "totalCommercialSquareFeet":"237",
+      "records":"45",
+      "businessClass":"Business to Business",
+      "uwQuestionsAnswer":"No",
+      "modalText":"Please provide any additional information or file to the underwriter for review.",
+      "revenue":"45",
+      "numberOfResidentialUnits":"173",
+      "netWorth":"50000",
+      "limit":"$ 1MM",
+      "claim":"$ 1MM",
+      "physiciansCount":"45",
+      "retention":"15000",
+      "status":"Active"
+    },
+    {
+      "runMode":"Y",
+      "businessClass2":"Celebrity",
+      "businessClass3":"Physicians",
+      "quoteSuccessMessage":"Success\nQuote is successfully locked.",
+      "uwQuestionsOption":"index",
+      "totalCommercialSquareFeet":"237",
+      "records":"45",
+      "businessClass":"Business to Business",
+      "uwQuestionsAnswer":"No",
+      "modalText":"Please provide any additional information or file to the underwriter for review.",
+      "revenue":"45",
+      "numberOfResidentialUnits":"173",
+      "netWorth":"50000",
+      "limit":"$ 1MM",
+      "claim":"$ 1MM",
+      "physiciansCount":"45",
+      "retention":"15000",
+      "status":"Active"
+    }
+  ],
+  "testQuoteOutsideBoundSoftDeclined": [
+    {
+      "runMode":"Y",
+      "businessClass2":"Celebrity",
+      "businessClass3":"Physicians",
+      "quoteSuccessMessage":"Success\nQuote is successfully locked.",
+      "uwQuestionsOption":"index",
+      "totalCommercialSquareFeet":"237",
+      "records":"445",
+      "businessClass":"Business to Business",
+      "uwQuestionsAnswer":"No",
+      "optionCount":"1",
+      "revenue":"1000000",
+      "numberOfResidentialUnits":"173",
+      "netWorth":"50000",
+      "limit":"$ 1MM",
+      "claim":"$ 1MM",
+      "physiciansCount":"50",
+      "retention":"12000",
+      "status":"Active"
+    }
+  ],
+  "testQuoteOptionCoverageGroupValidation": [
+    {
+      "runMode":"Y",
+      "businessClass2":"Celebrity",
+      "businessClass3":"Physicians",
+      "quoteSuccessMessage":"Success\nQuote is successfully locked.",
+      "uwQuestionsOption":"index",
+      "totalCommercialSquareFeet":"237",
+      "records":"445",
+      "businessClass":"Business to Business",
+      "uwQuestionsAnswer":"No",
+      "optionCount":"1",
+      "coverageOmic":"Ophthalmic Mutual Insurance Company (OMIC) - e-MD®/Broad Regulatory Protection Plus",
+      "revenue":"1000000",
+      "numberOfResidentialUnits":"173",
+      "coverageAAO":"American Academy of Ophthalmology (AAO) - e-MD®/Broad Regulatory Protection Plus",
+      "netWorth":"50000",
+      "limit":"$ 1MM",
+      "claim":"$ 1MM",
+      "physiciansCount":"50",
+      "retention":"$ 10,000",
+      "status":"Active"
+    }
+  ],
+  "testNotDisplayPremiumIfReviewRequired": [
+    {
+      "runMode":"Y",
+      "businessClass2":"Celebrity",
+      "businessClass3":"Physicians",
+      "quoteSuccessMessage":"Success\nQuote is successfully locked.",
+      "uwQuestionsOption":"index",
+      "totalCommercialSquareFeet":"237",
+      "records":"45",
+      "businessClass":"Business to Business",
+      "uwQuestionsAnswer":"No",
+      "modalText":"Please provide any additional information or file to the underwriter for review.",
+      "revenue":"45",
+      "numberOfResidentialUnits":"173",
+      "netWorth":"50000",
+      "limit":"$ 1MM",
+      "claim":"$ 1MM",
+      "physiciansCount":"45",
+      "retention":"15000",
+      "status":"Active"
+    }
+  ],
+  "testDownloadApplicationInQuote": [
+    {
+      "businessClass2":"Celebrity",
+      "businessClass3":"Physicians",
+      "records":"445",
+      "businessClass":"Business to Business",
+      "pdfFilename":"TMHCC_Quote_",
+      "wordFilename":"TMHCC_Quote_",
+      "wordPDFFilename":"TMHCC_Marketing_Materials_Quote_2196819.pdf",
+      "runMode":"Y",
+      "revenue":"1000000",
+      "netWorth":"50000",
+      "limit":"$ 1MM",
+      "reffNumber":"\"13869826\"",
+      "claim":"$ 1MM",
+      "physiciansCount":"50",
+      "retention":"12000",
+      "uwQuestionsAnswer": "No"
+    }
+  ],
+  "testMultiCoverageInQuote": [
+    {
+      "runMode":"Y",
+      "businessClass2":"Celebrity",
+      "businessClass3":"Physicians",
+      "quoteStatusBinder":"Option Order",
+      "records":"445",
+      "businessClass":"Business to Business",
+      "pdfFilename":"TMHCC_Quote_",
+      "wordFilename":"TMHCC_Quote_",
+      "wordPDFFilename":"TMHCC_Marketing_Materials_Quote_2196819.pdf",
+      "quoteStatus":"Ready to Place Order",
+      "revenue":"1000000",
+      "netWorth":"50000",
+      "limit":"$ 1MM",
+      "reffNumber":"\"13869826\"",
+      "claim":"$ 1MM",
+      "quoteStatusDashboard":"Order Placed",
+      "physiciansCount":"50",
+      "retention":"12000"
+    }
+  ]
+
+}

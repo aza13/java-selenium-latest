@@ -94,17 +94,6 @@ public class WaitHelper {
         }
     }
 
-    public static void waitForElementClickable2(WebDriver driver, WebElement element) {
-        logger.info("Waiting for the element till it is clickable :: waitForElementClickable2");
-        try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-            wait.until(ExpectedConditions.elementToBeClickable(element));
-        } catch (Exception e) {
-            logger.error("Failed to wait till the element is clickable :: waitForElementClickable2::" + element);
-            throw (e);
-        }
-    }
-
     public static boolean isElementDisplayed(WebDriver driver, By elementLocator) {
         logger.info("Checking whether element displayed or not in :: isElementDisplayed");
         try {

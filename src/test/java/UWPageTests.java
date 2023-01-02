@@ -2,6 +2,7 @@ import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -9,12 +10,11 @@ import pageActions.DashboardPageActions;
 import pageActions.QuoteListPageActions;
 import pageActions.RatingCriteriaPageActions;
 import pageActions.UnderwritingQuestionsPageActions;
-import utils.dataProvider.TestDataProvider;
+import utils.dataProvider.JsonDataProvider;
 import utils.fileReader.ConfigDataReader;
 import workflows.AnswerUnderwriterQuestions;
 import workflows.CreateApplicant;
 import workflows.FillApplicantDetails;
-import java.util.Map;
 
 public class UWPageTests extends BaseTest {
 
@@ -34,8 +34,8 @@ public class UWPageTests extends BaseTest {
         quoteListPageActions = PageObjectManager.getQuoteListPageActions();
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "UWQuestionsPageData")
-    public void testBrokerAnswersUnderWriterQuestions(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "UWPageData")
+    public void testBrokerAnswersUnderWriterQuestions(JSONObject jsonObject) throws InterruptedException {
         /***
          this test verifies whether Brokers can answer all underwriter questions
          story - N2020-28623-QAT-165
@@ -45,17 +45,17 @@ public class UWPageTests extends BaseTest {
         logger.info("verifying :: Under Writing Questions");
         CreateApplicant.createApplicant(DriverManager.getDriver(), coverage);
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, coverage);
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), jsonObject, coverage);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
-            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map, coverage);
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), jsonObject, coverage);
             assert true;
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "UWQuestionsPageData")
-    public void testQuotesInvalidatedWhenEdited(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "UWPageData")
+    public void testQuotesInvalidatedWhenEdited(JSONObject jsonObject) throws InterruptedException {
         /***
          this test Quotes Can Be Invalidated When Rating/UW are Edited
          story - N2020-28642 QAT-238
@@ -64,11 +64,11 @@ public class UWPageTests extends BaseTest {
         logger.info("verifying :: Quotes Can Be Invalidated When Rating/UW are Edited");
         CreateApplicant.createApplicant(DriverManager.getDriver(), coverage);
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, coverage);
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), jsonObject, coverage);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
-            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map, coverage);
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), jsonObject, coverage);
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             assert quoteListPageActions.verifyStatusConfirmAndLockInProgress(DriverManager.getDriver());
@@ -100,8 +100,8 @@ public class UWPageTests extends BaseTest {
     }
 
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "UWQuestionsPageData")
-    public void testSoftDeclineAfterUWQuestions(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "UWPageData")
+    public void testSoftDeclineAfterUWQuestions(JSONObject jsonObject) throws InterruptedException {
         /***
          this test soft decline after UW Questions
          story - /N2020-28674 -QAT-184
@@ -112,7 +112,7 @@ public class UWPageTests extends BaseTest {
         logger.info("verifying :: hard decline after UW Questions");
         CreateApplicant.createApplicant(DriverManager.getDriver(), coverage);
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, coverage);
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), jsonObject, coverage);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
@@ -122,8 +122,8 @@ public class UWPageTests extends BaseTest {
             } else {
                 logger.info("continue button is disabled, means UW questions are not answered");
                 if(ConfigDataReader.getInstance().getProperty("coverage").contains("NetGuard")){
-                    underwritingQuestionsPageActions.answerUWQuestionButtons(DriverManager.getDriver(), map.get("uwQuestionsAnswer"));
-                    underwritingQuestionsPageActions.answerUWQuestionDropdowns(DriverManager.getDriver(), map.get("uwQuestionsAnswer"), map.get("uwQuestionsOption"));
+                    underwritingQuestionsPageActions.answerUWQuestionButtons(DriverManager.getDriver(), jsonObject.get("uwQuestionsAnswer").toString());
+                    underwritingQuestionsPageActions.answerUWQuestionDropdowns(DriverManager.getDriver(), jsonObject.get("uwQuestionsAnswer").toString(), jsonObject.get("uwQuestionsOption").toString());
                 }else{
                     underwritingQuestionsPageActions.answerFirstUWQuestion(DriverManager.getDriver());
                     underwritingQuestionsPageActions.answerUWQuestionButtonsOMICProduct2(DriverManager.getDriver());
@@ -134,7 +134,7 @@ public class UWPageTests extends BaseTest {
             underwritingQuestionsPageActions.enterSoftDeclineTextAndSubmit(DriverManager.getDriver());
 
             String title = dashboardPageActions.getMyQuotesTabTitle(DriverManager.getDriver()).trim();
-            assert title.contentEquals(map.get("myQuotes"));
+            assert title.contentEquals(jsonObject.get("myQuotes").toString());
             String firstAvailableStatus = dashboardPageActions.firstAvailableStatus(DriverManager.getDriver());
             assert firstAvailableStatus.equals("In Review");
         }

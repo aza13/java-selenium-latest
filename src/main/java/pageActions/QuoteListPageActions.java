@@ -64,7 +64,8 @@ public class QuoteListPageActions extends BaseTest {
 
     public String getSelectedClaim(WebDriver driver) {
         try {
-            return driver.findElement(perClaimLocator).getAttribute("value");
+            String claim = driver.findElement(perClaimLocator).getAttribute("value");
+            return claim;
         } catch (Exception e) {
             logger.error("failed to get the selected per claim from the dropdown " + e.getMessage());
             throw (e);
@@ -73,7 +74,8 @@ public class QuoteListPageActions extends BaseTest {
 
     public String getSelectedAggregateLimit(WebDriver driver) {
         try {
-            return driver.findElement(aggregateLimitLocator).getAttribute("value");
+            String aggLimit = driver.findElement(aggregateLimitLocator).getAttribute("value");
+            return aggLimit;
         } catch (Exception e) {
             logger.error("failed to get the aggregate limit dropdown " + e.getMessage());
             throw (e);
@@ -91,7 +93,7 @@ public class QuoteListPageActions extends BaseTest {
     public void selectAggregateLimit(WebDriver driver, String optionCount, String aggLimit) throws InterruptedException {
         String aggregateLimitXpath = "//div[@data-qa='option_card_" + optionCount + "']//div[@data-qa='aggregateLimit']/div";
         By aggregateLimitDropdown = By.xpath(aggregateLimitXpath);
-        WaitHelper.waitForElementVisibility(driver, aggregateLimitDropdown);
+        WaitHelper.waitForElementVisibilityCustom(driver, aggregateLimitDropdown, 30);
         WebElement dropdown = driver.findElement(aggregateLimitDropdown);
         DropdownHelper.selectValueFromBootstrapDropdown(driver, dropdown, perClaimOptionGenericLocator, aggLimit);
         WaitHelper.pause(5000);
@@ -151,7 +153,7 @@ public class QuoteListPageActions extends BaseTest {
     public void addNewQuote(WebDriver driver, String quoteType) throws InterruptedException {
         logger.info("adding quote to the submission based on quote type custom/4 option/6 options ");
         try {
-            WaitHelper.pause(10000);
+            WaitHelper.waitForElementVisibilityCustom(driver, addQuoteButton, 45);
             ClickHelper.clickElement(driver, addQuoteButton);
             String newQuoteXpath = "//ul//li";
             By newQuoteOption = By.xpath(newQuoteXpath);
@@ -199,6 +201,7 @@ public class QuoteListPageActions extends BaseTest {
 
     public boolean clickPDFFileDownload(WebDriver driver, String filename) throws InterruptedException {
         FileDownloadUtil.checkFileExistInDownloadFolder();
+        WaitHelper.waitForElementVisibilityCustom(driver, clickAsPDFDownloadButton, 30);
         ClickHelper.clickElement(driver, clickAsPDFDownloadButton);
         WaitHelper.waitForProgressbarInvisibility(driver);
         WaitHelper.pause(30000);
@@ -253,7 +256,7 @@ public class QuoteListPageActions extends BaseTest {
                 logger.info("if the product is Ophthalmic, selects BRRP coverages");
                 selectBRRPCoverageWithoutInvestigation(DriverManager.getDriver());
                 selectBRRPCoverageWithInvestigation(DriverManager.getDriver());
-            } else if (getSelectedClaim(driver) == null || getAggLimitSelectedValue(driver, optionCount) == null) {
+            } else if ((Objects.equals(getSelectedClaim(driver), "")) || (Objects.equals(getSelectedAggregateLimit(driver), ""))) {
                 selectPerClaim(driver, optionCount, "$ 500k");
                 selectAggregateLimit(driver, optionCount, "$ 500k");
                 selectRetentionOption(driver, optionCount, "$ 10,000");
@@ -267,6 +270,7 @@ public class QuoteListPageActions extends BaseTest {
                     if (n == 12) break;
                 }
             }
+            WaitHelper.waitForElementVisibilityCustom(driver, confirmAndLockButton, 30);
             if (driver.findElement(confirmAndLockButton).isDisplayed()) {
                 ClickHelper.clickElement(driver, confirmAndLockButton);
                 WaitHelper.waitForProgressbarInvisibility(driver);
@@ -319,7 +323,7 @@ public class QuoteListPageActions extends BaseTest {
     public boolean verifyQuotePreview(WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementVisibilityCustom(driver, quotePreviewButton, 30);
         ClickHelper.clickElement(driver, quotePreviewButton);
-        WaitHelper.pause(10000);
+        WaitHelper.pause(15000);
         ArrayList<String> tabs2 = new ArrayList<>(driver.getWindowHandles());
         if (tabs2.size() > 1) {
             driver.switchTo().window(tabs2.get(1));
@@ -581,6 +585,12 @@ public class QuoteListPageActions extends BaseTest {
         return optionDropDown.size() == 3;
     }
 
+    public boolean isSelectVisibleToNewAddOptionOMICAAO(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibilityCustom(driver, selectDropDown, 30);
+        List<WebElement> optionDropDown = driver.findElements(selectDropDown);
+        return optionDropDown.size() == 2;
+    }
+
     public String clickClaimCheckbox(WebDriver driver, String selectCheckbox) throws InterruptedException {
         WaitHelper.pause(3000);
         String chooseCheckbox = "(//input[@type='checkbox'])[" + selectCheckbox + "]";
@@ -598,7 +608,8 @@ public class QuoteListPageActions extends BaseTest {
     public String getAggLimitSelectedValue(WebDriver driver, String optionCount) throws InterruptedException {
         String aggregateLimitXpath = "//div[@data-qa='option_card_" + optionCount + "']//div[@data-qa='aggregateLimit']/div";
         WebElement dropdownValue = driver.findElement(By.xpath(aggregateLimitXpath));
-        return dropdownValue.getText();
+        String limit = dropdownValue.getText();
+        return limit;
     }
 
     public String getRetentionSelectedValue(WebDriver driver, String optionCount) throws InterruptedException {
@@ -625,6 +636,7 @@ public class QuoteListPageActions extends BaseTest {
     }
 
     public void selectBRRPCoverageWithoutInvestigation(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(5000);
         try {
             String eMDCheckbox = "//div[@data-qa='option_card_2']//div//p//span[@data-qa='coverageGroup_isSelected']/span";
             if (driver.findElement(By.xpath(eMDCheckbox)).isDisplayed()) {
@@ -643,6 +655,7 @@ public class QuoteListPageActions extends BaseTest {
     }
 
     public void selectBRRPCoverageWithInvestigation(WebDriver driver) throws InterruptedException {
+        WaitHelper.pause(5000);
         try {
             String eMDCheckbox = "//div[@data-qa='option_card_3']//div//p//span[@data-qa='coverageGroup_isSelected']/span";
             if (driver.findElement(By.xpath(eMDCheckbox)).isDisplayed()) {
@@ -717,5 +730,12 @@ public class QuoteListPageActions extends BaseTest {
             }
         }
         return false;
+    }
+
+    public boolean clickConfirmAndLockButton(WebDriver driver) throws Exception {
+        WaitHelper.waitForElementVisibility(driver, confirmAndLockQuoteButton);
+        ClickHelper.clickElement(driver, confirmAndLockQuoteButton);
+        WaitHelper.pause(5000);
+        return true;
     }
 }

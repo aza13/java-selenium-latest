@@ -34,8 +34,6 @@ public class DriverManager {
             switch (browser) {
                 case "CHROME":
                     logger.info("Initialising the chrome browser");
-                    WebDriverManager.chromedriver().setup();
-
                     Map<String, Object> preferences = new HashMap<>();
                     logger.info("to turns off multiple download warning");
                     preferences.put("profile.default_content_settings.popups", 0);
@@ -43,23 +41,21 @@ public class DriverManager {
                     preferences.put("download.prompt_for_download", false);
 
                     ChromeOptions options = new ChromeOptions();
-                    if (operatingSystem.contains("Windows")) {
+                    if (!operatingSystem.contains("Windows")) {
                         options.addArguments("--headless");
                     }
                     options.addArguments("--incognito");
                     options.setExperimentalOption("prefs", preferences);
-                    driver = new ChromeDriver(options);
+                    driver = new ChromeDriver();
                     threadDriver.set(driver);
                     break;
                 case "FIREFOX":
                     logger.info("Initialising the firefox browser");
-                    WebDriverManager.firefoxdriver().setup();
                     driver = new FirefoxDriver();
                     threadDriver.set(driver);
                     break;
                 case "EDGE":
                     logger.info("Initialising the ie browser");
-                    WebDriverManager.edgedriver().setup();
                     driver = new EdgeDriver();
                     threadDriver.set(driver);
                     break;

@@ -3,11 +3,13 @@ import base.DriverManager;
 import base.PageObjectManager;
 import helper.FakeDataHelper;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageActions.DashboardPageActions;
 import pageActions.InsuredPageActions;
 import pageActions.RatingCriteriaPageActions;
+import utils.dataProvider.JsonDataProvider;
 import utils.dataProvider.TestDataProvider;
 import utils.fileReader.ConfigDataReader;
 
@@ -25,8 +27,8 @@ public class InsuredPageTests extends BaseTest {
         dashboardPageActions = PageObjectManager.getDashboardPageActions();
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "InsuredPageData")
-    public void testCreateInsuredFieldsValidation(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "InsuredPageData")
+    public void testCreateInsuredFieldsValidation(JSONObject jsonObject) throws InterruptedException {
         /***
          this test verifies creation of new insured fields validation
          story - N2020-28293
@@ -34,14 +36,14 @@ public class InsuredPageTests extends BaseTest {
          **/
         logger.info("verifying creating new quote creation :: testCreateInsuredFieldsValidation");
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        dashboardPageActions.createNewQuote(DriverManager.getDriver(), ConfigDataReader.getInstance().getProperty("coverage"), map.get("applicantName"), map.get("website"));
+        dashboardPageActions.createNewQuote(DriverManager.getDriver(), ConfigDataReader.getInstance().getProperty("coverage"), jsonObject.get("applicantName").toString(), jsonObject.get("website").toString());
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         insuredPageActions.clickNewInsuredButton(DriverManager.getDriver());
         assert !insuredPageActions.isQuotePageDisabled(DriverManager.getDriver());
         String insuredName = insuredPageActions.getInsuredName(DriverManager.getDriver());
-        assert insuredName.contentEquals(map.get("applicantName"));
+        assert insuredName.contentEquals(jsonObject.get("applicantName").toString());
         String insuredWebsite = insuredPageActions.getInsuredWebsite(DriverManager.getDriver());
-        assert insuredWebsite.contentEquals(map.get("website"));
+        assert insuredWebsite.contentEquals(jsonObject.get("website").toString());
         insuredPageActions.clickContinueInsuredFormButton(DriverManager.getDriver());
         assert insuredPageActions.emailReqText(DriverManager.getDriver()).isDisplayed();
         assert insuredPageActions.validatePhysicalAddressFields(DriverManager.getDriver());
@@ -50,8 +52,8 @@ public class InsuredPageTests extends BaseTest {
         assert dashboardPageActions.clickQuotesTab(DriverManager.getDriver()).isDisplayed();
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "InsuredPageData")
-    public void testCreateInsured(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "InsuredPageData")
+    public void testCreateInsured(JSONObject jsonObject) throws InterruptedException {
         /***
          this test verifies creation of new insured
          story - N2020-28293, N2020-30893-QAT-172
@@ -80,8 +82,8 @@ public class InsuredPageTests extends BaseTest {
         assert ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "InsuredPageData")
-    public void testSearchAgainFunctionality(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "InsuredPageData")
+    public void testSearchAgainFunctionality(JSONObject jsonObject) throws InterruptedException {
         /***
          this test verifies search again functionality
          story - N2020-29653
@@ -89,16 +91,16 @@ public class InsuredPageTests extends BaseTest {
          **/
         logger.info("verifying modify search of insured :: testSearchAgainFunctionality");
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        dashboardPageActions.createNewQuote(DriverManager.getDriver(), coverage, map.get("applicantName"), map.get("website"));
+        dashboardPageActions.createNewQuote(DriverManager.getDriver(), coverage, jsonObject.get("applicantName").toString(), jsonObject.get("website").toString());
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
-        assert insuredPageActions.validateSearchAgainButtonWithInsuredName(DriverManager.getDriver(), map.get("secondApplicant"));
-        insuredPageActions.enterApplicantWebsite(DriverManager.getDriver(), map.get("secondWebsite"));
+        assert insuredPageActions.validateSearchAgainButtonWithInsuredName(DriverManager.getDriver(), jsonObject.get("secondApplicant").toString());
+        insuredPageActions.enterApplicantWebsite(DriverManager.getDriver(), jsonObject.get("secondWebsite").toString());
         insuredPageActions.clickSearchAgainButton(DriverManager.getDriver());
-        assert insuredPageActions.verifyInsuredSearchResult(DriverManager.getDriver(), map.get("secondWebsite"));
+        assert insuredPageActions.verifyInsuredSearchResult(DriverManager.getDriver(), jsonObject.get("secondWebsite").toString());
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "InsuredPageData")
-    public void testCheckDuplicateSubmission(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "InsuredPageData")
+    public void testCheckDuplicateSubmission(JSONObject jsonObject) throws InterruptedException {
         /***
          this test verifies creation of new insured
          story - N2020-29053
@@ -106,23 +108,23 @@ public class InsuredPageTests extends BaseTest {
          **/
         logger.info("verifying duplicate submissions :: testCheckDuplicateSubmission");
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        dashboardPageActions.createNewQuote(DriverManager.getDriver(), coverage, map.get("applicantName"), map.get("website"));
+        dashboardPageActions.createNewQuote(DriverManager.getDriver(), coverage, jsonObject.get("applicantName").toString(), jsonObject.get("website").toString());
         InsuredPageActions insuredPageActions = dashboardPageActions.clickContinueButton(DriverManager.getDriver());
-        insuredPageActions.selectInsuredCard(DriverManager.getDriver(), map.get("applicantName"));
+        insuredPageActions.selectInsuredCard(DriverManager.getDriver(), jsonObject.get("applicantName").toString());
         if(insuredPageActions.isClearanceDialogModalDisplayed(DriverManager.getDriver())){
             insuredPageActions.enterClearanceText(DriverManager.getDriver(), "Test");
             insuredPageActions.clickClearanceSubmitButton(DriverManager.getDriver());
         }else{
             assert insuredPageActions.duplicateSubmissionDialog(DriverManager.getDriver());
             String actualText = insuredPageActions.duplicateSubmissionDialogDescription(DriverManager.getDriver());
-            assert actualText.contains(map.get("dialogText"));
+            assert actualText.contains(jsonObject.get("dialogText").toString());
             insuredPageActions.clickDuplicateCancelButton(DriverManager.getDriver());
             dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "InsuredPageData")
-    public void testClickingLogoNavigatesToDashboardPage(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "InsuredPageData")
+    public void testClickingLogoNavigatesToDashboardPage(JSONObject jsonObject) throws InterruptedException {
         /**
          * this test verifies search results for related Records
          story - N2020-32169
@@ -130,7 +132,7 @@ public class InsuredPageTests extends BaseTest {
          **/
         logger.info("verifying Clicking QuoteIt Logo to Return to Dashboard :: testClickingLogoNavigatesToDashboardPage");
         dashboardPageActions.clickNewQuote(DriverManager.getDriver());
-        dashboardPageActions.createNewQuote(DriverManager.getDriver(), coverage, map.get("applicantName"), map.get("website"));
+        dashboardPageActions.createNewQuote(DriverManager.getDriver(), coverage, jsonObject.get("applicantName").toString(), jsonObject.get("website").toString());
         dashboardPageActions.clickContinueButton(DriverManager.getDriver());
         dashboardPageActions.clickQuoteIt(DriverManager.getDriver());
         assert dashboardPageActions.clickQuotesTab(DriverManager.getDriver()).isDisplayed();

@@ -3,14 +3,13 @@ import base.DriverManager;
 import base.PageObjectManager;
 import helper.WaitHelper;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageActions.DashboardPageActions;
 import pageActions.LoginPageActions;
-import utils.dataProvider.TestDataProvider;
+import utils.dataProvider.JsonDataProvider;
 import utils.fileReader.ConfigDataReader;
-
-import java.util.Map;
 
 public class LoginPageTests extends BaseTest {
 
@@ -24,8 +23,8 @@ public class LoginPageTests extends BaseTest {
         loginPageActions = PageObjectManager.getLoginPageActions();
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "LoginPageData")
-    public void testLoginFunctionality(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "LoginPageData")
+    public void testLoginFunctionality(JSONObject jsonObject) throws InterruptedException {
         /***
          this test verifies login functionality
          story - N2020-28282, 35082
@@ -34,18 +33,18 @@ public class LoginPageTests extends BaseTest {
         String description = loginPageActions.getLandingPageDescription(DriverManager.getDriver()).trim();
         assert !description.contains("TMHCC") && !description.contains(".");
         DashboardPageActions dashboardPageActions = PageObjectManager.getDashboardPageActions();
-        if (map.get("scenario").equalsIgnoreCase("validData")) {
+        if (jsonObject.get("scenario").equals("validData")) {
             loginPageActions.loginApp(DriverManager.getDriver(), ConfigDataReader.getInstance().getProperty("userId"), ConfigDataReader.getInstance().getProperty("password"));
             dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
             assert DriverManager.getDriver().getCurrentUrl().contains("dashboard");
             assert !dashboardPageActions.isBrokerIdDisplayed(DriverManager.getDriver());
-        } else if (map.get("scenario").equalsIgnoreCase("invalidData")) {
-            loginPageActions.loginApp(DriverManager.getDriver(), map.get("userId"), map.get("userPassword"));
+        } else if (jsonObject.get("scenario").equals("invalidData")) {
+            loginPageActions.loginApp(DriverManager.getDriver(), jsonObject.get("userId").toString(), jsonObject.get("userPassword").toString());
             assert loginPageActions.invalidUserNamePasswordText(DriverManager.getDriver()).isDisplayed();
-        } else if (map.get("scenario").equalsIgnoreCase("noData")) {
+        } else if (jsonObject.get("scenario").equals("noData")) {
             loginPageActions.loginApp(DriverManager.getDriver(), "", "");
             assert loginPageActions.pleaseProvideEmailPasswordText(DriverManager.getDriver()).isDisplayed();
-        } else if (map.get("scenario").equalsIgnoreCase("logout")) {
+        } else if (jsonObject.get("scenario").equals("logout")) {
             WaitHelper.pause(3000);
             loginPageActions.loginApp(DriverManager.getDriver(), ConfigDataReader.getInstance().getProperty("userId"), ConfigDataReader.getInstance().getProperty("password"));
             dashboardPageActions.clickProfileSettings(DriverManager.getDriver());
@@ -55,8 +54,8 @@ public class LoginPageTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "LoginPageData")
-    public void testResetPassword(Map<String, String> map) throws InterruptedException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "LoginPageData")
+    public void testResetPassword(JSONObject jsonObject) throws InterruptedException {
         /***
          this test verifies login functionality
          story - N2020-28284
@@ -64,7 +63,7 @@ public class LoginPageTests extends BaseTest {
          **/
         DashboardPageActions dashboardPageActions = PageObjectManager.getDashboardPageActions();
         dashboardPageActions.logoutApp(DriverManager.getDriver());
-        loginPageActions.resetPassword(DriverManager.getDriver(), map.get("userId"));
+        loginPageActions.resetPassword(DriverManager.getDriver(), jsonObject.get("userId").toString());
     }
 
 

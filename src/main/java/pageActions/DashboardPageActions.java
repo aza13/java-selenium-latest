@@ -170,7 +170,8 @@ public class DashboardPageActions extends BaseTest {
         List<WebElement> quoteNameElements = driver.findElements(quoteCoverageName);
 
         for (WebElement element : quoteNameElements) {
-            names.add(element.getText());
+            String text = element.getText();
+            names.add(text);
         }
         return names;
     }
@@ -188,7 +189,7 @@ public class DashboardPageActions extends BaseTest {
     }
 
     public void clickNewQuote(WebDriver driver) throws InterruptedException {
-        WaitHelper.waitForElementVisibilityCustom(driver, newQuoteButton, 30);
+        WaitHelper.waitForElementVisibilityCustom(driver, newQuoteButton, 45);
         ClickHelper.clickElement(driver, newQuoteButton);
         WaitHelper.pause(2000);
     }
@@ -196,7 +197,6 @@ public class DashboardPageActions extends BaseTest {
     public void createNewQuote(WebDriver driver, String product, String applicantName, String website) throws InterruptedException {
         WebElement element = driver.findElement(selectCoverageDropdown);
         DropdownHelper.selectValueFromBootstrapDropdown(driver, element, genericCoverageOption, product);
-        WaitHelper.pause(2000);
         WaitHelper.waitForElementVisibilityCustom(driver, applicantNameField, 30);
         TextHelper.enterText(driver, applicantNameField, applicantName);
         if(website.contentEquals("No website")){
