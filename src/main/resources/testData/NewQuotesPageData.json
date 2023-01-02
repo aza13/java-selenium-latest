@@ -1,7 +1,26 @@
 {
 "testAddingQuoteToNewSubmission": [
   {
-    "runMode": "N"
+    "runMode": "Y",
+    "businessClass2":"Celebrity",
+    "businessClass3":"Physicians",
+    "product":"NetGuard® SELECT",
+    "quoteSuccessMessage":"Success\nQuote is successfully locked.",
+    "uwQuestionsOption":"index",
+    "totalCommercialSquareFeet":"237",
+    "records":"445",
+    "businessClass":"Business to Business",
+    "uwQuestionsAnswer":"No",
+    "quoteStatus":"Ready to Place Order",
+    "revenue":"1000000",
+    "numberOfResidentialUnits":"173",
+    "netWorth":"50000",
+    "limit":"$ 1MM",
+    "claim":"$ 1MM",
+    "quoteStatusDashboard":"Order Placed",
+    "physiciansCount":"50",
+    "retention":"15000",
+    "status":"Active"
   }
 ],
   "testQuotePreview": [
@@ -56,7 +75,23 @@
   ],
   "testValidateConfirmDatesModal": [
     {
-      "runMode": "N"
+      "runMode":"Y",
+      "businessClass":"Business to Business",
+      "businessClass2":"Celebrity",
+      "businessClass3":"Physicians",
+      "quoteSuccessMessage":"Success\nQuote is successfully locked.",
+      "uwQuestionsOption":"index",
+      "totalCommercialSquareFeet":"237",
+      "records":"45",
+      "netWorth":"50000",
+      "uwQuestionsAnswer":"No",
+      "quoteStatus":"Ready to Place Order",
+      "revenue":"45",
+      "numberOfResidentialUnits":"173",
+      "limit":"$ 1MM",
+      "claim":"$ 1MM",
+      "physiciansCount":"45",
+      "retention":"15000"
     }
   ],
   "testContactUnderwriterModalBeforeLock": [
@@ -82,26 +117,6 @@
     }
   ],
   "testContactUnderwriterModalAfterLock": [
-    {
-      "runMode":"Y",
-      "businessClass2":"Celebrity",
-      "businessClass3":"Physicians",
-      "quoteSuccessMessage":"Success\nQuote is successfully locked.",
-      "uwQuestionsOption":"index",
-      "totalCommercialSquareFeet":"237",
-      "records":"45",
-      "businessClass":"Business to Business",
-      "uwQuestionsAnswer":"No",
-      "modalText":"Please provide any additional information or file to the underwriter for review.",
-      "revenue":"45",
-      "numberOfResidentialUnits":"173",
-      "netWorth":"50000",
-      "limit":"$ 1MM",
-      "claim":"$ 1MM",
-      "physiciansCount":"45",
-      "retention":"15000",
-      "status":"Active"
-    },
     {
       "runMode":"Y",
       "businessClass2":"Celebrity",
