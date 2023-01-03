@@ -78,14 +78,14 @@ public class FileDownloadUtil {
         assert totalFiles != null;
         for (File file : totalFiles) {
             if (file.getName().contains("fileName")) {
-                file.delete();
+                file.deleteOnExit();
             }
         }
     }
 
     public static String readPDFFileContent(String fileName) throws IOException {
         String userDirectory = System.getProperty("user.home");
-        String downloadsPath = userDirectory+"\\Downloads"+fileName;
+        String downloadsPath = userDirectory+"\\Downloads\\"+fileName;
         fileLocation = new File(downloadsPath);
         if(fileLocation.exists()){
             fis = new FileInputStream(fileLocation);
@@ -94,20 +94,8 @@ public class FileDownloadUtil {
             pdfData = pdfTextStripper.getText(pdfDocument);
             pdfDocument.close();
             fis.close();
+            fileLocation.deleteOnExit();
         }
-        /*totalFiles = fileLocation.listFiles();
-        assert totalFiles != null;
-        for (File file : totalFiles) {
-                if(file.getPath().contains(fileName)){
-                    fis = new FileInputStream(file.getPath());
-                    pdfDocument = PDDocument.load(fis);
-                    pdfTextStripper = new PDFTextStripper();
-                    pdfData = pdfTextStripper.getText(pdfDocument);
-                }
-        }
-        pdfDocument.close();
-        fis.close();*/
-
         return pdfData;
     }
 }

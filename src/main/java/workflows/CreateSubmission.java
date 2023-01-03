@@ -9,8 +9,6 @@ import pageActions.QuoteListPageActions;
 import pageActions.RatingCriteriaPageActions;
 import pageActions.UnderwritingQuestionsPageActions;
 
-import java.util.Map;
-
 
 public class CreateSubmission  extends BaseTest {
 

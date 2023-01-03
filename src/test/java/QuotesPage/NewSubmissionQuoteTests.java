@@ -16,7 +16,6 @@ import pageActions.DashboardPageActions;
 import pageActions.QuoteListPageActions;
 import pageActions.UnderwritingQuestionsPageActions;
 import utils.dataProvider.JsonDataProvider;
-import utils.dataProvider.TestDataProvider;
 import utils.dbConnector.DatabaseConnector;
 import workflows.CreateSubmission;
 
@@ -308,15 +307,19 @@ public class NewSubmissionQuoteTests extends BaseTest {
         /***
          this test verifies brokers can download application form
          This story works with 9.8 only
-         story - N2020-34254-QAT-434
-         @author - Azamat Uulu
+         story - N2020-34254-QAT-434, QAT-536
+         @author - Azamat Uulu, Venkat Kothapalli
          ********************************************************************/
 
         logger.info("Executing the verifies brokers can download application form from testDownloadApplicationInQuote class :: testDownloadApplicationInQuote");
         quoteListPageActions = CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), jsonObject, coverage);
+        boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
+        assert quoteLocked;
         boolean isPDFFileDownload = quoteListPageActions.clickApplicationDownloadIcon(DriverManager.getDriver(), jsonObject.get("fileNamePDF").toString());
         Assert.assertTrue(isPDFFileDownload);
-        boolean isPDFFileTextContentPresent = quoteListPageActions.verifyPDFDocumentTextContent();
+        String quoteId = quoteListPageActions.getLockedQuoteId(DriverManager.getDriver());
+        String fileName = jsonObject.get("fileNamePDF").toString()+quoteId+".pdf";
+        boolean isPDFFileTextContentPresent = quoteListPageActions.verifyPDFDocumentTextContent(fileName);
         Assert.assertTrue(isPDFFileTextContentPresent);
     }
 
