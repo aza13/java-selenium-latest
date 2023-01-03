@@ -3,10 +3,12 @@ import base.DriverManager;
 import base.PageObjectManager;
 import constants.ConstantVariable;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageActions.*;
+import utils.dataProvider.JsonDataProvider;
 import utils.dataProvider.TestDataProvider;
 import utils.dbConnector.DatabaseConnector;
 import workflows.AnswerUnderwriterQuestions;
@@ -48,8 +50,8 @@ public class EndToEndTest extends BaseTest {
         bindingPageActions = PageObjectManager.getBindingPageActions();
     }
 
-    @Test(dataProvider = "ask-me", dataProviderClass = TestDataProvider.class, description = "BindingPageData")
-    public void testEndToEndWorkflow(Map<String, String> map) throws InterruptedException, SQLException, AWTException {
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "BindingPageData")
+    public void testEndToEndWorkflow(JSONObject jsonObject) throws InterruptedException, SQLException, AWTException {
         /*****************************************************************
          this test verifies quote option Binding and Subjectivity
          story - N2020-33007, 23922,32926, 32930, 32950, 32704
@@ -59,11 +61,11 @@ public class EndToEndTest extends BaseTest {
         logger.info("Executing the testVerifyQuoteBinding from BindingPageTests class :: testVerifyQuoteBinding");
         String newInsuredName = CreateApplicant.createApplicant(DriverManager.getDriver(), coverage);
         if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), map, coverage);
+            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), jsonObject, coverage);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
-            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), map, coverage);
+            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), jsonObject, coverage);
         }
         if (quoteListPageActions.isQuoteListPageDisplayed(DriverManager.getDriver())) {
             // add quote option and delete it

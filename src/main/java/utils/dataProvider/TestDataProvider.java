@@ -1,5 +1,7 @@
 package utils.dataProvider;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.testng.annotations.DataProvider;
@@ -7,6 +9,8 @@ import org.testng.annotations.Test;
 import utils.fileReader.ConfigDataReader;
 import utils.fileReader.ExcelDataReader;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.*;
 
@@ -22,7 +26,7 @@ public class TestDataProvider {
     }
 
     @DataProvider(name = "ask-me")
-    public static Object[][] dataProvider(Method method) {
+    public static Object[][] dataProvider(Method method) throws IOException {
 
         logger.info("Executing dataProvider method");
 
@@ -48,11 +52,12 @@ public class TestDataProvider {
             logger.error("Failed to get the test data for the test " + testCaseName + " due to :: " + e.getMessage());
             throw (e);
         }
+
         return data;
     }
 
 
-    private static Object[][] getTestData(String sheetName, String testName) {
+    private static Object[][] getTestData(String sheetName, String testName) throws IOException {
 
         logger.info("In getTestData(), reading the test data from sheet");
 
@@ -103,11 +108,20 @@ public class TestDataProvider {
                             testDescription.add(var);
                         }
                     }
+                    ObjectMapper mapper = new ObjectMapper();
+                    String jsonString = mapper.writeValueAsString(dataMap);
+                    FileWriter fileWriter;
+                        System.out.println(jsonString);
+                        fileWriter = new FileWriter("src/main/resources/testData/"+testName+"_"+new Date().getTime()+".json");
+                        fileWriter.write(jsonString);
+                        fileWriter.flush();
+                        fileWriter.close();
                     excelData[set][0] = dataMap;
                     set++;
                 }
             }
             logger.info("The total number of test data sets enabled for run are " + excelData.length + " ::getTestDataNew");
+
             return excelData;
         } else {
             logger.info("Test data is not present for " + testName + " in the test data sheet :: getTestDataNew");

@@ -1,0 +1,39 @@
+{
+  "testCreateInsuredFieldsValidation": [
+    {
+      "website": "https://www.profrisk.com/",
+      "applicantName": "Professional Risk Associates, Inc.",
+      "productDefaultText": "Select Product",
+      "runMode": "Y"
+    }
+  ],
+  "testCreateInsured": [
+    {
+      "runMode": "Y"
+    }
+  ],
+  "testSearchAgainFunctionality": [
+    {
+      "website": "https://www.profrisk.com/",
+      "secondApplicant": "Medical Assurance Company of Mississippi",
+      "applicantName": "Professional Risk Associates, Inc.",
+      "secondWebsite": "https://macm.net/",
+      "runMode": "Y"
+    }
+  ],
+  "testCheckDuplicateSubmission": [
+    {
+      "website": "https://www.profrisk.com/",
+      "dialogText": "Submission already exists for the selected Product and Insured.",
+      "applicantName": "Glasscock Chevrolet, Inc.",
+      "runMode": "Y"
+    }
+  ],
+  "testClickingLogoNavigatesToDashboardPage": [
+    {
+      "website": "https://www.profrisk.com/",
+      "applicantName": "Glasscock Chevrolet, Inc.",
+      "runMode": "Y"
+    }
+  ]
+}

@@ -4,11 +4,10 @@ import base.DriverManager;
 import base.PageObjectManager;
 import helper.WaitHelper;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 import org.openqa.selenium.WebDriver;
 import pageActions.QuoteListPageActions;
 import pageActions.UnderwritingQuestionsPageActions;
-
-import java.util.Map;
 
 public class AnswerUnderwriterQuestions {
 
@@ -16,7 +15,7 @@ public class AnswerUnderwriterQuestions {
     
     private AnswerUnderwriterQuestions(){}
     
-    public static QuoteListPageActions answerUnderwriterQuestions(WebDriver driver, Map<String, String> map, String product) throws InterruptedException {
+    public static QuoteListPageActions answerUnderwriterQuestions(WebDriver driver, JSONObject jsonObject, String product) throws InterruptedException {
         
         UnderwritingQuestionsPageActions underwritingQuestionsPageActions = PageObjectManager.getUnderwritingQuestionsPageActions();
         boolean uwQuestionsAnswered = underwritingQuestionsPageActions.checkWhetherAllUWQuestionsAreAnswered(driver);
@@ -25,8 +24,8 @@ public class AnswerUnderwriterQuestions {
         } else {
             logger.info("UW continue button is disabled, means UW questions are not answered");
             if(product.contains("NetGuard® SELECT")){
-                underwritingQuestionsPageActions.answerUWQuestionButtons(driver, map.get("uwQuestionsAnswer"));
-                underwritingQuestionsPageActions.answerUWQuestionDropdowns(driver, map.get("uwQuestionsAnswer"), map.get("uwQuestionsOption"));
+                underwritingQuestionsPageActions.answerUWQuestionButtons(driver, jsonObject.get("uwQuestionsAnswer").toString());
+                underwritingQuestionsPageActions.answerUWQuestionDropdowns(driver, jsonObject.get("uwQuestionsAnswer").toString(), jsonObject.get("uwQuestionsOption").toString());
             }else if(product.contains("Ophthalmic")){
                 underwritingQuestionsPageActions.answerUWQuestionGeneralSectionOMICProduct(driver);
                 underwritingQuestionsPageActions.answerUWQuestionEMDSectionOMICProduct(driver);
