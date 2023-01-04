@@ -44,14 +44,21 @@ public class UWPageTests extends BaseTest {
 
         logger.info("verifying :: Under Writing Questions");
         CreateApplicant.createApplicant(DriverManager.getDriver(), coverage);
-        if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
+        assert ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver());
+        FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), jsonObject, coverage);
+        ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
+        assert underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver());
+        AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), jsonObject, coverage);
+        assert true;
+
+        /*if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
             FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), jsonObject, coverage);
             ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
         }
         if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
             AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), jsonObject, coverage);
             assert true;
-        }
+        }*/
     }
 
     @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "UWPageData")
