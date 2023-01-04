@@ -213,6 +213,7 @@
       "records":"445",
       "businessClass":"Business to Business",
       "pdfFilename":"TMHCC_Quote_",
+      "fileNamePDF":"TMHCC_Quote_",
       "wordFilename":"TMHCC_Quote_",
       "wordPDFFilename":"TMHCC_Marketing_Materials_Quote_2196819.pdf",
       "runMode":"Y",
@@ -223,7 +224,8 @@
       "claim":"$ 1MM",
       "physiciansCount":"50",
       "retention":"12000",
-      "uwQuestionsAnswer": "No"
+      "uwQuestionsAnswer": "No",
+      "uwQuestionsOption": "index"
     }
   ],
   "testMultiCoverageInQuote": [

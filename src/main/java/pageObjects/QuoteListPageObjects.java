@@ -59,6 +59,7 @@ public class QuoteListPageObjects {
     public static final By orderConfirmationTextArea = By.xpath("//textarea[@id='outlined-textarea']");
     public static final By orderConfirmationSubmitButton = By.xpath("//button[@data-qa='submit_alert_modal']");
     public static final By openQuoteIdLocator = By.xpath("//*[@data-testid='LockOpenIcon']/parent::div");
+    public static final By lockedQuoteIdLocator = By.xpath("//*[@data-testid='LockIcon']/parent::div");
     public static final By SoftDeclineHeader = By.xpath("//h2[@id='alert-dialog-title']");
     public static final By softDeclineText = By.xpath("//*[@id='alert-dialog-description']/div[2]/div/h1");
     public static final By cancelSoftDecline = By.xpath("//button[normalize-space()='Cancel Everything']");

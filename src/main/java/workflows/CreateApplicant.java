@@ -7,9 +7,9 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import pageActions.DashboardPageActions;
 import pageActions.InsuredPageActions;
-import pageActions.QuoteListPageActions;
 import pageActions.RatingCriteriaPageActions;
 import utils.fileReader.TextFileReader;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,7 +17,12 @@ public class CreateApplicant {
 
     private static final Logger logger = Logger.getLogger(CreateApplicant.class);
     static InsuredPageActions insuredPageActions;
-    static String newApplicantName, newApplicantWebsite, email, physicalAddress, phyCity, phyZipcode;
+    static String newApplicantName;
+    static String newApplicantWebsite;
+    static String email;
+    static String physicalAddress;
+    static String phyCity;
+    static String phyZipcode;
     private CreateApplicant(){}
 
     public static String createApplicant(WebDriver driver, String product) throws InterruptedException {
@@ -48,9 +53,8 @@ public class CreateApplicant {
         }
     }
 
-    public static List<String> getApplicantDetails(WebDriver driver) throws InterruptedException{
+    public static List<String> getApplicantDetails(){
 
-        List<String> storeApplicantDetails = Arrays.asList(newApplicantName,newApplicantWebsite,email,physicalAddress,phyCity,phyZipcode);
-        return storeApplicantDetails;
+        return Arrays.asList(newApplicantName,newApplicantWebsite,email,physicalAddress,phyCity,phyZipcode);
     }
 }

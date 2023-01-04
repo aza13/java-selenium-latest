@@ -6,6 +6,7 @@ import org.apache.pdfbox.text.PDFTextStripper;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 
 
 public class FileDownloadUtil {
@@ -42,8 +43,7 @@ public class FileDownloadUtil {
     public static boolean verifyPDFFileDownload(String filename){
 
         totalFiles = fileLocation.listFiles();
-        System.out.println("Filename in Jenkins : "+filename);
-
+        assert totalFiles != null;
         for(File file : totalFiles) {
             if (file.getName().contains(filename)) {
                 fileDownloadStatus = true;
@@ -70,42 +70,32 @@ public class FileDownloadUtil {
         return fileDownloadStatus;
     }
 
-    public static void checkFileExistInDownloadFolderpath() throws InterruptedException {
+    public static void checkFileExistInDownloadFolderPath() {
         String userDirectory = System.getProperty("user.home");
-        System.out.println("Jenkins Home Path: "+userDirectory);
         String downloadsPath = userDirectory+"\\Downloads";
-        System.out.println("Download Path: "+downloadsPath);
         fileLocation = new File(downloadsPath);
         totalFiles = fileLocation.listFiles();
         assert totalFiles != null;
         for (File file : totalFiles) {
             if (file.getName().contains("fileName")) {
-
-                file.delete();
+                file.deleteOnExit();
             }
         }
     }
 
-    public static String readPDFFileContent() throws Exception {
+    public static String readPDFFileContent(String fileName) throws IOException {
         String userDirectory = System.getProperty("user.home");
-        System.out.println("Jenkins Home Path: "+userDirectory);
-        String downloadsPath = userDirectory+"\\Downloads";
-        System.out.println("Download Path: "+downloadsPath);
+        String downloadsPath = userDirectory+"\\Downloads\\"+fileName;
         fileLocation = new File(downloadsPath);
-
-        totalFiles = fileLocation.listFiles();
-        assert totalFiles != null;
-        for (File file : totalFiles) {
-                if(file.getPath().contains("fileName")){
-                    fis = new FileInputStream(file.getPath());
-                    pdfDocument = PDDocument.load(fis);
-                    pdfTextStripper = new PDFTextStripper();
-                    pdfData = pdfTextStripper.getText(pdfDocument);
-                }
+        if(fileLocation.exists()){
+            fis = new FileInputStream(fileLocation);
+            pdfDocument = PDDocument.load(fis);
+            pdfTextStripper = new PDFTextStripper();
+            pdfData = pdfTextStripper.getText(pdfDocument);
+            pdfDocument.close();
+            fis.close();
+            fileLocation.deleteOnExit();
         }
-        pdfDocument.close();
-        fis.close();
-
         return pdfData;
     }
 }
