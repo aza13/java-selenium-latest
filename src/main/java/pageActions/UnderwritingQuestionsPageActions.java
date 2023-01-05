@@ -11,7 +11,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-
+import static pageObjects.BindingPageObjects.selectFilesModalCancelButton;
 import static pageObjects.UnderwritingQuestionsPageObjects.*;
 
 
@@ -599,13 +599,16 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
         return ClickHelper.isElementExist(driver, submitReviewDialog);
     }
 
-    public void clickAndDragLink(WebDriver driver) throws InterruptedException {
-        ClickHelper.clickElement(driver, clickAndDragLink);
-    }
-
     public boolean isFileMaximumSizeTextDisplayed(WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementVisibilityCustom(driver, singleFileMaximumSizeText, 30);
         return ClickHelper.isElementExist(driver, singleFileMaximumSizeText);
     }
+
+    public boolean isFileTypeWarningDisplayed2(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibilityCustom(driver, invalidFileTypeWarning, 30);
+        return ClickHelper.isElementExist(driver, invalidFileTypeWarning);
+    }
+
+
 
 }
