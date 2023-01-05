@@ -731,6 +731,8 @@ public class DashboardPageActions extends BaseTest {
 
     public boolean verifyContactUnderwriterExists(WebDriver driver){
         try {
+            String contactUnderwriterText =  driver.findElement(contactUnderwriter).getText();
+            Assert.assertEquals(contactUnderwriterText, "CONTACT UNDERWRITER");
             return ClickHelper.isElementExist(driver, contactUnderwriter);
         }catch (Exception e){
             testLogger.fail("failed to verify the contactUnderwriter :: verifyContactUnderwriterExists" + e.getMessage());
