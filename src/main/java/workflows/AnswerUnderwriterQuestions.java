@@ -45,10 +45,11 @@ public class AnswerUnderwriterQuestions {
         underwritingQuestionsPageActions.clickUWQuestionsContinueButton(driver);
         WaitHelper.waitForProgressbarInvisibility(driver);
         QuoteListPageActions quoteListPageActions = PageObjectManager.getQuoteListPageActions();
-        if (quoteListPageActions.checkIfSubmitReviewDialogDisplayed(driver)) {
+
+        /*if (quoteListPageActions.checkIfSubmitReviewDialogDisplayed(driver)) {
             quoteListPageActions.enterQuoteReviewText(DriverManager.getDriver());
             quoteListPageActions.clickSubmitForReview(driver);
-        }
+        }*/
         return quoteListPageActions;
     }
 }

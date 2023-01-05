@@ -77,5 +77,6 @@ public class UnderwritingQuestionsPageObjects {
     public static final By submitReviewCancelButton = By.xpath("//button[@data-qa='cancel_alert_modal']");
     public static final By submitReviewSubmitButton = By.xpath("//button[@data-qa='submit_alert_modal']");
     public static final By clickAndDragLink = By.xpath("//p[contains(text(), 'Click or Drag')]");
+    public static final By singleFileMaximumSizeText = By.xpath("//p[starts-with(text(), 'A single file cannot be larger than 2MB ')]");
 
 }
