@@ -1,6 +1,8 @@
 import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
+import constants.ConstantVariable;
+import helper.FileHelper;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.testng.Assert;
@@ -15,6 +17,8 @@ import utils.fileReader.ConfigDataReader;
 import workflows.AnswerUnderwriterQuestions;
 import workflows.CreateApplicant;
 import workflows.FillApplicantDetails;
+
+import java.awt.*;
 
 public class UWPageTests extends BaseTest {
 
@@ -42,7 +46,7 @@ public class UWPageTests extends BaseTest {
          @author - Azamat Uulu
          **/
 
-        logger.info("verifying :: Under Writing Questions");
+        logger.info("Verifying under writing questions :: testBrokerAnswersUnderWriterQuestions");
         CreateApplicant.createApplicant(DriverManager.getDriver(), coverage);
         assert ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver());
         FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), jsonObject, coverage);
@@ -50,15 +54,6 @@ public class UWPageTests extends BaseTest {
         assert underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver());
         AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), jsonObject, coverage);
         assert true;
-
-        /*if (ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver())) {
-            FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), jsonObject, coverage);
-            ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
-        }
-        if (underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver())) {
-            AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), jsonObject, coverage);
-            assert true;
-        }*/
     }
 
     @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "UWPageData")
@@ -145,6 +140,26 @@ public class UWPageTests extends BaseTest {
             String firstAvailableStatus = dashboardPageActions.firstAvailableStatus(DriverManager.getDriver());
             assert firstAvailableStatus.equals("In Review");
         }
+    }
+
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "UWPageData")
+    public void testValidateFileUploadInUWQuestionsPage(JSONObject jsonObject) throws InterruptedException, AWTException {
+        /***
+         this test verifies whether Brokers can answer all underwriter questions
+         story - N2020-36219 QAT-937
+         @author - Venkat Kothapalli
+         **/
+        logger.info("Verifying under writing questions :: testValidateFileUploadInUWQuestionsPage");
+        CreateApplicant.createApplicant(DriverManager.getDriver(), coverage);
+        assert ratingCriteriaPageActions.isRatingCriteriaPageDisplayed(DriverManager.getDriver());
+        FillApplicantDetails.fillApplicantDetails(DriverManager.getDriver(), jsonObject, coverage);
+        ratingCriteriaPageActions.clickRatingCriteriaContinueButton(DriverManager.getDriver());
+        assert underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver());
+        AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), jsonObject, coverage);
+        assert underwritingQuestionsPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver());
+        underwritingQuestionsPageActions.clickAndDragLink(DriverManager.getDriver());
+        FileHelper.uploadFile(ConstantVariable.PDF_2MB_DOC_FILE_PATH);
+        assert true;
     }
 
 }

@@ -70,4 +70,12 @@ public class UnderwritingQuestionsPageObjects {
     public static final By softDeclineText = By.xpath("//textarea[@id='outlined-textarea']");
     public static final By softDeclineSubmit = By.xpath("//button[normalize-space()='SUBMIT']");
 
+    /** submit for review modal**/
+    public static final By submitReviewDialog = By.xpath("//h2[text()='Submit for Review']");
+    public static final By submitReviewDialogText = By.xpath("//p[@id='alert-dialog-description']//div/h1");
+    public static final By submitReviewTextArea = By.xpath("//textarea[@id='outlined-textarea']");
+    public static final By submitReviewCancelButton = By.xpath("//button[@data-qa='cancel_alert_modal']");
+    public static final By submitReviewSubmitButton = By.xpath("//button[@data-qa='submit_alert_modal']");
+    public static final By clickAndDragLink = By.xpath("//p[contains(text(), 'Click or Drag')]");
+
 }

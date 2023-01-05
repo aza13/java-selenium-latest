@@ -11,6 +11,8 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
+import static pageObjects.BindingPageObjects.clickAndDragLink;
+import static pageObjects.QuoteListPageObjects.submitReviewDialog;
 import static pageObjects.UnderwritingQuestionsPageObjects.*;
 
 
@@ -591,6 +593,15 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
         answerUWQuestionBillingAndCompliance(driver);
         answerUWQuestionRegulatoryLoss(driver);
         clickUWQuestionsContinueButton(driver);
+    }
+
+    public boolean checkIfSubmitReviewDialogDisplayed(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibilityCustom(driver, submitReviewDialog, 15);
+        return ClickHelper.isElementExist(driver, submitReviewDialog);
+    }
+
+    public void clickAndDragLink(WebDriver driver) throws InterruptedException {
+        ClickHelper.clickElement(driver, clickAndDragLink);
     }
 
 }
