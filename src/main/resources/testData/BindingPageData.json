@@ -115,7 +115,10 @@
     {
       "runMode":"Y",
       "submissionName2":"Saul Murazik III",
-      "pdfFilename":"Binder_"
+      "pdfFilename":"Binder_",
+      "brokerFilename": "NAS_Broker_Binder_Invoice_",
+      "clientFilename": "NAS_Binder_Invoice_"
+
     }
   ],
   "testValidateConfirmDatesPlaceOrderFunctionality": [
