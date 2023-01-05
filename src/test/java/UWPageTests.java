@@ -18,8 +18,6 @@ import workflows.AnswerUnderwriterQuestions;
 import workflows.CreateApplicant;
 import workflows.FillApplicantDetails;
 
-import java.awt.*;
-
 public class UWPageTests extends BaseTest {
 
     private static final Logger logger = Logger.getLogger(UWPageTests.class);
