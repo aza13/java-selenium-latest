@@ -282,4 +282,22 @@ public class BindingPageActions extends BaseTest {
             throw e;
         }
     }
+
+    public boolean clickBrokerInvoiceDownload(WebDriver driver, String filename) throws InterruptedException {
+        FileDownloadUtil.checkFileExistInDownloadFolder();
+        WaitHelper.waitForElementVisibilityCustom(driver, clickBrokerInvoice, 30);
+        ClickHelper.clickElement(driver, clickBrokerInvoice);
+        WaitHelper.waitForProgressbarInvisibility(driver);
+        WaitHelper.pause(15000);
+        return FileDownloadUtil.verifyWORDFileDownload(filename);
+    }
+
+    public boolean clickClientInvoiceDownload(WebDriver driver, String filename) throws InterruptedException {
+        FileDownloadUtil.checkFileExistInDownloadFolder();
+        WaitHelper.waitForElementVisibilityCustom(driver, clickClientInvoice, 30);
+        ClickHelper.clickElement(driver, clickClientInvoice);
+        WaitHelper.waitForProgressbarInvisibility(driver);
+        WaitHelper.pause(15000);
+        return FileDownloadUtil.verifyWORDFileDownload(filename);
+    }
 }

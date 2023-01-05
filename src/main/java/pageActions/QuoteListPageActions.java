@@ -216,13 +216,6 @@ public class QuoteListPageActions extends BaseTest {
         return FileDownloadUtil.verifyPDFFileDownload(filename);
     }
 
-    public boolean clickWORDFileDownload(WebDriver driver, String filename1, String filename2) throws InterruptedException {
-        FileDownloadUtil.checkFileExistInDownloadFolder();
-        ClickHelper.clickElement(driver, clickAsWordDownloadButton);
-        WaitHelper.pause(15000);
-        return FileDownloadUtil.verifyWORDFileDownload(filename1, filename2);
-    }
-
     public boolean verifyPDFFileAvailable(WebDriver driver) {
         return driver.findElement(clickAsPDFDownloadButton).isDisplayed();
     }
