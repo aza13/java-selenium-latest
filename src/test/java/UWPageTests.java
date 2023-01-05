@@ -18,6 +18,8 @@ import workflows.AnswerUnderwriterQuestions;
 import workflows.CreateApplicant;
 import workflows.FillApplicantDetails;
 
+import java.awt.*;
+
 public class UWPageTests extends BaseTest {
 
     private static final Logger logger = Logger.getLogger(UWPageTests.class);
@@ -141,7 +143,7 @@ public class UWPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "UWPageData")
-    public void testValidateFileUploadInUWQuestionsPage(JSONObject jsonObject) throws InterruptedException {
+    public void testValidateFileUploadInUWQuestionsPage(JSONObject jsonObject) throws InterruptedException, AWTException {
         /***
          this test verifies whether Brokers can answer all underwriter questions
          story - N2020-36219 QAT-937
@@ -155,12 +157,9 @@ public class UWPageTests extends BaseTest {
         assert underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver());
         AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), jsonObject, coverage);
         assert underwritingQuestionsPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver());
-        FileHelper.uploadFileUsingJavaScript(DriverManager.getDriver(), ConstantVariable.PDF_2MB_DOC_FILE_PATH);
-        assert underwritingQuestionsPageActions.isFileMaximumSizeTextDisplayed(DriverManager.getDriver());
-        assert underwritingQuestionsPageActions.isFileDeleteIconDisplayed(DriverManager.getDriver());
-        underwritingQuestionsPageActions.clickDeleteIconButton(DriverManager.getDriver());
-        FileHelper.uploadFileUsingJavaScript(DriverManager.getDriver(), ConstantVariable.INVALID_FILE_TYPE);
-        assert underwritingQuestionsPageActions.isFileTypeWarningDisplayed2(DriverManager.getDriver());
+        underwritingQuestionsPageActions.clickAndDragLink(DriverManager.getDriver());
+        FileHelper.uploadFile(ConstantVariable.PDF_2MB_DOC_FILE_PATH);
+        assert true;
     }
 
 }

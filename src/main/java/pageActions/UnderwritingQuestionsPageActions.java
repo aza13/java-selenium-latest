@@ -11,6 +11,8 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
+import static pageObjects.BindingPageObjects.clickAndDragLink;
+import static pageObjects.QuoteListPageObjects.submitReviewDialog;
 import static pageObjects.UnderwritingQuestionsPageObjects.*;
 
 
@@ -598,37 +600,8 @@ public class UnderwritingQuestionsPageActions extends BaseTest {
         return ClickHelper.isElementExist(driver, submitReviewDialog);
     }
 
-    public WebElement clickSubmitReviewCancelButton(WebDriver driver) {
-        try {
-            return driver.findElement(submitReviewCancelButton);
-        } catch (Exception e) {
-            logger.error("Failed to return cancel button of Submit for Review modal " + e.getMessage());
-            throw e;
-        }
-    }
-
     public void clickAndDragLink(WebDriver driver) throws InterruptedException {
         ClickHelper.clickElement(driver, clickAndDragLink);
     }
-
-    public boolean isFileMaximumSizeTextDisplayed(WebDriver driver) throws InterruptedException {
-        WaitHelper.waitForElementVisibilityCustom(driver, singleFileMaximumSizeText, 30);
-        return ClickHelper.isElementExist(driver, singleFileMaximumSizeText);
-    }
-
-    public boolean isFileTypeWarningDisplayed2(WebDriver driver) throws InterruptedException {
-        WaitHelper.waitForElementVisibilityCustom(driver, invalidFileTypeWarning, 30);
-        return ClickHelper.isElementExist(driver, invalidFileTypeWarning);
-    }
-
-    public boolean isFileDeleteIconDisplayed(WebDriver driver) {
-        return ClickHelper.isElementExist(driver, deleteIconLocator);
-    }
-
-    public void clickDeleteIconButton(WebDriver driver){
-        ClickHelper.clickElement(driver, deleteIconLocator);
-    }
-
-
 
 }
