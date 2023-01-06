@@ -48,5 +48,7 @@ public class BindingPageObjects {
     public static final By priorSubjectivityStatus = By.xpath("//p[text()='Status:']/following-sibling::p/div");
     public static final By bindersWillBeIssuedShortlyText = By.xpath("//p[text()='Binder will be issued shortly']");
     public static final By clickBinderPDFButton = By.xpath("//*[@data-testid='PictureAsPdfIcon']");
+    public static final By clickBrokerInvoice = By.xpath("//*[@aria-label='Download Broker Invoice']");
+    public static final By clickClientInvoice = By.xpath("//*[@aria-label='Download Client Invoice']");
 
 }

@@ -216,13 +216,6 @@ public class QuoteListPageActions extends BaseTest {
         return FileDownloadUtil.verifyPDFFileDownload(filename);
     }
 
-    public boolean clickWORDFileDownload(WebDriver driver, String filename1, String filename2) throws InterruptedException {
-        FileDownloadUtil.checkFileExistInDownloadFolder();
-        ClickHelper.clickElement(driver, clickAsWordDownloadButton);
-        WaitHelper.pause(15000);
-        return FileDownloadUtil.verifyWORDFileDownload(filename1, filename2);
-    }
-
     public boolean verifyPDFFileAvailable(WebDriver driver) {
         return driver.findElement(clickAsPDFDownloadButton).isDisplayed();
     }
@@ -373,7 +366,6 @@ public class QuoteListPageActions extends BaseTest {
             logger.error("Failed to return cancel button of Submit for Review modal " + e.getMessage());
             throw e;
         }
-
     }
 
     public boolean isInactiveTextDisplayed(WebDriver driver) {
@@ -528,6 +520,16 @@ public class QuoteListPageActions extends BaseTest {
             boolean quotePage = isQuoteListPageDisplayed(driver);
             assert quotePage;
             String quoteString = TextHelper.getText(driver, openQuoteIdLocator, "text");
+            return quoteString.split("#")[1];
+        } catch (Exception e) {
+            logger.info("this method returns quote id :: getOpenQuoteId" + e.getMessage());
+            throw e;
+        }
+    }
+
+    public String getLockedQuoteId(WebDriver driver) {
+        try {
+            String quoteString = TextHelper.getText(driver, lockedQuoteIdLocator, "text");
             return quoteString.split("#")[1];
         } catch (Exception e) {
             logger.info("this method returns quote id :: getOpenQuoteId" + e.getMessage());
@@ -715,21 +717,20 @@ public class QuoteListPageActions extends BaseTest {
     }
 
     public boolean clickApplicationDownloadIcon(WebDriver driver, String filename) throws InterruptedException {
-        FileDownloadUtil.checkFileExistInDownloadFolderpath();
+        FileDownloadUtil.checkFileExistInDownloadFolderPath();
         ClickHelper.clickElement(driver, clickAsApplicationButton);
         WaitHelper.pause(15000);
         return FileDownloadUtil.verifyPDFFileDownload(filename);
     }
 
-    public boolean verifyPDFDocumentTextContent() throws Exception {
-        String pdfFileAllText = FileDownloadUtil.readPDFFileContent();
-        List<String> userDetails = CreateApplicant.getApplicantDetails(DriverManager.getDriver());
+    public boolean verifyPDFDocumentTextContent(String fileName) throws Exception {
+        String pdfFileAllText = FileDownloadUtil.readPDFFileContent(fileName);
+        List<String> userDetails = CreateApplicant.getApplicantDetails();
+        boolean result = false;
         for (String userDetail:userDetails) {
-            if(pdfFileAllText.contains(userDetail)){
-                return true;
-            }
+            result = pdfFileAllText.contains(userDetail);
         }
-        return false;
+        return result;
     }
 
     public boolean clickConfirmAndLockButton(WebDriver driver) throws Exception {

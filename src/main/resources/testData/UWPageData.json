@@ -35,5 +35,15 @@
       "bitcoin":"Bitcoin",
       "quoteName":"testUWDemo"
     }
+  ],
+  "testValidateFileUploadInUWQuestionsPage": [
+    {
+      "runMode":"Y",
+      "businessClass2":"Celebrity",
+      "product":"NetGuard® SELECT",
+      "uwQuestionsOption":"index",
+      "netWorth":"50000",
+      "uwQuestionsAnswer":"Yes"
+    }
   ]
 }

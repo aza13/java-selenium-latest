@@ -275,21 +275,21 @@ public class BindingPageTests extends BaseTest {
     @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "BindingPageData")
     public void testDownloadBinder(JSONObject jsonObject) throws InterruptedException, SQLException {
         /*******
-         this test verifies brokers can download Binder
-         story - N2020-32942 -QAT-463
+         this test verifies brokers can download Binder and Invoices
+         story - N2020-32942, 35714, QAT-463,QAT-548
          @author - Azamat Uulu
          ****************/
-        logger.info("verifying brokers can download binder document :: testDownloadBinder");
+        logger.info("verifying brokers can download binder document invoices :: testDownloadBinder");
         dashboardPageActions = PageObjectManager.getDashboardPageActions();
         List<HashMap<Object, Object>> submissionIds =
                 databaseConnector.getResultSetToList(DatabaseQueries.GET_SUBMISSIONS_WITH_BINDER_DOCUMENT);
         int submissionCount = submissionIds.size();
         boolean bindingPage = false;
-        String submissionId;
+        String submission_id = "";
         if (submissionCount > 0) {
             for (HashMap<Object, Object> id : submissionIds) {
-                submissionId = id.get("id").toString();
-                dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submissionId);
+                submission_id = id.get("id").toString();
+                dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), submission_id);
                 if (dashboardPageActions.clickFirstAvailableContinueButton(DriverManager.getDriver())) {
                     bindingPage = true;
                     break;
@@ -299,8 +299,17 @@ public class BindingPageTests extends BaseTest {
             if (bindingPage) {
                 BindingPageActions bindingPageActions = PageObjectManager.getBindingPageActions();
                 assert bindingPageActions.isBindingTabSelected(DriverManager.getDriver());
-                boolean pdfDownload = bindingPageActions.clickBinderDownload(DriverManager.getDriver(), jsonObject.get("pdfFilename").toString());
-                Assert.assertTrue(pdfDownload);
+                String quoteIDs = String.format(DatabaseQueries.GET_QUOTE_ID, submission_id);
+                List<HashMap<Object,Object>> quoteID = databaseConnector.getResultSetToList( quoteIDs);
+
+                String brokerFileName = jsonObject.get("brokerFilename").toString()+quoteID.get(0).get("id")+".docx";
+                boolean brokerInvoiceDownload = bindingPageActions.clickBrokerInvoiceDownload(DriverManager.getDriver(), brokerFileName);
+                Assert.assertTrue(brokerInvoiceDownload);
+                String clientFileName = jsonObject.get("clientFilename").toString()+quoteID.get(0).get("id")+".docx";
+                boolean clientInvoiceDownload = bindingPageActions.clickClientInvoiceDownload(DriverManager.getDriver(), clientFileName);
+                Assert.assertTrue(clientInvoiceDownload);
+//                boolean pdfDownload = bindingPageActions.clickBinderDownload(DriverManager.getDriver(), jsonObject.get("pdfFilename").toString());
+//                Assert.assertTrue(pdfDownload);
             } else {
                 logger.info("No binder available, to download the binder ");
             }

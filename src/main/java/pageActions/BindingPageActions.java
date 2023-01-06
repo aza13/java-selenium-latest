@@ -262,13 +262,13 @@ public class BindingPageActions extends BaseTest {
         return TextHelper.getText(driver, priorSubjectivityStatus, "text");
     }
 
-    public boolean clickBinderDownload(WebDriver driver, String filename) throws InterruptedException {
-        FileDownloadUtil.checkFileExistInDownloadFolder();
+    public boolean clickBinderDownload(WebDriver driver, String fileName) throws InterruptedException {
+        FileDownloadUtil.checkFileExistInDownloadFolder(fileName);
         WaitHelper.waitForElementVisibilityCustom(driver, clickBinderPDFButton, 30);
         ClickHelper.clickElement(driver, clickBinderPDFButton);
         WaitHelper.waitForProgressbarInvisibility(driver);
         WaitHelper.pause(15000);
-        return FileDownloadUtil.verifyPDFFileDownload(filename);
+        return FileDownloadUtil.verifyPDFFileDownload(fileName);
     }
 
     public String getProposedPolicyPeriod(WebDriver driver) throws InterruptedException {
@@ -281,5 +281,23 @@ public class BindingPageActions extends BaseTest {
             logger.info("failed to get the policy period text :: getProposedPolicyPeriod " + e.getMessage());
             throw e;
         }
+    }
+
+    public boolean clickBrokerInvoiceDownload(WebDriver driver, String filename) throws InterruptedException {
+        FileDownloadUtil.checkFileExistInDownloadFolder(filename);
+        WaitHelper.waitForElementVisibilityCustom(driver, clickBrokerInvoice, 30);
+        ClickHelper.clickElement(driver, clickBrokerInvoice);
+        WaitHelper.waitForProgressbarInvisibility(driver);
+        WaitHelper.pause(15000);
+        return FileDownloadUtil.verifyWORDFileDownload(filename);
+    }
+
+    public boolean clickClientInvoiceDownload(WebDriver driver, String filename) throws InterruptedException {
+        FileDownloadUtil.checkFileExistInDownloadFolder(filename);
+        WaitHelper.waitForElementVisibilityCustom(driver, clickClientInvoice, 30);
+        ClickHelper.clickElement(driver, clickClientInvoice);
+        WaitHelper.waitForProgressbarInvisibility(driver);
+        WaitHelper.pause(15000);
+        return FileDownloadUtil.verifyWORDFileDownload(filename);
     }
 }

@@ -6,14 +6,14 @@ import org.apache.pdfbox.text.PDFTextStripper;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 
 
 public class FileDownloadUtil {
 
-    private static Logger logger = Logger.getLogger(FileDownloadUtil.class);
+    private static final Logger logger = Logger.getLogger(FileDownloadUtil.class);
     static File fileLocation;
     static boolean fileDownloadStatus = false;
-    static String home = System.getProperty("user.home");
     static File[] totalFiles;
     static FileInputStream fis;
     static PDDocument pdfDocument;
@@ -24,26 +24,27 @@ public class FileDownloadUtil {
 
     }
 
-    public static void checkFileExistInDownloadFolder() {
+    public static boolean checkFileExistInDownloadFolder(String fileName) {
         String userDirectory = System.getProperty("user.home");
         System.out.println("Jenkins Home Path: "+userDirectory);
-        String downloadsPath = userDirectory+"/Downloads";
+        String downloadsPath = userDirectory+"/Downloads/"+fileName;
         System.out.println("Download Path: "+downloadsPath);
         fileLocation = new File(downloadsPath);
-        totalFiles = fileLocation.listFiles();
+        return fileLocation.exists();
+        /*totalFiles = fileLocation.listFiles();
         assert totalFiles != null;
         for (File file : totalFiles) {
-            if (file.getName().contains("TMHCC_")||file.getName().contains("Binder_")) {
+            if (file.getName().contains("TMHCC_")||file.getName().contains("Binder_")|| file.getName().contains("NAS_Broker_Binder_Invoice_")||
+                    file.getName().contains("NAS_Binder_Invoice_")) {
                 file.delete();
             }
-        }
+        }*/
     }
 
     public static boolean verifyPDFFileDownload(String filename){
 
         totalFiles = fileLocation.listFiles();
-        System.out.println("Filename in Jenkins : "+filename);
-
+        assert totalFiles != null;
         for(File file : totalFiles) {
             if (file.getName().contains(filename)) {
                 fileDownloadStatus = true;
@@ -53,59 +54,43 @@ public class FileDownloadUtil {
         return fileDownloadStatus;
     }
 
-    public static boolean verifyWORDFileDownload(String filename1, String filename2){
+    public static boolean verifyWORDFileDownload(String fileName){
 
-        totalFiles = fileLocation.listFiles();
-        fileDownloadStatus = false;
-
-        for(File file : totalFiles) {
-            if (file.getName().startsWith(filename1)) {
-                file.delete();
-                fileDownloadStatus = true;
-            }else if(file.getName().equals(filename2)) {
-                file.delete();
-                fileDownloadStatus = true;
-            }
+        String userDirectory = System.getProperty("user.home");
+        String downloadsPath = userDirectory+"\\Downloads\\"+fileName;
+        fileLocation = new File(downloadsPath);
+        if(fileLocation.exists()){
+            fileDownloadStatus = true;
         }
         return fileDownloadStatus;
     }
 
-    public static void checkFileExistInDownloadFolderpath() throws InterruptedException {
+    public static void checkFileExistInDownloadFolderPath() {
         String userDirectory = System.getProperty("user.home");
-        System.out.println("Jenkins Home Path: "+userDirectory);
         String downloadsPath = userDirectory+"\\Downloads";
-        System.out.println("Download Path: "+downloadsPath);
         fileLocation = new File(downloadsPath);
         totalFiles = fileLocation.listFiles();
         assert totalFiles != null;
         for (File file : totalFiles) {
             if (file.getName().contains("fileName")) {
-
-                file.delete();
+                file.deleteOnExit();
             }
         }
     }
 
-    public static String readPDFFileContent() throws Exception {
+    public static String readPDFFileContent(String fileName) throws IOException {
         String userDirectory = System.getProperty("user.home");
-        System.out.println("Jenkins Home Path: "+userDirectory);
-        String downloadsPath = userDirectory+"\\Downloads";
-        System.out.println("Download Path: "+downloadsPath);
+        String downloadsPath = userDirectory+"\\Downloads\\"+fileName;
         fileLocation = new File(downloadsPath);
-
-        totalFiles = fileLocation.listFiles();
-        assert totalFiles != null;
-        for (File file : totalFiles) {
-                if(file.getPath().contains("fileName")){
-                    fis = new FileInputStream(file.getPath());
-                    pdfDocument = PDDocument.load(fis);
-                    pdfTextStripper = new PDFTextStripper();
-                    pdfData = pdfTextStripper.getText(pdfDocument);
-                }
+        if(fileLocation.exists()){
+            fis = new FileInputStream(fileLocation);
+            pdfDocument = PDDocument.load(fis);
+            pdfTextStripper = new PDFTextStripper();
+            pdfData = pdfTextStripper.getText(pdfDocument);
+            pdfDocument.close();
+            fis.close();
+            fileLocation.deleteOnExit();
         }
-        pdfDocument.close();
-        fis.close();
-
         return pdfData;
     }
 }
