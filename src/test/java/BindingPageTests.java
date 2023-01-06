@@ -303,7 +303,7 @@ public class BindingPageTests extends BaseTest {
                 List<HashMap<Object,Object>> quoteID = databaseConnector.getResultSetToList( quoteIDs);
 
                 String brokerFileName = jsonObject.get("brokerFilename").toString()+quoteID.get(0).get("id")+".docx";
-                boolean brokerInvoiceDownload = bindingPageActions.clickBrokerInvoiceDownload(DriverManager.getDriver(),brokerFileName);
+                boolean brokerInvoiceDownload = bindingPageActions.clickBrokerInvoiceDownload(DriverManager.getDriver(), brokerFileName);
                 Assert.assertTrue(brokerInvoiceDownload);
                 String clientFileName = jsonObject.get("clientFilename").toString()+quoteID.get(0).get("id")+".docx";
                 boolean clientInvoiceDownload = bindingPageActions.clickClientInvoiceDownload(DriverManager.getDriver(), clientFileName);
