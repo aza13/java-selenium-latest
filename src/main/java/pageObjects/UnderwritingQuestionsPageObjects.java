@@ -79,4 +79,6 @@ public class UnderwritingQuestionsPageObjects {
     public static final By clickAndDragLink = By.xpath("//p[contains(text(), 'Click or Drag')]");
     public static final By singleFileMaximumSizeText = By.xpath("//p[starts-with(text(), 'A single file cannot be larger than 2MB ')]");
     public static final By invalidFileTypeWarning = By.xpath("//p[contains(text(), 'File can only be of the file types')]");
+
+    public static final By deleteIconLocator = By.xpath("//*[@data-testid='DeleteOutlineIcon']");
 }

@@ -159,6 +159,10 @@ public class UWPageTests extends BaseTest {
         assert underwritingQuestionsPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver());
         FileHelper.uploadFileUsingJavaScript(DriverManager.getDriver(), ConstantVariable.PDF_2MB_DOC_FILE_PATH);
         assert underwritingQuestionsPageActions.isFileMaximumSizeTextDisplayed(DriverManager.getDriver());
+        assert underwritingQuestionsPageActions.isFileDeleteIconDisplayed(DriverManager.getDriver());
+        underwritingQuestionsPageActions.clickDeleteIconButton(DriverManager.getDriver());
+        FileHelper.uploadFileUsingJavaScript(DriverManager.getDriver(), ConstantVariable.INVALID_FILE_TYPE);
+        assert underwritingQuestionsPageActions.isFileTypeWarningDisplayed2(DriverManager.getDriver());
     }
 
 }
