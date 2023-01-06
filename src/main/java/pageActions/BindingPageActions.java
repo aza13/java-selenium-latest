@@ -285,19 +285,9 @@ public class BindingPageActions extends BaseTest {
 
     public boolean clickBrokerInvoiceDownload(String fileName) {
         return FileDownloadUtil.checkFileExistInDownloadFolder(fileName);
-        /*WaitHelper.waitForElementVisibilityCustom(driver, clickBrokerInvoice, 30);
-        ClickHelper.clickElement(driver, clickBrokerInvoice);
-        WaitHelper.waitForProgressbarInvisibility(driver);
-        WaitHelper.pause(15000);
-        return FileDownloadUtil.verifyWORDFileDownload(fileName);*/
     }
 
     public boolean clickClientInvoiceDownload(String fileName) {
         return FileDownloadUtil.checkFileExistInDownloadFolder(fileName);
-        /*WaitHelper.waitForElementVisibilityCustom(driver, clickClientInvoice, 30);
-        ClickHelper.clickElement(driver, clickClientInvoice);
-        WaitHelper.waitForProgressbarInvisibility(driver);
-        WaitHelper.pause(15000);
-        return FileDownloadUtil.verifyWORDFileDownload(fileName);*/
     }
 }
