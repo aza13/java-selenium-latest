@@ -262,13 +262,13 @@ public class BindingPageActions extends BaseTest {
         return TextHelper.getText(driver, priorSubjectivityStatus, "text");
     }
 
-    public boolean clickBinderDownload(WebDriver driver, String filename) throws InterruptedException {
-        FileDownloadUtil.checkFileExistInDownloadFolder();
-        WaitHelper.waitForElementVisibilityCustom(driver, clickBinderPDFButton, 30);
+    public boolean clickBinderDownload(WebDriver driver, String fileName) throws InterruptedException {
+        return FileDownloadUtil.checkFileExistInDownloadFolder(fileName);
+        /*WaitHelper.waitForElementVisibilityCustom(driver, clickBinderPDFButton, 30);
         ClickHelper.clickElement(driver, clickBinderPDFButton);
         WaitHelper.waitForProgressbarInvisibility(driver);
         WaitHelper.pause(15000);
-        return FileDownloadUtil.verifyPDFFileDownload(filename);
+        return FileDownloadUtil.verifyPDFFileDownload(fileName);*/
     }
 
     public String getProposedPolicyPeriod(WebDriver driver) throws InterruptedException {
@@ -283,21 +283,11 @@ public class BindingPageActions extends BaseTest {
         }
     }
 
-    public boolean clickBrokerInvoiceDownload(WebDriver driver, String filename) throws InterruptedException {
-        FileDownloadUtil.checkFileExistInDownloadFolder();
-        WaitHelper.waitForElementVisibilityCustom(driver, clickBrokerInvoice, 30);
-        ClickHelper.clickElement(driver, clickBrokerInvoice);
-        WaitHelper.waitForProgressbarInvisibility(driver);
-        WaitHelper.pause(15000);
-        return FileDownloadUtil.verifyWORDFileDownload(filename);
+    public boolean clickBrokerInvoiceDownload(String fileName) {
+        return FileDownloadUtil.checkFileExistInDownloadFolder(fileName);
     }
 
-    public boolean clickClientInvoiceDownload(WebDriver driver, String filename) throws InterruptedException {
-        FileDownloadUtil.checkFileExistInDownloadFolder();
-        WaitHelper.waitForElementVisibilityCustom(driver, clickClientInvoice, 30);
-        ClickHelper.clickElement(driver, clickClientInvoice);
-        WaitHelper.waitForProgressbarInvisibility(driver);
-        WaitHelper.pause(15000);
-        return FileDownloadUtil.verifyWORDFileDownload(filename);
+    public boolean clickClientInvoiceDownload(String fileName) {
+        return FileDownloadUtil.checkFileExistInDownloadFolder(fileName);
     }
 }

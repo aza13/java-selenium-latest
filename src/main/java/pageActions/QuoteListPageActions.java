@@ -366,7 +366,6 @@ public class QuoteListPageActions extends BaseTest {
             logger.error("Failed to return cancel button of Submit for Review modal " + e.getMessage());
             throw e;
         }
-
     }
 
     public boolean isInactiveTextDisplayed(WebDriver driver) {
