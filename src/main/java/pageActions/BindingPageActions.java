@@ -263,12 +263,12 @@ public class BindingPageActions extends BaseTest {
     }
 
     public boolean clickBinderDownload(WebDriver driver, String fileName) throws InterruptedException {
-        return FileDownloadUtil.checkFileExistInDownloadFolder(fileName);
-        /*WaitHelper.waitForElementVisibilityCustom(driver, clickBinderPDFButton, 30);
+        FileDownloadUtil.checkFileExistInDownloadFolder(fileName);
+        WaitHelper.waitForElementVisibilityCustom(driver, clickBinderPDFButton, 30);
         ClickHelper.clickElement(driver, clickBinderPDFButton);
         WaitHelper.waitForProgressbarInvisibility(driver);
         WaitHelper.pause(15000);
-        return FileDownloadUtil.verifyPDFFileDownload(fileName);*/
+        return FileDownloadUtil.verifyPDFFileDownload(fileName);
     }
 
     public String getProposedPolicyPeriod(WebDriver driver) throws InterruptedException {
@@ -283,11 +283,21 @@ public class BindingPageActions extends BaseTest {
         }
     }
 
-    public boolean clickBrokerInvoiceDownload(String fileName) {
-        return FileDownloadUtil.checkFileExistInDownloadFolder(fileName);
+    public boolean clickBrokerInvoiceDownload(WebDriver driver, String filename) throws InterruptedException {
+        FileDownloadUtil.checkFileExistInDownloadFolder(filename);
+        WaitHelper.waitForElementVisibilityCustom(driver, clickBrokerInvoice, 30);
+        ClickHelper.clickElement(driver, clickBrokerInvoice);
+        WaitHelper.waitForProgressbarInvisibility(driver);
+        WaitHelper.pause(15000);
+        return FileDownloadUtil.verifyWORDFileDownload(filename);
     }
 
-    public boolean clickClientInvoiceDownload(String fileName) {
-        return FileDownloadUtil.checkFileExistInDownloadFolder(fileName);
+    public boolean clickClientInvoiceDownload(WebDriver driver, String filename) throws InterruptedException {
+        FileDownloadUtil.checkFileExistInDownloadFolder(filename);
+        WaitHelper.waitForElementVisibilityCustom(driver, clickClientInvoice, 30);
+        ClickHelper.clickElement(driver, clickClientInvoice);
+        WaitHelper.waitForProgressbarInvisibility(driver);
+        WaitHelper.pause(15000);
+        return FileDownloadUtil.verifyWORDFileDownload(filename);
     }
 }
