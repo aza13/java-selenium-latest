@@ -141,7 +141,7 @@ public class UWPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "UWPageData")
-    public void testValidateFileUploadInUWQuestionsPage(JSONObject jsonObject) throws InterruptedException, AWTException {
+    public void testValidateFileUploadInUWQuestionsPage(JSONObject jsonObject) throws InterruptedException {
         /***
          this test verifies whether Brokers can answer all underwriter questions
          story - N2020-36219 QAT-937
