@@ -39,7 +39,7 @@ public class DriverManager {
                     preferences.put("profile.default_content_settings.popups", 0);
                     preferences.put("profile.content_settings.exceptions.automatic_downloads.*.setting", 1);
                     preferences.put("download.prompt_for_download", false);
-
+                    WebDriverManager.chromedriver().setup();
                     ChromeOptions options = new ChromeOptions();
                     if (!operatingSystem.contains("Windows")) {
                         options.addArguments("--headless");

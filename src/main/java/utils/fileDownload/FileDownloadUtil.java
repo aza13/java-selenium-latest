@@ -34,7 +34,8 @@ public class FileDownloadUtil {
         totalFiles = fileLocation.listFiles();
         assert totalFiles != null;
         for (File file : totalFiles) {
-            if (file.getName().contains("TMHCC_")||file.getName().contains("Binder_")) {
+            if (file.getName().contains("TMHCC_")||file.getName().contains("Binder_")|| file.getName().contains("NAS_Broker_Binder_Invoice_")||
+                    file.getName().contains("NAS_Binder_Invoice_")) {
                 file.delete();
             }
         }
@@ -53,19 +54,13 @@ public class FileDownloadUtil {
         return fileDownloadStatus;
     }
 
-    public static boolean verifyWORDFileDownload(String filename1, String filename2){
+    public static boolean verifyWORDFileDownload(String fileName){
 
-        totalFiles = fileLocation.listFiles();
-        fileDownloadStatus = false;
-
-        for(File file : totalFiles) {
-            if (file.getName().startsWith(filename1)) {
-                file.delete();
-                fileDownloadStatus = true;
-            }else if(file.getName().equals(filename2)) {
-                file.delete();
-                fileDownloadStatus = true;
-            }
+        String userDirectory = System.getProperty("user.home");
+        String downloadsPath = userDirectory+"\\Downloads\\"+fileName;
+        fileLocation = new File(downloadsPath);
+        if(fileLocation.exists()){
+            fileDownloadStatus = true;
         }
         return fileDownloadStatus;
     }
