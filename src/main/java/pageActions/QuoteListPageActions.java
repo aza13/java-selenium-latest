@@ -199,21 +199,21 @@ public class QuoteListPageActions extends BaseTest {
         }
     }
 
-    public boolean clickPDFFileDownload(WebDriver driver, String filename) throws InterruptedException {
-        FileDownloadUtil.checkFileExistInDownloadFolder();
+    public boolean clickPDFFileDownload(WebDriver driver, String fileName) throws InterruptedException {
+        FileDownloadUtil.deleteGivenFileIfExistsInDownloads(fileName);
         WaitHelper.waitForElementVisibilityCustom(driver, clickAsPDFDownloadButton, 30);
         ClickHelper.clickElement(driver, clickAsPDFDownloadButton);
         WaitHelper.waitForProgressbarInvisibility(driver);
         WaitHelper.pause(30000);
-        return FileDownloadUtil.verifyPDFFileDownload(filename);
+        return FileDownloadUtil.verifyIfGivenFileExistsInDownloads(fileName);
     }
 
-    public boolean clickApplicationDownload(WebDriver driver, String filename) throws InterruptedException {
-        FileDownloadUtil.checkFileExistInDownloadFolder();
+    public boolean clickApplicationDownload(WebDriver driver, String fileName) throws InterruptedException {
+        FileDownloadUtil.deleteGivenFileIfExistsInDownloads(fileName);
         ClickHelper.clickElement(driver, clickAsApplicationButton);
         WaitHelper.waitForProgressbarInvisibility(driver);
         WaitHelper.pause(30000);
-        return FileDownloadUtil.verifyPDFFileDownload(filename);
+        return FileDownloadUtil.verifyIfGivenFileExistsInDownloads(fileName);
     }
 
     public boolean verifyPDFFileAvailable(WebDriver driver) {
@@ -716,11 +716,11 @@ public class QuoteListPageActions extends BaseTest {
         }
     }
 
-    public boolean clickApplicationDownloadIcon(WebDriver driver, String filename) throws InterruptedException {
-        FileDownloadUtil.checkFileExistInDownloadFolderPath();
+    public boolean clickApplicationDownloadIcon(WebDriver driver, String fileName) throws InterruptedException {
+        FileDownloadUtil.deleteGivenFileIfExistsInDownloads(fileName);
         ClickHelper.clickElement(driver, clickAsApplicationButton);
         WaitHelper.pause(15000);
-        return FileDownloadUtil.verifyPDFFileDownload(filename);
+        return FileDownloadUtil.verifyIfGivenFileExistsInDownloads(fileName);
     }
 
     public boolean verifyPDFDocumentTextContent(String fileName) throws Exception {

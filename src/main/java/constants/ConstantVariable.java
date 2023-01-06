@@ -6,8 +6,6 @@ public class ConstantVariable {
 
     }
 
-    public static final String TEST_DATA_FILE_PATH = ".//src//main//resources//TestData.xlsx";
-
     public static final String CONFIG_PROP_FILEPATH = ".//src//main//resources//Configuration.properties";
     public static final String INSURED_DATA_FILEPATH = ".//src//main//resources//InsuredData.txt";
     public static final String CANCELLED_STRING = "Cancelled";
@@ -29,12 +27,13 @@ public class ConstantVariable {
     public static final String RENEWAL_STARTED_STRING = "Renewal Started";
 
     public static final String NEW_INSURED_DETAILS_FILE = ".//src//main//resources//newInsuredData.json";
-    public static final String WORD_DOC_FILE_PATH = "/src/main/resources/wordDoc.docx";
-    public static final String PDF_DOC_FILE_PATH = "/src/main/resources/pdfDoc.pdf";
+    public static final String WORD_DOC_FILE_PATH = "//src//main//resources//wordDoc.docx";
+    public static final String PDF_DOC_FILE_PATH = "//src//main//resources//pdfDoc.pdf";
     public static final String INVALID_FILE_TYPE = "/src/main/resources/invalidFileType.txt";
     public static final String FILE_NAME_FIELD_IMAGE = "\\src\\main\\resources\\fileNameTextBox.png";
     public static final String OPEN_BUTTON_IMAGE = "\\src\\main\\resources\\openButton.png";
-    public static final String PDF_2MB_DOC_FILE_PATH = "/src/main/resources/pdfDoc2mb.pdf";
+    public static final String PDF_2MB_DOC_FILE_PATH = "//src//main//resources//pdfDoc2mb.pdf";
+    public static final String DOWNLOADS_FOLDER_PATH = System.getProperty("user.home")+"\\Downloads\\";
 
     public static final String PRODUCT = "NetGuard® SELECT";
 //    public static final String PRODUCT = "Ophthalmic Mutual Insurance Company (OMIC) - e-MD®/Broad Regulatory Protection Plus";

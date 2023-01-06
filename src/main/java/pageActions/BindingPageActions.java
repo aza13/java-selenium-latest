@@ -263,12 +263,12 @@ public class BindingPageActions extends BaseTest {
     }
 
     public boolean clickBinderDownload(WebDriver driver, String fileName) throws InterruptedException {
-        FileDownloadUtil.checkFileExistInDownloadFolder(fileName);
+        FileDownloadUtil.deleteGivenFileIfExistsInDownloads(fileName);
         WaitHelper.waitForElementVisibilityCustom(driver, clickBinderPDFButton, 30);
         ClickHelper.clickElement(driver, clickBinderPDFButton);
         WaitHelper.waitForProgressbarInvisibility(driver);
         WaitHelper.pause(15000);
-        return FileDownloadUtil.verifyPDFFileDownload(fileName);
+        return FileDownloadUtil.verifyIfGivenFileExistsInDownloads(fileName);
     }
 
     public String getProposedPolicyPeriod(WebDriver driver) throws InterruptedException {
@@ -284,20 +284,20 @@ public class BindingPageActions extends BaseTest {
     }
 
     public boolean clickBrokerInvoiceDownload(WebDriver driver, String filename) throws InterruptedException {
-        FileDownloadUtil.checkFileExistInDownloadFolder(filename);
+        FileDownloadUtil.deleteGivenFileIfExistsInDownloads(filename);
         WaitHelper.waitForElementVisibilityCustom(driver, clickBrokerInvoice, 30);
         ClickHelper.clickElement(driver, clickBrokerInvoice);
         WaitHelper.waitForProgressbarInvisibility(driver);
         WaitHelper.pause(15000);
-        return FileDownloadUtil.verifyWORDFileDownload(filename);
+        return FileDownloadUtil.verifyIfGivenFileExistsInDownloads(filename);
     }
 
     public boolean clickClientInvoiceDownload(WebDriver driver, String filename) throws InterruptedException {
-        FileDownloadUtil.checkFileExistInDownloadFolder(filename);
+        FileDownloadUtil.deleteGivenFileIfExistsInDownloads(filename);
         WaitHelper.waitForElementVisibilityCustom(driver, clickClientInvoice, 30);
         ClickHelper.clickElement(driver, clickClientInvoice);
         WaitHelper.waitForProgressbarInvisibility(driver);
         WaitHelper.pause(15000);
-        return FileDownloadUtil.verifyWORDFileDownload(filename);
+        return FileDownloadUtil.verifyIfGivenFileExistsInDownloads(filename);
     }
 }
