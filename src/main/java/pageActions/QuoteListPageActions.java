@@ -185,12 +185,14 @@ public class QuoteListPageActions extends BaseTest {
 
     public boolean clickPDFFileDownload(WebDriver driver, String fileName) throws InterruptedException {
         FileDownloadUtil.deleteGivenFileIfExistsInDownloads(fileName);
+
         WaitHelper.waitForElementVisibilityCustom(driver, clickAsPDFDownloadButton, 30);
         ClickHelper.clickElement(driver, clickAsPDFDownloadButton);
         WaitHelper.waitForProgressbarInvisibility(driver);
         WaitHelper.pause(30000);
         return FileDownloadUtil.verifyIfGivenFileExistsInDownloads(fileName);
     }
+
 
     public boolean clickApplicationDownload(WebDriver driver, String fileName) throws InterruptedException {
         FileDownloadUtil.deleteGivenFileIfExistsInDownloads(fileName);
