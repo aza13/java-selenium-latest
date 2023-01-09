@@ -191,7 +191,6 @@ public class DashboardPageActions extends BaseTest {
     public void clickNewQuote(WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementVisibilityCustom(driver, newQuoteButton, 45);
         ClickHelper.clickElement(driver, newQuoteButton);
-        WaitHelper.pause(2000);
     }
 
     public void createNewQuote(WebDriver driver, String product, String applicantName, String website) throws InterruptedException {

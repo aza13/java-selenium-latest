@@ -21,7 +21,7 @@ public class RatingCriteriaPageActions extends BaseTest {
     private static final Logger logger = Logger.getLogger(RatingCriteriaPageActions.class);
 
     public boolean isRatingCriteriaPageDisplayed(WebDriver driver) throws InterruptedException {
-       WaitHelper.pause(5000);
+       WaitHelper.waitForElementVisibilityCustom(driver, detailsPageSelected, 30);
        return ClickHelper.isElementExist(driver, detailsPageSelected);
 
     }
