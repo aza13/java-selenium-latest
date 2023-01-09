@@ -2,7 +2,7 @@ import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
 import constants.ConstantVariable;
-import helper.FileHelper;
+import helper.FileOperationsHelper;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.testng.Assert;
@@ -155,11 +155,11 @@ public class UWPageTests extends BaseTest {
         assert underwritingQuestionsPageActions.isUnderwritingQuestionsPageDisplayed(DriverManager.getDriver());
         AnswerUnderwriterQuestions.answerUnderwriterQuestions(DriverManager.getDriver(), jsonObject, coverage);
         assert underwritingQuestionsPageActions.checkIfSubmitReviewDialogDisplayed(DriverManager.getDriver());
-        FileHelper.uploadFileUsingJavaScript(DriverManager.getDriver(), ConstantVariable.PDF_2MB_DOC_FILE_PATH);
+        FileOperationsHelper.uploadFileUsingJavaScript(DriverManager.getDriver(), ConstantVariable.PDF_2MB_DOC_FILE_PATH);
         assert underwritingQuestionsPageActions.isFileMaximumSizeTextDisplayed(DriverManager.getDriver());
         assert underwritingQuestionsPageActions.isFileDeleteIconDisplayed(DriverManager.getDriver());
         underwritingQuestionsPageActions.clickDeleteIconButton(DriverManager.getDriver());
-        FileHelper.uploadFileUsingJavaScript(DriverManager.getDriver(), ConstantVariable.INVALID_FILE_TYPE);
+        FileOperationsHelper.uploadFileUsingJavaScript(DriverManager.getDriver(), ConstantVariable.INVALID_FILE_TYPE);
         assert underwritingQuestionsPageActions.isFileTypeWarningDisplayed2(DriverManager.getDriver());
     }
 

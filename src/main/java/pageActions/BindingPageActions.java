@@ -101,11 +101,11 @@ public class BindingPageActions extends BaseTest {
         return ClickHelper.isElementExist(driver, postSubjectivities);
     }
 
-    public void clickPreSubjSelectFilesButton(WebDriver driver) throws InterruptedException {
+    public void clickPreSubjSelectFilesButton(WebDriver driver) {
         ClickHelper.clickElement(driver, preSubjSelectFilesButton);
     }
 
-    public void clickAndDragLink(WebDriver driver) throws InterruptedException {
+    public void clickAndDragLink(WebDriver driver) {
         ClickHelper.clickElement(driver, clickAndDragLink);
     }
 
@@ -263,12 +263,12 @@ public class BindingPageActions extends BaseTest {
     }
 
     public boolean clickBinderDownload(WebDriver driver, String fileName) throws InterruptedException {
-        FileDownloadUtil.checkFileExistInDownloadFolder(fileName);
+        FileDownloadUtil.deleteGivenFileIfExistsInDownloads(fileName);
         WaitHelper.waitForElementVisibilityCustom(driver, clickBinderPDFButton, 30);
         ClickHelper.clickElement(driver, clickBinderPDFButton);
         WaitHelper.waitForProgressbarInvisibility(driver);
         WaitHelper.pause(15000);
-        return FileDownloadUtil.verifyPDFFileDownload(fileName);
+        return FileDownloadUtil.verifyIfGivenFileExistsInDownloads(fileName);
     }
 
     public String getProposedPolicyPeriod(WebDriver driver) throws InterruptedException {
@@ -283,21 +283,40 @@ public class BindingPageActions extends BaseTest {
         }
     }
 
-    public boolean clickBrokerInvoiceDownload(WebDriver driver, String filename) throws InterruptedException {
-        FileDownloadUtil.checkFileExistInDownloadFolder(filename);
+    public void clickBrokerInvoiceDownload(WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementVisibilityCustom(driver, clickBrokerInvoice, 30);
         ClickHelper.clickElement(driver, clickBrokerInvoice);
         WaitHelper.waitForProgressbarInvisibility(driver);
-        WaitHelper.pause(15000);
-        return FileDownloadUtil.verifyWORDFileDownload(filename);
+        WaitHelper.pause(10000);
     }
 
-    public boolean clickClientInvoiceDownload(WebDriver driver, String filename) throws InterruptedException {
-        FileDownloadUtil.checkFileExistInDownloadFolder(filename);
+    public boolean verifyIfBrokerInvoiceDownloaded(String fileName){
+        /**
+         * this method verifies if the given file is downloaded or not in Downloads
+         **/
+        boolean downloaded = FileDownloadUtil.verifyIfGivenFileExistsInDownloads(fileName);
+        if(downloaded){
+            FileDownloadUtil.deleteGivenFileIfExistsInDownloads(fileName);
+        }
+        return downloaded;
+    }
+
+    public void clickClientInvoiceDownload(WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementVisibilityCustom(driver, clickClientInvoice, 30);
         ClickHelper.clickElement(driver, clickClientInvoice);
         WaitHelper.waitForProgressbarInvisibility(driver);
-        WaitHelper.pause(15000);
-        return FileDownloadUtil.verifyWORDFileDownload(filename);
+        WaitHelper.pause(10000);
+    }
+
+    public boolean verifyIfClientInvoiceDownloaded(String name){
+        /**
+         * this files verifies if client invoice downloaded and deletes if downloaded
+         */
+        boolean downloaded =  FileDownloadUtil.verifyIfGivenFileExistsInDownloads(name);
+        if(downloaded){
+            FileDownloadUtil.deleteGivenFileIfExistsInDownloads(name);
+        }
+        return downloaded;
+
     }
 }
