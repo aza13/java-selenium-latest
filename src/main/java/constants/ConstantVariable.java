@@ -23,7 +23,7 @@ public class ConstantVariable {
     public static final String OPEN_STATUS_STRING = "Open";
     public static final String ACCEPTED_STATUS_STRING = "Accepted";
     public static final String WAIVED_STATUS_STRING = "Waived";
-
+    public static final String VALUE_STRING = "Value";
     public static final String RENEWAL_STARTED_STRING = "Renewal Started";
 
     public static final String NEW_INSURED_DETAILS_FILE = ".//src//main//resources//newInsuredData.json";
