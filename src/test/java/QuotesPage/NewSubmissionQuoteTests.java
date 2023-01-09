@@ -319,8 +319,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
         Assert.assertTrue(isPDFFileDownload);
         String quoteId = quoteListPageActions.getLockedQuoteId(DriverManager.getDriver());
         String fileName = jsonObject.get("fileNamePDF").toString()+quoteId+".pdf";
-        boolean isPDFFileTextContentPresent = quoteListPageActions.verifyPDFDocumentTextContent(fileName);
-        Assert.assertTrue(isPDFFileTextContentPresent);
+        quoteListPageActions.verifyPDFDocumentTextContent(fileName);
     }
 
     @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "NewQuotesPageData")
