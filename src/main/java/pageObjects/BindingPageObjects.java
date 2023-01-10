@@ -22,6 +22,8 @@ public class BindingPageObjects {
     public static final By postSubjectivitiesExpandButton =By.xpath("//p[contains(text(),'Subjectivities due within 7 days of effective date')]/../../..//*[@id='panel1a-header']/div[2]");
     public static final By messageToPostSubjectivitiesUnderWriterTextBox =By.xpath("//p[contains(text(),'Subjectivities due within 7 days of effective date')]/../../..//textarea[1]");
     public static final By preSubjSelectFilesButton = By.xpath("(//button[@id='btn-search-again'])[1]");
+    public static final By backDateSubjectivity = By.xpath("//div[contains(text(),'Required to backdate within 7 days of the effective date')]");
+    public static final By postPlaceOrderFirstPremium = By.xpath("//p[contains(text(),'Premium:')]/span");
 
     /** generate binder **/
     public static final By generateBinderButton = By.xpath("//button[text()='Generate Binder']");

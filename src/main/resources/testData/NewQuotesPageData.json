@@ -249,6 +249,27 @@
       "physiciansCount":"50",
       "retention":"12000"
     }
+  ],
+  "testPastEffectiveDateSubjectivity": [
+    {
+      "runMode":"Y",
+      "businessClass":"Business to Business",
+      "businessClass2":"Celebrity",
+      "businessClass3":"Physicians",
+      "quoteSuccessMessage":"Success\nQuote is successfully locked.",
+      "uwQuestionsOption":"index",
+      "totalCommercialSquareFeet":"237",
+      "records":"45",
+      "netWorth":"50000",
+      "uwQuestionsAnswer":"No",
+      "quoteStatus":"Ready to Place Order",
+      "revenue":"45",
+      "numberOfResidentialUnits":"173",
+      "limit":"$ 1MM",
+      "claim":"$ 1MM",
+      "physiciansCount":"45",
+      "retention":"15000"
+    }
   ]
 
 }

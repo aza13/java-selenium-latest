@@ -16,6 +16,7 @@ import java.util.List;
 
 import static pageObjects.BindingPageObjects.*;
 import static pageObjects.QuoteListPageObjects.deleteIconLocator;
+import static pageObjects.QuoteListPageObjects.valueOutsideBrokerPortalGuidelines;
 
 
 public class BindingPageActions extends BaseTest {
@@ -138,7 +139,7 @@ public class BindingPageActions extends BaseTest {
     public void uploadFileUsingJavaScript(WebDriver driver, String relativeFilePath) {
         WebElement element = driver.findElement(By.tagName("input"));
         String styleAttribute = element.getAttribute("style");
-        if(!styleAttribute.contains("inline")){
+        if (!styleAttribute.contains("inline")) {
             JavaScriptHelper.executeJavaScriptOnWebElement(driver, "arguments[0].style.display='inline';", element);
         }
         driver.findElement(By.tagName("input")).sendKeys(System.getProperty("user.dir") + relativeFilePath);
@@ -300,4 +301,23 @@ public class BindingPageActions extends BaseTest {
         WaitHelper.pause(15000);
         return FileDownloadUtil.verifyWORDFileDownload(filename);
     }
+
+    public boolean verifyBackDateSubjectivity(WebDriver driver) throws InterruptedException {
+        WaitHelper.waitForElementVisibilityCustom(driver, backDateSubjectivity, 30);
+        return ClickHelper.isElementExist(driver, backDateSubjectivity);
+    }
+
+    public int getPostPlaceOrderPremium(WebDriver driver) throws Exception {
+        try {
+            WaitHelper.pause(5000);
+            String postPlaceOrderPremium1 =  TextHelper.getText(driver, postPlaceOrderFirstPremium, "text");
+            postPlaceOrderPremium1 = postPlaceOrderPremium1.substring(1);
+            int postPlaceOrderPremium = Integer.parseInt(postPlaceOrderPremium1);
+            return postPlaceOrderPremium;
+        } catch (Exception e) {
+            logger.info("failed to validate the post-PlaceOrder Premium :: getPostPlaceOrderPremium" + e.getMessage());
+            throw(e) ;
+        }
+    }
+
 }
