@@ -3,15 +3,18 @@ package pageActions;
 import base.BaseTest;
 import base.DriverManager;
 import base.PageObjectManager;
+import constants.ConstantVariable;
 import helper.*;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.testng.asserts.SoftAssert;
 import utils.fileDownload.FileDownloadUtil;
 import utils.fileReader.ConfigDataReader;
 import workflows.CreateApplicant;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -202,7 +205,7 @@ public class QuoteListPageActions extends BaseTest {
     }
 
     public boolean clickPDFFileDownload(WebDriver driver, String filename) throws InterruptedException {
-        FileDownloadUtil.checkFileExistInDownloadFolder("");
+        FileDownloadUtil.checkFileExistInDownloadFolder();
         WaitHelper.waitForElementVisibilityCustom(driver, clickAsPDFDownloadButton, 30);
         ClickHelper.clickElement(driver, clickAsPDFDownloadButton);
         WaitHelper.waitForProgressbarInvisibility(driver);
@@ -211,7 +214,7 @@ public class QuoteListPageActions extends BaseTest {
     }
 
     public boolean clickApplicationDownload(WebDriver driver, String filename) throws InterruptedException {
-        FileDownloadUtil.checkFileExistInDownloadFolder("");
+        FileDownloadUtil.checkFileExistInDownloadFolder();
         ClickHelper.clickElement(driver, clickAsApplicationButton);
         WaitHelper.waitForProgressbarInvisibility(driver);
         WaitHelper.pause(30000);
@@ -741,46 +744,4 @@ public class QuoteListPageActions extends BaseTest {
         WaitHelper.pause(5000);
         return true;
     }
-
-    public void clickConfirmDatesEffectiveDateCalender(WebDriver driver) throws Exception {
-        WaitHelper.waitForElementVisibility(driver, confirmDatesEffectiveDateCalender);
-        ClickHelper.clickElement(driver, confirmDatesEffectiveDateCalender);
-        WaitHelper.pause(5000);
-    }
-
-    public void enterPreviousEffectiveDate(WebDriver driver) throws Exception {
-        try {
-            WaitHelper.pause(5000);
-            LocalDate date = LocalDate.now();
-            LocalDate returnValue = date.minusDays(3);
-            String initialEffDate = returnValue.toString();
-            SimpleDateFormat dateFormatter1 = new SimpleDateFormat("yyyy-MM-dd");
-            SimpleDateFormat dateFormatter2 = new SimpleDateFormat("MM/dd/yyyy");
-            String pastEffDate = dateFormatter2.format(dateFormatter1.parse(initialEffDate));
-            ClickHelper.clickElement(driver,confirmDatesEffectiveDate);
-            WaitHelper.pause(5000);
-            ClickHelper.clearText(driver, confirmDatesEffectiveDate);
-            WaitHelper.pause(5000);
-            TextHelper.enterText(driver,confirmDatesEffectiveDate,pastEffDate);
-
-        } catch (Exception e) {
-            logger.info("failed to validate the eff date :: validateEffectiveDate" + e.getMessage());
-            throw(e) ;
-        }
-    }
-
-    public int getPrePlaceOrderPremium(WebDriver driver) throws Exception {
-        try {
-            WaitHelper.pause(7000);
-            String prePlaceOrderPremium1 =  TextHelper.getText(driver, prePlaceOrderFirstPremium, "text");
-            prePlaceOrderPremium1 = prePlaceOrderPremium1.substring(1);
-            int prePlaceOrderPremium = Integer.parseInt(prePlaceOrderPremium1);
-           return prePlaceOrderPremium;
-        } catch (Exception e) {
-            logger.info("failed to validate the pre-PlaceOrder Premium :: prePlaceOrderPremium" + e.getMessage());
-            throw(e) ;
-        }
-    }
-
-
 }

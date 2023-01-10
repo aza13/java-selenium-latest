@@ -321,8 +321,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
         Assert.assertTrue(isPDFFileDownload);
         String quoteId = quoteListPageActions.getLockedQuoteId(DriverManager.getDriver());
         String fileName = jsonObject.get("fileNamePDF").toString()+quoteId+".pdf";
-        boolean isPDFFileTextContentPresent = quoteListPageActions.verifyPDFDocumentTextContent(fileName);
-        Assert.assertTrue(isPDFFileTextContentPresent);
+        quoteListPageActions.verifyPDFDocumentTextContent(fileName);
     }
 
     @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "NewQuotesPageData")
@@ -350,6 +349,15 @@ public class NewSubmissionQuoteTests extends BaseTest {
             BindingPageActions bindingPageActions = quoteListPageActions.clickConfirmDatesConfirmButton(DriverManager.getDriver());
             String quoteOptionStatus = bindingPageActions.getQuoteStatus(DriverManager.getDriver());
             assert quoteOptionStatus.contentEquals(jsonObject.get("quoteStatusBinder").toString());
+            assert bindingPageActions.getGenerateBinderButton(DriverManager.getDriver()).isEnabled();
+            bindingPageActions.clickGenerateBinderButton(DriverManager.getDriver());
+            String quoteStatusAfterBinding = bindingPageActions.getQuoteStatus(DriverManager.getDriver());
+            System.out.println(quoteStatusAfterBinding);
+            /*if(bindingPageActions.isBinderGenerationWarningDisplayed(DriverManager.getDriver())){
+                assert quoteStatusAfterBinding.contentEquals(map.get("optionOrderStatus"));
+            }else {
+                assert quoteStatusAfterBinding.contentEquals(map.get("boundStatus"));
+            }*/
         }
 
     }

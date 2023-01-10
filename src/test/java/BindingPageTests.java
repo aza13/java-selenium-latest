@@ -14,8 +14,10 @@ import pageActions.DashboardPageActions;
 import pageActions.QuoteListPageActions;
 import utils.dataProvider.JsonDataProvider;
 import utils.dbConnector.DatabaseConnector;
+import utils.fileDownload.FileDownloadUtil;
 import workflows.CreateSubmission;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -303,10 +305,12 @@ public class BindingPageTests extends BaseTest {
                 List<HashMap<Object,Object>> quoteID = databaseConnector.getResultSetToList( quoteIDs);
 
                 String brokerFileName = jsonObject.get("brokerFilename").toString()+quoteID.get(0).get("id")+".docx";
-                boolean brokerInvoiceDownload = bindingPageActions.clickBrokerInvoiceDownload(DriverManager.getDriver(), brokerFileName);
-                Assert.assertTrue(brokerInvoiceDownload);
+                bindingPageActions.clickBrokerInvoiceDownload(DriverManager.getDriver());
+                boolean brokerInvoiceDownloaded = bindingPageActions.verifyIfBrokerInvoiceDownloaded(brokerFileName);
+                Assert.assertTrue(brokerInvoiceDownloaded);
                 String clientFileName = jsonObject.get("clientFilename").toString()+quoteID.get(0).get("id")+".docx";
-                boolean clientInvoiceDownload = bindingPageActions.clickClientInvoiceDownload(DriverManager.getDriver(), clientFileName);
+                bindingPageActions.clickClientInvoiceDownload(DriverManager.getDriver());
+                boolean clientInvoiceDownload = bindingPageActions.verifyIfClientInvoiceDownloaded(clientFileName);
                 Assert.assertTrue(clientInvoiceDownload);
 //                boolean pdfDownload = bindingPageActions.clickBinderDownload(DriverManager.getDriver(), jsonObject.get("pdfFilename").toString());
 //                Assert.assertTrue(pdfDownload);
