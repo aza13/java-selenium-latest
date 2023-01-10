@@ -588,19 +588,20 @@ public class DashboardPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "DashboardPageData", priority = 14)
-    public void  testIneligiblePolicies(JSONObject jsonObject) throws InterruptedException, SQLException {
+    public void testIneligiblePolicies(JSONObject jsonObject) throws InterruptedException, SQLException {
         /*************************************
          * this test verifies ineligible policy
-         story - N2020-33633 -N2020-34868
+         story - N2020-33633 -N2020-34868, QAT-566
          @author - Azamat Uulu
          **************************************/
         logger.info("verifying ineligible policies :: testIneligiblePolicy");
         List<HashMap<Object, Object>> policyIds =
-                databaseConnector.getResultSetToList(DatabaseQueries. GET_INELIGIBLE_POLICIES_2);
+                databaseConnector.getResultSetToList(DatabaseQueries.GET_INELIGIBLE_POLICIES);
         if(policyIds!=null){
             String policyId;
             for (HashMap<Object, Object> id : policyIds) {
-                policyId = id.get("policy_id").toString();
+                policyId = id.get("number").toString();
+                dashboardPageActions.clickMyPoliciesTab(DriverManager.getDriver());
                 dashboardPageActions.enterTextToSearchBox(DriverManager.getDriver(), policyId);
                 if(dashboardPageActions.verifyContactUnderwriterExists(DriverManager.getDriver())){
                     break;
