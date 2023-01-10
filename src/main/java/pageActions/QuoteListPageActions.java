@@ -744,4 +744,39 @@ public class QuoteListPageActions extends BaseTest {
         WaitHelper.pause(5000);
         return true;
     }
+
+    public void enterPreviousEffectiveDate(WebDriver driver) throws Exception {
+        try {
+            WaitHelper.pause(5000);
+            LocalDate date = LocalDate.now();
+            LocalDate returnValue = date.minusDays(3);
+            String initialEffDate = returnValue.toString();
+            SimpleDateFormat dateFormatter1 = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat dateFormatter2 = new SimpleDateFormat("MM/dd/yyyy");
+            String pastEffDate = dateFormatter2.format(dateFormatter1.parse(initialEffDate));
+            ClickHelper.clickElement(driver,confirmDatesEffectiveDate);
+            WaitHelper.pause(5000);
+            ClickHelper.clearText(driver, confirmDatesEffectiveDate);
+            WaitHelper.pause(5000);
+            TextHelper.enterText(driver,confirmDatesEffectiveDate,pastEffDate);
+
+        } catch (Exception e) {
+            logger.info("failed to validate the eff date :: validateEffectiveDate" + e.getMessage());
+            throw(e) ;
+        }
+    }
+
+    public int getPrePlaceOrderPremium(WebDriver driver) throws Exception {
+        try {
+            WaitHelper.pause(7000);
+            String prePlaceOrderPremium1 =  TextHelper.getText(driver, prePlaceOrderFirstPremium, "text");
+            prePlaceOrderPremium1 = prePlaceOrderPremium1.substring(1);
+            int prePlaceOrderPremium = Integer.parseInt(prePlaceOrderPremium1);
+            return prePlaceOrderPremium;
+        } catch (Exception e) {
+            logger.info("failed to validate the pre-PlaceOrder Premium :: prePlaceOrderPremium" + e.getMessage());
+            throw(e) ;
+        }
+    }
+
 }
