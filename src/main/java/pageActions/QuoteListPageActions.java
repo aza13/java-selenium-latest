@@ -22,7 +22,6 @@ import java.util.*;
 
 import static org.openqa.selenium.support.locators.RelativeLocator.with;
 import static pageObjects.BindingPageObjects.exitToDashboard;
-import static pageObjects.BindingPageObjects.postPlaceOrderFirstPremium;
 import static pageObjects.QuoteListPageObjects.*;
 
 
@@ -49,28 +48,10 @@ public class QuoteListPageActions extends BaseTest {
         }
     }
 
-    public boolean verifyIfAggregateLimitIsDisabled(WebDriver driver) {
-        try {
-            return !driver.findElement(aggregateLimitLocator).isEnabled();
-        } catch (Exception e) {
-            logger.error("failed to verify if the aggregate limit dropdown is disabled");
-            throw (e);
-        }
-    }
-
-    public boolean verifyIfDeductibleIsDisabled(WebDriver driver) {
-        try {
-            return !driver.findElement(deductibleLocator).isEnabled();
-        } catch (Exception e) {
-            logger.error("failed to verify if the deductible dropdown is disabled");
-            throw (e);
-        }
-    }
 
     public String getSelectedClaim(WebDriver driver) {
         try {
-            String claim = driver.findElement(perClaimLocator).getAttribute("value");
-            return claim;
+            return driver.findElement(perClaimLocator).getAttribute(ConstantVariable.VALUE_STRING);
         } catch (Exception e) {
             logger.error("failed to get the selected per claim from the dropdown " + e.getMessage());
             throw (e);
@@ -79,8 +60,7 @@ public class QuoteListPageActions extends BaseTest {
 
     public String getSelectedAggregateLimit(WebDriver driver) {
         try {
-            String aggLimit = driver.findElement(aggregateLimitLocator).getAttribute("value");
-            return aggLimit;
+            return driver.findElement(aggregateLimitLocator).getAttribute("value");
         } catch (Exception e) {
             logger.error("failed to get the aggregate limit dropdown " + e.getMessage());
             throw (e);
@@ -204,21 +184,23 @@ public class QuoteListPageActions extends BaseTest {
         }
     }
 
-    public boolean clickPDFFileDownload(WebDriver driver, String filename) throws InterruptedException {
-        FileDownloadUtil.checkFileExistInDownloadFolder();
+    public boolean clickPDFFileDownload(WebDriver driver, String fileName) throws InterruptedException {
+        FileDownloadUtil.deleteGivenFileIfExistsInDownloads(fileName);
+
         WaitHelper.waitForElementVisibilityCustom(driver, clickAsPDFDownloadButton, 30);
         ClickHelper.clickElement(driver, clickAsPDFDownloadButton);
         WaitHelper.waitForProgressbarInvisibility(driver);
         WaitHelper.pause(30000);
-        return FileDownloadUtil.verifyPDFFileDownload(filename);
+        return FileDownloadUtil.verifyIfGivenFileExistsInDownloads(fileName);
     }
 
-    public boolean clickApplicationDownload(WebDriver driver, String filename) throws InterruptedException {
-        FileDownloadUtil.checkFileExistInDownloadFolder();
+
+    public boolean clickApplicationDownload(WebDriver driver, String fileName) throws InterruptedException {
+        FileDownloadUtil.deleteGivenFileIfExistsInDownloads(fileName);
         ClickHelper.clickElement(driver, clickAsApplicationButton);
         WaitHelper.waitForProgressbarInvisibility(driver);
         WaitHelper.pause(30000);
-        return FileDownloadUtil.verifyPDFFileDownload(filename);
+        return FileDownloadUtil.verifyIfGivenFileExistsInDownloads(fileName);
     }
 
     public boolean verifyPDFFileAvailable(WebDriver driver) {
@@ -612,14 +594,13 @@ public class QuoteListPageActions extends BaseTest {
         return dropdownValue.getText();
     }
 
-    public String getAggLimitSelectedValue(WebDriver driver, String optionCount) throws InterruptedException {
+    public String getAggLimitSelectedValue(WebDriver driver, String optionCount) {
         String aggregateLimitXpath = "//div[@data-qa='option_card_" + optionCount + "']//div[@data-qa='aggregateLimit']/div";
         WebElement dropdownValue = driver.findElement(By.xpath(aggregateLimitXpath));
-        String limit = dropdownValue.getText();
-        return limit;
+        return dropdownValue.getText();
     }
 
-    public String getRetentionSelectedValue(WebDriver driver, String optionCount) throws InterruptedException {
+    public String getRetentionSelectedValue(WebDriver driver, String optionCount) {
         String retentionOptionXpath = "//div[@data-qa='option_card_" + optionCount + "']//div[@data-qa='retentionGroup']/div";
         WebElement dropdownValue = driver.findElement(By.xpath(retentionOptionXpath));
         return dropdownValue.getText();
@@ -721,24 +702,24 @@ public class QuoteListPageActions extends BaseTest {
         }
     }
 
-    public boolean clickApplicationDownloadIcon(WebDriver driver, String filename) throws InterruptedException {
-        FileDownloadUtil.checkFileExistInDownloadFolderPath();
+    public boolean clickApplicationDownloadIcon(WebDriver driver, String fileName) throws InterruptedException {
+        FileDownloadUtil.deleteGivenFileIfExistsInDownloads(fileName);
         ClickHelper.clickElement(driver, clickAsApplicationButton);
         WaitHelper.pause(15000);
-        return FileDownloadUtil.verifyPDFFileDownload(filename);
+        return FileDownloadUtil.verifyIfGivenFileExistsInDownloads(fileName);
     }
 
-    public boolean verifyPDFDocumentTextContent(String fileName) throws Exception {
+    public void verifyPDFDocumentTextContent(String fileName) throws IOException {
         String pdfFileAllText = FileDownloadUtil.readPDFFileContent(fileName);
         List<String> userDetails = CreateApplicant.getApplicantDetails();
-        boolean result = false;
+        SoftAssert softAssert = new SoftAssert();
         for (String userDetail:userDetails) {
-            result = pdfFileAllText.contains(userDetail);
+            softAssert.assertTrue(pdfFileAllText.contains(userDetail));
         }
-        return result;
+        softAssert.assertAll();
     }
 
-    public boolean clickConfirmAndLockButton(WebDriver driver) throws Exception {
+    public boolean clickConfirmAndLockButton(WebDriver driver) throws InterruptedException {
         WaitHelper.waitForElementVisibility(driver, confirmAndLockQuoteButton);
         ClickHelper.clickElement(driver, confirmAndLockQuoteButton);
         WaitHelper.pause(5000);
@@ -778,5 +759,4 @@ public class QuoteListPageActions extends BaseTest {
             throw(e) ;
         }
     }
-
 }
