@@ -68,4 +68,18 @@ public class ClickHelper {
         }
     }
 
+
+    public static void clearText(WebDriver driver,By elementLocator) {
+        logger.info("Clearing element using :: JavaScriptExecutor " + elementLocator);
+        try {
+            //driver.findElement(elementLocator).clear();
+            WebElement element = driver.findElement(elementLocator);
+            JavascriptExecutor js = (JavascriptExecutor)driver;
+            js.executeScript("arguments[0].value = '';", element);
+        } catch (Exception e) {
+            logger.error("Failed to clear text on the element " + elementLocator + "in :: clear");
+            throw (e);
+        }
+    }
+
     }

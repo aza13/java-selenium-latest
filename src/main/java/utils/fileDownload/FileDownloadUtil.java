@@ -1,14 +1,11 @@
 package utils.fileDownload;
-
 import constants.ConstantVariable;
 import org.apache.log4j.Logger;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-
 
 public class FileDownloadUtil {
 

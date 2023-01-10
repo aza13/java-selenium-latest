@@ -34,6 +34,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
     private QuoteListPageActions quoteListPageActions;
     private UnderwritingQuestionsPageActions underwritingQuestionsPageActions;
     private DatabaseConnector databaseConnector;
+    private BindingPageActions bindingPageActions;
 
     @BeforeClass(alwaysRun = true)
     public void beforeClassSetUp() {
@@ -43,6 +44,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
         dashboardPageActions = PageObjectManager.getDashboardPageActions();
         quoteListPageActions = PageObjectManager.getQuoteListPageActions();
         underwritingQuestionsPageActions = PageObjectManager.getUnderwritingQuestionsPageActions();
+        bindingPageActions = PageObjectManager.getBindingPageActions();
     }
 
 
@@ -129,7 +131,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
     }
 
     @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "NewQuotesPageData")
-    public void testValidateConfirmDatesModal(JSONObject jsonObject) throws InterruptedException, ParseException {
+    public void testValidateConfirmDatesModal(JSONObject jsonObject) throws Exception {
         /*****************************************************************
          this test validates confirm dates modal
          story - N2020-35623
@@ -153,7 +155,7 @@ public class NewSubmissionQuoteTests extends BaseTest {
             // then the date defaults to the Effective Date that was entered on the rating criteria
             assert effDate != null;
         }
-        quoteListPageActions.clickConfirmDatesConfirmButton(DriverManager.getDriver());
+      quoteListPageActions.clickConfirmDatesConfirmButton(DriverManager.getDriver());
     }
 
     @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "NewQuotesPageData", enabled = false)
@@ -358,6 +360,30 @@ public class NewSubmissionQuoteTests extends BaseTest {
             }*/
         }
 
+    }
+
+
+    @Test(dataProvider = "jsonDataReader", dataProviderClass = JsonDataProvider.class, description = "NewQuotesPageData")
+    public void testPastEffectiveDateSubjectivity(JSONObject jsonObject) throws Exception {
+        /*****************************************************************
+         this test validates subjectivity based on past effective date
+         story - N2020-35649
+         @author - Sheetal
+         ******************************************************************/
+        logger.info("Executing the testValidateConfirmDatesModal from BindingPageTests class :: testValidateConfirmDatesModal");
+        logger.info("validating download icons of quote list page");
+        CreateSubmission.createSubmissionTillQuotePage(DriverManager.getDriver(), jsonObject, coverage);
+        boolean quoteLocked = quoteListPageActions.lockTheQuote(DriverManager.getDriver());
+        assert quoteLocked;
+        String status = quoteListPageActions.getQuoteStatus(DriverManager.getDriver());
+        assert status.contentEquals(jsonObject.get("quoteStatus").toString());
+        int prePlaceOrderPremiumValue = quoteListPageActions.getPrePlaceOrderPremium(DriverManager.getDriver());
+        quoteListPageActions.clickConfirmDatesAndPlaceOrderButton(DriverManager.getDriver());
+        quoteListPageActions.enterPreviousEffectiveDate(DriverManager.getDriver());
+        quoteListPageActions.clickConfirmDatesConfirmButton(DriverManager.getDriver());
+        assert bindingPageActions.verifyBackDateSubjectivity(DriverManager.getDriver());
+        int postPlaceOrderPremiumValue =bindingPageActions.getPostPlaceOrderPremium(DriverManager.getDriver());
+        assert prePlaceOrderPremiumValue != postPlaceOrderPremiumValue;
     }
 
     @AfterClass(alwaysRun = true)

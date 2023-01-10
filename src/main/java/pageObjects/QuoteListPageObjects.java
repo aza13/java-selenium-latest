@@ -31,6 +31,8 @@ public class QuoteListPageObjects {
     public static final By quoteLockSuccessMessage = By.xpath("//div[@data-qa='alertTitle' and text()='Success']");
     public static final By quotesPageUnSelected = By.xpath("//button[@id='workflow-tab-3' and @aria-selected='false']");
     public static final By quotesPageSelected = By.xpath("//button[@id='workflow-tab-3' and @aria-selected='true']");
+    public static final By prePlaceOrderFirstPremium = By.xpath("//div[contains(text(),'Option 1')]/span");
+
 
     /** submit for review modal**/
     public static final String submitReviewDialogCss = "document.querySelector('body > div.sc-bjUoiL.erxvLZ.sc-gSAPjG.gMBRMP.MuiDialog-root.MuiModal-root > div.sc-lbxAil.hPeWbF.MuiDialog-container.MuiDialog-scrollPaper > div > div.sc-eKszNL.geooGQ.MuiDialogContent-root').scrollTop=-200";
@@ -53,6 +55,7 @@ public class QuoteListPageObjects {
     public static final By confirmDatesModalDescription = By.xpath("//p[@id='alert-dialog-description']//p");
     public static final By confirmDatesEffectiveDate = By.xpath("//label[text()='Effective Date']/following-sibling::div/input");
     public static final By confirmDatesExpirationDate = By.xpath("//label[text()='Expiration Date']/following-sibling::div/input");
+    public static final By confirmDatesEffectiveDateCalender = By.xpath("//label[text()='Effective Date']/..//button");
     public static final By confirmDatesConfirmButton = By.xpath("//button[@data-qa='submit_alert_modal']");
     public static final By confirmDatesCancelButton = By.xpath("//button[@data-qa='cancel_alert_modal']");
 
