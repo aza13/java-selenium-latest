@@ -14,7 +14,7 @@ public class ClickHelper {
 
     public static void clickElement(WebDriver driver, By elementLocator) {
 
-        logger.info("Clicking on the element " + elementLocator + "in :: clickElement");
+        logger.info("Clicking on the element " + elementLocator + " in :: clickElement");
         try {
             driver.findElement(elementLocator).click();
         } catch (NoSuchElementException | ElementClickInterceptedException e) {
